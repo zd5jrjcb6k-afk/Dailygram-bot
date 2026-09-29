@@ -24,6 +24,7 @@ def keep_alive():
 # --- CONFIGURATION ---
 BOT_TOKEN = "8817058021:AAGUsAVqwHV_dDUtccdvmAUz8oWgFW3M4gM"
 MY_WALLET_ADDRESS = "UQAfwLNsBO1WJbzc2bQtBIEtPv9ErGvEpKRn-g2XSz_vRdWH"
+REFERRAL_REWARD = 0.1  # Reward in GRAM per invited friend
 
 # --- DATABASE SETTINGS ---
 def init_db():
@@ -37,24 +38,33 @@ def init_db():
             deposit_amount REAL DEFAULT 0.0,
             daily_reward REAL DEFAULT 0.0,
             balance REAL DEFAULT 0.0,
+            referred_by INTEGER,
+            referrals_count INTEGER DEFAULT 0,
             last_payout TEXT
         )
     """)
     conn.commit()
     conn.close()
 
-def get_or_create_user(user_id, username):
+def get_or_create_user(user_id, username, referrer_id=None):
     conn = sqlite3.connect("farming_bot.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,))
     user = cursor.fetchone()
     
     if not user:
+        # Save new user with referrer
         cursor.execute(
-            "INSERT INTO users (user_id, username, is_active, deposit_amount, daily_reward, balance) VALUES (?, ?, 0, 0.0, 0.0, 0.0)",
-            (user_id, username)
+            "INSERT INTO users (user_id, username, is_active, deposit_amount, daily_reward, balance, referred_by, referrals_count) VALUES (?, ?, 0, 0.0, 0.0, 0.0, ?, 0)",
+            (user_id, username, referrer_id)
         )
         conn.commit()
+        
+        # Reward the referrer if applicable
+        if referrer_id and referrer_id != user_id:
+            cursor.execute("UPDATE users SET referrals_count = referrals_count + 1, balance = balance + ? WHERE user_id = ?", (REFERRAL_REWARD, referrer_id))
+            conn.commit()
+
         cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,))
         user = cursor.fetchone()
         
@@ -76,13 +86,22 @@ def activate_farming(user_id, deposit_amount):
 # --- BOT HANDLERS ---
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
-    db_user = get_or_create_user(user.id, user.username)
+    
+    # Check if user came via a referral link (/start 123456)
+    referrer_id = None
+    if context.args and context.args[0].isdigit():
+        referrer_id = int(context.args[0])
+        
+    db_user = get_or_create_user(user.id, user.username, referrer_id)
     
     is_active = db_user[2]
     deposit_amount = db_user[3]
     daily_reward = db_user[4]
     balance = db_user[5]
+    referrals_count = db_user[7]
     
+    bot_username = (await context.bot.get_me()).username
+    ref_link = f"https://t.me/{bot_username}?start={user.id}"
     status_text = "Active 🟢" if is_active else "Inactive 🔴"
     
     if not is_active:
@@ -90,6 +109,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"👋 **Welcome {user.first_name} to Dailygram Miner!**\n\n"
             f"📊 **Status:** {status_text}\n"
             f"💰 **Balance:** {balance:.3f} GRAM\n"
+            f"👥 **Referrals:** {referrals_count} friends invited\n"
             f"📈 **Daily Yield:** 0.5% per day\n\n"
             f"⚡ *How it works?*\n"
             f"Choose a deposit plan to start earning daily GRAM rewards:\n\n"
@@ -106,7 +126,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("📥 Deposit 10 GRAM", callback_data="dep_10"),
              InlineKeyboardButton("📥 Deposit 20 GRAM", callback_data="dep_20")],
             [InlineKeyboardButton("📥 Deposit 50 GRAM", callback_data="dep_50"),
-             InlineKeyboardButton("📥 Deposit 100 GRAM", callback_data="dep_100")]
+             InlineKeyboardButton("📥 Deposit 100 GRAM", callback_data="dep_100")],
+            [InlineKeyboardButton("👥 Invite Friends (Get Free GRAM)", callback_data="referral")]
         ]
     else:
         msg = (
@@ -114,10 +135,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"📊 **Status:** {status_text}\n"
             f"💎 **Active Deposit:** {deposit_amount:.1f} GRAM\n"
             f"🎁 **Daily Reward:** {daily_reward:.3f} GRAM/day\n"
+            f"👥 **Referrals:** {referrals_count} friends invited\n"
             f"💰 **Balance:** {balance:.3f} GRAM"
         )
         keyboard = [
             [InlineKeyboardButton("🔄 Refresh Balance", callback_data="refresh")],
+            [InlineKeyboardButton("👥 Invite Friends", callback_data="referral")],
             [InlineKeyboardButton("💸 Withdraw Rewards", callback_data="withdraw")]
         ]
         
@@ -134,10 +157,22 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = query.from_user.id
     data = query.data
     
-    if data.startswith("dep_"):
+    bot_username = (await context.bot.get_me()).username
+    ref_link = f"https://t.me/{bot_username}?start={user_id}"
+    
+    if data == "referral":
+        ref_text = (
+            f"👥 **Invite Friends & Earn Free GRAM!**\n\n"
+            f"Share your referral link with friends and earned **{REFERRAL_REWARD} GRAM** for every user who joins!\n\n"
+            f"🔗 **Your Personal Referral Link:**\n"
+            f"`{ref_link}`"
+        )
+        keyboard = [[InlineKeyboardButton("⬅️ Back", callback_data="start")]]
+        await query.edit_message_text(ref_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+
+    elif data.startswith("dep_"):
         amount = float(data.split("_")[1])
         daily_reward = amount * 0.005
-        
         context.user_data['pending_amount'] = amount
         
         deposit_text = (

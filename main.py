@@ -1,10 +1,18 @@
 import os
 import sqlite3
 import datetime
+import logging
 from threading import Thread
 from flask import Flask
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
+
+# --- LOGGING SETUP ---
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+logger = logging.getLogger(__name__)
 
 # --- FLASK KEEP ALIVE SERVER ---
 app = Flask('')
@@ -14,17 +22,18 @@ def home():
     return "Bot is alive and running!"
 
 def run():
-    port = int(os.environ.get("PORT", 8080))
+    # Render gebruikt poort 10000 of de PORT omgevingsvariabele
+    port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
 def keep_alive():
-    t = Thread(target=run)
+    t = Thread(target=run, daemon=True)
     t.start()
 
 # --- CONFIGURATION ---
 BOT_TOKEN = "8817058021:AAGUsAVqwHV_dDUtccdvmAUz8oWgFW3M4gM"
 MY_WALLET_ADDRESS = "UQAfwLNsBO1WJbzc2bQtBIEtPv9ErGvEpKRn-g2XSz_vRdWH"
-REFERRAL_REWARD = 0.1  # Reward in GRAM per invited friend
+REFERRAL_REWARD = 0.1
 
 # --- DATABASE SETTINGS ---
 def init_db():
@@ -53,14 +62,12 @@ def get_or_create_user(user_id, username, referrer_id=None):
     user = cursor.fetchone()
     
     if not user:
-        # Save new user with referrer
         cursor.execute(
             "INSERT INTO users (user_id, username, is_active, deposit_amount, daily_reward, balance, referred_by, referrals_count) VALUES (?, ?, 0, 0.0, 0.0, 0.0, ?, 0)",
             (user_id, username, referrer_id)
         )
         conn.commit()
         
-        # Reward the referrer if applicable
         if referrer_id and referrer_id != user_id:
             cursor.execute("UPDATE users SET referrals_count = referrals_count + 1, balance = balance + ? WHERE user_id = ?", (REFERRAL_REWARD, referrer_id))
             conn.commit()
@@ -72,7 +79,7 @@ def get_or_create_user(user_id, username, referrer_id=None):
     return user
 
 def activate_farming(user_id, deposit_amount):
-    daily_reward = deposit_amount * 0.005  # 0.5% daily yield
+    daily_reward = deposit_amount * 0.005
     conn = sqlite3.connect("farming_bot.db")
     cursor = conn.cursor()
     now = datetime.datetime.now().isoformat()
@@ -87,7 +94,6 @@ def activate_farming(user_id, deposit_amount):
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     
-    # Check if user came via a referral link (/start 123456)
     referrer_id = None
     if context.args and context.args[0].isdigit():
         referrer_id = int(context.args[0])
@@ -100,8 +106,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     balance = db_user[5]
     referrals_count = db_user[7]
     
-    bot_username = (await context.bot.get_me()).username
-    ref_link = f"https://t.me/{bot_username}?start={user.id}"
     status_text = "Active 🟢" if is_active else "Inactive 🔴"
     
     if not is_active:
@@ -163,7 +167,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data == "referral":
         ref_text = (
             f"👥 **Invite Friends & Earn Free GRAM!**\n\n"
-            f"Share your referral link with friends and earned **{REFERRAL_REWARD} GRAM** for every user who joins!\n\n"
+            f"Share your referral link with friends and earn **{REFERRAL_REWARD} GRAM** for every user who joins!\n\n"
             f"🔗 **Your Personal Referral Link:**\n"
             f"`{ref_link}`"
         )
@@ -214,6 +218,9 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         keyboard = [[InlineKeyboardButton("⬅️ Back", callback_data="start")]]
         await query.edit_message_text(withdraw_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
+async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logger.error(msg="Exception while handling an update:", exc_info=context.error)
+
 # --- MAIN RUNNER ---
 def main():
     init_db()
@@ -223,9 +230,10 @@ def main():
     
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(button_handler))
+    app.add_error_handler(error_handler)
     
     print("Dailygram Miner Bot is online and listening...")
-    app.run_polling()
+    app.run_polling(drop_pending_updates=True)
 
 if __name__ == "__main__":
     main()

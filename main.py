@@ -5,7 +5,14 @@ import logging
 from threading import Thread
 from flask import Flask
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    CallbackQueryHandler,
+    MessageHandler,
+    ContextTypes,
+    filters
+)
 
 # --- LOGGING SETUP ---
 logging.basicConfig(
@@ -19,10 +26,9 @@ app = Flask('')
 
 @app.route('/')
 def home():
-    return "Bot is alive and running!"
+    return "Dailygram Miner Bot & Mini App backend is alive!"
 
 def run():
-    # Render gebruikt poort 10000 of de PORT omgevingsvariabele
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
@@ -34,7 +40,8 @@ def keep_alive():
 BOT_TOKEN = "8817058021:AAGUsAVqwHV_dDUtccdvmAUz8oWgFW3M4gM"
 MY_WALLET_ADDRESS = "UQAfwLNsBO1WJbzc2bQtBIEtPv9ErGvEpKRn-g2XSz_vRdWH"
 REFERRAL_REWARD = 0.1
-PAYOUT_CHANNEL = "@dailygram_payout_channel"  # Het payout kanaal
+PAYOUT_CHANNEL = "@dailygram_payout_channel"
+MIN_WITHDRAWAL = 1.0  # Minimum opnamebedrag in GRAM
 
 # --- HELPER FUNCTIONS ---
 async def send_payout_notification(bot, user_id, amount, wallet_address, is_deposit=False):
@@ -45,13 +52,13 @@ async def send_payout_notification(bot, user_id, amount, wallet_address, is_depo
             f"👤 **User ID:** `{user_id}`\n"
             f"💎 **Deposit Amount:** `{amount:.1f} GRAM`\n"
             f"📈 **Daily Reward:** `{amount * 0.005:.3f} GRAM/day`\n\n"
-            "⚡ Keep mining with @DailygramMiner_bot !"
+            "⚡ Start mining today with @DailygramMiner_bot !"
         )
     else:
         message = (
-            "💸 **NEW PAYOUT CONFIRMED!** 💸\n\n"
+            "💸 **WITHDRAWAL PROCESSED!** 💸\n\n"
             f"👤 **User ID:** `{user_id}`\n"
-            f"💰 **Amount:** `{amount:.1f} GRAM`\n"
+            f"💰 **Amount Paid:** `{amount:.3f} GRAM`\n"
             f"💼 **Wallet:** `{wallet_address[:6]}...{wallet_address[-4:]}`\n\n"
             "🎉 Congratulations! Keep mining with @DailygramMiner_bot !"
         )
@@ -75,7 +82,8 @@ def init_db():
             balance REAL DEFAULT 0.0,
             referred_by INTEGER,
             referrals_count INTEGER DEFAULT 0,
-            last_payout TEXT
+            last_payout TEXT,
+            wallet_address TEXT DEFAULT ''
         )
     """)
     conn.commit()
@@ -89,7 +97,7 @@ def get_or_create_user(user_id, username, referrer_id=None):
     
     if not user:
         cursor.execute(
-            "INSERT INTO users (user_id, username, is_active, deposit_amount, daily_reward, balance, referred_by, referrals_count) VALUES (?, ?, 0, 0.0, 0.0, 0.0, ?, 0)",
+            "INSERT INTO users (user_id, username, is_active, deposit_amount, daily_reward, balance, referred_by, referrals_count, wallet_address) VALUES (?, ?, 0, 0.0, 0.0, 0.0, ?, 0, '')",
             (user_id, username, referrer_id)
         )
         conn.commit()
@@ -103,6 +111,20 @@ def get_or_create_user(user_id, username, referrer_id=None):
         
     conn.close()
     return user
+
+def update_user_wallet(user_id, wallet):
+    conn = sqlite3.connect("farming_bot.db")
+    cursor = conn.cursor()
+    cursor.execute("UPDATE users SET wallet_address = ? WHERE user_id = ?", (wallet, user_id))
+    conn.commit()
+    conn.close()
+
+def update_user_balance(user_id, new_balance):
+    conn = sqlite3.connect("farming_bot.db")
+    cursor = conn.cursor()
+    cursor.execute("UPDATE users SET balance = ? WHERE user_id = ?", (new_balance, user_id))
+    conn.commit()
+    conn.close()
 
 def activate_farming(user_id, deposit_amount):
     daily_reward = deposit_amount * 0.005
@@ -131,14 +153,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     daily_reward = db_user[4]
     balance = db_user[5]
     referrals_count = db_user[7]
+    wallet = db_user[9] if len(db_user) > 9 else ""
     
     status_text = "Active 🟢" if is_active else "Inactive 🔴"
+    wallet_status = f"`{wallet[:6]}...{wallet[-4:]}`" if wallet else "Not Set ❌"
     
     if not is_active:
         msg = (
             f"👋 **Welcome {user.first_name} to Dailygram Miner!**\n\n"
             f"📊 **Status:** {status_text}\n"
             f"💰 **Balance:** {balance:.3f} GRAM\n"
+            f"💼 **Wallet:** {wallet_status}\n"
             f"👥 **Referrals:** {referrals_count} friends invited\n"
             f"📈 **Daily Yield:** 0.5% per day\n\n"
             f"⚡ *How it works?*\n"
@@ -157,6 +182,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
              InlineKeyboardButton("📥 Deposit 20 GRAM", callback_data="dep_20")],
             [InlineKeyboardButton("📥 Deposit 50 GRAM", callback_data="dep_50"),
              InlineKeyboardButton("📥 Deposit 100 GRAM", callback_data="dep_100")],
+            [InlineKeyboardButton("⚙️ Set Wallet Address", callback_data="set_wallet")],
             [InlineKeyboardButton("👥 Invite Friends (Get Free GRAM)", callback_data="referral")]
         ]
     else:
@@ -165,13 +191,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"📊 **Status:** {status_text}\n"
             f"💎 **Active Deposit:** {deposit_amount:.1f} GRAM\n"
             f"🎁 **Daily Reward:** {daily_reward:.3f} GRAM/day\n"
-            f"👥 **Referrals:** {referrals_count} friends invited\n"
-            f"💰 **Balance:** {balance:.3f} GRAM"
+            f"💰 **Balance:** {balance:.3f} GRAM\n"
+            f"💼 **Wallet:** {wallet_status}\n"
+            f"👥 **Referrals:** {referrals_count} friends invited"
         )
         keyboard = [
             [InlineKeyboardButton("🔄 Refresh Balance", callback_data="refresh")],
-            [InlineKeyboardButton("👥 Invite Friends", callback_data="referral")],
-            [InlineKeyboardButton("💸 Withdraw Rewards", callback_data="withdraw")]
+            [InlineKeyboardButton("💸 Withdraw Rewards", callback_data="withdraw_req")],
+            [InlineKeyboardButton("⚙️ Set Wallet Address", callback_data="set_wallet")],
+            [InlineKeyboardButton("👥 Invite Friends", callback_data="referral")]
         ]
         
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -225,7 +253,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         activate_farming(user_id, amount)
         daily_reward = amount * 0.005
         
-        # Stuurt automatisch een bericht naar het Telegram Kanaal bij een deposit
         await send_payout_notification(context.bot, user_id, amount, MY_WALLET_ADDRESS, is_deposit=True)
 
         success_text = (
@@ -235,17 +262,73 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         keyboard = [[InlineKeyboardButton("📊 Go to Dashboard", callback_data="start")]]
         await query.edit_message_text(success_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
+    elif data == "set_wallet":
+        context.user_data['awaiting_wallet'] = True
+        msg_text = (
+            "💼 **Set Your Wallet Address:**\n\n"
+            "Please send your **TON / GRAM Wallet Address** as a reply in this chat."
+        )
+        keyboard = [[InlineKeyboardButton("⬅️ Back", callback_data="start")]]
+        await query.edit_message_text(msg_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+
+    elif data == "withdraw_req":
+        db_user = get_or_create_user(user_id, query.from_user.username)
+        balance = db_user[5]
+        wallet = db_user[9] if len(db_user) > 9 else ""
+
+        if not wallet:
+            msg_text = (
+                "⚠️ **Wallet Not Configured!**\n\n"
+                "Please click **'Set Wallet Address'** first to store your payout wallet."
+            )
+            keyboard = [
+                [InlineKeyboardButton("⚙️ Set Wallet Address", callback_data="set_wallet")],
+                [InlineKeyboardButton("⬅️ Back", callback_data="start")]
+            ]
+            await query.edit_message_text(msg_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+            return
+
+        if balance < MIN_WITHDRAWAL:
+            msg_text = (
+                "💸 **Withdrawal Request:**\n\n"
+                f"Your current balance: `{balance:.3f} GRAM`\n"
+                f"Minimum withdrawal: `{MIN_WITHDRAWAL:.1f} GRAM`\n\n"
+                "Please accumulate more rewards before requesting a payout."
+            )
+            keyboard = [[InlineKeyboardButton("⬅️ Back", callback_data="start")]]
+            await query.edit_message_text(msg_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+        else:
+            # Voer uitbetalingsaanvraag uit
+            update_user_balance(user_id, 0.0)
+            await send_payout_notification(context.bot, user_id, balance, wallet, is_deposit=False)
+            
+            msg_text = (
+                "✅ **Withdrawal Request Submitted!**\n\n"
+                f"💰 **Amount:** `{balance:.3f} GRAM`\n"
+                f"💼 **Sent to:** `{wallet[:6]}...{wallet[-4:]}`\n\n"
+                "Your payout has been recorded and broadcasted to the official channel!"
+            )
+            keyboard = [[InlineKeyboardButton("📊 Back to Dashboard", callback_data="start")]]
+            await query.edit_message_text(msg_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+
     elif data == "start" or data == "refresh":
         await start(update, context)
 
-    elif data == "withdraw":
-        withdraw_text = (
-            "💸 **Withdrawal Request:**\n\n"
-            "Minimum withdrawal amount is **1.0 GRAM**.\n"
-            "Please accumulate more rewards before withdrawing."
-        )
-        keyboard = [[InlineKeyboardButton("⬅️ Back", callback_data="start")]]
-        await query.edit_message_text(withdraw_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """ Verwerkt ingevoerde wallet-adressen """
+    user_id = update.effective_user.id
+    text = update.message.text.strip()
+
+    if context.user_data.get('awaiting_wallet'):
+        if len(text) > 20:  # Eenvoudige check voor een geldige wallet hash
+            update_user_wallet(user_id, text)
+            context.user_data['awaiting_wallet'] = False
+            await update.message.reply_text(
+                f"✅ **Wallet Address Saved!**\n\nYour wallet:\n`{text}`",
+                parse_mode="Markdown"
+            )
+        else:
+            await update.message.reply_text("⚠️ Invalid wallet address. Please enter a valid TON/GRAM wallet address.")
 
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.error(msg="Exception while handling an update:", exc_info=context.error)
@@ -259,9 +342,10 @@ def main():
     
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(button_handler))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_handler))
     app.add_error_handler(error_handler)
     
-    print("Dailygram Miner Bot is online and listening...")
+    print("Dailygram Miner Bot & Mini App Backend is running...")
     app.run_polling(drop_pending_updates=True)
 
 if __name__ == "__main__":

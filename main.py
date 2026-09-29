@@ -34,6 +34,32 @@ def keep_alive():
 BOT_TOKEN = "8817058021:AAGUsAVqwHV_dDUtccdvmAUz8oWgFW3M4gM"
 MY_WALLET_ADDRESS = "UQAfwLNsBO1WJbzc2bQtBIEtPv9ErGvEpKRn-g2XSz_vRdWH"
 REFERRAL_REWARD = 0.1
+PAYOUT_CHANNEL = "@dailygram_payout_channel"  # Het payout kanaal
+
+# --- HELPER FUNCTIONS ---
+async def send_payout_notification(bot, user_id, amount, wallet_address, is_deposit=False):
+    """ Stuurt automatisch een melding naar het Payout Kanaal """
+    if is_deposit:
+        message = (
+            "🚀 **NEW DEPOSIT CONFIRMED!** 🚀\n\n"
+            f"👤 **User ID:** `{user_id}`\n"
+            f"💎 **Deposit Amount:** `{amount:.1f} GRAM`\n"
+            f"📈 **Daily Reward:** `{amount * 0.005:.3f} GRAM/day`\n\n"
+            "⚡ Keep mining with @DailygramMiner_bot !"
+        )
+    else:
+        message = (
+            "💸 **NEW PAYOUT CONFIRMED!** 💸\n\n"
+            f"👤 **User ID:** `{user_id}`\n"
+            f"💰 **Amount:** `{amount:.1f} GRAM`\n"
+            f"💼 **Wallet:** `{wallet_address[:6]}...{wallet_address[-4:]}`\n\n"
+            "🎉 Congratulations! Keep mining with @DailygramMiner_bot !"
+        )
+    
+    try:
+        await bot.send_message(chat_id=PAYOUT_CHANNEL, text=message, parse_mode="Markdown")
+    except Exception as e:
+        logger.error(f"Fout bij versturen naar kanaal: {e}")
 
 # --- DATABASE SETTINGS ---
 def init_db():
@@ -199,6 +225,9 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         activate_farming(user_id, amount)
         daily_reward = amount * 0.005
         
+        # Stuurt automatisch een bericht naar het Telegram Kanaal bij een deposit
+        await send_payout_notification(context.bot, user_id, amount, MY_WALLET_ADDRESS, is_deposit=True)
+
         success_text = (
             "🎉 **Payment Received & Verified!**\n\n"
             f"Your Mining Status is now **Active**. You will receive **{daily_reward:.3f} GRAM** every 24 hours!"

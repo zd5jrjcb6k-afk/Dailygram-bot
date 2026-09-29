@@ -1,12 +1,17 @@
 import os
+import sqlite3
+import datetime
 from threading import Thread
 from flask import Flask
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 
+# --- FLASK KEEP ALIVE SERVER ---
 app = Flask('')
 
 @app.route('/')
 def home():
-    return "Bot is alive!"
+    return "Bot is alive and running!"
 
 def run():
     port = int(os.environ.get("PORT", 8080))
@@ -16,22 +21,11 @@ def keep_alive():
     t = Thread(target=run)
     t.start()
 
-# Roep keep_alive() aan vlak voordat je bot start:
-keep_alive()
-
-import sqlite3
-import datetime
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
-
-# --- ALLES IS AL VOOR JE INGEVULD ---
+# --- CONFIGURATION ---
 BOT_TOKEN = "8817058021:AAGUsAVqwHV_dDUtccdvmAUz8oWgFW3M4gM"
 MY_WALLET_ADDRESS = "UQAfwLNsBO1WJbzc2bQtBIEtPv9ErGvEpKRn-g2XSz_vRdWH"
 
-COST_GRAM = 10.0
-DAILY_REWARD_GRAM = 0.05  # 0.05 GRAM per dag (0.5% dagelijks)
-
-# --- DATABASE INSTELLINGEN ---
+# --- DATABASE SETTINGS ---
 def init_db():
     conn = sqlite3.connect("farming_bot.db")
     cursor = conn.cursor()
@@ -40,6 +34,8 @@ def init_db():
             user_id INTEGER PRIMARY KEY,
             username TEXT,
             is_active INTEGER DEFAULT 0,
+            deposit_amount REAL DEFAULT 0.0,
+            daily_reward REAL DEFAULT 0.0,
             balance REAL DEFAULT 0.0,
             last_payout TEXT
         )
@@ -55,7 +51,7 @@ def get_or_create_user(user_id, username):
     
     if not user:
         cursor.execute(
-            "INSERT INTO users (user_id, username, is_active, balance) VALUES (?, ?, 0, 0.0)",
+            "INSERT INTO users (user_id, username, is_active, deposit_amount, daily_reward, balance) VALUES (?, ?, 0, 0.0, 0.0, 0.0)",
             (user_id, username)
         )
         conn.commit()
@@ -65,13 +61,14 @@ def get_or_create_user(user_id, username):
     conn.close()
     return user
 
-def activate_farming(user_id):
+def activate_farming(user_id, deposit_amount):
+    daily_reward = deposit_amount * 0.005  # 0.5% daily yield
     conn = sqlite3.connect("farming_bot.db")
     cursor = conn.cursor()
     now = datetime.datetime.now().isoformat()
     cursor.execute(
-        "UPDATE users SET is_active = 1, last_payout = ? WHERE user_id = ?",
-        (now, user_id)
+        "UPDATE users SET is_active = 1, deposit_amount = ?, daily_reward = ?, last_payout = ? WHERE user_id = ?",
+        (deposit_amount, daily_reward, now, user_id)
     )
     conn.commit()
     conn.close()
@@ -82,24 +79,47 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     db_user = get_or_create_user(user.id, user.username)
     
     is_active = db_user[2]
-    balance = db_user[3]
+    deposit_amount = db_user[3]
+    daily_reward = db_user[4]
+    balance = db_user[5]
     
-    status_text = "Actief 🟢" if is_active else "Inactief 🔴"
+    status_text = "Active 🟢" if is_active else "Inactive 🔴"
     
-    msg = (
-        f"👋 Welkom **{user.first_name}** bij **Dailygram Miner**!\n\n"
-        f"📊 **Jouw Status:** {status_text}\n"
-        f"💰 **Jouw Saldo:** {balance} GRAM\n\n"
-        f"⚡ *Hoe werkt het?*\n"
-        f"Stort eenmalig **{COST_GRAM} GRAM** om te starten en ontvang elke dag **{DAILY_REWARD_GRAM} GRAM** beloning!"
-    )
-    
-    keyboard = []
     if not is_active:
-        keyboard.append([InlineKeyboardButton("📥 10 GRAM Storten & Starten", callback_data="deposit")])
+        msg = (
+            f"👋 **Welcome {user.first_name} to Dailygram Miner!**\n\n"
+            f"📊 **Status:** {status_text}\n"
+            f"💰 **Balance:** {balance:.3f} GRAM\n"
+            f"📈 **Daily Yield:** 0.5% per day\n\n"
+            f"⚡ *How it works?*\n"
+            f"Choose a deposit plan to start earning daily GRAM rewards:\n\n"
+            f"• Deposit **1 GRAM** → Earn **0.005 GRAM**/day\n"
+            f"• Deposit **5 GRAM** → Earn **0.025 GRAM**/day\n"
+            f"• Deposit **10 GRAM** → Earn **0.050 GRAM**/day\n"
+            f"• Deposit **20 GRAM** → Earn **0.100 GRAM**/day\n"
+            f"• Deposit **50 GRAM** → Earn **0.250 GRAM**/day\n"
+            f"• Deposit **100 GRAM** → Earn **0.500 GRAM**/day"
+        )
+        keyboard = [
+            [InlineKeyboardButton("📥 Deposit 1 GRAM", callback_data="dep_1"),
+             InlineKeyboardButton("📥 Deposit 5 GRAM", callback_data="dep_5")],
+            [InlineKeyboardButton("📥 Deposit 10 GRAM", callback_data="dep_10"),
+             InlineKeyboardButton("📥 Deposit 20 GRAM", callback_data="dep_20")],
+            [InlineKeyboardButton("📥 Deposit 50 GRAM", callback_data="dep_50"),
+             InlineKeyboardButton("📥 Deposit 100 GRAM", callback_data="dep_100")]
+        ]
     else:
-        keyboard.append([InlineKeyboardButton("🔄 Saldo Vernieuwen", callback_data="refresh")])
-        keyboard.append([InlineKeyboardButton("💸 Saldo Opnemen", callback_data="withdraw")])
+        msg = (
+            f"👋 **Welcome back {user.first_name}!**\n\n"
+            f"📊 **Status:** {status_text}\n"
+            f"💎 **Active Deposit:** {deposit_amount:.1f} GRAM\n"
+            f"🎁 **Daily Reward:** {daily_reward:.3f} GRAM/day\n"
+            f"💰 **Balance:** {balance:.3f} GRAM"
+        )
+        keyboard = [
+            [InlineKeyboardButton("🔄 Refresh Balance", callback_data="refresh")],
+            [InlineKeyboardButton("💸 Withdraw Rewards", callback_data="withdraw")]
+        ]
         
     reply_markup = InlineKeyboardMarkup(keyboard)
     
@@ -112,45 +132,64 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     user_id = query.from_user.id
+    data = query.data
     
-    if query.data == "deposit":
+    if data.startswith("dep_"):
+        amount = float(data.split("_")[1])
+        daily_reward = amount * 0.005
+        
+        context.user_data['pending_amount'] = amount
+        
         deposit_text = (
-            f"📥 **Instructies voor storten:**\n\n"
-            f"1. Maak exact **{COST_GRAM} GRAM** over naar het onderstaande adres:\n"
+            f"📥 **Deposit Instructions ({amount:.0f} GRAM):**\n\n"
+            f"1. Send exactly **{amount:.1f} GRAM** to the wallet address below:\n"
             f"`{MY_WALLET_ADDRESS}`\n\n"
-            f"2. **BELANGRIJK:** Voeg deze code toe als Memo/Comment bij je transactie:\n"
+            f"2. **IMPORTANT:** Include this code as Memo/Comment in your transaction:\n"
             f"`ID-{user_id}`\n\n"
-            f"⚠️ *Na het storten duurt het 1-3 minuten voordat het netwerk je transactie verwerkt.*"
+            f"🎁 **Daily Yield:** {daily_reward:.3f} GRAM per day (0.5%)\n\n"
+            f"⚠️ *It usually takes 1-3 minutes for the network to confirm your payment.*"
         )
         keyboard = [
-            [InlineKeyboardButton("✅ Ik heb betaald (Check Transactie)", callback_data="check_payment")],
-            [InlineKeyboardButton("⬅️ Terug", callback_data="start")]
+            [InlineKeyboardButton("✅ I Have Paid (Verify Payment)", callback_data="check_payment")],
+            [InlineKeyboardButton("⬅️ Back", callback_data="start")]
         ]
         await query.edit_message_text(deposit_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
-    elif query.data == "check_payment":
-        activate_farming(user_id)
+    elif data == "check_payment":
+        amount = context.user_data.get('pending_amount', 10.0)
+        activate_farming(user_id, amount)
+        daily_reward = amount * 0.005
         
         success_text = (
-            "🎉 **Betaling Ontvangen & Gefilterd!**\n\n"
-            f"Je Mining status staat nu op **Actief**. Je ontvangt vanaf nu elke 24 uur automatisch je **{DAILY_REWARD_GRAM} GRAM** beloning!"
+            "🎉 **Payment Received & Verified!**\n\n"
+            f"Your Mining Status is now **Active**. You will receive **{daily_reward:.3f} GRAM** every 24 hours!"
         )
-        keyboard = [[InlineKeyboardButton("📊 Naar Dashboard", callback_data="start")]]
+        keyboard = [[InlineKeyboardButton("📊 Go to Dashboard", callback_data="start")]]
         await query.edit_message_text(success_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
-    elif query.data == "start":
+    elif data == "start" or data == "refresh":
         await start(update, context)
+
+    elif data == "withdraw":
+        withdraw_text = (
+            "💸 **Withdrawal Request:**\n\n"
+            "Minimum withdrawal amount is **1.0 GRAM**.\n"
+            "Please accumulate more rewards before withdrawing."
+        )
+        keyboard = [[InlineKeyboardButton("⬅️ Back", callback_data="start")]]
+        await query.edit_message_text(withdraw_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
 # --- MAIN RUNNER ---
 def main():
     init_db()
+    keep_alive()
     
     app = Application.builder().token(BOT_TOKEN).build()
     
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(button_handler))
     
-    print("Dailygram Miner Bot is online en luistert...")
+    print("Dailygram Miner Bot is online and listening...")
     app.run_polling()
 
 if __name__ == "__main__":

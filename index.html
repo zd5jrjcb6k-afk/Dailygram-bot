@@ -1,218 +1,162 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Dailygram Miner Mini App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-color: #38bdf8;
-            --text-color: #f8fafc;
-            --gold-color: #fbbf24;
-        }
-
-        body {
-            margin: 0;
-            padding: 20px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            text-align: center;
-            user-select: none;
-        }
-
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--card-bg);
-            padding: 12px 20px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .user-info {
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .status-badge {
-            background: #22c55e;
-            color: #fff;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .miner-card {
-            background: var(--card-bg);
-            padding: 30px 20px;
-            border-radius: 24px;
-            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.15);
-            margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .miner-icon {
-            font-size: 80px;
-            margin: 15px 0;
-            animation: pulse 2s infinite ease-in-out;
-            cursor: pointer;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-            100% { transform: scale(1); }
-        }
-
-        .balance-label {
-            color: #94a3b8;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .balance-amount {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--gold-color);
-            margin: 10px 0;
-            text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
-        }
-
-        .progress-container {
-            background: #334155;
-            border-radius: 10px;
-            height: 12px;
-            width: 100%;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            background: linear-gradient(90deg, #38bdf8, #818cf8);
-            height: 100%;
-            width: 65%;
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .stat-box {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 16px;
-            text-align: left;
-        }
-
-        .stat-box .title {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
-        .stat-box .value {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 5px;
-            color: #f1f5f9;
-        }
-
-        .action-btn {
-            background: linear-gradient(135deg, #0284c7, #0369a1);
-            color: white;
-            border: none;
-            padding: 16px;
-            width: 100%;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
-            transition: transform 0.1s ease;
-        }
-
-        .action-btn:active {
-            transform: scale(0.98);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Lion Miner Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- HEADER -->
-        <div class="header">
-            <div class="user-info" id="userName">Miner</div>
-            <div class="status-badge" id="statusBadge">Active 🟢</div>
-        </div>
 
-        <!-- MAIN MINER CARD -->
-        <div class="miner-card">
-            <div class="balance-label">Total Balance</div>
-            <div class="balance-amount" id="balanceText">100.000 GRAM</div>
-            
-            <div class="miner-icon" id="gemIcon">💎</div>
-
-            <div class="balance-label">Daily Mining Progress</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            <div style="font-size: 12px; color: #94a3b8;" id="progressText">Mining at 0.5% daily rate</div>
-        </div>
-
-        <!-- STATS GRID -->
-        <div class="stats-grid">
-            <div class="stat-box">
-                <div class="title">Active Deposit</div>
-                <div class="value" id="activeDeposit">100 GRAM</div>
-            </div>
-            <div class="stat-box">
-                <div class="title">Daily Yield</div>
-                <div class="value" id="dailyYield">+0.500 GRAM</div>
-            </div>
-        </div>
-
-        <!-- ACTION BUTTON -->
-        <button class="action-btn" onclick="claimReward()">⚡ Claim Mining Yield</button>
+  <!-- Top Header / Stats Bar -->
+  <div class="top-bar">
+    <div class="profile-card">
+      <div class="avatar" id="lionAvatar">🦁</div>
+      <div class="level-badge" id="playerLevelBadge">Lvl 1</div>
     </div>
+    <div class="stats-card">
+      <div class="stat-row">
+        <span class="stat-icon">🪙</span>
+        <span class="stat-val" id="totalBalance">100.0000</span>
+        <span class="stat-unit">GRAM</span>
+      </div>
+      <div class="stat-row secondary">
+        <span class="stat-icon">⚡</span>
+        <span class="stat-val" id="dailyRate">+0.500 / dag</span>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        // Init Telegram WebApp
-        const tg = window.Telegram.WebApp;
-        tg.expand(); // Open fullscreen
+  <!-- Main Content Area -->
+  <main class="main-container">
+    
+    <!-- TAB 1: HOME / MINING -->
+    <section id="tab-home" class="tab-content active">
+      
+      <!-- Progress Wood Panel -->
+      <div class="wood-panel">
+        <div class="panel-header">
+          <span id="lionStageTitle">Kleine Welp</span>
+          <span id="levelPercentText">75%</span>
+        </div>
+        <div class="progress-outer">
+          <div class="progress-inner" id="levelProgressBar" style="width: 75%;"></div>
+        </div>
+      </div>
 
-        // Fetch user data from Telegram context
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            document.getElementById('userName').innerText = tg.initDataUnsafe.user.first_name;
-        }
+      <!-- Mascot Character Display -->
+      <div class="mascot-display">
+        <div class="glow-effect"></div>
+        <div class="mascot-character" id="mascotIcon">🦁</div>
+        <div class="mining-floating-coins" id="floatingCoins"></div>
+      </div>
 
-        // Live balance simulation counter
-        let currentBalance = 100.0000;
-        setInterval(() => {
-            currentBalance += 0.00001;
-            document.getElementById('balanceText').innerText = currentBalance.toFixed(4) + " GRAM";
-        }, 1000);
+      <!-- Mining Yield / Claim Box -->
+      <div class="wood-panel claim-panel">
+        <div class="yield-title">Mijnbouw Opbrengst</div>
+        <div class="yield-amount" id="unclaimedYield">+0.0000 GRAM</div>
+        <button class="btn-3d btn-green" id="btnClaim">
+          <span>⚡ Claim Opbrengst</span>
+        </button>
+      </div>
 
-        function claimReward() {
-            tg.HapticFeedback.notificationOccurred('success');
-            tg.showAlert('🎉 Daily yield successfully synced with your balance!');
-        }
-    </script>
+    </section>
+
+    <!-- TAB 2: SHOP / DEPOSIT -->
+    <section id="tab-shop" class="tab-content">
+      <div class="wood-panel">
+        <h2>🛒 Welpen Winkel</h2>
+        <p>Verhoog je niveau en mine sneller!</p>
+        
+        <div class="shop-item">
+          <div class="shop-icon">🥩</div>
+          <div class="shop-info">
+            <strong>Malse Biefstuk</strong>
+            <p>+0.2% Mining Rate</p>
+          </div>
+          <button class="btn-3d btn-blue" onclick="buyUpgrade('steak')">10 GRAM</button>
+        </div>
+
+        <div class="shop-item">
+          <div class="shop-icon">👑</div>
+          <div class="shop-info">
+            <strong>Gouden Kroon</strong>
+            <p>+0.5% Mining Rate</p>
+          </div>
+          <button class="btn-3d btn-blue" onclick="buyUpgrade('crown')">25 GRAM</button>
+        </div>
+
+        <hr class="wood-divider">
+
+        <div class="deposit-box">
+          <h3>💳 Saldo Storten (Deposit)</h3>
+          <p>Stort TON of GRAM om je welp sneller te laten groeien.</p>
+          <button class="btn-3d btn-green" onclick="openDepositModal()">Stort Nu</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: TASKS -->
+    <section id="tab-tasks" class="tab-content">
+      <div class="wood-panel">
+        <h2>📋 Dagelijkse Taken</h2>
+        <p>Voltooi taken voor extra GRAM beloningen!</p>
+
+        <div class="task-item">
+          <div class="task-info">
+            <strong>Volg ons Kanaal</strong>
+            <span>+1.00 GRAM</span>
+          </div>
+          <button class="btn-3d btn-green" onclick="claimTask(1)">Start</button>
+        </div>
+
+        <div class="task-item">
+          <div class="task-info">
+            <strong>Nodig 3 Vrienden Uit</strong>
+            <span>+3.00 GRAM</span>
+          </div>
+          <button class="btn-3d btn-green" onclick="claimTask(2)">Start</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: FRIENDS -->
+    <section id="tab-friends" class="tab-content">
+      <div class="wood-panel">
+        <h2>👥 Vrienden Uitnodigen</h2>
+        <p>Ontvang 10% van alle opbrengsten van je vrienden!</p>
+        
+        <div class="ref-link-box">
+          <input type="text" id="refLink" value="https://t.me/DailygramMiner_bot?start=ref" readonly>
+          <button class="btn-3d btn-yellow" onclick="copyRefLink()">Kopiëren</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('home')">
+      <span class="nav-icon">🦁</span>
+      <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('shop')">
+      <span class="nav-icon">🛒</span>
+      <span class="nav-label">Shop</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('tasks')">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label">Tasks</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('friends')">
+      <span class="nav-icon">👥</span>
+      <span class="nav-label">Vrienden</span>
+    </button>
+  </nav>
+
+  <script src="script.js"></script>
 </body>
 </html>

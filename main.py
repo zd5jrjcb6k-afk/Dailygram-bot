@@ -3,7 +3,7 @@ import sqlite3
 import datetime
 import logging
 from threading import Thread
-from flask import Flask
+from flask import Flask, send_from_directory
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     Application,
@@ -21,12 +21,13 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# --- FLASK KEEP ALIVE SERVER ---
-app = Flask('')
+# --- FLASK KEEP ALIVE & WEB APP SERVER ---
+app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "Dailygram Miner Bot & Mini App backend is alive!"
+    # Serveert het index.html bestand voor de Telegram Mini App
+    return send_from_directory('.', 'index.html')
 
 def run():
     port = int(os.environ.get("PORT", 10000))
@@ -240,7 +241,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"2. **IMPORTANT:** Include this code as Memo/Comment in your transaction:\n"
             f"`ID-{user_id}`\n\n"
             f"🎁 **Daily Yield:** {daily_reward:.3f} GRAM per day (0.5%)\n\n"
-            f"⚠️ *It usually takes 1-3 minutes for the network to confirm your payment.*"
+            f"⚠️️ *It usually takes 1-3 minutes for the network to confirm your payment.*"
         )
         keyboard = [
             [InlineKeyboardButton("✅ I Have Paid (Verify Payment)", callback_data="check_payment")],
@@ -298,7 +299,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             keyboard = [[InlineKeyboardButton("⬅️ Back", callback_data="start")]]
             await query.edit_message_text(msg_text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
         else:
-            # Voer uitbetalingsaanvraag uit
             update_user_balance(user_id, 0.0)
             await send_payout_notification(context.bot, user_id, balance, wallet, is_deposit=False)
             
@@ -320,7 +320,7 @@ async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip()
 
     if context.user_data.get('awaiting_wallet'):
-        if len(text) > 20:  # Eenvoudige check voor een geldige wallet hash
+        if len(text) > 20:
             update_user_wallet(user_id, text)
             context.user_data['awaiting_wallet'] = False
             await update.message.reply_text(
@@ -328,7 +328,7 @@ async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 parse_mode="Markdown"
             )
         else:
-            await update.message.reply_text("⚠️ Invalid wallet address. Please enter a valid TON/GRAM wallet address.")
+            await update.message.reply_text("⚠️️ Invalid wallet address. Please enter a valid TON/GRAM wallet address.")
 
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.error(msg="Exception while handling an update:", exc_info=context.error)

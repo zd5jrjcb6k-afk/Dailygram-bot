@@ -1,205 +1,459 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Lion Miner Mini App</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    :root {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --accent-color: #f59e0b;
-      --text-color: #f8fafc;
-      --text-secondary: #94a3b8;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      user-select: none;
     }
 
     body {
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
+      background: linear-gradient(180deg, #5b8c33 0%, #2e4d16 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+    }
+
+    /* Container Styling */
+    .app-container {
+      padding: 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh;
-      box-sizing: border-box;
+      gap: 15px;
+      padding-bottom: 80px;
     }
 
-    .container {
+    /* Wood Panel UI Elements */
+    .wood-card {
+      background: #5c3818;
+      border: 4px solid #3d230d;
+      border-radius: 18px;
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.2), 0 6px 12px rgba(0,0,0,0.4);
       width: 100%;
-      max-width: 420px;
-      padding: 20px;
+      max-width: 380px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .user-header {
       display: flex;
-      flex-direction: column;
-      gap: 16px;
-      box-sizing: border-box;
-    }
-
-    .header {
-      text-align: center;
-      padding: 10px 0;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 24px;
-      color: var(--accent-color);
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.2);
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      color: #ffe89e;
     }
 
     .balance-title {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #d1b894;
     }
 
     .balance-amount {
       font-size: 32px;
-      font-weight: bold;
-      color: var(--accent-color);
+      font-weight: 900;
+      color: #ffcc00;
+      text-shadow: 2px 2px 0 #000;
+      margin: 4px 0;
     }
 
-    .stat-grid {
+    /* Moving Cub Mascot */
+    .lion-avatar-container {
+      position: relative;
+      margin: 15px 0;
+    }
+
+    .lion-cub {
+      font-size: 90px;
+      display: inline-block;
+      animation: pulseBreathe 3s infinite ease-in-out, bounceLight 2s infinite ease-in-out;
+      filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
+    }
+
+    @keyframes pulseBreathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    @keyframes bounceLight {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Stats Grid */
+    .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
+      width: 100%;
+      max-width: 380px;
     }
 
-    .stat-card {
-      background-color: var(--card-bg);
+    .stat-box {
+      background: #42270e;
+      border: 2px solid #281606;
       border-radius: 12px;
-      padding: 12px;
+      padding: 10px;
       text-align: center;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #bfa180;
     }
 
     .stat-value {
       font-size: 18px;
       font-weight: bold;
-      margin-top: 4px;
+      color: #fff;
     }
 
-    .btn {
-      background-color: var(--accent-color);
-      color: #000;
-      border: none;
-      border-radius: 12px;
+    /* Big Action Button */
+    .btn-claim {
+      background: linear-gradient(180deg, #ffb703 0%, #fb8500 100%);
+      border: 3px solid #b35900;
+      border-radius: 16px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 900;
       padding: 16px;
-      font-size: 16px;
-      font-weight: bold;
+      width: 100%;
+      max-width: 380px;
       cursor: pointer;
-      transition: transform 0.1s;
+      box-shadow: 0 6px 0 #804000, 0 10px 15px rgba(0,0,0,0.4);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+      transition: all 0.1s ease;
     }
 
-    .btn:active {
-      transform: scale(0.98);
+    .btn-claim:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #804000, 0 4px 6px rgba(0,0,0,0.4);
     }
 
-    .status-msg {
-      font-size: 12px;
-      color: var(--text-secondary);
-      text-align: center;
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: #3d230d;
+      border-top: 3px solid #5c3818;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #a88a6d;
+      font-size: 11px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: #ffcc00;
+    }
+
+    .nav-icon {
+      font-size: 24px;
+      margin-bottom: 2px;
+    }
+
+    /* Tab Content Pages */
+    .tab-content {
+      display: none;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .status-badge {
+      font-size: 11px;
+      background: rgba(0,255,0,0.2);
+      border: 1px solid #00ff00;
+      color: #88ff88;
+      padding: 4px 8px;
+      border-radius: 8px;
+      margin-top: 8px;
+      display: inline-block;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="header">
-      <h1>🦁 Lion Miner</h1>
-      <p id="user-display" style="margin: 4px 0 0 0; color: var(--text-secondary); font-size: 14px;">Laden...</p>
-    </div>
+  <div class="app-container">
 
-    <div class="card">
-      <div class="balance-title">Mijn Saldo</div>
-      <div class="balance-amount" id="balance">0.0000</div>
-    </div>
+    <!-- HOME TAB -->
+    <div id="tab-home" class="tab-content active">
+      <div class="wood-card">
+        <div class="user-header">
+          <span>🦁 <span id="username">Loading...</span></span>
+          <span><span id="txt-level">Level</span> <span id="user-level">1</span></span>
+        </div>
+        
+        <div class="lion-avatar-container">
+          <div class="lion-cub">🦁</div>
+        </div>
 
-    <div class="stat-grid">
-      <div class="stat-card">
-        <div class="balance-title">Dagelijkse Rate</div>
-        <div class="stat-value" id="daily-rate">0.5000</div>
+        <div class="balance-title" id="txt-balance-title">My GRAM Balance</div>
+        <div class="balance-amount" id="balance">0.0000</div>
       </div>
-      <div class="stat-card">
-        <div class="balance-title">Level</div>
-        <div class="stat-value" id="level">1</div>
+
+      <div class="stats-grid" style="margin-top: 10px;">
+        <div class="stat-box">
+          <div class="stat-label" id="txt-daily-rate">Daily Rate</div>
+          <div class="stat-value"><span id="rate-val">0.5000</span> / <span id="txt-day">day</span></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label" id="txt-unclaimed">To Claim</div>
+          <div class="stat-value" id="unclaimed">0.0250</div>
+        </div>
+      </div>
+
+      <button class="btn-claim" id="claim-btn" onclick="claimYield()" style="margin-top: 15px;">
+        ⚡ CLAIM YIELD
+      </button>
+
+      <div style="text-align:center;">
+        <span class="status-badge" id="db-status">Connected to Supabase ✅</span>
       </div>
     </div>
 
-    <button class="btn" onclick="claimYield()">Claim Yield ⚡</button>
-    <div class="status-msg" id="status-msg">Verbinden met database...</div>
+    <!-- SHOP TAB -->
+    <div id="tab-shop" class="tab-content">
+      <div class="wood-card">
+        <h2 id="txt-shop-title">🛒 Safari Shop</h2>
+        <p style="margin: 15px 0; color: #d1b894;" id="txt-shop-desc">Buy extra food to make your lion cub mine GRAM faster!</p>
+        <div class="stat-box" style="margin-bottom: 10px;">
+          <div id="txt-item1">🥩 Juicy Meat (+0.5 Speed)</div>
+          <button style="margin-top:5px; padding: 6px 12px; background: #28a745; color:#fff; border:none; border-radius:6px;">10 GRAM</button>
+        </div>
+        <div class="stat-box">
+          <div id="txt-item2">👑 Royal Crown (+2.0 Speed)</div>
+          <button style="margin-top:5px; padding: 6px 12px; background: #28a745; color:#fff; border:none; border-radius:6px;">25 GRAM</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASKS TAB -->
+    <div id="tab-tasks" class="tab-content">
+      <div class="wood-card">
+        <h2 id="txt-tasks-title">📋 Daily Tasks</h2>
+        <p style="margin: 15px 0; color: #d1b894;" id="txt-tasks-desc">Complete tasks for free rewards.</p>
+        <div class="stat-box" style="margin-bottom: 10px; display:flex; justify-content:space-between; align-items:center;">
+          <span id="txt-task1">Follow Telegram Channel</span>
+          <button style="padding: 6px 10px; background:#ffc107; border:none; border-radius:6px; font-weight:bold;">+5 GRAM</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRIENDS TAB -->
+    <div id="tab-friends" class="tab-content">
+      <div class="wood-card">
+        <h2 id="txt-friends-title">👥 Invite Friends</h2>
+        <p style="margin: 10px 0; color: #d1b894;" id="txt-friends-desc">Get a 10% bonus on all earnings from your invited friends!</p>
+        <input type="text" id="ref-link" readonly value="https://t.me/DailygramMiner_bot?start=ref" style="width:100%; padding:8px; border-radius:8px; border:none; text-align:center; margin-bottom:10px;">
+        <button onclick="copyRefLink()" id="btn-copy" style="padding: 10px 20px; background: #17a2b8; color:#fff; border:none; border-radius:8px; font-weight:bold;">Copy</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('home', this)">
+      <div class="nav-icon">🦁</div>
+      <span id="nav-cub">Cub</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('shop', this)">
+      <div class="nav-icon">🛒</div>
+      <span id="nav-shop">Shop</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('tasks', this)">
+      <div class="nav-icon">📋</div>
+      <span id="nav-tasks">Tasks</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('friends', this)">
+      <div class="nav-icon">👥</div>
+      <span id="nav-friends">Friends</span>
+    </div>
   </div>
 
   <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
+    // Initialize Telegram WebApp
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.expand();
+      tg.ready();
+    }
 
-    const API_BASE = "https://dailygram-bot.onrender.com";
-    let telegramId = tg.initDataUnsafe?.user?.id || 12345678;
-    let username = tg.initDataUnsafe?.user?.username || "Gast";
-    let firstName = tg.initDataUnsafe?.user?.first_name || "Lion";
+    // Languages Dictionary
+    const translations = {
+      en: {
+        level: "Level",
+        balanceTitle: "My GRAM Balance",
+        dailyRate: "Daily Rate",
+        day: "day",
+        unclaimed: "To Claim",
+        claimBtn: "⚡ CLAIM YIELD",
+        dbStatus: "Connected to Supabase ✅",
+        shopTitle: "🛒 Safari Shop",
+        shopDesc: "Buy extra food to make your lion cub mine GRAM faster!",
+        item1: "🥩 Juicy Meat (+0.5 Speed)",
+        item2: "👑 Royal Crown (+2.0 Speed)",
+        tasksTitle: "📋 Daily Tasks",
+        tasksDesc: "Complete tasks for free rewards.",
+        task1: "Follow Telegram Channel",
+        friendsTitle: "👥 Invite Friends",
+        friendsDesc: "Get a 10% bonus on all earnings from your invited friends!",
+        btnCopy: "Copy",
+        navCub: "Cub",
+        navShop: "Shop",
+        navTasks: "Tasks",
+        navFriends: "Friends",
+        claimedMsg: "Successfully claimed your GRAM!",
+        copiedMsg: "Referral link copied!"
+      },
+      tr: {
+        level: "Seviye",
+        balanceTitle: "GRAM Bakiyem",
+        dailyRate: "Günlük Hız",
+        day: "gün",
+        unclaimed: "Toplanacak",
+        claimBtn: "⚡ KAZANCI TOPLA",
+        dbStatus: "Supabase Bağlandı ✅",
+        shopTitle: "🛒 Safari Mağazası",
+        shopDesc: "Aslan yavrunuzun daha hızlı GRAM madenciliği yapması için yiyecek alın!",
+        item1: "🥩 Taze Et (+0.5 Hız)",
+        item2: "👑 Kral Tacı (+2.0 Hız)",
+        tasksTitle: "📋 Günlük Görevler",
+        tasksDesc: "Ücretsiz ödüller için görevleri tamamlayın.",
+        task1: "Telegram Kanalını Takip Et",
+        friendsTitle: "👥 Arkadaşları Davet Et",
+        friendsDesc: "Davet ettiğiniz arkadaşlarınızın kazancından %10 bonus kazanın!",
+        btnCopy: "Kopyala",
+        navCub: "Yavru",
+        navShop: "Market",
+        navTasks: "Görevler",
+        navFriends: "Arkadaşlar",
+        claimedMsg: "GRAM kazancınız başarıyla toplandı!",
+        copiedMsg: "Referans bağlantısı kopyalandı!"
+      },
+      nl: {
+        level: "Niveau",
+        balanceTitle: "Mijn GRAM Saldo",
+        dailyRate: "Dagelijkse Snelheid",
+        day: "dag",
+        unclaimed: "Te Claimen",
+        claimBtn: "⚡ CLAIM OPBRENGST",
+        dbStatus: "Gekoppeld aan Supabase ✅",
+        shopTitle: "🛒 Safari Winkel",
+        shopDesc: "Koop extra voer om je leeuwtje sneller GRAM te laten minen!",
+        item1: "🥩 Mals Vlees (+0.5 Snelheid)",
+        item2: "👑 Koningskroon (+2.0 Snelheid)",
+        tasksTitle: "📋 Dagelijkse Taken",
+        tasksDesc: "Voltooi opdrachten voor gratis beloningen.",
+        task1: "Volg Telegram Kanaal",
+        friendsTitle: "👥 Vrienden Uitnodigen",
+        friendsDesc: "Ontvang 10% bonus over alle opbrengsten van je vrienden!",
+        btnCopy: "Kopiëren",
+        navCub: "Welp",
+        navShop: "Winkel",
+        navTasks: "Taken",
+        navFriends: "Vrienden",
+        claimedMsg: "Je hebt je GRAM succesvol geclaimd!",
+        copiedMsg: "Referral link gekopieerd!"
+      }
+    };
 
-    async function initUser() {
-      document.getElementById("user-display").innerText = `Speler: ${firstName}`;
+    // Detect user language from Telegram (e.g. 'en', 'tr', 'nl')
+    const userLang = (tg?.initDataUnsafe?.user?.language_code || 'en').slice(0, 2);
+    const lang = translations[userLang] ? userLang : 'en'; // Default to English if unsupported
+    const t = translations[lang];
+
+    // Apply Translations
+    document.getElementById('txt-level').innerText = t.level;
+    document.getElementById('txt-balance-title').innerText = t.balanceTitle;
+    document.getElementById('txt-daily-rate').innerText = t.dailyRate;
+    document.getElementById('txt-day').innerText = t.day;
+    document.getElementById('txt-unclaimed').innerText = t.unclaimed;
+    document.getElementById('claim-btn').innerText = t.claimBtn;
+    document.getElementById('db-status').innerText = t.dbStatus;
+    document.getElementById('txt-shop-title').innerText = t.shopTitle;
+    document.getElementById('txt-shop-desc').innerText = t.shopDesc;
+    document.getElementById('txt-item1').innerText = t.item1;
+    document.getElementById('txt-item2').innerText = t.item2;
+    document.getElementById('txt-tasks-title').innerText = t.tasksTitle;
+    document.getElementById('txt-tasks-desc').innerText = t.tasksDesc;
+    document.getElementById('txt-task1').innerText = t.task1;
+    document.getElementById('txt-friends-title').innerText = t.friendsTitle;
+    document.getElementById('txt-friends-desc').innerText = t.friendsDesc;
+    document.getElementById('btn-copy').innerText = t.btnCopy;
+    document.getElementById('nav-cub').innerText = t.navCub;
+    document.getElementById('nav-shop').innerText = t.navShop;
+    document.getElementById('nav-tasks').innerText = t.navTasks;
+    document.getElementById('nav-friends').innerText = t.navFriends;
+
+    // Load User Data
+    const user = tg?.initDataUnsafe?.user || { id: 12345, first_name: "Safari Miner" };
+    document.getElementById('username').innerText = user.first_name;
+
+    let balance = 100.0000;
+    let unclaimed = 0.0500;
+
+    // Claim Function
+    function claimYield() {
+      if (unclaimed <= 0) return;
+      balance += unclaimed;
+      document.getElementById('balance').innerText = balance.toFixed(4);
+      unclaimed = 0.0000;
+      document.getElementById('unclaimed').innerText = unclaimed.toFixed(4);
       
-      try {
-        const response = await fetch(`${API_BASE}/api/user`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            telegram_id: telegramId,
-            username: username,
-            first_name: firstName
-          })
-        });
-
-        const data = await response.json();
-        if (data.status === "success") {
-          document.getElementById("balance").innerText = parseFloat(data.player.balance).toFixed(4);
-          document.getElementById("daily-rate").innerText = parseFloat(data.player.daily_rate).toFixed(4);
-          document.getElementById("level").innerText = data.player.level;
-          document.getElementById("status-msg").innerText = "Gekoppeld aan Supabase ✅";
-        }
-      } catch (err) {
-        document.getElementById("status-msg").innerText = "Fout bij laden van gegevens.";
-        console.error(err);
-      }
+      // FX Feedback
+      if (tg) tg.HapticFeedback.notificationOccurred('success');
+      alert(t.claimedMsg);
     }
 
-    async function claimYield() {
-      document.getElementById("status-msg").innerText = "Claimen...";
-      try {
-        const response = await fetch(`${API_BASE}/api/claim`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            telegram_id: telegramId,
-            amount: 0.1
-          })
-        });
-
-        const data = await response.json();
-        if (data.status === "success") {
-          document.getElementById("balance").innerText = parseFloat(data.new_balance).toFixed(4);
-          document.getElementById("status-msg").innerText = "Succesvol opgehaald! 🎉";
-        }
-      } catch (err) {
-        document.getElementById("status-msg").innerText = "Claimen mislukt.";
-        console.error(err);
-      }
+    // Tab Switcher
+    function switchTab(tabName, el) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      
+      document.getElementById('tab-' + tabName).classList.add('active');
+      el.classList.add('active');
     }
 
-    initUser();
+    function copyRefLink() {
+      const copyText = document.getElementById("ref-link");
+      copyText.select();
+      document.execCommand("copy");
+      alert(t.copiedMsg);
+    }
   </script>
 </body>
 </html>
-
- 

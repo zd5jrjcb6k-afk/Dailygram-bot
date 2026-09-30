@@ -1,449 +1,203 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lion Miner Mini App</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* RESET & BASE STYLES */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      user-select: none;
-      -webkit-user-select: none;
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --accent-color: #f59e0b;
+      --text-color: #f8fafc;
+      --text-secondary: #94a3b8;
     }
 
     body {
-      font-family: 'Fredoka', sans-serif;
-      background: #121826;
-      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow-x: hidden;
+      box-sizing: border-box;
     }
 
-    /* TOP BAR */
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .profile-card {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .avatar {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, #f39c12, #d35400);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-
-    .level-badge {
-      background: #f1c40f;
-      color: #000;
-      font-weight: 700;
-      font-size: 12px;
-      padding: 2px 8px;
-      border-radius: 12px;
-    }
-
-    .stats-card {
-      text-align: right;
-    }
-
-    .stat-row {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 5px;
-    }
-
-    .stat-val {
-      font-size: 18px;
-      font-weight: 700;
-      color: #f1c40f;
-    }
-
-    .stat-unit {
-      font-size: 12px;
-      color: #aaa;
-    }
-
-    .stat-row.secondary {
-      font-size: 12px;
-      color: #2ecc71;
-      margin-top: 2px;
-    }
-
-    /* MAIN CONTAINER */
-    .main-container {
-      flex: 1;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .tab-content {
-      display: none;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .tab-content.active {
-      display: flex;
-    }
-
-    /* WOOD PANEL CARDS */
-    .wood-panel {
-      background: linear-gradient(180deg, #3d2314 0%, #26150b 100%);
-      border: 3px solid #8c532b;
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: inset 0 2px 5px rgba(255,255,255,0.2), 0 8px 20px rgba(0,0,0,0.5);
-    }
-
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #f39c12;
-    }
-
-    .progress-outer {
+    .container {
       width: 100%;
-      height: 14px;
-      background: #1a0d07;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid #5a351b;
-    }
-
-    .progress-inner {
-      height: 100%;
-      background: linear-gradient(90deg, #f1c40f, #2ecc71);
-      border-radius: 10px;
-      transition: width 0.3s ease;
-    }
-
-    /* MASCOT / MINING DISPLAY */
-    .mascot-display {
-      position: relative;
+      max-width: 420px;
+      padding: 20px;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 30px 0;
+      flex-direction: column;
+      gap: 16px;
+      box-sizing: border-box;
     }
 
-    .glow-effect {
-      position: absolute;
-      width: 160px;
-      height: 160px;
-      background: radial-gradient(circle, rgba(241,196,15,0.3) 0%, rgba(0,0,0,0) 70%);
-      border-radius: 50%;
-      animation: pulse 2s infinite alternate;
+    .header {
+      text-align: center;
+      padding: 10px 0;
     }
 
-    .mascot-character {
-      font-size: 110px;
-      z-index: 1;
-      cursor: pointer;
-      transition: transform 0.1s ease;
-      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      color: var(--accent-color);
     }
 
-    .mascot-character:active {
-      transform: scale(0.92);
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
-    @keyframes pulse {
-      0% { transform: scale(0.9); opacity: 0.5; }
-      100% { transform: scale(1.1); opacity: 1; }
+    .balance-title {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
     }
 
-    /* YIELD & BUTTONS */
-    .claim-panel {
+    .balance-amount {
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--accent-color);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-card {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 12px;
       text-align: center;
     }
 
-    .yield-title {
-      font-size: 14px;
-      color: #aaa;
-      margin-bottom: 4px;
+    .stat-value {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 4px;
     }
 
-    .yield-amount {
-      font-size: 24px;
-      font-weight: 700;
-      color: #2ecc71;
-      margin-bottom: 12px;
-    }
-
-    /* 3D BUTTONS */
-    .btn-3d {
-      width: 100%;
-      padding: 14px;
+    .btn {
+      background-color: var(--accent-color);
+      color: #000;
       border: none;
       border-radius: 12px;
-      font-family: 'Fredoka', sans-serif;
+      padding: 16px;
       font-size: 16px;
-      font-weight: 700;
-      color: #fff;
+      font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 5px 0 rgba(0,0,0,0.3);
-      transition: all 0.1s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      transition: transform 0.1s;
     }
 
-    .btn-3d:active {
-      transform: translateY(4px);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+    .btn:active {
+      transform: scale(0.98);
     }
 
-    .btn-green { background: #2ecc71; border-bottom: 4px solid #27ae60; }
-    .btn-blue { background: #3498db; border-bottom: 4px solid #2980b9; }
-    .btn-yellow { background: #f1c40f; color: #000; border-bottom: 4px solid #f39c12; }
-
-    /* SHOP & ITEMS */
-    .shop-item, .task-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
-
-    .shop-icon { font-size: 30px; }
-    .shop-info { flex: 1; margin-left: 12px; text-align: left; }
-    .shop-info strong, .task-info strong { display: block; font-size: 15px; }
-    .shop-info p, .task-info span { font-size: 12px; color: #aaa; }
-    .shop-item button, .task-item button { width: auto; padding: 8px 14px; font-size: 14px; }
-
-    /* BOTTOM NAV */
-    .bottom-nav {
-      display: flex;
-      justify-content: space-around;
-      background: #1a2234;
-      padding: 10px 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-item {
-      background: none;
-      border: none;
-      color: #7f8c8d;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      font-family: 'Fredoka', sans-serif;
+    .status-msg {
       font-size: 12px;
-      cursor: pointer;
-    }
-
-    .nav-item.active {
-      color: #f1c40f;
-    }
-
-    .nav-icon { font-size: 22px; }
-
-    .ref-link-box {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .ref-link-box input {
-      flex: 1;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #5a351b;
-      background: #110804;
-      color: #fff;
-      font-size: 12px;
+      color: var(--text-secondary);
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Header / Stats Bar -->
-  <div class="top-bar">
-    <div class="profile-card">
-      <div class="avatar" id="lionAvatar">🦁</div>
-      <div class="level-badge" id="playerLevelBadge">Lvl 1</div>
+  <div class="container">
+    <div class="header">
+      <h1>🦁 Lion Miner</h1>
+      <p id="user-display" style="margin: 4px 0 0 0; color: var(--text-secondary); font-size: 14px;">Laden...</p>
     </div>
-    <div class="stats-card">
-      <div class="stat-row">
-        <span class="stat-icon">🪙</span>
-        <span class="stat-val" id="totalBalance">100.0000</span>
-        <span class="stat-unit">GRAM</span>
+
+    <div class="card">
+      <div class="balance-title">Mijn Saldo</div>
+      <div class="balance-amount" id="balance">0.0000</div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="balance-title">Dagelijkse Rate</div>
+        <div class="stat-value" id="daily-rate">0.5000</div>
       </div>
-      <div class="stat-row secondary">
-        <span class="stat-icon">⚡</span>
-        <span class="stat-val" id="dailyRate">+0.500 / dag</span>
+      <div class="stat-card">
+        <div class="balance-title">Level</div>
+        <div class="stat-value" id="level">1</div>
       </div>
     </div>
+
+    <button class="btn" onclick="claimYield()">Claim Yield ⚡</button>
+    <div class="status-msg" id="status-msg">Verbinden met database...</div>
   </div>
 
-  <!-- Main Content Area -->
-  <main class="main-container">
-    
-    <!-- TAB 1: HOME / MINING -->
-    <section id="tab-home" class="tab-content active">
-      <div class="wood-panel">
-        <div class="panel-header">
-          <span id="lionStageTitle">Kleine Welp</span>
-          <span id="levelPercentText">75%</span>
-        </div>
-        <div class="progress-outer">
-          <div class="progress-inner" id="levelProgressBar" style="width: 75%;"></div>
-        </div>
-      </div>
-
-      <div class="mascot-display">
-        <div class="glow-effect"></div>
-        <div class="mascot-character" id="mascotIcon">🦁</div>
-      </div>
-
-      <div class="wood-panel claim-panel">
-        <div class="yield-title">Mijnbouw Opbrengst</div>
-        <div class="yield-amount" id="unclaimedYield">+0.0000 GRAM</div>
-        <button class="btn-3d btn-green" id="btnClaim" onclick="claimYield()">
-          <span>⚡ Claim Opbrengst</span>
-        </button>
-      </div>
-    </section>
-
-    <!-- TAB 2: SHOP / DEPOSIT -->
-    <section id="tab-shop" class="tab-content">
-      <div class="wood-panel">
-        <h2>🛒 Welpen Winkel</h2>
-        <p style="font-size:12px; color:#aaa; margin-bottom:10px;">Verhoog je niveau en mine sneller!</p>
-        
-        <div class="shop-item">
-          <div class="shop-icon">🥩</div>
-          <div class="shop-info">
-            <strong>Malse Biefstuk</strong>
-            <p>+0.2% Mining Rate</p>
-          </div>
-          <button class="btn-3d btn-blue" onclick="alert('Gekocht!')">10 GRAM</button>
-        </div>
-
-        <div class="shop-item">
-          <div class="shop-icon">👑</div>
-          <div class="shop-info">
-            <strong>Gouden Kroon</strong>
-            <p>+0.5% Mining Rate</p>
-          </div>
-          <button class="btn-3d btn-blue" onclick="alert('Gekocht!')">25 GRAM</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 3: TASKS -->
-    <section id="tab-tasks" class="tab-content">
-      <div class="wood-panel">
-        <h2>📋 Dagelijkse Taken</h2>
-        <p style="font-size:12px; color:#aaa; margin-bottom:10px;">Voltooi taken voor extra GRAM beloningen!</p>
-
-        <div class="task-item">
-          <div class="task-info">
-            <strong>Volg ons Kanaal</strong>
-            <span>+1.00 GRAM</span>
-          </div>
-          <button class="btn-3d btn-green" onclick="alert('Taak gestart!')">Start</button>
-        </div>
-
-        <div class="task-item">
-          <div class="task-info">
-            <strong>Nodig 3 Vrienden Uit</strong>
-            <span>+3.00 GRAM</span>
-          </div>
-          <button class="btn-3d btn-green" onclick="alert('Taak gestart!')">Start</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 4: FRIENDS -->
-    <section id="tab-friends" class="tab-content">
-      <div class="wood-panel">
-        <h2>👥 Vrienden Uitnodigen</h2>
-        <p style="font-size:12px; color:#aaa;">Ontvang 10% van alle opbrengsten van je vrienden!</p>
-        
-        <div class="ref-link-box">
-          <input type="text" value="https://t.me/DailygramMiner_bot?start=ref" readonly>
-          <button class="btn-3d btn-yellow" onclick="alert('Link gekopieerd!')">Kopiëren</button>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Bottom Navigation Bar -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" onclick="switchTab('home', this)">
-      <span class="nav-icon">🦁</span>
-      <span class="nav-label">Home</span>
-    </button>
-    <button class="nav-item" onclick="switchTab('shop', this)">
-      <span class="nav-icon">🛒</span>
-      <span class="nav-label">Shop</span>
-    </button>
-    <button class="nav-item" onclick="switchTab('tasks', this)">
-      <span class="nav-icon">📋</span>
-      <span class="nav-label">Tasks</span>
-    </button>
-    <button class="nav-item" onclick="switchTab('friends', this)">
-      <span class="nav-icon">👥</span>
-      <span class="nav-label">Vrienden</span>
-    </button>
-  </nav>
-
   <script>
-    function switchTab(tabId, el) {
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const API_BASE = "https://dailygram-bot.onrender.com";
+    let telegramId = tg.initDataUnsafe?.user?.id || 12345678;
+    let username = tg.initDataUnsafe?.user?.username || "Gast";
+    let firstName = tg.initDataUnsafe?.user?.first_name || "Lion";
+
+    async function initUser() {
+      document.getElementById("user-display").innerText = `Speler: ${firstName}`;
       
-      document.getElementById('tab-' + tabId).classList.add('active');
-      if (el) el.classList.add('active');
+      try {
+        const response = await fetch(`${API_BASE}/api/user`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            telegram_id: telegramId,
+            username: username,
+            first_name: firstName
+          })
+        });
+
+        const data = await response.json();
+        if (data.status === "success") {
+          document.getElementById("balance").innerText = parseFloat(data.player.balance).toFixed(4);
+          document.getElementById("daily-rate").innerText = parseFloat(data.player.daily_rate).toFixed(4);
+          document.getElementById("level").innerText = data.player.level;
+          document.getElementById("status-msg").innerText = "Gekoppeld aan Supabase ✅";
+        }
+      } catch (err) {
+        document.getElementById("status-msg").innerText = "Fout bij laden van gegevens.";
+        console.error(err);
+      }
     }
 
-    let unclaimed = 0.0000;
-    setInterval(() => {
-      unclaimed += 0.0001;
-      document.getElementById('unclaimedYield').innerText = '+' + unclaimed.toFixed(4) + ' GRAM';
-    }, 1000);
+    async function claimYield() {
+      document.getElementById("status-msg").innerText = "Claimen...";
+      try {
+        const response = await fetch(`${API_BASE}/api/claim`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            telegram_id: telegramId,
+            amount: 0.1
+          })
+        });
 
-    function claimYield() {
-      let current = parseFloat(document.getElementById('totalBalance').innerText);
-      document.getElementById('totalBalance').innerText = (current + unclaimed).toFixed(4);
-      unclaimed = 0.0000;
-      document.getElementById('unclaimedYield').innerText = '+0.0000 GRAM';
+        const data = await response.json();
+        if (data.status === "success") {
+          document.getElementById("balance").innerText = parseFloat(data.new_balance).toFixed(4);
+          document.getElementById("status-msg").innerText = "Succesvol opgehaald! 🎉";
+        }
+      } catch (err) {
+        document.getElementById("status-msg").innerText = "Claimen mislukt.";
+        console.error(err);
+      }
     }
+
+    initUser();
   </script>
 </body>
 </html>

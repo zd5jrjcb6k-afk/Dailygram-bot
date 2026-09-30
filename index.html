@@ -1,459 +1,521 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Lion Miner Mini App</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      user-select: none;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dailygram Miner - Savana Krallığı</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg-jungle: #1e3c00;
+            --card-wood: #4a2e12;
+            --card-border: #8b5a2b;
+            --btn-gold: #f39c12;
+            --btn-gold-hover: #d35400;
+            --text-light: #f1f2f6;
+            --accent-green: #2ecc71;
+        }
 
-    body {
-      background: linear-gradient(180deg, #5b8c33 0%, #2e4d16 100%);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow-x: hidden;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(180deg, #3a6073 0%, #3a7bd5 40%, #2e5618 100%);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    /* Container Styling */
-    .app-container {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-      padding-bottom: 80px;
-    }
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            padding-bottom: 80px;
+            overflow-y: auto;
+        }
 
-    /* Wood Panel UI Elements */
-    .wood-card {
-      background: #5c3818;
-      border: 4px solid #3d230d;
-      border-radius: 18px;
-      box-shadow: inset 0 2px 4px rgba(255,255,255,0.2), 0 6px 12px rgba(0,0,0,0.4);
-      width: 100%;
-      max-width: 380px;
-      padding: 14px;
-      text-align: center;
-    }
+        .tab-content {
+            display: none;
+        }
 
-    .user-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(0,0,0,0.2);
-      padding: 8px 14px;
-      border-radius: 12px;
-      font-weight: bold;
-      color: #ffe89e;
-    }
+        .tab-content.active {
+            display: block;
+        }
 
-    .balance-title {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #d1b894;
-    }
+        /* SAVANNAH & CAVE AREA */
+        .savannah-stage {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            background: linear-gradient(180deg, rgba(255,183,77,0.3) 0%, rgba(121,85,72,0.6) 100%), 
+                        url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=600&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 16px;
+            border: 3px solid var(--card-border);
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            margin-bottom: 15px;
+        }
 
-    .balance-amount {
-      font-size: 32px;
-      font-weight: 900;
-      color: #ffcc00;
-      text-shadow: 2px 2px 0 #000;
-      margin: 4px 0;
-    }
+        .cave-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.6);
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            border: 1px solid var(--card-border);
+        }
 
-    /* Moving Cub Mascot */
-    .lion-avatar-container {
-      position: relative;
-      margin: 15px 0;
-    }
+        /* WALKING ANIMATION */
+        .walking-animal {
+            position: absolute;
+            font-size: 38px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            animation: walkAround 8s infinite alternate ease-in-out;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.6));
+        }
 
-    .lion-cub {
-      font-size: 90px;
-      display: inline-block;
-      animation: pulseBreathe 3s infinite ease-in-out, bounceLight 2s infinite ease-in-out;
-      filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
-    }
+        .walking-animal:active {
+            transform: scale(1.3) rotate(-10deg);
+        }
 
-    @keyframes pulseBreathe {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-    }
+        @keyframes walkAround {
+            0% { left: 10%; top: 60%; transform: scaleX(1); }
+            30% { left: 40%; top: 40%; transform: scaleX(1); }
+            50% { left: 70%; top: 65%; transform: scaleX(-1); }
+            80% { left: 30%; top: 70%; transform: scaleX(-1); }
+            100% { left: 80%; top: 50%; transform: scaleX(1); }
+        }
 
-    @keyframes bounceLight {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
+        /* WOODEN CARDS */
+        .wood-card {
+            background: linear-gradient(145deg, #5c3a17, #3d240c);
+            border: 2px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            text-align: center;
+        }
 
-    /* Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      width: 100%;
-      max-width: 380px;
-    }
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.25);
+            padding: 8px 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
 
-    .stat-box {
-      background: #42270e;
-      border: 2px solid #281606;
-      border-radius: 12px;
-      padding: 10px;
-      text-align: center;
-    }
+        .balance-title {
+            font-size: 13px;
+            letter-spacing: 1px;
+            color: #d1ccc0;
+            text-transform: uppercase;
+        }
 
-    .stat-label {
-      font-size: 11px;
-      color: #bfa180;
-    }
+        .balance-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffda79;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            margin: 5px 0;
+        }
 
-    .stat-value {
-      font-size: 18px;
-      font-weight: bold;
-      color: #fff;
-    }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
 
-    /* Big Action Button */
-    .btn-claim {
-      background: linear-gradient(180deg, #ffb703 0%, #fb8500 100%);
-      border: 3px solid #b35900;
-      border-radius: 16px;
-      color: #fff;
-      font-size: 20px;
-      font-weight: 900;
-      padding: 16px;
-      width: 100%;
-      max-width: 380px;
-      cursor: pointer;
-      box-shadow: 0 6px 0 #804000, 0 10px 15px rgba(0,0,0,0.4);
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-      transition: all 0.1s ease;
-    }
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
 
-    .btn-claim:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #804000, 0 4px 6px rgba(0,0,0,0.4);
-    }
+        .stat-label {
+            font-size: 11px;
+            color: #aaa;
+        }
 
-    /* Bottom Navigation Bar */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 70px;
-      background: #3d230d;
-      border-top: 3px solid #5c3818;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 100;
-    }
+        .stat-val {
+            font-size: 15px;
+            font-weight: bold;
+            color: #fff;
+        }
 
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #a88a6d;
-      font-size: 11px;
-      font-weight: bold;
-      text-decoration: none;
-      cursor: pointer;
-    }
+        /* BUTTONS */
+        .btn-claim {
+            background: linear-gradient(180deg, #f1c40f 0%, #e67e22 100%);
+            border: none;
+            border-bottom: 4px solid #b7950b;
+            color: #2c3e50;
+            font-weight: 900;
+            font-size: 18px;
+            padding: 14px;
+            width: 100%;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
 
-    .nav-item.active {
-      color: #ffcc00;
-    }
+        .btn-claim:active {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+        }
 
-    .nav-icon {
-      font-size: 24px;
-      margin-bottom: 2px;
-    }
+        /* MARKET ITEMS */
+        .shop-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
 
-    /* Tab Content Pages */
-    .tab-content {
-      display: none;
-      width: 100%;
-      max-width: 380px;
-    }
+        .shop-info {
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    .tab-content.active {
-      display: block;
-    }
+        .shop-icon {
+            font-size: 32px;
+        }
 
-    .status-badge {
-      font-size: 11px;
-      background: rgba(0,255,0,0.2);
-      border: 1px solid #00ff00;
-      color: #88ff88;
-      padding: 4px 8px;
-      border-radius: 8px;
-      margin-top: 8px;
-      display: inline-block;
-    }
-  </style>
+        .btn-buy {
+            background: #2ecc71;
+            border: none;
+            color: white;
+            padding: 8px 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background: #2a1808;
+            border-top: 2px solid var(--card-border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #a4b0be;
+            font-size: 11px;
+            cursor: pointer;
+            text-decoration: none;
+            width: 20%;
+        }
+
+        .nav-item.active {
+            color: #f1c40f;
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 2px;
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background: rgba(0,0,0,0.4);
+            color: white;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="app-container">
+    <div class="container">
+        <!-- TAB 1: YAVRU (HOME) -->
+        <div id="tab-yavru" class="tab-content active">
+            <div class="wood-card" style="padding: 10px;">
+                <div class="profile-header">
+                    <span id="user-name">🦁 Aslan Lideri</span>
+                    <span id="user-level" style="color: #f1c40f;">Seviye 1</span>
+                </div>
+            </div>
 
-    <!-- HOME TAB -->
-    <div id="tab-home" class="tab-content active">
-      <div class="wood-card">
-        <div class="user-header">
-          <span>🦁 <span id="username">Loading...</span></span>
-          <span><span id="txt-level">Level</span> <span id="user-level">1</span></span>
+            <!-- SAVANNAH & CAVE AREA -->
+            <div class="savannah-stage" id="savannah-stage">
+                <div class="cave-badge" id="cave-title">🏡 Yuva: Ahşap Barınak</div>
+                <div class="walking-animal" style="animation-delay: 0s;">🦁</div>
+                <div class="walking-animal" id="extra-cub-1" style="display:none; animation-delay: -3s;">🦁</div>
+                <div class="walking-animal" id="extra-cub-2" style="display:none; animation-delay: -5s;">🐗</div>
+            </div>
+
+            <div class="wood-card">
+                <div class="balance-title">GRAM BAKIYEM</div>
+                <div class="balance-value" id="balance">0.0000</div>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-label">Günlük Hız</div>
+                        <div class="stat-val" id="daily-rate">0.0001 / gün</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Toplanacak</div>
+                        <div class="stat-val" id="unclaimed">0.00000</div>
+                    </div>
+                </div>
+
+                <button class="btn-claim" onclick="claimEarnings()">⚡ KAZANCI TOPLA</button>
+            </div>
         </div>
-        
-        <div class="lion-avatar-container">
-          <div class="lion-cub">🦁</div>
+
+        <!-- TAB 2: MARKET (HAYVANLAR VE YUVALAR) -->
+        <div id="tab-market" class="tab-content">
+            <div class="wood-card">
+                <h2>🛒 Savana Mağazası</h2>
+                <p style="font-size:12px; color:#ccc;">Sürünüze yeni hayvanlar ve mağaralar ekleyerek günlük hızı artırın!</p>
+                
+                <div class="shop-item">
+                    <div class="shop-info">
+                        <span class="shop-icon">🦁</span>
+                        <div>
+                            <div><b>Küçük Yavru</b></div>
+                            <div style="font-size:11px; color:#2ecc71;">+0.0005 GRAM/gün</div>
+                        </div>
+                    </div>
+                    <button class="btn-buy" onclick="buyPet('yavru', 10, 0.0005)">10 GRAM</button>
+                </div>
+
+                <div class="shop-item">
+                    <div class="shop-info">
+                        <span class="shop-icon">🐗</span>
+                        <div>
+                            <div><b>Savana Arkadaşı</b></div>
+                            <div style="font-size:11px; color:#2ecc71;">+0.0025 GRAM/gün</div>
+                        </div>
+                    </div>
+                    <button class="btn-buy" onclick="buyPet('arkadas', 50, 0.0025)">50 GRAM</button>
+                </div>
+
+                <div class="shop-item">
+                    <div class="shop-info">
+                        <span class="shop-icon">🏕️</span>
+                        <div>
+                            <div><b>Büyük Kaya Mağarası</b></div>
+                            <div style="font-size:11px; color:#f1c40f;">+0.0100 GRAM/gün</div>
+                        </div>
+                    </div>
+                    <button class="btn-buy" style="background:#e67e22;" onclick="buyCave('Kaya Mağarası', 200, 0.0100)">200 GRAM</button>
+                </div>
+            </div>
         </div>
 
-        <div class="balance-title" id="txt-balance-title">My GRAM Balance</div>
-        <div class="balance-amount" id="balance">0.0000</div>
-      </div>
-
-      <div class="stats-grid" style="margin-top: 10px;">
-        <div class="stat-box">
-          <div class="stat-label" id="txt-daily-rate">Daily Rate</div>
-          <div class="stat-value"><span id="rate-val">0.5000</span> / <span id="txt-day">day</span></div>
+        <!-- TAB 3: GÖREVLER -->
+        <div id="tab-gorevler" class="tab-content">
+            <div class="wood-card">
+                <h2>📋 Günlük Görevler</h2>
+                <p style="font-size:12px; color:#ccc;">Ücretsiz GRAM kazanmak için görevleri tamamlayın.</p>
+                
+                <div class="shop-item">
+                    <div class="shop-info">
+                        <span class="shop-icon">📢</span>
+                        <div>
+                            <div><b>Telegram Kanalı</b></div>
+                            <div style="font-size:11px; color:#f1c40f;">+1.00 GRAM</div>
+                        </div>
+                    </div>
+                    <button class="btn-buy" style="background:#f39c12;" onclick="window.open('https://t.me/DailygramMiner_bot')">Katıl</button>
+                </div>
+            </div>
         </div>
-        <div class="stat-box">
-          <div class="stat-label" id="txt-unclaimed">To Claim</div>
-          <div class="stat-value" id="unclaimed">0.0250</div>
+
+        <!-- TAB 4: ARKADAŞLAR -->
+        <div id="tab-arkadaslar" class="tab-content">
+            <div class="wood-card">
+                <h2>👥 Arkadaşları Davet Et</h2>
+                <p style="font-size:12px; color:#ccc;">Davet ettiğiniz arkadaşlarınızın kazancından %10 bonus kazanın!</p>
+                <input type="text" readonly value="https://t.me/DailygramMiner_bot?start=ref" id="ref-link">
+                <button class="btn-claim" style="font-size:14px; padding:10px;" onclick="copyRef()">Kopyala</button>
+            </div>
         </div>
-      </div>
 
-      <button class="btn-claim" id="claim-btn" onclick="claimYield()" style="margin-top: 15px;">
-        ⚡ CLAIM YIELD
-      </button>
+        <!-- TAB 5: CÜZDAN (WITHDRAW & TON WALLET) -->
+        <div id="tab-cuzdan" class="tab-content">
+            <div class="wood-card">
+                <h2>👛 Cüzdan & Para Çekme</h2>
+                <p style="font-size:12px; color:#ccc;">TON Wallet adresinizi bağlayın ve biriken GRAM'larınızı çekin.</p>
+                
+                <div style="margin: 20px 0;">
+                    <label style="font-size:12px; display:block; margin-bottom:5px;">TON Wallet Adresi:</label>
+                    <input type="text" id="wallet-address" placeholder="EQD... (TON Adresiniz)">
+                    <button class="btn-buy" style="width:100%; padding:10px;" onclick="saveWallet()">Cüzdanı Kaydet</button>
+                </div>
 
-      <div style="text-align:center;">
-        <span class="status-badge" id="db-status">Connected to Supabase ✅</span>
-      </div>
-    </div>
+                <hr style="border:0.5px solid var(--card-border); margin:20px 0;">
 
-    <!-- SHOP TAB -->
-    <div id="tab-shop" class="tab-content">
-      <div class="wood-card">
-        <h2 id="txt-shop-title">🛒 Safari Shop</h2>
-        <p style="margin: 15px 0; color: #d1b894;" id="txt-shop-desc">Buy extra food to make your lion cub mine GRAM faster!</p>
-        <div class="stat-box" style="margin-bottom: 10px;">
-          <div id="txt-item1">🥩 Juicy Meat (+0.5 Speed)</div>
-          <button style="margin-top:5px; padding: 6px 12px; background: #28a745; color:#fff; border:none; border-radius:6px;">10 GRAM</button>
+                <div>
+                    <div style="font-size:12px; color:#aaa;">Minimum Çekim: <b>10.00 GRAM</b></div>
+                    <button class="btn-claim" style="background: #e74c3c; border-color:#c0392b;" onclick="requestWithdraw()">PARA ÇEK (WITHDRAW)</button>
+                </div>
+            </div>
         </div>
-        <div class="stat-box">
-          <div id="txt-item2">👑 Royal Crown (+2.0 Speed)</div>
-          <button style="margin-top:5px; padding: 6px 12px; background: #28a745; color:#fff; border:none; border-radius:6px;">25 GRAM</button>
+    </div>
+
+    <!-- BOTTOM NAVIGATION BAR -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('yavru', this)">
+            <span class="nav-icon">🦁</span>
+            <span>Yavru</span>
         </div>
-      </div>
-    </div>
-
-    <!-- TASKS TAB -->
-    <div id="tab-tasks" class="tab-content">
-      <div class="wood-card">
-        <h2 id="txt-tasks-title">📋 Daily Tasks</h2>
-        <p style="margin: 15px 0; color: #d1b894;" id="txt-tasks-desc">Complete tasks for free rewards.</p>
-        <div class="stat-box" style="margin-bottom: 10px; display:flex; justify-content:space-between; align-items:center;">
-          <span id="txt-task1">Follow Telegram Channel</span>
-          <button style="padding: 6px 10px; background:#ffc107; border:none; border-radius:6px; font-weight:bold;">+5 GRAM</button>
+        <div class="nav-item" onclick="switchTab('market', this)">
+            <span class="nav-icon">🛒</span>
+            <span>Market</span>
         </div>
-      </div>
+        <div class="nav-item" onclick="switchTab('gorevler', this)">
+            <span class="nav-icon">📋</span>
+            <span>Görevler</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('arkadaslar', this)">
+            <span class="nav-icon">👥</span>
+            <span>Arkadaşlar</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('cuzdan', this)">
+            <span class="nav-icon">👛</span>
+            <span>Cüzdan</span>
+        </div>
     </div>
 
-    <!-- FRIENDS TAB -->
-    <div id="tab-friends" class="tab-content">
-      <div class="wood-card">
-        <h2 id="txt-friends-title">👥 Invite Friends</h2>
-        <p style="margin: 10px 0; color: #d1b894;" id="txt-friends-desc">Get a 10% bonus on all earnings from your invited friends!</p>
-        <input type="text" id="ref-link" readonly value="https://t.me/DailygramMiner_bot?start=ref" style="width:100%; padding:8px; border-radius:8px; border:none; text-align:center; margin-bottom:10px;">
-        <button onclick="copyRefLink()" id="btn-copy" style="padding: 10px 20px; background: #17a2b8; color:#fff; border:none; border-radius:8px; font-weight:bold;">Copy</button>
-      </div>
-    </div>
+    <script>
+        const tg = window.Telegram ? window.Telegram.WebApp : null;
+        if(tg) tg.expand();
 
-  </div>
+        let userData = {
+            balance: 0.0000,
+            dailyRate: 0.0001,
+            unclaimed: 0.0000,
+            lastUpdate: Date.now(),
+            wallet: ''
+        };
 
-  <!-- Bottom Nav -->
-  <div class="bottom-nav">
-    <div class="nav-item active" onclick="switchTab('home', this)">
-      <div class="nav-icon">🦁</div>
-      <span id="nav-cub">Cub</span>
-    </div>
-    <div class="nav-item" onclick="switchTab('shop', this)">
-      <div class="nav-icon">🛒</div>
-      <span id="nav-shop">Shop</span>
-    </div>
-    <div class="nav-item" onclick="switchTab('tasks', this)">
-      <div class="nav-icon">📋</div>
-      <span id="nav-tasks">Tasks</span>
-    </div>
-    <div class="nav-item" onclick="switchTab('friends', this)">
-      <div class="nav-icon">👥</div>
-      <span id="nav-friends">Friends</span>
-    </div>
-  </div>
+        if(tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            document.getElementById('user-name').innerText = '🦁 ' + tg.initDataUnsafe.user.first_name;
+        }
 
-  <script>
-    // Initialize Telegram WebApp
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.expand();
-      tg.ready();
-    }
+        function switchTab(tabName, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabName).classList.add('active');
+            el.classList.add('active');
+        }
 
-    // Languages Dictionary
-    const translations = {
-      en: {
-        level: "Level",
-        balanceTitle: "My GRAM Balance",
-        dailyRate: "Daily Rate",
-        day: "day",
-        unclaimed: "To Claim",
-        claimBtn: "⚡ CLAIM YIELD",
-        dbStatus: "Connected to Supabase ✅",
-        shopTitle: "🛒 Safari Shop",
-        shopDesc: "Buy extra food to make your lion cub mine GRAM faster!",
-        item1: "🥩 Juicy Meat (+0.5 Speed)",
-        item2: "👑 Royal Crown (+2.0 Speed)",
-        tasksTitle: "📋 Daily Tasks",
-        tasksDesc: "Complete tasks for free rewards.",
-        task1: "Follow Telegram Channel",
-        friendsTitle: "👥 Invite Friends",
-        friendsDesc: "Get a 10% bonus on all earnings from your invited friends!",
-        btnCopy: "Copy",
-        navCub: "Cub",
-        navShop: "Shop",
-        navTasks: "Tasks",
-        navFriends: "Friends",
-        claimedMsg: "Successfully claimed your GRAM!",
-        copiedMsg: "Referral link copied!"
-      },
-      tr: {
-        level: "Seviye",
-        balanceTitle: "GRAM Bakiyem",
-        dailyRate: "Günlük Hız",
-        day: "gün",
-        unclaimed: "Toplanacak",
-        claimBtn: "⚡ KAZANCI TOPLA",
-        dbStatus: "Supabase Bağlandı ✅",
-        shopTitle: "🛒 Safari Mağazası",
-        shopDesc: "Aslan yavrunuzun daha hızlı GRAM madenciliği yapması için yiyecek alın!",
-        item1: "🥩 Taze Et (+0.5 Hız)",
-        item2: "👑 Kral Tacı (+2.0 Hız)",
-        tasksTitle: "📋 Günlük Görevler",
-        tasksDesc: "Ücretsiz ödüller için görevleri tamamlayın.",
-        task1: "Telegram Kanalını Takip Et",
-        friendsTitle: "👥 Arkadaşları Davet Et",
-        friendsDesc: "Davet ettiğiniz arkadaşlarınızın kazancından %10 bonus kazanın!",
-        btnCopy: "Kopyala",
-        navCub: "Yavru",
-        navShop: "Market",
-        navTasks: "Görevler",
-        navFriends: "Arkadaşlar",
-        claimedMsg: "GRAM kazancınız başarıyla toplandı!",
-        copiedMsg: "Referans bağlantısı kopyalandı!"
-      },
-      nl: {
-        level: "Niveau",
-        balanceTitle: "Mijn GRAM Saldo",
-        dailyRate: "Dagelijkse Snelheid",
-        day: "dag",
-        unclaimed: "Te Claimen",
-        claimBtn: "⚡ CLAIM OPBRENGST",
-        dbStatus: "Gekoppeld aan Supabase ✅",
-        shopTitle: "🛒 Safari Winkel",
-        shopDesc: "Koop extra voer om je leeuwtje sneller GRAM te laten minen!",
-        item1: "🥩 Mals Vlees (+0.5 Snelheid)",
-        item2: "👑 Koningskroon (+2.0 Snelheid)",
-        tasksTitle: "📋 Dagelijkse Taken",
-        tasksDesc: "Voltooi opdrachten voor gratis beloningen.",
-        task1: "Volg Telegram Kanaal",
-        friendsTitle: "👥 Vrienden Uitnodigen",
-        friendsDesc: "Ontvang 10% bonus over alle opbrengsten van je vrienden!",
-        btnCopy: "Kopiëren",
-        navCub: "Welp",
-        navShop: "Winkel",
-        navTasks: "Taken",
-        navFriends: "Vrienden",
-        claimedMsg: "Je hebt je GRAM succesvol geclaimd!",
-        copiedMsg: "Referral link gekopieerd!"
-      }
-    };
+        setInterval(() => {
+            let now = Date.now();
+            let diffInSeconds = (now - userData.lastUpdate) / 1000;
+            let earnedPerSecond = (userData.dailyRate) / 86400;
+            
+            userData.unclaimed += earnedPerSecond * diffInSeconds;
+            userData.lastUpdate = now;
 
-    // Detect user language from Telegram (e.g. 'en', 'tr', 'nl')
-    const userLang = (tg?.initDataUnsafe?.user?.language_code || 'en').slice(0, 2);
-    const lang = translations[userLang] ? userLang : 'en'; // Default to English if unsupported
-    const t = translations[lang];
+            document.getElementById('unclaimed').innerText = userData.unclaimed.toFixed(5);
+            document.getElementById('balance').innerText = userData.balance.toFixed(4);
+            document.getElementById('daily-rate').innerText = userData.dailyRate.toFixed(4) + ' / gün';
+        }, 1000);
 
-    // Apply Translations
-    document.getElementById('txt-level').innerText = t.level;
-    document.getElementById('txt-balance-title').innerText = t.balanceTitle;
-    document.getElementById('txt-daily-rate').innerText = t.dailyRate;
-    document.getElementById('txt-day').innerText = t.day;
-    document.getElementById('txt-unclaimed').innerText = t.unclaimed;
-    document.getElementById('claim-btn').innerText = t.claimBtn;
-    document.getElementById('db-status').innerText = t.dbStatus;
-    document.getElementById('txt-shop-title').innerText = t.shopTitle;
-    document.getElementById('txt-shop-desc').innerText = t.shopDesc;
-    document.getElementById('txt-item1').innerText = t.item1;
-    document.getElementById('txt-item2').innerText = t.item2;
-    document.getElementById('txt-tasks-title').innerText = t.tasksTitle;
-    document.getElementById('txt-tasks-desc').innerText = t.tasksDesc;
-    document.getElementById('txt-task1').innerText = t.task1;
-    document.getElementById('txt-friends-title').innerText = t.friendsTitle;
-    document.getElementById('txt-friends-desc').innerText = t.friendsDesc;
-    document.getElementById('btn-copy').innerText = t.btnCopy;
-    document.getElementById('nav-cub').innerText = t.navCub;
-    document.getElementById('nav-shop').innerText = t.navShop;
-    document.getElementById('nav-tasks').innerText = t.navTasks;
-    document.getElementById('nav-friends').innerText = t.navFriends;
+        function claimEarnings() {
+            if(userData.unclaimed <= 0) return;
+            userData.balance += userData.unclaimed;
+            userData.unclaimed = 0;
+            document.getElementById('balance').innerText = userData.balance.toFixed(4);
+            document.getElementById('unclaimed').innerText = '0.00000';
+            if(tg) tg.HapticFeedback.notificationOccurred('success');
+            alert('Kazançlar başarıyla toplandı!');
+        }
 
-    // Load User Data
-    const user = tg?.initDataUnsafe?.user || { id: 12345, first_name: "Safari Miner" };
-    document.getElementById('username').innerText = user.first_name;
+        function buyPet(name, cost, rateBonus) {
+            if(userData.balance < cost) {
+                alert('Yetersiz Bakiye! En az ' + cost + ' GRAM gerekiyor.');
+                return;
+            }
+            userData.balance -= cost;
+            userData.dailyRate += rateBonus;
+            
+            if(name === 'yavru') document.getElementById('extra-cub-1').style.display = 'block';
+            if(name === 'arkadas') document.getElementById('extra-cub-2').style.display = 'block';
 
-    let balance = 100.0000;
-    let unclaimed = 0.0500;
+            alert('Tebrikler! Sürünüze yeni bir hayvan katıldı!');
+        }
 
-    // Claim Function
-    function claimYield() {
-      if (unclaimed <= 0) return;
-      balance += unclaimed;
-      document.getElementById('balance').innerText = balance.toFixed(4);
-      unclaimed = 0.0000;
-      document.getElementById('unclaimed').innerText = unclaimed.toFixed(4);
-      
-      // FX Feedback
-      if (tg) tg.HapticFeedback.notificationOccurred('success');
-      alert(t.claimedMsg);
-    }
+        function buyCave(caveName, cost, rateBonus) {
+            if(userData.balance < cost) {
+                alert('Yetersiz Bakiye! En az ' + cost + ' GRAM gerekiyor.');
+                return;
+            }
+            userData.balance -= cost;
+            userData.dailyRate += rateBonus;
+            
+            document.getElementById('cave-title').innerText = '🏔️ Yuva: ' + caveName;
+            alert('Tebrikler! Yeni ' + caveName + ' satın alındı!');
+        }
 
-    // Tab Switcher
-    function switchTab(tabName, el) {
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-      
-      document.getElementById('tab-' + tabName).classList.add('active');
-      el.classList.add('active');
-    }
+        function saveWallet() {
+            let addr = document.getElementById('wallet-address').value;
+            if(!addr || addr.length < 10) {
+                alert('Lütfen geçerli bir TON adresi girin!');
+                return;
+            }
+            userData.wallet = addr;
+            alert('Cüzdan adresiniz kaydedildi: ' + addr);
+        }
 
-    function copyRefLink() {
-      const copyText = document.getElementById("ref-link");
-      copyText.select();
-      document.execCommand("copy");
-      alert(t.copiedMsg);
-    }
-  </script>
+        function requestWithdraw() {
+            if(userData.balance < 10.0) {
+                alert('Çekim yapabilmek için en az 10.00 GRAM bakiyeniz olmalıdır!');
+                return;
+            }
+            if(!userData.wallet) {
+                alert('Lütfen önce Cüzdan adresinizi kaydedin!');
+                return;
+            }
+            alert('Çekim talebiniz alındı! Adres: ' + userData.wallet);
+        }
+
+        function copyRef() {
+            let copyText = document.getElementById("ref-link");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Referans linki kopyalandı!");
+        }
+    </script>
 </body>
 </html>

@@ -30,7 +30,7 @@ class ClaimRequest(BaseModel):
 
 @app.get("/")
 def read_root():
-    return {"status": "Lion Miner API is online!"}
+    return {"status": "Savana Kingdom API is online!"}
 
 @app.post("/api/user")
 def get_or_create_user(user: UserLogin):

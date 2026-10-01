@@ -1,147 +1,188 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Savana Kingdom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Dailygram Miner</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #121212;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #0b1a28;
       color: #ffffff;
       display: flex;
       justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
     .app-container {
       width: 100%;
       max-width: 480px;
       min-height: 100vh;
-      background: #1a1a1a;
+      background: linear-gradient(180deg, #1d5276 0%, #0d2334 100%);
       display: flex;
       flex-direction: column;
+      padding: 12px;
+      padding-bottom: 90px;
     }
 
-    /* Savanne Speelveld met Achtergrond */
-    .game-viewport {
+    /* Savanne Speelveld Card */
+    .game-card {
       position: relative;
       width: 100%;
-      height: 290px;
+      height: 250px;
       background: url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
+      border: 3px solid #ff9900;
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: inset 0 -40px 50px rgba(0,0,0,0.6);
-      padding-top: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      margin-bottom: 15px;
     }
 
-    /* Schuilplaats Badge */
+    /* Yuva / Shelter Badge */
     .shelter-badge {
       position: absolute;
-      top: 15px;
-      left: 15px;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
+      top: 12px;
+      left: 12px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 0.85rem;
       border: 1px solid rgba(255, 215, 0, 0.4);
-      z-index: 10;
-      color: #ffd700;
+      color: #fff;
     }
 
-    /* Geanimeerde Baby Welp (Ingebouwde Vector / SVG) */
+    /* Leeuwenkop / Welp op het speelveld */
     .lion-cub {
       position: absolute;
-      bottom: 25px;
-      left: 10%;
-      width: 95px;
-      height: 95px;
-      animation: walkAround 10s infinite alternate ease-in-out;
-      filter: drop-shadow(0px 8px 6px rgba(0,0,0,0.6));
-    }
-
-    .lion-cub svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Welp Wandel Animatie */
-    @keyframes walkAround {
-      0% { transform: translateX(0px) scaleX(1); }
-      45% { transform: translateX(190px) scaleX(1); }
-      50% { transform: translateX(190px) scaleX(-1); } /* Draai om */
-      95% { transform: translateX(10px) scaleX(-1); }
-      100% { transform: translateX(10px) scaleX(1); }
-    }
-
-    /* Statistieken & Saldo Panel */
-    .dashboard {
-      padding: 20px;
+      bottom: 40px;
+      right: 40px;
+      width: 60px;
+      height: 60px;
+      font-size: 3.2rem;
       display: flex;
-      flex-direction: column;
-      gap: 15px;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0px 6px 8px rgba(0,0,0,0.6));
+      animation: bounce 2s infinite ease-in-out;
+      cursor: pointer;
     }
 
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Bakiye Card */
     .balance-card {
-      background: #241b14;
-      border: 1px solid #3d2c1e;
-      border-radius: 16px;
+      background: rgba(28, 18, 10, 0.85);
+      border: 2px solid #5a3d24;
+      border-radius: 20px;
       padding: 20px;
       text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
 
     .balance-title {
-      color: #a08a75;
+      color: #bfa38a;
       font-size: 0.85rem;
-      letter-spacing: 1px;
-      margin-bottom: 5px;
+      letter-spacing: 1.5px;
+      font-weight: bold;
+      margin-bottom: 6px;
     }
 
     .balance-amount {
-      font-size: 2.2rem;
-      font-weight: bold;
+      font-size: 2.4rem;
+      font-weight: 800;
       color: #ffd700;
       margin-bottom: 15px;
+      text-shadow: 0 2px 10px rgba(255,215,0,0.3);
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 15px;
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
     .stat-box {
-      background: rgba(0,0,0,0.25);
+      background: rgba(0, 0, 0, 0.35);
       padding: 12px;
-      border-radius: 10px;
-      font-size: 0.8rem;
-      color: #ccc;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .stat-label {
+      color: #aaa;
+      font-size: 0.75rem;
+      margin-bottom: 4px;
     }
 
     .stat-value {
       font-weight: bold;
       color: #fff;
-      margin-top: 4px;
+      font-size: 0.95rem;
     }
 
+    /* Kazancı Topla Buton */
     .btn-claim {
       width: 100%;
       background: linear-gradient(135deg, #ffb700, #ff8800);
       border: none;
       padding: 16px;
-      border-radius: 12px;
+      border-radius: 14px;
       color: #000;
-      font-weight: bold;
+      font-weight: 800;
       font-size: 1.1rem;
+      letter-spacing: 0.5px;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(255, 136, 0, 0.4);
-      transition: transform 0.1s;
+      box-shadow: 0 5px 18px rgba(255, 136, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .btn-claim:active {
       transform: scale(0.98);
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: #180f08;
+      border-top: 2px solid #3d2716;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 15px 0;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #8a7a6e;
+      font-size: 0.75rem;
+      text-decoration: none;
+      cursor: pointer;
+      gap: 4px;
+    }
+
+    .nav-item.active {
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    .nav-icon {
+      font-size: 1.4rem;
     }
   </style>
 </head>
@@ -149,67 +190,59 @@
 
   <div class="app-container">
     <!-- Savanne Speelveld -->
-    <div class="game-viewport">
-      <div class="shelter-badge">🏡 Schuilplaats: Houten Hut (Lvl 1)</div>
-      
-      <!-- Geanimeerde Leeuwenwelp (SVG) -->
-      <div class="lion-cub" id="lionCub">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <!-- Oren -->
-          <circle cx="65" cy="60" r="22" fill="#d9822b" />
-          <circle cx="65" cy="60" r="13" fill="#fce2b6" />
-          <circle cx="135" cy="60" r="22" fill="#d9822b" />
-          <circle cx="135" cy="60" r="13" fill="#fce2b6" />
-          <!-- Lichaam -->
-          <ellipse cx="100" cy="145" rx="45" ry="40" fill="#e29135" />
-          <!-- Buik -->
-          <ellipse cx="100" cy="148" rx="28" ry="25" fill="#fce2b6" />
-          <!-- Kop -->
-          <circle cx="100" cy="90" r="48" fill="#e29135" />
-          <ellipse cx="100" cy="102" rx="25" ry="18" fill="#fce2b6" />
-          <!-- Ogen -->
-          <circle cx="82" cy="80" r="8" fill="#333" />
-          <circle cx="80" cy="78" r="3" fill="#fff" />
-          <circle cx="118" cy="80" r="8" fill="#333" />
-          <circle cx="116" cy="78" r="3" fill="#fff" />
-          <!-- Neus & Mond -->
-          <polygon points="94,96 106,96 100,104" fill="#a04030" />
-          <path d="M 94 108 Q 100 114 106 108" stroke="#555" stroke-width="2.5" fill="none" stroke-linecap="round" />
-          <!-- Pootjes -->
-          <ellipse cx="78" cy="178" rx="14" ry="10" fill="#d9822b" />
-          <ellipse cx="122" cy="178" rx="14" ry="10" fill="#d9822b" />
-          <!-- Staart -->
-          <path d="M 140 155 Q 170 140 165 115" stroke="#e29135" stroke-width="8" fill="none" stroke-linecap="round" />
-          <circle cx="165" cy="115" r="8" fill="#8b4513" />
-        </svg>
-      </div>
+    <div class="game-card">
+      <div class="shelter-badge">🏡 Yuva: Ahşap Barınak</div>
+      <!-- Leeuwenkopje -->
+      <div class="lion-cub" id="lionCub">🦁</div>
     </div>
 
-    <!-- Dashboard -->
-    <div class="dashboard">
-      <div class="balance-card">
-        <div class="balance-title">SAVANA SALDO</div>
-        <div class="balance-amount" id="balance">0.0000</div>
+    <!-- Bakiye Panel -->
+    <div class="balance-card">
+      <div class="balance-title">GRAM BAKIYEM</div>
+      <div class="balance-amount" id="balance">0.0000</div>
 
-        <div class="stats-grid">
-          <div class="stat-box">
-            <div>Snelheid / dag</div>
-            <div class="stat-value" id="rate">0.5000 / dag</div>
-          </div>
-          <div class="stat-box">
-            <div>Te verzamelen</div>
-            <div class="stat-value" id="unclaimed">0.0000</div>
-          </div>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-label">Günlük Hız</div>
+          <div class="stat-value" id="rate">0.0001 / gün</div>
         </div>
-
-        <button class="btn-claim" onclick="claimEarnings()">⚡ OPBRENGST VERZAMELEN</button>
+        <div class="stat-box">
+          <div class="stat-label">Toplanacak</div>
+          <div class="stat-value" id="unclaimed">0.0000</div>
+        </div>
       </div>
+
+      <button class="btn-claim" onclick="claimEarnings()">⚡ KAZANCI TOPLA</button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <div class="nav-item active">
+      <div class="nav-icon">🦁</div>
+      <div>Yavru</div>
+    </div>
+    <div class="nav-item" onclick="alert('Market pek yakında!')">
+      <div class="nav-icon">🛒</div>
+      <div>Market</div>
+    </div>
+    <div class="nav-item" onclick="alert('Görevler pek yakında!')">
+      <div class="nav-icon">📋</div>
+      <div>Görevler</div>
+    </div>
+    <div class="nav-item" onclick="alert('Arkadaşlarınızı davet edin!')">
+      <div class="nav-icon">👥</div>
+      <div>Arkadaşlar</div>
+    </div>
+    <div class="nav-item" onclick="alert('Cüzdan bağlama çok yakında!')">
+      <div class="nav-icon">👛</div>
+      <div>Cüzdan</div>
     </div>
   </div>
 
   <script>
     function claimEarnings() {
-      alert("Opbrengst succesvol verzameld!");
+      alert("Kazanç başarıyla toplandı!");
     }
   </script>
 </body>

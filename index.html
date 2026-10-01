@@ -26,12 +26,13 @@
     .game-viewport {
       position: relative;
       width: 100%;
-      height: 280px;
+      height: 290px;
       background: url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
       overflow: hidden;
       box-shadow: inset 0 -40px 50px rgba(0,0,0,0.6);
+      padding-top: 15px;
     }
 
     /* Schuilplaats Badge */
@@ -39,39 +40,42 @@
       position: absolute;
       top: 15px;
       left: 15px;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 0.85rem;
-      border: 1px solid rgba(255, 215, 0, 0.3);
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      z-index: 10;
+      color: #ffd700;
     }
 
-    /* Geanimeerde Baby Welp met Transparante PNG */
+    /* Geanimeerde Baby Welp (Ingebouwde Vector / SVG) */
     .lion-cub {
       position: absolute;
-      bottom: 20px;
+      bottom: 25px;
       left: 10%;
-      width: 90px;
-      height: 90px;
-      background-image: url('https://png.pngtree.com/png-clipart/20230508/original/pngtree-cute-little-lion-cub-png-image_9151590.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      animation: walkAround 12s infinite alternate ease-in-out;
-      filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.5));
+      width: 95px;
+      height: 95px;
+      animation: walkAround 10s infinite alternate ease-in-out;
+      filter: drop-shadow(0px 8px 6px rgba(0,0,0,0.6));
+    }
+
+    .lion-cub svg {
+      width: 100%;
+      height: 100%;
     }
 
     /* Welp Wandel Animatie */
     @keyframes walkAround {
       0% { transform: translateX(0px) scaleX(1); }
-      45% { transform: translateX(200px) scaleX(1); }
-      50% { transform: translateX(200px) scaleX(-1); } /* Draai om */
+      45% { transform: translateX(190px) scaleX(1); }
+      50% { transform: translateX(190px) scaleX(-1); } /* Draai om */
       95% { transform: translateX(10px) scaleX(-1); }
       100% { transform: translateX(10px) scaleX(1); }
     }
 
-    /* Statistieken & Bakiye Panel */
+    /* Statistieken & Saldo Panel */
     .dashboard {
       padding: 20px;
       display: flex;
@@ -109,8 +113,8 @@
     }
 
     .stat-box {
-      background: rgba(0,0,0,0.2);
-      padding: 10px;
+      background: rgba(0,0,0,0.25);
+      padding: 12px;
       border-radius: 10px;
       font-size: 0.8rem;
       color: #ccc;
@@ -147,8 +151,38 @@
     <!-- Savanne Speelveld -->
     <div class="game-viewport">
       <div class="shelter-badge">🏡 Schuilplaats: Houten Hut (Lvl 1)</div>
-      <!-- De lophouding / eten van de welp -->
-      <div class="lion-cub" id="lionCub"></div>
+      
+      <!-- Geanimeerde Leeuwenwelp (SVG) -->
+      <div class="lion-cub" id="lionCub">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Oren -->
+          <circle cx="65" cy="60" r="22" fill="#d9822b" />
+          <circle cx="65" cy="60" r="13" fill="#fce2b6" />
+          <circle cx="135" cy="60" r="22" fill="#d9822b" />
+          <circle cx="135" cy="60" r="13" fill="#fce2b6" />
+          <!-- Lichaam -->
+          <ellipse cx="100" cy="145" rx="45" ry="40" fill="#e29135" />
+          <!-- Buik -->
+          <ellipse cx="100" cy="148" rx="28" ry="25" fill="#fce2b6" />
+          <!-- Kop -->
+          <circle cx="100" cy="90" r="48" fill="#e29135" />
+          <ellipse cx="100" cy="102" rx="25" ry="18" fill="#fce2b6" />
+          <!-- Ogen -->
+          <circle cx="82" cy="80" r="8" fill="#333" />
+          <circle cx="80" cy="78" r="3" fill="#fff" />
+          <circle cx="118" cy="80" r="8" fill="#333" />
+          <circle cx="116" cy="78" r="3" fill="#fff" />
+          <!-- Neus & Mond -->
+          <polygon points="94,96 106,96 100,104" fill="#a04030" />
+          <path d="M 94 108 Q 100 114 106 108" stroke="#555" stroke-width="2.5" fill="none" stroke-linecap="round" />
+          <!-- Pootjes -->
+          <ellipse cx="78" cy="178" rx="14" ry="10" fill="#d9822b" />
+          <ellipse cx="122" cy="178" rx="14" ry="10" fill="#d9822b" />
+          <!-- Staart -->
+          <path d="M 140 155 Q 170 140 165 115" stroke="#e29135" stroke-width="8" fill="none" stroke-linecap="round" />
+          <circle cx="165" cy="115" r="8" fill="#8b4513" />
+        </svg>
+      </div>
     </div>
 
     <!-- Dashboard -->

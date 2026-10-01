@@ -7,8 +7,8 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Segoe UI', Roboto, sans-serif;
-      background-color: #0d0d0d;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
       color: #ffffff;
       display: flex;
       justify-content: center;
@@ -17,7 +17,7 @@
       width: 100%;
       max-width: 480px;
       min-height: 100vh;
-      background: #181411;
+      background: #1a1a1a;
       display: flex;
       flex-direction: column;
     }
@@ -26,69 +26,52 @@
     .game-viewport {
       position: relative;
       width: 100%;
-      height: 320px;
+      height: 280px;
       background: url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-      border-bottom-left-radius: 24px;
-      border-bottom-right-radius: 24px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
       overflow: hidden;
-      box-shadow: inset 0 -50px 40px rgba(0,0,0,0.7);
+      box-shadow: inset 0 -40px 50px rgba(0,0,0,0.6);
     }
 
+    /* Schuilplaats Badge */
     .shelter-badge {
       position: absolute;
       top: 15px;
       left: 15px;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(8px);
-      padding: 8px 16px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+      padding: 6px 14px;
       border-radius: 20px;
       font-size: 0.85rem;
-      border: 1px solid rgba(255, 215, 0, 0.4);
-      color: #ffd700;
+      border: 1px solid rgba(255, 215, 0, 0.3);
     }
 
-    /* Geanimeerde Baby Welp Container */
-    .cub-container {
+    /* Geanimeerde Baby Welp met Transparante PNG */
+    .lion-cub {
       position: absolute;
-      bottom: 25px;
+      bottom: 20px;
       left: 10%;
-      width: 110px;
-      height: 110px;
-      animation: walkAround 14s infinite alternate ease-in-out;
-      transition: all 0.3s ease;
+      width: 90px;
+      height: 90px;
+      background-image: url('https://png.pngtree.com/png-clipart/20230508/original/pngtree-cute-little-lion-cub-png-image_9151590.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      animation: walkAround 12s infinite alternate ease-in-out;
+      filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.5));
     }
 
-    .cub-image {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0px 8px 6px rgba(0,0,0,0.6));
-    }
-
-    /* Wandel Animatie */
+    /* Welp Wandel Animatie */
     @keyframes walkAround {
       0% { transform: translateX(0px) scaleX(1); }
-      45% { transform: translateX(180px) scaleX(1); }
-      50% { transform: translateX(180px) scaleX(-1); }
+      45% { transform: translateX(200px) scaleX(1); }
+      50% { transform: translateX(200px) scaleX(-1); } /* Draai om */
       95% { transform: translateX(10px) scaleX(-1); }
       100% { transform: translateX(10px) scaleX(1); }
     }
 
-    /* Vlees Stukje Animatie bij Voeren */
-    .meat-item {
-      position: absolute;
-      bottom: 30px;
-      display: none;
-      font-size: 2rem;
-      animation: popIn 0.3s ease-out;
-    }
-
-    @keyframes popIn {
-      0% { transform: scale(0); }
-      100% { transform: scale(1); }
-    }
-
-    /* UI Controls */
+    /* Statistieken & Bakiye Panel */
     .dashboard {
       padding: 20px;
       display: flex;
@@ -97,18 +80,18 @@
     }
 
     .balance-card {
-      background: #231b15;
-      border: 1px solid #3d2d20;
-      border-radius: 18px;
+      background: #241b14;
+      border: 1px solid #3d2c1e;
+      border-radius: 16px;
       padding: 20px;
       text-align: center;
     }
 
     .balance-title {
-      color: #a8927d;
-      font-size: 0.8rem;
-      letter-spacing: 1.5px;
-      margin-bottom: 6px;
+      color: #a08a75;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
     }
 
     .balance-amount {
@@ -118,28 +101,43 @@
       margin-bottom: 15px;
     }
 
-    .actions-grid {
+    .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
+      margin-bottom: 15px;
     }
 
-    .btn-action {
+    .stat-box {
+      background: rgba(0,0,0,0.2);
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      color: #ccc;
+    }
+
+    .stat-value {
+      font-weight: bold;
+      color: #fff;
+      margin-top: 4px;
+    }
+
+    .btn-claim {
+      width: 100%;
       background: linear-gradient(135deg, #ffb700, #ff8800);
       border: none;
-      padding: 14px;
+      padding: 16px;
       border-radius: 12px;
       color: #000;
       font-weight: bold;
-      font-size: 0.95rem;
+      font-size: 1.1rem;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(255, 136, 0, 0.3);
+      box-shadow: 0 4px 15px rgba(255, 136, 0, 0.4);
+      transition: transform 0.1s;
     }
 
-    .btn-feed {
-      background: linear-gradient(135deg, #e63946, #d62828);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+    .btn-claim:active {
+      transform: scale(0.98);
     }
   </style>
 </head>
@@ -147,15 +145,10 @@
 
   <div class="app-container">
     <!-- Savanne Speelveld -->
-    <div class="game-viewport" id="viewport">
-      <div class="shelter-badge" id="shelterBadge">🏡 Schuilplaats: Houten Hut (Lvl 1)</div>
-      
-      <!-- Welp op het veld -->
-      <div class="cub-container" id="cubContainer">
-        <!-- Lopende welp als GIF -->
-        <img id="cubImg" class="cub-image" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z2dnlpa3lhMG12aWpzbTF4eHRvd3F0bGF1bzE1MnNxcWpmbHZqZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/3o7TKMt1VVNkHV2PaE/giphy.gif" alt="Baby Welp">
-      </div>
-      <div class="meat-item" id="meatItem">🥩</div>
+    <div class="game-viewport">
+      <div class="shelter-badge">🏡 Schuilplaats: Houten Hut (Lvl 1)</div>
+      <!-- De lophouding / eten van de welp -->
+      <div class="lion-cub" id="lionCub"></div>
     </div>
 
     <!-- Dashboard -->
@@ -164,42 +157,23 @@
         <div class="balance-title">SAVANA SALDO</div>
         <div class="balance-amount" id="balance">0.0000</div>
 
-        <div class="actions-grid">
-          <button class="btn-action" onclick="claimEarnings()">⚡ Verzamelen</button>
-          <button class="btn-action btn-feed" onclick="feedCub()">🥩 Voer Welp</button>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div>Snelheid / dag</div>
+            <div class="stat-value" id="rate">0.5000 / dag</div>
+          </div>
+          <div class="stat-box">
+            <div>Te verzamelen</div>
+            <div class="stat-value" id="unclaimed">0.0000</div>
+          </div>
         </div>
+
+        <button class="btn-claim" onclick="claimEarnings()">⚡ OPBRENGST VERZAMELEN</button>
       </div>
     </div>
   </div>
 
   <script>
-    let isEating = false;
-
-    function feedCub() {
-      if (isEating) return;
-      isEating = true;
-
-      const cubImg = document.getElementById('cubImg');
-      const cubContainer = document.getElementById('cubContainer');
-      const meatItem = document.getElementById('meatItem');
-
-      // Stop wandel animatie tijdelijk & zet etende GIF
-      cubContainer.style.animationPlayState = 'paused';
-      meatItem.style.display = 'block';
-      meatItem.style.left = (cubContainer.offsetLeft + 20) + 'px';
-
-      // Etende welp GIF
-      cubImg.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnd6cG4xdzlnODlydnMyd2o2a3NmcGFvZThyeDFxZTRiaWR1dHZ6bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/l0HlCqV38y632dK2A/giphy.gif";
-
-      setTimeout(() => {
-        // Na 3 seconden weer wandelen
-        meatItem.style.display = 'none';
-        cubImg.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z2dnlpa3lhMG12aWpzbTF4eHRvd3F0bGF1bzE1MnNxcWpmbHZqZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/3o7TKMt1VVNkHV2PaE/giphy.gif";
-        cubContainer.style.animationPlayState = 'running';
-        isEating = false;
-      }, 3000);
-    }
-
     function claimEarnings() {
       alert("Opbrengst succesvol verzameld!");
     }

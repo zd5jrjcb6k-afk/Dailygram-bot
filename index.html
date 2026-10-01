@@ -26,15 +26,14 @@
       padding-bottom: 90px;
     }
 
-    /* Tab Controls */
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* Savanne Speelveld */
+    /* Dynamisch Savanne Speelveld met Lagen */
     .game-card {
       position: relative;
       width: 100%;
-      height: 320px;
+      height: 310px;
       background: url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
       border: 3px solid #ff9900;
       border-radius: 20px;
@@ -43,6 +42,7 @@
       margin-bottom: 15px;
     }
 
+    /* Shelter Badge */
     .shelter-badge {
       position: absolute;
       top: 12px;
@@ -53,28 +53,61 @@
       border-radius: 20px;
       font-size: 0.85rem;
       border: 1px solid rgba(255, 215, 0, 0.4);
-      color: #fff;
-      z-index: 10;
+      color: #ffd700;
+      z-index: 20;
     }
 
-    /* Lopende Leeuwenwelp (Jouw Transparante Afbeelding) */
-    .cub-animated {
+    /* Vijver / Waterpoel Element */
+    .pond-element {
+      position: absolute;
+      bottom: 10px;
+      left: 15px;
+      width: 110px;
+      height: 55px;
+      background: radial-gradient(ellipse at center, rgba(30,144,255,0.7) 0%, rgba(0,105,148,0.4) 70%, transparent 100%);
+      border-radius: 50%;
+      border: 2px solid rgba(135,206,250,0.5);
+      box-shadow: 0 0 15px rgba(30,144,255,0.4);
+      z-index: 5;
+    }
+
+    /* Pride Rock Element */
+    .pride-rock-element {
       position: absolute;
       bottom: 20px;
-      left: 10%;
-      width: 110px;
-      height: 110px;
-      background: url('https://i.imgur.com/3wiS1jY.png') center/contain no-repeat;
-      animation: walkAround 10s infinite alternate ease-in-out;
-      filter: drop-shadow(0 6px 6px rgba(0,0,0,0.4));
+      right: 10px;
+      width: 130px;
+      height: 80px;
+      background: linear-gradient(135deg, #7a5c43, #4a3525);
+      clip-path: polygon(0% 100%, 25% 45%, 70% 20%, 100% 40%, 100% 100%);
+      border-top: 3px solid #9e7858;
+      box-shadow: inset -5px -5px 15px rgba(0,0,0,0.6);
+      z-index: 5;
     }
 
-    @keyframes walkAround {
-      0% { transform: translateX(0px) scaleX(1); }
-      45% { transform: translateX(190px) scaleX(1); }
-      50% { transform: translateX(190px) scaleX(-1); }
-      95% { transform: translateX(10px) scaleX(-1); }
-      100% { transform: translateX(10px) scaleX(1); }
+    /* Geanimeerd Welp Personage met Interactie */
+    .cub-interactive {
+      position: absolute;
+      bottom: 25px;
+      left: 15%;
+      width: 100px;
+      height: 100px;
+      background: url('https://i.imgur.com/3wiS1jY.png') center/contain no-repeat;
+      z-index: 10;
+      filter: drop-shadow(0 8px 8px rgba(0,0,0,0.6));
+      animation: exploreSavanna 14s infinite ease-in-out;
+      cursor: pointer;
+    }
+
+    /* Welp Beweging & Interactie Animatie */
+    @keyframes exploreSavanna {
+      0% { transform: translateX(0px) scaleX(1) scale(1); }
+      20% { transform: translateX(20px) scaleX(1) scale(1.03); } /* Drinkt bij de vijver */
+      40% { transform: translateX(110px) scaleX(1) scale(0.98); } /* Loopt naar het midden */
+      50% { transform: translateX(110px) scaleX(-1) scale(1); } /* Draait om */
+      75% { transform: translateX(200px) scaleX(-1) scale(1.05); } /* Klimt richting Pride Rock */
+      85% { transform: translateX(200px) scaleX(1) scale(1.05); } /* Rust op Pride Rock */
+      100% { transform: translateX(0px) scaleX(1) scale(1); } /* Keert terug */
     }
 
     /* Bakiye Card */
@@ -133,14 +166,12 @@
       box-shadow: 0 5px 18px rgba(255, 136, 0, 0.4);
     }
 
-    /* Page Box Styles */
     .page-box {
       background: rgba(28, 18, 10, 0.85);
       border: 2px solid #5a3d24;
       border-radius: 20px;
-      padding: 20px;
+      padding: 18px;
       margin-top: 10px;
-      text-align: center;
     }
 
     .page-title {
@@ -148,31 +179,45 @@
       color: #ffd700;
       margin-bottom: 15px;
       font-weight: bold;
+      text-align: center;
+    }
+
+    /* Market Lijst van Opties */
+    .market-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 5px;
     }
 
     .item-card {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255,215,0,0.2);
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255,215,0,0.25);
       border-radius: 12px;
       padding: 12px;
-      margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       text-align: left;
     }
 
+    .item-info strong { color: #fff; font-size: 0.95rem; }
+    .item-info small { color: #ffb700; font-size: 0.78rem; }
+
     .btn-buy {
-      background: #ff9900;
+      background: linear-gradient(135deg, #ff9900, #ff6600);
       border: none;
-      padding: 8px 14px;
+      padding: 8px 12px;
       border-radius: 8px;
       font-weight: bold;
       color: #000;
+      font-size: 0.85rem;
       cursor: pointer;
+      white-space: nowrap;
     }
 
-    /* Slapende welp op Cüzdan tab */
     .sleeping-banner {
       width: 100%;
       height: 130px;
@@ -219,11 +264,17 @@
 
   <div class="app-container">
 
-    <!-- TAB 1: YAVRU -->
+    <!-- TAB 1: YAVRU (HOOFDSCHERM) -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
-        <div class="shelter-badge">🏡 Yuva: Ahşap Barınak (Lvl 1)</div>
-        <div class="cub-animated"></div>
+        <div class="shelter-badge">🪨 Yuva: Pride Rock (Lvl 1)</div>
+        
+        <!-- Elementen op de Savanne -->
+        <div class="pond-element" title="Küçük Gölet (Vijver)"></div>
+        <div class="pride-rock-element" title="Pride Rock"></div>
+        
+        <!-- Geanimeerd Welpje met Interactie -->
+        <div class="cub-interactive" id="lionCub" onclick="petCub()"></div>
       </div>
 
       <div class="balance-card">
@@ -245,24 +296,101 @@
       </div>
     </div>
 
-    <!-- TAB 2: MARKET -->
+    <!-- TAB 2: MARKET ($2 t/m $500 opties) -->
     <div id="tab-market" class="tab-content">
       <div class="page-box">
         <div class="page-title">🛒 Market & Yükseltmeler</div>
-        <div class="item-card">
-          <div>
-            <strong>🥩 Et Besini (Hız Artışı)</strong><br>
-            <small style="color: #aaa;">Hızı +0.0005/gün artırır</small>
+        
+        <div class="market-list">
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🥩 Atıştırmalık Et</strong><br>
+              <small>Hız: +0.0001 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Atıştırmalık', 2)">$2 (2 GRAM)</button>
           </div>
-          <button class="btn-buy" onclick="alert('Besin satın alındı!')">10 GRAM</button>
-        </div>
-        <div class="item-card">
-          <div>
-            <strong>🏡 Yeşil Savana Yuvasi (Lvl 2)</strong><br>
-            <small style="color: #aaa;">Arka planı güzelleştirir</small>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🥩 Et Besini</strong><br>
+              <small>Hız: +0.0002 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Et Besini', 3)">$3 (3 GRAM)</button>
           </div>
-          <button class="btn-buy" onclick="alert('Barınak yükseltildi!')">50 GRAM</button>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🥩 Büyük Et Porsiyonu</strong><br>
+              <small>Hız: +0.0003 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Büyük Et', 4)">$4 (4 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🍗 Ziyafet Paketi</strong><br>
+              <small>Hız: +0.0005 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Ziyafet Paketi', 5)">$5 (5 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🏹 Avcı Paketi</strong><br>
+              <small>Hız: +0.0012 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Avcı Paketi', 10)">$10 (10 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🏕️ Savana Yuvası (Lvl 1)</strong><br>
+              <small>Hız: +0.0025 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Savana Yuvası', 20)">$20 (20 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🛣️ Krallık Yolu</strong><br>
+              <small>Hız: +0.0035 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Krallık Yolu', 25)">$25 (25 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🌿 Yeşil Savana (Lvl 2)</strong><br>
+              <small>Hız: +0.0080 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Yeşil Savana', 50)">$50 (50 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🪨 Pride Rock (Gurur Kayası)</strong><br>
+              <small>Hız: +0.0180 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Pride Rock', 100)">$100 (100 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🌊 Büyük Su Kaynağı</strong><br>
+              <small>Hız: +0.0500 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Su Kaynağı', 250)">$250 (250 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>👑 Savana İmparatorluğu</strong><br>
+              <small>Hız: +0.1200 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Savana İmparatorluğu', 500)">$500 (500 GRAM)</button>
+          </div>
         </div>
+
       </div>
     </div>
 
@@ -335,6 +463,14 @@
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
       element.classList.add('active');
+    }
+
+    function buyItem(itemName, price) {
+      alert(itemName + " satın alma isteği gönderildi! Fiyat: " + price + " GRAM");
+    }
+
+    function petCub() {
+      alert("🦁 Welpje is vrolijk! Je hebt de welp geaaid.");
     }
 
     function claimEarnings() {

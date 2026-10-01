@@ -29,16 +29,17 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* Dynamisch Savanne Speelveld met Lagen */
+    /* Echte Pride Rock Game Achtergrond */
     .game-card {
       position: relative;
       width: 100%;
       height: 310px;
-      background: url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+      /* Vervang onderstaande link door jouw Imgur-link van de Pride Rock achtergrond */
+      background: url('PLAK_HIER_JOUW_PRIDE_ROCK_ACHTERGROND_LINK') center/cover no-repeat;
       border: 3px solid #ff9900;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
       margin-bottom: 15px;
     }
 
@@ -57,57 +58,27 @@
       z-index: 20;
     }
 
-    /* Vijver / Waterpoel Element */
-    .pond-element {
-      position: absolute;
-      bottom: 10px;
-      left: 15px;
-      width: 110px;
-      height: 55px;
-      background: radial-gradient(ellipse at center, rgba(30,144,255,0.7) 0%, rgba(0,105,148,0.4) 70%, transparent 100%);
-      border-radius: 50%;
-      border: 2px solid rgba(135,206,250,0.5);
-      box-shadow: 0 0 15px rgba(30,144,255,0.4);
-      z-index: 5;
-    }
-
-    /* Pride Rock Element */
-    .pride-rock-element {
-      position: absolute;
-      bottom: 20px;
-      right: 10px;
-      width: 130px;
-      height: 80px;
-      background: linear-gradient(135deg, #7a5c43, #4a3525);
-      clip-path: polygon(0% 100%, 25% 45%, 70% 20%, 100% 40%, 100% 100%);
-      border-top: 3px solid #9e7858;
-      box-shadow: inset -5px -5px 15px rgba(0,0,0,0.6);
-      z-index: 5;
-    }
-
-    /* Geanimeerd Welp Personage met Interactie */
-    .cub-interactive {
+    /* Lopende Transparante Welp */
+    .cub-animated {
       position: absolute;
       bottom: 25px;
-      left: 15%;
-      width: 100px;
-      height: 100px;
+      left: 10%;
+      width: 105px;
+      height: 105px;
       background: url('https://i.imgur.com/3wiS1jY.png') center/contain no-repeat;
       z-index: 10;
       filter: drop-shadow(0 8px 8px rgba(0,0,0,0.6));
-      animation: exploreSavanna 14s infinite ease-in-out;
+      animation: walkAround 12s infinite alternate ease-in-out;
       cursor: pointer;
     }
 
-    /* Welp Beweging & Interactie Animatie */
-    @keyframes exploreSavanna {
-      0% { transform: translateX(0px) scaleX(1) scale(1); }
-      20% { transform: translateX(20px) scaleX(1) scale(1.03); } /* Drinkt bij de vijver */
-      40% { transform: translateX(110px) scaleX(1) scale(0.98); } /* Loopt naar het midden */
-      50% { transform: translateX(110px) scaleX(-1) scale(1); } /* Draait om */
-      75% { transform: translateX(200px) scaleX(-1) scale(1.05); } /* Klimt richting Pride Rock */
-      85% { transform: translateX(200px) scaleX(1) scale(1.05); } /* Rust op Pride Rock */
-      100% { transform: translateX(0px) scaleX(1) scale(1); } /* Keert terug */
+    /* Vloeiende Wandel-animatie over het veld */
+    @keyframes walkAround {
+      0% { transform: translateX(0px) scaleX(1); }
+      45% { transform: translateX(180px) scaleX(1); }
+      50% { transform: translateX(180px) scaleX(-1); }
+      95% { transform: translateX(10px) scaleX(-1); }
+      100% { transform: translateX(10px) scaleX(1); }
     }
 
     /* Bakiye Card */
@@ -182,7 +153,7 @@
       text-align: center;
     }
 
-    /* Market Lijst van Opties */
+    /* Market Lijst van Opties ($2 - $500) */
     .market-list {
       display: flex;
       flex-direction: column;
@@ -268,13 +239,8 @@
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
         <div class="shelter-badge">🪨 Yuva: Pride Rock (Lvl 1)</div>
-        
-        <!-- Elementen op de Savanne -->
-        <div class="pond-element" title="Küçük Gölet (Vijver)"></div>
-        <div class="pride-rock-element" title="Pride Rock"></div>
-        
-        <!-- Geanimeerd Welpje met Interactie -->
-        <div class="cub-interactive" id="lionCub" onclick="petCub()"></div>
+        <!-- Lopende Leeuwenwelp -->
+        <div class="cub-animated" id="lionCub" onclick="petCub()"></div>
       </div>
 
       <div class="balance-card">

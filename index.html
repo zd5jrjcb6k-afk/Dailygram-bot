@@ -26,6 +26,10 @@
       padding-bottom: 90px;
     }
 
+    /* Tab Schermen Control */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
     /* Savanne Speelveld Card */
     .game-card {
       position: relative;
@@ -44,7 +48,7 @@
       position: absolute;
       top: 12px;
       left: 12px;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(5px);
       padding: 6px 14px;
       border-radius: 20px;
@@ -53,25 +57,24 @@
       color: #fff;
     }
 
-    /* Leeuwenkop / Welp op het speelveld */
-    .lion-cub {
+    /* Geanimeerde Welp Afbeelding */
+    .cub-animated {
       position: absolute;
-      bottom: 40px;
-      right: 40px;
-      width: 60px;
-      height: 60px;
-      font-size: 3.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      filter: drop-shadow(0px 6px 8px rgba(0,0,0,0.6));
-      animation: bounce 2s infinite ease-in-out;
-      cursor: pointer;
+      bottom: 25px;
+      left: 10%;
+      width: 90px;
+      height: 90px;
+      background: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExazl5bTFwdXFpdXJweWZod3B4YnkydjZydHNscGRvMnVydmx5b3RscyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LpDmW2UpB3064/giphy.gif') center/contain no-repeat;
+      animation: walkAround 12s infinite alternate ease-in-out;
+      filter: drop-shadow(0 6px 6px rgba(0,0,0,0.5));
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+    @keyframes walkAround {
+      0% { transform: translateX(0px) scaleX(1); }
+      45% { transform: translateX(180px) scaleX(1); }
+      50% { transform: translateX(180px) scaleX(-1); }
+      95% { transform: translateX(10px) scaleX(-1); }
+      100% { transform: translateX(10px) scaleX(1); }
     }
 
     /* Bakiye Card */
@@ -149,6 +152,44 @@
       transform: scale(0.98);
     }
 
+    /* Algemene Pagina Styles voor Market, Görevler, etc. */
+    .page-box {
+      background: rgba(28, 18, 10, 0.85);
+      border: 2px solid #5a3d24;
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 10px;
+    }
+
+    .page-title {
+      font-size: 1.4rem;
+      color: #ffd700;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .item-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255,215,0,0.2);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-buy {
+      background: #ff9900;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #000;
+      cursor: pointer;
+    }
+
     /* Bottom Navigation Bar */
     .bottom-nav {
       position: fixed;
@@ -189,58 +230,132 @@
 <body>
 
   <div class="app-container">
-    <!-- Savanne Speelveld -->
-    <div class="game-card">
-      <div class="shelter-badge">🏡 Yuva: Ahşap Barınak</div>
-      <!-- Leeuwenkopje -->
-      <div class="lion-cub" id="lionCub">🦁</div>
-    </div>
 
-    <!-- Bakiye Panel -->
-    <div class="balance-card">
-      <div class="balance-title">GRAM BAKIYEM</div>
-      <div class="balance-amount" id="balance">0.0000</div>
-
-      <div class="stats-grid">
-        <div class="stat-box">
-          <div class="stat-label">Günlük Hız</div>
-          <div class="stat-value" id="rate">0.0001 / gün</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label">Toplanacak</div>
-          <div class="stat-value" id="unclaimed">0.0000</div>
-        </div>
+    <!-- TAB 1: YAVRU (HOOFDSCHERM) -->
+    <div id="tab-yavru" class="tab-content active">
+      <!-- Savanne Speelveld -->
+      <div class="game-card">
+        <div class="shelter-badge">🏡 Yuva: Ahşap Barınak (Lvl 1)</div>
+        <!-- Geanimeerde Welp -->
+        <div class="cub-animated"></div>
       </div>
 
-      <button class="btn-claim" onclick="claimEarnings()">⚡ KAZANCI TOPLA</button>
+      <!-- Bakiye Panel -->
+      <div class="balance-card">
+        <div class="balance-title">GRAM BAKIYEM</div>
+        <div class="balance-amount" id="balance">0.0000</div>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">Günlük Hız</div>
+            <div class="stat-value" id="rate">0.0001 / gün</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Toplanacak</div>
+            <div class="stat-value" id="unclaimed">0.0000</div>
+          </div>
+        </div>
+
+        <button class="btn-claim" onclick="claimEarnings()">⚡ KAZANCI TOPLA</button>
+      </div>
     </div>
+
+    <!-- TAB 2: MARKET -->
+    <div id="tab-market" class="tab-content">
+      <div class="page-box">
+        <div class="page-title">🛒 Market & Yükseltmeler</div>
+        <div class="item-card">
+          <div>
+            <strong>🥩 Et Besini (Hız Artışı)</strong><br>
+            <small style="color: #aaa;">Hızı +0.0005/gün artırır</small>
+          </div>
+          <button class="btn-buy" onclick="alert('Besin satın alındı!')">10 GRAM</button>
+        </div>
+        <div class="item-card">
+          <div>
+            <strong>🏡 Yeşil Savana Yuvasi (Lvl 2)</strong><br>
+            <small style="color: #aaa;">Arka planı güzelleştirir</small>
+          </div>
+          <button class="btn-buy" onclick="alert('Barınak yükseltildi!')">50 GRAM</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: GÖREVLER -->
+    <div id="tab-gorevler" class="tab-content">
+      <div class="page-box">
+        <div class="page-title">📋 Günlük Görevler</div>
+        <div class="item-card">
+          <div>
+            <strong>Telegram Kanalına Katıl</strong><br>
+            <small style="color: #aaa;">Ödül: +0.005 GRAM</small>
+          </div>
+          <button class="btn-buy" onclick="alert('Görev Tamamlandı!')">Yap</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: ARKADAŞLAR -->
+    <div id="tab-arkadaslar" class="tab-content">
+      <div class="page-box">
+        <div class="page-title">👥 Arkadaşını Davet Et</div>
+        <p style="text-align: center; font-size: 0.9rem; color: #ccc; margin-bottom: 15px;">
+          Her davet ettiğin arkadaşın için +0.001 GRAM hız kazan!
+        </p>
+        <button class="btn-claim" onclick="alert('Davet linki kopyalandı!')">🔗 Davet Linkini Kopyala</button>
+      </div>
+    </div>
+
+    <!-- TAB 5: CÜZDAN -->
+    <div id="tab-cuzdan" class="tab-content">
+      <div class="page-box">
+        <div class="page-title">👛 TON Cüzdanı</div>
+        <p style="text-align: center; font-size: 0.9rem; color: #ccc; margin-bottom: 15px;">
+          Cüzdanınızı bağlayarak kazançlarınızı çekebilirsiniz.
+        </p>
+        <button class="btn-claim" onclick="alert('TON Cüzdan bağlantısı yakında açılacak!')">💎 Cüzdanı Bağla</button>
+      </div>
+    </div>
+
   </div>
 
   <!-- Bottom Navigation -->
   <div class="bottom-nav">
-    <div class="nav-item active">
+    <div class="nav-item active" onclick="switchTab('yavru', this)">
       <div class="nav-icon">🦁</div>
       <div>Yavru</div>
     </div>
-    <div class="nav-item" onclick="alert('Market pek yakında!')">
+    <div class="nav-item" onclick="switchTab('market', this)">
       <div class="nav-icon">🛒</div>
       <div>Market</div>
     </div>
-    <div class="nav-item" onclick="alert('Görevler pek yakında!')">
+    <div class="nav-item" onclick="switchTab('gorevler', this)">
       <div class="nav-icon">📋</div>
       <div>Görevler</div>
     </div>
-    <div class="nav-item" onclick="alert('Arkadaşlarınızı davet edin!')">
+    <div class="nav-item" onclick="switchTab('arkadaslar', this)">
       <div class="nav-icon">👥</div>
       <div>Arkadaşlar</div>
     </div>
-    <div class="nav-item" onclick="alert('Cüzdan bağlama çok yakında!')">
+    <div class="nav-item" onclick="switchTab('cuzdan', this)">
       <div class="nav-icon">👛</div>
       <div>Cüzdan</div>
     </div>
   </div>
 
   <script>
+    function switchTab(tabName, element) {
+      // Verberg alle tabs
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      // Deactiveer alle navigatie-items
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+      // Toon de geselecteerde tab
+      document.getElementById('tab-' + tabName).classList.add('active');
+      // Activeer de aangeklikte knop
+      element.classList.add('active');
+    }
+
     function claimEarnings() {
       alert("Kazanç başarıyla toplandı!");
     }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Dailygram Miner - Pride Cave</title>
+  <title>Dailygram Miner</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -29,12 +29,12 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* REAL-TIME GROT SPEELVELD (Cave & Waterhole Background) */
+    /* Speelveld Kaart met Onverwoestbare Savanne/Grot Achtergrond */
     .game-card {
       position: relative;
       width: 100%;
-      height: 380px;
-      background: url('https://i.imgur.com/J85EwHl.jpeg') center/cover no-repeat;
+      height: 360px;
+      background: url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
       border: 3px solid #ff9900;
       border-radius: 20px;
       overflow: hidden;
@@ -56,7 +56,7 @@
       z-index: 20;
     }
 
-    /* Container voor alle actieve dieren */
+    /* Container voor de leeuwen/welpjes */
     .pride-container {
       position: absolute;
       width: 100%;
@@ -66,7 +66,7 @@
       z-index: 10;
     }
 
-    /* Posities van de welpjes in de grot op het mos */
+    /* Welpjes Stijl & Posities */
     .cub {
       position: absolute;
       width: 65px;
@@ -74,42 +74,39 @@
       background: url('https://i.imgur.com/3wiS1jY.png') center/contain no-repeat;
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.7));
       cursor: pointer;
-      transition: transform 0.3s;
     }
-    .cub:active { transform: scale(1.2); }
 
-    /* Welpjes posities op de stenen & mos bij de vijver */
-    .cub-1 { bottom: 35px; left: 15%; animation: floatSlow 4s infinite alternate ease-in-out; }
-    .cub-2 { bottom: 50px; left: 68%; animation: floatSlow 5s infinite alternate ease-in-out 1s; }
-    .cub-3 { bottom: 90px; left: 35%; animation: floatSlow 3.8s infinite alternate ease-in-out 0.5s; }
-    .cub-4 { bottom: 120px; left: 75%; animation: floatSlow 4.5s infinite alternate ease-in-out 1.5s; }
-    .cub-5 { bottom: 25px; left: 45%; animation: floatSlow 4.2s infinite alternate ease-in-out 2s; }
-    .cub-6 { bottom: 85px; left: 18%; animation: floatSlow 3.5s infinite alternate ease-in-out 0.8s; }
+    .cub-1 { bottom: 30px; left: 15%; animation: floatSlow 4s infinite alternate ease-in-out; }
+    .cub-2 { bottom: 45px; left: 68%; animation: floatSlow 5s infinite alternate ease-in-out 1s; }
+    .cub-3 { bottom: 85px; left: 35%; animation: floatSlow 3.8s infinite alternate ease-in-out 0.5s; }
+    .cub-4 { bottom: 110px; left: 75%; animation: floatSlow 4.5s infinite alternate ease-in-out 1.5s; }
+    .cub-5 { bottom: 20px; left: 45%; animation: floatSlow 4.2s infinite alternate ease-in-out 2s; }
+    .cub-6 { bottom: 80px; left: 18%; animation: floatSlow 3.5s infinite alternate ease-in-out 0.8s; }
 
-    /* Grote Volwassen Leeuwin (Lioness) na Fusie */
+    /* Volwassen Leeuwin na Fusie */
     .lioness-adult {
       position: absolute;
-      bottom: 30px;
-      left: 32%;
-      width: 130px;
-      height: 120px;
-      background: url('https://i.imgur.com/3wiS1jY.png') center/contain no-repeat; /* Aangepaste majestueuze leeuwin sprite */
-      filter: drop-shadow(0 8px 12px rgba(255, 215, 0, 0.4));
+      bottom: 25px;
+      left: 35%;
+      width: 120px;
+      height: 110px;
+      background: url('https://i.imgur.com/3wiS1jY.png') center/contain no-repeat;
+      filter: drop-shadow(0 8px 12px rgba(255, 215, 0, 0.5));
       animation: lionessPulse 3s infinite alternate ease-in-out;
       cursor: pointer;
     }
 
     @keyframes floatSlow {
       0% { transform: translateY(0px); }
-      100% { transform: translateY(-6px); }
+      100% { transform: translateY(-5px); }
     }
 
     @keyframes lionessPulse {
-      0% { transform: scale(1.3) translateY(0px); }
-      100% { transform: scale(1.35) translateY(-5px); }
+      0% { transform: scale(1.25) translateY(0px); }
+      100% { transform: scale(1.3) translateY(-4px); }
     }
 
-    /* Compact Saldo Panel */
+    /* Saldo Panel */
     .balance-card {
       background: rgba(28, 18, 10, 0.92);
       border: 1.5px solid #5a3d24;
@@ -218,6 +215,14 @@
       white-space: nowrap;
     }
 
+    /* Slapende Welp bij Cüzdan */
+    .sleeping-banner {
+      width: 100%;
+      height: 120px;
+      background: url('https://i.imgur.com/Jj1xKCk.png') center/contain no-repeat;
+      margin-bottom: 12px;
+    }
+
     /* Bottom Navigation Bar */
     .bottom-nav {
       position: fixed;
@@ -257,18 +262,17 @@
 
   <div class="app-container">
 
-    <!-- TAB 1: YAVRU (HOOFDSCHERM GROT) -->
+    <!-- TAB 1: YAVRU (HOOFDSCHERM) -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
-        <div class="shelter-badge" id="caveTitle">🪨 Pride Cave (1 Welpje)</div>
+        <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (1 Yavru)</div>
         
-        <!-- Welpjes of Gefuseerde Leeuwin -->
         <div class="pride-container" id="prideContainer">
-          <div class="cub cub-1" onclick="petAnimal('Welpje 1')"></div>
+          <div class="cub cub-1" onclick="petAnimal('Yavru 1')"></div>
         </div>
       </div>
 
-      <!-- Saldo Panel met Realtime Mining -->
+      <!-- Saldo Panel -->
       <div class="balance-card">
         <div class="balance-title">GRAM BAKIYEM</div>
         <div class="balance-amount" id="balance">0.000000</div>
@@ -288,34 +292,106 @@
       </div>
     </div>
 
-    <!-- TAB 2: MARKET -->
+    <!-- TAB 2: MARKET (VOLLEDIGE TURKSE LIJST) -->
     <div id="tab-market" class="tab-content">
       <div class="page-box">
-        <div class="page-title">🛒 Market & Welpjes Uitbreiden</div>
+        <div class="page-title">🛒 Market & Yükseltmeler</div>
         
         <div class="market-list">
           <div class="item-card">
             <div class="item-info">
-              <strong>🐾 Extra Welpje Adoptie</strong><br>
-              <small>Voegt +1 Welp toe aan je grot (+0.0010 / gün)</small>
+              <strong>🐾 Ekstra Yavru Sahiplen</strong><br>
+              <small>Yuvaya +1 Yavru ekler (+0.0010 / gün)</small>
             </div>
-            <button class="btn-buy" onclick="buyCub()">+1 Welp ($2)</button>
+            <button class="btn-buy" onclick="buyCub()">+1 Yavru ($2)</button>
           </div>
 
           <div class="item-card">
             <div class="item-info">
-              <strong>🦁 Welpjes Fuseren tot Leeuwin</strong><br>
-              <small>Vereist: 6 Welpjes (Verdrievoudigt je Mining Snelheid!)</small>
+              <strong>🦁 Yavruları Birleştir (Fuse)</strong><br>
+              <small>Gerekli: 6 Yavru (Hızı 4 katına çıkarır!)</small>
             </div>
-            <button class="btn-buy" onclick="fuseCubs()">⚡ FUSEN ($10)</button>
+            <button class="btn-buy" onclick="fuseCubs()">⚡ BİRLEŞTİR ($10)</button>
           </div>
 
           <div class="item-card">
             <div class="item-info">
-              <strong>🥩 Ziyafet Paketi</strong><br>
-              <small>Hız: +0.0050 / gün</small>
+              <strong>🥩 Atıştırmalık Et</strong><br>
+              <small>Hız: +0.0001 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Atıştırmalık', 2)">$2 (2 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🥩 Et Besini (Hız Artışı)</strong><br>
+              <small>Hız: +0.0005 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Et Besini', 3)">$3 (3 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🥩 Büyük Et Porsiyonu</strong><br>
+              <small>Hız: +0.0003 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Büyük Et', 4)">$4 (4 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🍗 Ziyafet Paketi</strong><br>
+              <small>Hız: +0.0005 / gün</small>
             </div>
             <button class="btn-buy" onclick="buyItem('Ziyafet Paketi', 5)">$5 (5 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🏹 Avcı Paketi</strong><br>
+              <small>Hız: +0.0012 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Avcı Paketi', 10)">$10 (10 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🏕️ Savana Yuvası (Lvl 1)</strong><br>
+              <small>Hız: +0.0025 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Savana Yuvası', 20)">$20 (20 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🛣️ Krallık Yolu</strong><br>
+              <small>Hız: +0.0035 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Krallık Yolu', 25)">$25 (25 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🌿 Yeşil Savana Yuvası (Lvl 2)</strong><br>
+              <small>Hız: +0.0080 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Yeşil Savana', 50)">$50 (50 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>🪨 Pride Rock (Gurur Kayası)</strong><br>
+              <small>Hız: +0.0180 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Pride Rock', 100)">$100 (100 GRAM)</button>
+          </div>
+
+          <div class="item-card">
+            <div class="item-info">
+              <strong>👑 Savana İmparatorluğu</strong><br>
+              <small>Hız: +0.1200 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Savana İmparatorluğu', 500)">$500 (500 GRAM)</button>
           </div>
         </div>
 
@@ -347,10 +423,11 @@
       </div>
     </div>
 
-    <!-- TAB 5: CÜZDAN -->
+    <!-- TAB 5: CÜZDAN (SLAPENDE WELP AFBEELDING IS TERUG) -->
     <div id="tab-cuzdan" class="tab-content">
       <div class="page-box">
         <div class="page-title">👛 TON Cüzdanı</div>
+        <div class="sleeping-banner"></div>
         <p style="text-align: center; font-size: 0.85rem; color: #ccc; margin-bottom: 12px;">
           Cüzdanınızı bağlayarak kazançlarınızı çekebilirsiniz.
         </p>
@@ -360,7 +437,7 @@
 
   </div>
 
-  <!-- Bottom Navigation -->
+  <!-- Bottom Navigation Bar -->
   <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('yavru', this)">
       <div class="nav-icon">🦁</div>
@@ -385,14 +462,14 @@
   </div>
 
   <script>
-    // Game Variabelen
+    // Game Logica
     let balance = 0.000000;
     let unclaimed = 0.000000;
     let cubCount = 1;
     let isFused = false;
     let dailySpeed = 0.0010;
 
-    // Realtime Mining Interval
+    // Realtime Opteller Elke Seconde
     setInterval(() => {
       let speedPerSecond = dailySpeed / 86400;
       unclaimed += speedPerSecond;
@@ -416,55 +493,55 @@
       const title = document.getElementById('caveTitle');
 
       if (isFused) {
-        container.innerHTML = `<div class="lioness-adult" onclick="petAnimal('Machtige Leeuwin')"></div>`;
-        title.innerText = "👑 Volwassen Leeuwin (Mining x4)";
+        container.innerHTML = `<div class="lioness-adult" onclick="petAnimal('Yetişkin Dişi Aslan')"></div>`;
+        title.innerText = "👑 Yetişkin Dişi Aslan (Hız x4)";
         document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
         return;
       }
 
-      title.innerText = `🪨 Pride Cave (${cubCount} Welpjes)`;
+      title.innerText = `🪨 Yuva: Pride Rock (${cubCount} Yavru)`;
       document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
 
       let html = '';
       for (let i = 1; i <= cubCount; i++) {
-        html += `<div class="cub cub-${i}" onclick="petAnimal('Welpje ${i}')"></div>`;
+        html += `<div class="cub cub-${i}" onclick="petAnimal('Yavru ${i}')"></div>`;
       }
       container.innerHTML = html;
     }
 
     function buyCub() {
       if (isFused) {
-        alert("Je hebt al de machtige Leeuwin bereikt!");
+        alert("Zaten yetişkin dişi aslana ulaştınız!");
         return;
       }
       if (cubCount >= 6) {
-        alert("Je hebt het maximale aantal van 6 welpjes bereikt! Gebruik de Fusie-knop in de Market om ze te laten groeien tot 1 machtige leeuwin.");
+        alert("Maksimum 6 yavruya ulaştınız! Marketten 'Birleştir' butonunu kullanarak yavruları birleştirebilirsiniz.");
         return;
       }
       cubCount++;
       dailySpeed += 0.0010;
       updateCaveDisplay();
-      alert(`Gefeliciteerd! Je hebt welpje #${cubCount} geadopteerd voor de grot! 🐾`);
+      alert(`Tebrikler! Yuvaya #${cubCount} numaralı yavru eklendi! 🐾`);
     }
 
     function fuseCubs() {
       if (isFused) {
-        alert("Je welpjes zijn al gefuseerd tot een volwassen leeuwin!");
+        alert("Yavrularınız zaten yetişkin bir aslan oldu!");
         return;
       }
       if (cubCount < 6) {
-        alert(`Je hebt 6 welpjes nodig om te fuseren! Je hebt er nu ${cubCount}.Koop er nog ${6 - cubCount} in de Market.`);
+        alert(`Birleştirmek için 6 yavruya ihtiyacınız var! Şu an ${cubCount} yavrunuz var.`);
         return;
       }
 
       isFused = true;
-      dailySpeed = dailySpeed * 4; // Verviervoudigt de snelheid
+      dailySpeed = dailySpeed * 4;
       updateCaveDisplay();
-      alert("🎉 FUSIE VOLTOOID! De 6 welpjes zijn samengesmolten tot 1 machtige Volwassen Leeuwin! Je miningsnelheid is x4 gegaan!");
+      alert("🎉 BİRLEŞTİRME BAŞARILI! 6 yavru birleşti ve güçlü bir Yetişkin Dişi Aslan oldu! Kazım hızınız 4 katına çıktı!");
     }
 
     function petAnimal(name) {
-      alert(`🦁 Je hebt ${name} liefgeaaid!`);
+      alert(`🦁 ${name} çok mutlu oldu!`);
     }
 
     function switchTab(tabName, element) {
@@ -475,7 +552,7 @@
     }
 
     function buyItem(name, price) {
-      alert(`${name} gekocht voor $${price}!`);
+      alert(`${name} satın alındı! Fiyat: $${price}`);
     }
   </script>
 </body>

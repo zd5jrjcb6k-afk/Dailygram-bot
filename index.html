@@ -24,40 +24,18 @@
       flex-direction: column;
       padding: 10px;
       padding-bottom: 85px;
-    }
-
-    /* Taalselector Bovenin */
-    .language-selector {
-      display: flex;
-      justify-content: flex-end;
-      gap: 6px;
-      margin-bottom: 8px;
-    }
-    .lang-btn {
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 215, 0, 0.4);
-      color: #fff;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-size: 0.72rem;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .lang-btn.active {
-      background: #ff9900;
-      color: #000;
-      border-color: #ffd700;
+      position: relative;
     }
 
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* REAL-TIME GROT ACHTERGROND */
+    /* STABIELE GROT ACHTERGROND (Gegarandeerd werkend op Telegram) */
     .game-card {
       position: relative;
       width: 100%;
-      height: 360px;
-      background: url('https://i.imgur.com/8QG9gXJ.jpeg') center/cover no-repeat;
+      height: 370px;
+      background: #122536 url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
       border: 3px solid #ff9900;
       border-radius: 20px;
       overflow: hidden;
@@ -79,6 +57,77 @@
       z-index: 20;
     }
 
+    /* Instellingen Knop Rechtsboven */
+    .settings-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      color: #ffd700;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      z-index: 20;
+    }
+
+    /* Taalkeuze Pop-up Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: #180f08;
+      border: 2px solid #ff9900;
+      border-radius: 16px;
+      padding: 20px;
+      width: 85%;
+      max-width: 340px;
+      text-align: center;
+    }
+
+    .modal-title {
+      color: #ffd700;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .lang-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .lang-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      padding: 10px;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .lang-card.active {
+      background: #ff9900;
+      color: #000;
+    }
+
     .pride-container {
       position: absolute;
       width: 100%;
@@ -88,7 +137,7 @@
       z-index: 10;
     }
 
-    /* Welpjes op het Mos in de Grot */
+    /* Welpjes Sprite Posities */
     .cub {
       position: absolute;
       width: 65px;
@@ -305,22 +354,14 @@
 
   <div class="app-container">
 
-    <!-- Taalknoppen -->
-    <div class="language-selector">
-      <button class="lang-btn active" onclick="setLanguage('tr', this)">🇹🇷 TR</button>
-      <button class="lang-btn" onclick="setLanguage('en', this)">🇬🇧 EN</button>
-      <button class="lang-btn" onclick="setLanguage('nl', this)">🇳🇱 NL</button>
-      <button class="lang-btn" onclick="setLanguage('ru', this)">🇷🇺 RU</button>
-      <button class="lang-btn" onclick="setLanguage('de', this)">🇩🇪 DE</button>
-    </div>
-
     <!-- TAB 1: YAVRU -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
         <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (1 Yavru)</div>
+        <div class="settings-btn" onclick="openLanguageModal()">⚙️</div>
         
         <div class="pride-container" id="prideContainer">
-          <div class="cub cub-1" onclick="petAnimal(1)"></div>
+          <div class="cub cub-1" onclick="petAnimal('cub')"></div>
         </div>
       </div>
 
@@ -471,6 +512,21 @@
 
   </div>
 
+  <!-- Taalkeuze Pop-up Modal -->
+  <div class="modal-overlay" id="langModal">
+    <div class="modal-box">
+      <div class="modal-title">🌐 Language / Dil / Taal</div>
+      <div class="lang-grid">
+        <div class="lang-card active" id="btn-tr" onclick="selectLanguage('tr')">🇹🇷 Türkçe</div>
+        <div class="lang-card" id="btn-en" onclick="selectLanguage('en')">🇬🇧 English</div>
+        <div class="lang-card" id="btn-nl" onclick="selectLanguage('nl')">🇳🇱 Nederlands</div>
+        <div class="lang-card" id="btn-ru" onclick="selectLanguage('ru')">🇷🇺 Русский</div>
+        <div class="lang-card" id="btn-de" onclick="selectLanguage('de')">🇩🇪 Deutsch</div>
+      </div>
+      <button class="btn-buy" style="width: 100%;" onclick="closeLanguageModal()">OK</button>
+    </div>
+  </div>
+
   <!-- Bottom Navigation -->
   <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('yavru', this)">
@@ -503,7 +559,6 @@
     let dailySpeed = 0.0010;
     let currentLang = 'tr';
 
-    // Meertalige Vertalingen (TR, EN, NL, RU, DE)
     const i18n = {
       tr: {
         navYavru: "Yavru", navMarket: "Market", navGorevler: "Görevler", navArkadaslar: "Arkadaşlar", navCuzdan: "Cüzdan",
@@ -546,10 +601,10 @@
         petCubMsg: "🦁 The cub is so happy!", petAdultMsg: "🦁 You petted the adult lioness!"
       },
       nl: {
-        navYavru: "Welp", navMarket: "Winkel", navGorevler: "Taken", navArkadaslar: "Vrienden", navCuzdan: "Cüzdan",
+        navYavru: "Welp", navMarket: "Winkel", navGorevler: "Taken", navArkadaslar: "Vrienden", navCuzdan: "Wallet",
         txtBalanceTitle: "MIJN GRAM SALDO", txtDailySpeedLabel: "Dagelijkse Snelheid", txtUnclaimedLabel: "Op te halen", btnClaim: "⚡ CLAIM WINST",
         txtMarketTitle: "🛒 Winkel & Upgrades", mItem1Title: "🐾 Extra Welp Adopteren", mItem1Desc: "Voegt +1 Welp toe (+0.0010 / dag)", mItem1Btn: "+1 Welp ($2)",
-        mItem2Title: "🦁 Welpen Fuseren tot Leeuwin", mItem2Desc: "Vereist: 6 Welpen (Verkeert snelheid x4!)", mItem2Btn: "⚡ FUSEREN ($10)",
+        mItem2Title: "🦁 Welpen Fuseren tot Leeuwin", mItem2Desc: "Vereist: 6 Welpen (Vermenigvuldigt snelheid x4!)", mItem2Btn: "⚡ FUSEREN ($10)",
         mItem3Title: "🥩 Vlees Voeding (Heeft Boost)", mItem3Desc: "Verhoogt snelheid met +0.0005/dag",
         mItem4Title: "🏕️ Savanne Schuilplaats (Lvl 1)", mItem4Desc: "Snelheid: +0.0025 / dag",
         mItem5Title: "🌿 Groene Savanne (Lvl 2)", mItem5Desc: "Snelheid: +0.0080 / dag",
@@ -566,7 +621,7 @@
         petCubMsg: "🦁 De welp is heel blij!", petAdultMsg: "🦁 Je hebt de volwassen leeuwin geaaid!"
       },
       ru: {
-        navYavru: "Lvl", navMarket: "Рынок", navGorevler: "Задачи", navArkadaslar: "Друзья", navCuzdan: "Кошелек",
+        navYavru: "Львенок", navMarket: "Рынок", navGorevler: "Задачи", navArkadaslar: "Друзья", navCuzdan: "Кошелек",
         txtBalanceTitle: "БАЛАНС GRAM", txtDailySpeedLabel: "Дневная скорость", txtUnclaimedLabel: "К сбору", btnClaim: "⚡ СОБРАТЬ ДОХОД",
         txtMarketTitle: "🛒 Магазин и улучшение", mItem1Title: "🐾 Взять львенка", mItem1Desc: "Добавляет +1 львенка (+0.0010 / день)", mItem1Btn: "+1 Львенок ($2)",
         mItem2Title: "🦁 Объединить львят", mItem2Desc: "Нужно: 6 львят (Увеличивает скорость х4!)", mItem2Btn: "⚡ СЛИЯНИЕ ($10)",
@@ -607,21 +662,23 @@
       }
     };
 
-    function setLanguage(lang, btn) {
+    function openLanguageModal() {
+      document.getElementById('langModal').classList.add('active');
+    }
+
+    function closeLanguageModal() {
+      document.getElementById('langModal').classList.remove('active');
+    }
+
+    function selectLanguage(lang) {
       currentLang = lang;
-      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      document.querySelectorAll('.lang-card').forEach(c => c.classList.remove('active'));
+      document.getElementById('btn-' + lang).classList.add('active');
 
       const data = i18n[lang];
       for (let key in data) {
         let el = document.getElementById(key);
-        if (el) {
-          if (el.tagName === 'INPUT' || el.tagName === 'BUTTON') {
-            el.innerText = data[key];
-          } else {
-            el.innerText = data[key];
-          }
-        }
+        if (el) el.innerText = data[key];
       }
       updateCaveDisplay();
     }
@@ -667,8 +724,7 @@
     }
 
     function buyCub() {
-      if (isFused) return;
-      if (cubCount >= 6) return;
+      if (isFused || cubCount >= 6) return;
       cubCount++;
       dailySpeed += 0.0010;
       updateCaveDisplay();

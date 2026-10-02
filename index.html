@@ -26,15 +26,38 @@
       padding-bottom: 85px;
     }
 
+    /* Taalselector Bovenin */
+    .language-selector {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .lang-btn {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .lang-btn.active {
+      background: #ff9900;
+      color: #000;
+      border-color: #ffd700;
+    }
+
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* Speelveld Kaart met Onverwoestbare Savanne/Grot Achtergrond */
+    /* REAL-TIME GROT ACHTERGROND */
     .game-card {
       position: relative;
       width: 100%;
       height: 360px;
-      background: url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
+      background: url('https://i.imgur.com/8QG9gXJ.jpeg') center/cover no-repeat;
       border: 3px solid #ff9900;
       border-radius: 20px;
       overflow: hidden;
@@ -56,7 +79,6 @@
       z-index: 20;
     }
 
-    /* Container voor de leeuwen/welpjes */
     .pride-container {
       position: absolute;
       width: 100%;
@@ -66,7 +88,7 @@
       z-index: 10;
     }
 
-    /* Welpjes Stijl & Posities */
+    /* Welpjes op het Mos in de Grot */
     .cub {
       position: absolute;
       width: 65px;
@@ -83,7 +105,6 @@
     .cub-5 { bottom: 20px; left: 45%; animation: floatSlow 4.2s infinite alternate ease-in-out 2s; }
     .cub-6 { bottom: 80px; left: 18%; animation: floatSlow 3.5s infinite alternate ease-in-out 0.8s; }
 
-    /* Volwassen Leeuwin na Fusie */
     .lioness-adult {
       position: absolute;
       bottom: 25px;
@@ -173,40 +194,54 @@
     }
 
     .page-title {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: #ffd700;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       font-weight: bold;
       text-align: center;
     }
 
-    .market-list {
+    .task-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      max-height: 420px;
+      gap: 10px;
+      max-height: 400px;
       overflow-y: auto;
       padding-right: 4px;
     }
 
-    .item-card {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255,215,0,0.25);
-      border-radius: 10px;
-      padding: 10px;
+    .task-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      border-radius: 12px;
+      padding: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      text-align: left;
     }
 
-    .item-info strong { color: #fff; font-size: 0.88rem; }
-    .item-info small { color: #ffb700; font-size: 0.75rem; }
+    .task-info strong { color: #fff; font-size: 0.88rem; }
+    .task-info small { color: #ffb700; font-size: 0.75rem; }
+
+    .progress-bar {
+      width: 100%;
+      background: rgba(255,255,255,0.1);
+      height: 6px;
+      border-radius: 4px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #28a745;
+      width: 100%;
+    }
 
     .btn-buy {
       background: linear-gradient(135deg, #ff9900, #ff6600);
       border: none;
-      padding: 7px 10px;
+      padding: 8px 12px;
       border-radius: 8px;
       font-weight: bold;
       color: #000;
@@ -215,7 +250,16 @@
       white-space: nowrap;
     }
 
-    /* Slapende Welp bij Cüzdan */
+    .btn-done {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+
     .sleeping-banner {
       width: 100%;
       height: 120px;
@@ -223,7 +267,6 @@
       margin-bottom: 12px;
     }
 
-    /* Bottom Navigation Bar */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -262,134 +305,103 @@
 
   <div class="app-container">
 
-    <!-- TAB 1: YAVRU (HOOFDSCHERM) -->
+    <!-- Taalknoppen -->
+    <div class="language-selector">
+      <button class="lang-btn active" onclick="setLanguage('tr', this)">🇹🇷 TR</button>
+      <button class="lang-btn" onclick="setLanguage('en', this)">🇬🇧 EN</button>
+      <button class="lang-btn" onclick="setLanguage('nl', this)">🇳🇱 NL</button>
+      <button class="lang-btn" onclick="setLanguage('ru', this)">🇷🇺 RU</button>
+      <button class="lang-btn" onclick="setLanguage('de', this)">🇩🇪 DE</button>
+    </div>
+
+    <!-- TAB 1: YAVRU -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
         <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (1 Yavru)</div>
         
         <div class="pride-container" id="prideContainer">
-          <div class="cub cub-1" onclick="petAnimal('Yavru 1')"></div>
+          <div class="cub cub-1" onclick="petAnimal(1)"></div>
         </div>
       </div>
 
       <!-- Saldo Panel -->
       <div class="balance-card">
-        <div class="balance-title">GRAM BAKIYEM</div>
+        <div class="balance-title" id="txtBalanceTitle">GRAM BAKIYEM</div>
         <div class="balance-amount" id="balance">0.000000</div>
 
         <div class="stats-grid">
           <div class="stat-box">
-            <div class="stat-label">Günlük Hız</div>
+            <div class="stat-label" id="txtDailySpeedLabel">Günlük Hız</div>
             <div class="stat-value" id="dailySpeedText">0.0010 / gün</div>
           </div>
           <div class="stat-box">
-            <div class="stat-label">Toplanacak</div>
+            <div class="stat-label" id="txtUnclaimedLabel">Toplanacak</div>
             <div class="stat-value" id="unclaimed">0.000000</div>
           </div>
         </div>
 
-        <button class="btn-claim" onclick="claimEarnings()">⚡ KAZANCI TOPLA</button>
+        <button class="btn-claim" id="btnClaim" onclick="claimEarnings()">⚡ KAZANCI TOPLA</button>
       </div>
     </div>
 
-    <!-- TAB 2: MARKET (VOLLEDIGE TURKSE LIJST) -->
+    <!-- TAB 2: MARKET -->
     <div id="tab-market" class="tab-content">
       <div class="page-box">
-        <div class="page-title">🛒 Market & Yükseltmeler</div>
+        <div class="page-title" id="txtMarketTitle">🛒 Market & Yükseltmeler</div>
         
-        <div class="market-list">
-          <div class="item-card">
-            <div class="item-info">
-              <strong>🐾 Ekstra Yavru Sahiplen</strong><br>
-              <small>Yuvaya +1 Yavru ekler (+0.0010 / gün)</small>
+        <div class="task-list">
+          <div class="task-card">
+            <div class="task-info">
+              <strong id="mItem1Title">🐾 Ekstra Yavru Sahiplen</strong><br>
+              <small id="mItem1Desc">Yuvaya +1 Yavru ekler (+0.0010 / gün)</small>
             </div>
-            <button class="btn-buy" onclick="buyCub()">+1 Yavru ($2)</button>
+            <button class="btn-buy" id="mItem1Btn" onclick="buyCub()">+1 Yavru ($2)</button>
           </div>
 
-          <div class="item-card">
-            <div class="item-info">
-              <strong>🦁 Yavruları Birleştir (Fuse)</strong><br>
-              <small>Gerekli: 6 Yavru (Hızı 4 katına çıkarır!)</small>
+          <div class="task-card">
+            <div class="task-info">
+              <strong id="mItem2Title">🦁 Yavruları Birleştir (Fuse)</strong><br>
+              <small id="mItem2Desc">Gerekli: 6 Yavru (Hızı 4 katına çıkarır!)</small>
             </div>
-            <button class="btn-buy" onclick="fuseCubs()">⚡ BİRLEŞTİR ($10)</button>
+            <button class="btn-buy" id="mItem2Btn" onclick="fuseCubs()">⚡ BİRLEŞTİR ($10)</button>
           </div>
 
-          <div class="item-card">
-            <div class="item-info">
-              <strong>🥩 Atıştırmalık Et</strong><br>
-              <small>Hız: +0.0001 / gün</small>
-            </div>
-            <button class="btn-buy" onclick="buyItem('Atıştırmalık', 2)">$2 (2 GRAM)</button>
-          </div>
-
-          <div class="item-card">
-            <div class="item-info">
-              <strong>🥩 Et Besini (Hız Artışı)</strong><br>
-              <small>Hız: +0.0005 / gün</small>
+          <div class="task-card">
+            <div class="task-info">
+              <strong id="mItem3Title">🥩 Et Besini (Hız Artışı)</strong><br>
+              <small id="mItem3Desc">Hızı +0.0005/gün artırır</small>
             </div>
             <button class="btn-buy" onclick="buyItem('Et Besini', 3)">$3 (3 GRAM)</button>
           </div>
 
-          <div class="item-card">
-            <div class="item-info">
-              <strong>🥩 Büyük Et Porsiyonu</strong><br>
-              <small>Hız: +0.0003 / gün</small>
-            </div>
-            <button class="btn-buy" onclick="buyItem('Büyük Et', 4)">$4 (4 GRAM)</button>
-          </div>
-
-          <div class="item-card">
-            <div class="item-info">
-              <strong>🍗 Ziyafet Paketi</strong><br>
-              <small>Hız: +0.0005 / gün</small>
-            </div>
-            <button class="btn-buy" onclick="buyItem('Ziyafet Paketi', 5)">$5 (5 GRAM)</button>
-          </div>
-
-          <div class="item-card">
-            <div class="item-info">
-              <strong>🏹 Avcı Paketi</strong><br>
-              <small>Hız: +0.0012 / gün</small>
-            </div>
-            <button class="btn-buy" onclick="buyItem('Avcı Paketi', 10)">$10 (10 GRAM)</button>
-          </div>
-
-          <div class="item-card">
-            <div class="item-info">
-              <strong>🏕️ Savana Yuvası (Lvl 1)</strong><br>
-              <small>Hız: +0.0025 / gün</small>
+          <div class="task-card">
+            <div class="task-info">
+              <strong id="mItem4Title">🏕️ Savana Yuvası (Lvl 1)</strong><br>
+              <small id="mItem4Desc">Hız: +0.0025 / gün</small>
             </div>
             <button class="btn-buy" onclick="buyItem('Savana Yuvası', 20)">$20 (20 GRAM)</button>
           </div>
 
-          <div class="item-card">
-            <div class="item-info">
-              <strong>🛣️ Krallık Yolu</strong><br>
-              <small>Hız: +0.0035 / gün</small>
-            </div>
-            <button class="btn-buy" onclick="buyItem('Krallık Yolu', 25)">$25 (25 GRAM)</button>
-          </div>
-
-          <div class="item-card">
-            <div class="item-info">
-              <strong>🌿 Yeşil Savana Yuvası (Lvl 2)</strong><br>
-              <small>Hız: +0.0080 / gün</small>
+          <div class="task-card">
+            <div class="task-info">
+              <strong id="mItem5Title">🌿 Yeşil Savana Yuvası (Lvl 2)</strong><br>
+              <small id="mItem5Desc">Hız: +0.0080 / gün</small>
             </div>
             <button class="btn-buy" onclick="buyItem('Yeşil Savana', 50)">$50 (50 GRAM)</button>
           </div>
 
-          <div class="item-card">
-            <div class="item-info">
-              <strong>🪨 Pride Rock (Gurur Kayası)</strong><br>
-              <small>Hız: +0.0180 / gün</small>
+          <div class="task-card">
+            <div class="task-info">
+              <strong id="mItem6Title">🪨 Pride Rock (Gurur Kayası)</strong><br>
+              <small id="mItem6Desc">Hız: +0.0180 / gün</small>
             </div>
             <button class="btn-buy" onclick="buyItem('Pride Rock', 100)">$100 (100 GRAM)</button>
           </div>
 
-          <div class="item-card">
-            <div class="item-info">
-              <strong>👑 Savana İmparatorluğu</strong><br>
-              <small>Hız: +0.1200 / gün</small>
+          <div class="task-card">
+            <div class="task-info">
+              <strong id="mItem7Title">👑 Savana İmparatorluğu</strong><br>
+              <small id="mItem7Desc">Hız: +0.1200 / gün</small>
             </div>
             <button class="btn-buy" onclick="buyItem('Savana İmparatorluğu', 500)">$500 (500 GRAM)</button>
           </div>
@@ -401,13 +413,35 @@
     <!-- TAB 3: GÖREVLER -->
     <div id="tab-gorevler" class="tab-content">
       <div class="page-box">
-        <div class="page-title">📋 Günlük Görevler</div>
-        <div class="item-card">
-          <div>
-            <strong>Telegram Kanalına Katıl</strong><br>
-            <small style="color: #aaa;">Ödül: +0.005 GRAM</small>
+        <div class="page-title" id="txtTasksTitle">📋 Görevler</div>
+        
+        <div class="task-list">
+          <div class="task-card">
+            <div class="task-info">
+              <strong id="t1Title">📢 Telegram Kanalına Katıl</strong><br>
+              <small id="t1Reward">Ödül: +0.005 GRAM</small>
+              <div class="progress-bar"><div class="progress-fill"></div></div>
+            </div>
+            <button class="btn-done" id="t1Btn">Tamamlandı</button>
           </div>
-          <button class="btn-buy" onclick="alert('Görev Tamamlandı!')">Yap</button>
+
+          <div class="task-card">
+            <div class="task-info">
+              <strong id="t2Title">💰 Bakiyenize en az $5 yatırın</strong><br>
+              <small id="t2Reward">Ödül: +0.010 GRAM</small>
+              <div class="progress-bar"><div class="progress-fill"></div></div>
+            </div>
+            <button class="btn-done" id="t2Btn">Tamamlandı</button>
+          </div>
+
+          <div class="task-card">
+            <div class="task-info">
+              <strong id="t3Title">👥 3 Arkadaşını Davet Et</strong><br>
+              <small id="t3Reward">Ödül: +0.003 GRAM</small>
+              <div class="progress-bar"><div class="progress-fill" style="width: 33%;"></div></div>
+            </div>
+            <button class="btn-buy" id="t3Btn" onclick="alert(i18n[currentLang].inviteCopied)">Yap</button>
+          </div>
         </div>
       </div>
     </div>
@@ -415,61 +449,184 @@
     <!-- TAB 4: ARKADAŞLAR -->
     <div id="tab-arkadaslar" class="tab-content">
       <div class="page-box">
-        <div class="page-title">👥 Arkadaşını Davet Et</div>
-        <p style="text-align: center; font-size: 0.85rem; color: #ccc; margin-bottom: 12px;">
+        <div class="page-title" id="txtFriendsTitle">👥 Arkadaşını Davet Et</div>
+        <p style="text-align: center; font-size: 0.85rem; color: #ccc; margin-bottom: 12px;" id="txtFriendsDesc">
           Her davet ettiğin arkadaşın için +0.001 GRAM hız kazan!
         </p>
-        <button class="btn-claim" onclick="alert('Davet linki kopyalandı!')">🔗 Davet Linkini Kopyala</button>
+        <button class="btn-claim" id="btnInviteLink" onclick="alert(i18n[currentLang].inviteCopied)">🔗 Davet Linkini Kopyala</button>
       </div>
     </div>
 
-    <!-- TAB 5: CÜZDAN (SLAPENDE WELP AFBEELDING IS TERUG) -->
+    <!-- TAB 5: CÜZDAN -->
     <div id="tab-cuzdan" class="tab-content">
       <div class="page-box">
-        <div class="page-title">👛 TON Cüzdanı</div>
+        <div class="page-title" id="txtWalletTitle">👛 TON Cüzdanı</div>
         <div class="sleeping-banner"></div>
-        <p style="text-align: center; font-size: 0.85rem; color: #ccc; margin-bottom: 12px;">
+        <p style="text-align: center; font-size: 0.85rem; color: #ccc; margin-bottom: 12px;" id="txtWalletDesc">
           Cüzdanınızı bağlayarak kazançlarınızı çekebilirsiniz.
         </p>
-        <button class="btn-claim" onclick="alert('TON Cüzdan bağlantısı yakında açılacak!')">💎 Cüzdanı Bağla</button>
+        <button class="btn-claim" id="btnConnectWallet" onclick="alert(i18n[currentLang].walletSoon)">💎 Cüzdanı Bağla</button>
       </div>
     </div>
 
   </div>
 
-  <!-- Bottom Navigation Bar -->
+  <!-- Bottom Navigation -->
   <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('yavru', this)">
       <div class="nav-icon">🦁</div>
-      <div>Yavru</div>
+      <div id="navYavru">Yavru</div>
     </div>
     <div class="nav-item" onclick="switchTab('market', this)">
       <div class="nav-icon">🛒</div>
-      <div>Market</div>
+      <div id="navMarket">Market</div>
     </div>
     <div class="nav-item" onclick="switchTab('gorevler', this)">
       <div class="nav-icon">📋</div>
-      <div>Görevler</div>
+      <div id="navGorevler">Görevler</div>
     </div>
     <div class="nav-item" onclick="switchTab('arkadaslar', this)">
       <div class="nav-icon">👥</div>
-      <div>Arkadaşlar</div>
+      <div id="navArkadaslar">Arkadaşlar</div>
     </div>
     <div class="nav-item" onclick="switchTab('cuzdan', this)">
       <div class="nav-icon">👛</div>
-      <div>Cüzdan</div>
+      <div id="navCuzdan">Cüzdan</div>
     </div>
   </div>
 
   <script>
-    // Game Logica
     let balance = 0.000000;
     let unclaimed = 0.000000;
     let cubCount = 1;
     let isFused = false;
     let dailySpeed = 0.0010;
+    let currentLang = 'tr';
 
-    // Realtime Opteller Elke Seconde
+    // Meertalige Vertalingen (TR, EN, NL, RU, DE)
+    const i18n = {
+      tr: {
+        navYavru: "Yavru", navMarket: "Market", navGorevler: "Görevler", navArkadaslar: "Arkadaşlar", navCuzdan: "Cüzdan",
+        txtBalanceTitle: "GRAM BAKIYEM", txtDailySpeedLabel: "Günlük Hız", txtUnclaimedLabel: "Toplanacak", btnClaim: "⚡ KAZANCI TOPLA",
+        txtMarketTitle: "🛒 Market & Yükseltmeler", mItem1Title: "🐾 Ekstra Yavru Sahiplen", mItem1Desc: "Yuvaya +1 Yavru ekler (+0.0010 / gün)", mItem1Btn: "+1 Yavru ($2)",
+        mItem2Title: "🦁 Yavruları Birleştir (Fuse)", mItem2Desc: "Gerekli: 6 Yavru (Hızı 4 katına çıkarır!)", mItem2Btn: "⚡ BİRLEŞTİR ($10)",
+        mItem3Title: "🥩 Et Besini (Hız Artışı)", mItem3Desc: "Hızı +0.0005/gün artırır",
+        mItem4Title: "🏕️ Savana Yuvası (Lvl 1)", mItem4Desc: "Hız: +0.0025 / gün",
+        mItem5Title: "🌿 Yeşil Savana Yuvası (Lvl 2)", mItem5Desc: "Hız: +0.0080 / gün",
+        mItem6Title: "🪨 Pride Rock (Gurur Kayası)", mItem6Desc: "Hız: +0.0180 / gün",
+        mItem7Title: "👑 Savana İmparatorluğu", mItem7Desc: "Hız: +0.1200 / gün",
+        txtTasksTitle: "📋 Görevler", t1Title: "📢 Telegram Kanalına Katıl", t1Reward: "Ödül: +0.005 GRAM", t1Btn: "Tamamlandı",
+        t2Title: "💰 Bakiyenize en az $5 yatırın", t2Reward: "Ödül: +0.010 GRAM", t2Btn: "Tamamlandı",
+        t3Title: "👥 3 Arkadaşını Davet Et", t3Reward: "Ödül: +0.003 GRAM", t3Btn: "Yap",
+        txtFriendsTitle: "👥 Arkadaşını Davet Et", txtFriendsDesc: "Her davet ettiğin arkadaşın için +0.001 GRAM hız kazan!", btnInviteLink: "🔗 Davet Linkini Kopyala",
+        txtWalletTitle: "👛 TON Cüzdanı", txtWalletDesc: "Cüzdanınızı bağlayarak kazançlarınızı çekebilirsiniz.", btnConnectWallet: "💎 Cüzdanı Bağla",
+        caveTitleCub: "🪨 Yuva: Pride Rock ({c} Yavru)", caveTitleAdult: "👑 Yetişkin Dişi Aslan (Hız x4)",
+        claimSuccess: "Kazanç başarıyla bakiyenize eklendi! 🎉", claimEmpty: "Henüz toplanacak kazanç birikmedi!",
+        inviteCopied: "Davet linki kopyalandı!", walletSoon: "TON Cüzdan bağlantısı yakında açılacak!",
+        petCubMsg: "🦁 Yavru çok mutlu oldu!", petAdultMsg: "🦁 Yetişkin Aslanı sevdiniz!"
+      },
+      en: {
+        navYavru: "Cub", navMarket: "Market", navGorevler: "Tasks", navArkadaslar: "Friends", navCuzdan: "Wallet",
+        txtBalanceTitle: "MY GRAM BALANCE", txtDailySpeedLabel: "Daily Speed", txtUnclaimedLabel: "Unclaimed", btnClaim: "⚡ CLAIM EARNINGS",
+        txtMarketTitle: "🛒 Market & Upgrades", mItem1Title: "🐾 Adopt Extra Cub", mItem1Desc: "Adds +1 Cub to shelter (+0.0010 / day)", mItem1Btn: "+1 Cub ($2)",
+        mItem2Title: "🦁 Fuse Cubs into Lioness", mItem2Desc: "Requires: 6 Cubs (Multiplies speed x4!)", mItem2Btn: "⚡ FUSE ($10)",
+        mItem3Title: "🥩 Meat Food (Speed Boost)", mItem3Desc: "Increases speed by +0.0005/day",
+        mItem4Title: "🏕️ Savanna Shelter (Lvl 1)", mItem4Desc: "Speed: +0.0025 / day",
+        mItem5Title: "🌿 Green Savanna Shelter (Lvl 2)", mItem5Desc: "Speed: +0.0080 / day",
+        mItem6Title: "🪨 Pride Rock", mItem6Desc: "Speed: +0.0180 / day",
+        mItem7Title: "👑 Savanna Empire", mItem7Desc: "Speed: +0.1200 / day",
+        txtTasksTitle: "📋 Tasks", t1Title: "📢 Join Telegram Channel", t1Reward: "Reward: +0.005 GRAM", t1Btn: "Completed",
+        t2Title: "💰 Deposit at least $5", t2Reward: "Reward: +0.010 GRAM", t2Btn: "Completed",
+        t3Title: "👥 Invite 3 Friends", t3Reward: "Reward: +0.003 GRAM", t3Btn: "Do",
+        txtFriendsTitle: "👥 Invite Friends", txtFriendsDesc: "Gain +0.001 GRAM daily speed for each invited friend!", btnInviteLink: "🔗 Copy Invite Link",
+        txtWalletTitle: "👛 TON Wallet", txtWalletDesc: "Connect your wallet to withdraw your earnings.", btnConnectWallet: "💎 Connect Wallet",
+        caveTitleCub: "🪨 Shelter: Pride Rock ({c} Cubs)", caveTitleAdult: "👑 Adult Lioness (Speed x4)",
+        claimSuccess: "Earnings claimed successfully! 🎉", claimEmpty: "No earnings to claim yet!",
+        inviteCopied: "Invite link copied!", walletSoon: "TON Wallet connection opening soon!",
+        petCubMsg: "🦁 The cub is so happy!", petAdultMsg: "🦁 You petted the adult lioness!"
+      },
+      nl: {
+        navYavru: "Welp", navMarket: "Winkel", navGorevler: "Taken", navArkadaslar: "Vrienden", navCuzdan: "Cüzdan",
+        txtBalanceTitle: "MIJN GRAM SALDO", txtDailySpeedLabel: "Dagelijkse Snelheid", txtUnclaimedLabel: "Op te halen", btnClaim: "⚡ CLAIM WINST",
+        txtMarketTitle: "🛒 Winkel & Upgrades", mItem1Title: "🐾 Extra Welp Adopteren", mItem1Desc: "Voegt +1 Welp toe (+0.0010 / dag)", mItem1Btn: "+1 Welp ($2)",
+        mItem2Title: "🦁 Welpen Fuseren tot Leeuwin", mItem2Desc: "Vereist: 6 Welpen (Verkeert snelheid x4!)", mItem2Btn: "⚡ FUSEREN ($10)",
+        mItem3Title: "🥩 Vlees Voeding (Heeft Boost)", mItem3Desc: "Verhoogt snelheid met +0.0005/dag",
+        mItem4Title: "🏕️ Savanne Schuilplaats (Lvl 1)", mItem4Desc: "Snelheid: +0.0025 / dag",
+        mItem5Title: "🌿 Groene Savanne (Lvl 2)", mItem5Desc: "Snelheid: +0.0080 / dag",
+        mItem6Title: "🪨 Pride Rock", mItem6Desc: "Snelheid: +0.0180 / dag",
+        mItem7Title: "👑 Savanne Imperium", mItem7Desc: "Snelheid: +0.1200 / dag",
+        txtTasksTitle: "📋 Taken", t1Title: "📢 Word lid van Telegram Kanaal", t1Reward: "Beloning: +0.005 GRAM", t1Btn: "Voltooid",
+        t2Title: "💰 Stort minimaal $5", t2Reward: "Beloning: +0.010 GRAM", t2Btn: "Voltooid",
+        t3Title: "👥 Nodig 3 Vrienden uit", t3Reward: "Beloning: +0.003 GRAM", t3Btn: "Doen",
+        txtFriendsTitle: "👥 Vrienden Uitnodigen", txtFriendsDesc: "Verdien +0.001 GRAM snelheid per uitgenodigde vriend!", btnInviteLink: "🔗 Uitnodigingslink Kopiëren",
+        txtWalletTitle: "👛 TON Wallet", txtWalletDesc: "Koppel je wallet om winst op te nemen.", btnConnectWallet: "💎 Wallet Koppelen",
+        caveTitleCub: "🪨 Schuilplaats: Pride Rock ({c} Welpen)", caveTitleAdult: "👑 Volwassen Leeuwin (Snelheid x4)",
+        claimSuccess: "Winst succesvol geïncasseerd! 🎉", claimEmpty: "Nog geen winst om op te halen!",
+        inviteCopied: "Uitnodigingslink gekopieerd!", walletSoon: "TON Wallet koppeling binnenkort beschikbaar!",
+        petCubMsg: "🦁 De welp is heel blij!", petAdultMsg: "🦁 Je hebt de volwassen leeuwin geaaid!"
+      },
+      ru: {
+        navYavru: "Lvl", navMarket: "Рынок", navGorevler: "Задачи", navArkadaslar: "Друзья", navCuzdan: "Кошелек",
+        txtBalanceTitle: "БАЛАНС GRAM", txtDailySpeedLabel: "Дневная скорость", txtUnclaimedLabel: "К сбору", btnClaim: "⚡ СОБРАТЬ ДОХОД",
+        txtMarketTitle: "🛒 Магазин и улучшение", mItem1Title: "🐾 Взять львенка", mItem1Desc: "Добавляет +1 львенка (+0.0010 / день)", mItem1Btn: "+1 Львенок ($2)",
+        mItem2Title: "🦁 Объединить львят", mItem2Desc: "Нужно: 6 львят (Увеличивает скорость х4!)", mItem2Btn: "⚡ СЛИЯНИЕ ($10)",
+        mItem3Title: "🥩 Мясной рацион", mItem3Desc: "Увеличивает скорость на +0.0005/день",
+        mItem4Title: "🏕️ Укрытие в саванне", mItem4Desc: "Скорость: +0.0025 / день",
+        mItem5Title: "🌿 Зеленая саванна", mItem5Desc: "Скорость: +0.0080 / день",
+        mItem6Title: "🪨 Скала Предков", mItem6Desc: "Скорость: +0.0180 / день",
+        mItem7Title: "👑 Империя Саванны", mItem7Desc: "Скорость: +0.1200 / день",
+        txtTasksTitle: "📋 Задания", t1Title: "📢 Вступить в Telegram канал", t1Reward: "Награда: +0.005 GRAM", t1Btn: "Готово",
+        t2Title: "💰 Пополнить баланс от $5", t2Reward: "Награда: +0.010 GRAM", t2Btn: "Готово",
+        t3Title: "👥 Пригласить 3 друзей", t3Reward: "Награда: +0.003 GRAM", t3Btn: "Сделать",
+        txtFriendsTitle: "👥 Пригласи друзей", txtFriendsDesc: "Получай +0.001 GRAM скорости за каждого друга!", btnInviteLink: "🔗 Скопировать ссылку",
+        txtWalletTitle: "👛 TON Кошелек", txtWalletDesc: "Подключите кошелек для вывода средств.", btnConnectWallet: "💎 Подключить кошелек",
+        caveTitleCub: "🪨 Укрытие: Pride Rock ({c} Львят)", caveTitleAdult: "👑 Взрослая львица (Скорость x4)",
+        claimSuccess: "Доход успешно собран! 🎉", claimEmpty: "Пока нет дохода для сбора!",
+        inviteCopied: "Ссылка скопирована!", walletSoon: "Подключение TON кошелька скоро!",
+        petCubMsg: "🦁 Львенок очень рад!", petAdultMsg: "🦁 Вы погладили львицу!"
+      },
+      de: {
+        navYavru: "Junge", navMarket: "Markt", navGorevler: "Aufgaben", navArkadaslar: "Freunde", navCuzdan: "Geldbörse",
+        txtBalanceTitle: "MEIN GRAM GUTHABEN", txtDailySpeedLabel: "Tagesgeschwindigkeit", txtUnclaimedLabel: "Bereit zum Abholen", btnClaim: "⚡ GEWINN ABHOLEN",
+        txtMarketTitle: "🛒 Markt & Upgrades", mItem1Title: "🐾 Extra Löwenjunges adoptieren", mItem1Desc: "Fügt +1 Junges hinzu (+0.0010 / Tag)", mItem1Btn: "+1 Junges ($2)",
+        mItem2Title: "🦁 Junge zur Löwin verschmelzen", mItem2Desc: "Benötigt: 6 Junge (Vervielfacht Tempo x4!)", mItem2Btn: "⚡ FUSIONIEREN ($10)",
+        mItem3Title: "🥩 Fleisch-Nahrung", mItem3Desc: "Erhöht Tempo um +0.0005/Tag",
+        mItem4Title: "🏕️ Savannen-Unterkunft", mItem4Desc: "Tempo: +0.0025 / Tag",
+        mItem5Title: "🌿 Grüne Savanne", mItem5Desc: "Tempo: +0.0080 / Tag",
+        mItem6Title: "🪨 Pride Rock", mItem6Desc: "Tempo: +0.0180 / Tag",
+        mItem7Title: "👑 Savannen-Imperium", mItem7Desc: "Tempo: +0.1200 / Tag",
+        txtTasksTitle: "📋 Aufgaben", t1Title: "📢 Telegram-Kanal beitreten", t1Reward: "Belohnung: +0.005 GRAM", t1Btn: "Erledigt",
+        t2Title: "💰 Mindestens $5 einzahlen", t2Reward: "Belohnung: +0.010 GRAM", t2Btn: "Erledigt",
+        t3Title: "👥 3 Freunde einladen", t3Reward: "Belohnung: +0.003 GRAM", t3Btn: "Start",
+        txtFriendsTitle: "👥 Freunde einladen", txtFriendsDesc: "Erhalte +0.001 GRAM Tempo pro eingeladenem Freund!", btnInviteLink: "🔗 Einladungslink kopieren",
+        txtWalletTitle: "👛 TON Geldbörse", txtWalletDesc: "Verbinde deine Geldbörse, um Gewinne abzuheben.", btnConnectWallet: "💎 Wallet verbinden",
+        caveTitleCub: "🪨 Unterkunft: Pride Rock ({c} Junge)", caveTitleAdult: "👑 Ausgewachsene Löwin (Tempo x4)",
+        claimSuccess: "Gewinn erfolgreich abgeholt! 🎉", claimEmpty: "Noch kein Gewinn zum Abholen da!",
+        inviteCopied: "Einladungslink kopiert!", walletSoon: "TON Wallet Verbindung öffnet bald!",
+        petCubMsg: "🦁 Das Junge freut sich sehr!", petAdultMsg: "🦁 Du hast die Löwin gestreichelt!"
+      }
+    };
+
+    function setLanguage(lang, btn) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const data = i18n[lang];
+      for (let key in data) {
+        let el = document.getElementById(key);
+        if (el) {
+          if (el.tagName === 'INPUT' || el.tagName === 'BUTTON') {
+            el.innerText = data[key];
+          } else {
+            el.innerText = data[key];
+          }
+        }
+      }
+      updateCaveDisplay();
+    }
+
+    // Realtime Mining
     setInterval(() => {
       let speedPerSecond = dailySpeed / 86400;
       unclaimed += speedPerSecond;
@@ -477,15 +634,15 @@
     }, 1000);
 
     function claimEarnings() {
-      if (unclaimed <= 0.000001) {
-        alert("Henüz toplanacak kazanç birikmedi!");
+      if (unclaimed < 0.0000001) {
+        alert(i18n[currentLang].claimEmpty);
         return;
       }
       balance += unclaimed;
       unclaimed = 0;
       document.getElementById('balance').innerText = balance.toFixed(6);
       document.getElementById('unclaimed').innerText = "0.000000";
-      alert("Kazanç başarıyla bakiyenize eklendi! 🎉");
+      alert(i18n[currentLang].claimSuccess);
     }
 
     function updateCaveDisplay() {
@@ -493,55 +650,40 @@
       const title = document.getElementById('caveTitle');
 
       if (isFused) {
-        container.innerHTML = `<div class="lioness-adult" onclick="petAnimal('Yetişkin Dişi Aslan')"></div>`;
-        title.innerText = "👑 Yetişkin Dişi Aslan (Hız x4)";
-        document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
+        container.innerHTML = `<div class="lioness-adult" onclick="petAnimal('adult')"></div>`;
+        title.innerText = i18n[currentLang].caveTitleAdult;
+        document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / day";
         return;
       }
 
-      title.innerText = `🪨 Yuva: Pride Rock (${cubCount} Yavru)`;
-      document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
+      title.innerText = i18n[currentLang].caveTitleCub.replace('{c}', cubCount);
+      document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / day";
 
       let html = '';
       for (let i = 1; i <= cubCount; i++) {
-        html += `<div class="cub cub-${i}" onclick="petAnimal('Yavru ${i}')"></div>`;
+        html += `<div class="cub cub-${i}" onclick="petAnimal('cub')"></div>`;
       }
       container.innerHTML = html;
     }
 
     function buyCub() {
-      if (isFused) {
-        alert("Zaten yetişkin dişi aslana ulaştınız!");
-        return;
-      }
-      if (cubCount >= 6) {
-        alert("Maksimum 6 yavruya ulaştınız! Marketten 'Birleştir' butonunu kullanarak yavruları birleştirebilirsiniz.");
-        return;
-      }
+      if (isFused) return;
+      if (cubCount >= 6) return;
       cubCount++;
       dailySpeed += 0.0010;
       updateCaveDisplay();
-      alert(`Tebrikler! Yuvaya #${cubCount} numaralı yavru eklendi! 🐾`);
     }
 
     function fuseCubs() {
-      if (isFused) {
-        alert("Yavrularınız zaten yetişkin bir aslan oldu!");
-        return;
-      }
-      if (cubCount < 6) {
-        alert(`Birleştirmek için 6 yavruya ihtiyacınız var! Şu an ${cubCount} yavrunuz var.`);
-        return;
-      }
-
+      if (isFused || cubCount < 6) return;
       isFused = true;
       dailySpeed = dailySpeed * 4;
       updateCaveDisplay();
-      alert("🎉 BİRLEŞTİRME BAŞARILI! 6 yavru birleşti ve güçlü bir Yetişkin Dişi Aslan oldu! Kazım hızınız 4 katına çıktı!");
     }
 
-    function petAnimal(name) {
-      alert(`🦁 ${name} çok mutlu oldu!`);
+    function petAnimal(type) {
+      if (type === 'adult') alert(i18n[currentLang].petAdultMsg);
+      else alert(i18n[currentLang].petCubMsg);
     }
 
     function switchTab(tabName, element) {
@@ -552,7 +694,7 @@
     }
 
     function buyItem(name, price) {
-      alert(`${name} satın alındı! Fiyat: $${price}`);
+      alert(`${name} - $${price}`);
     }
   </script>
 </body>

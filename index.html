@@ -30,7 +30,7 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* STABIELE GROT ACHTERGROND (Gegarandeerd werkend op Telegram) */
+    /* STABIELE GROT ACHTERGROND */
     .game-card {
       position: relative;
       width: 100%;
@@ -57,7 +57,6 @@
       z-index: 20;
     }
 
-    /* Instellingen Knop Rechtsboven */
     .settings-btn {
       position: absolute;
       top: 10px;
@@ -137,7 +136,6 @@
       z-index: 10;
     }
 
-    /* Welpjes Sprite Posities */
     .cub {
       position: absolute;
       width: 65px;
@@ -176,7 +174,6 @@
       100% { transform: scale(1.3) translateY(-4px); }
     }
 
-    /* Saldo Panel */
     .balance-card {
       background: rgba(28, 18, 10, 0.92);
       border: 1.5px solid #5a3d24;
@@ -506,7 +503,7 @@
         <p style="text-align: center; font-size: 0.85rem; color: #ccc; margin-bottom: 12px;" id="txtWalletDesc">
           Cüzdanınızı bağlayarak kazançlarınızı çekebilirsiniz.
         </p>
-        <button class="btn-claim" id="btnConnectWallet" onclick="alert(i18n[currentLang].walletSoon)">💎 Cüzdanı Bağla</button>
+        <button class="btn-claim" id="btnConnectWallet" onclick="connectWallet()">💎 Cüzdanı Bağla</button>
       </div>
     </div>
 
@@ -552,12 +549,14 @@
   </div>
 
   <script>
-    let balance = 0.000000;
-    let unclaimed = 0.000000;
-    let cubCount = 1;
-    let isFused = false;
-    let dailySpeed = 0.0010;
-    let currentLang = 'tr';
+    // Game Variabelen met Opslagfunctie (localStorage)
+    let balance = parseFloat(localStorage.getItem('balance')) || 0.000000;
+    let unclaimed = parseFloat(localStorage.getItem('unclaimed')) || 0.000000;
+    let cubCount = parseInt(localStorage.getItem('cubCount')) || 1;
+    let isFused = localStorage.getItem('isFused') === 'true';
+    let dailySpeed = parseFloat(localStorage.getItem('dailySpeed')) || 0.0010;
+    let isWalletConnected = localStorage.getItem('isWalletConnected') === 'true';
+    let currentLang = localStorage.getItem('currentLang') || 'tr';
 
     const i18n = {
       tr: {
@@ -577,7 +576,8 @@
         txtWalletTitle: "👛 TON Cüzdanı", txtWalletDesc: "Cüzdanınızı bağlayarak kazançlarınızı çekebilirsiniz.", btnConnectWallet: "💎 Cüzdanı Bağla",
         caveTitleCub: "🪨 Yuva: Pride Rock ({c} Yavru)", caveTitleAdult: "👑 Yetişkin Dişi Aslan (Hız x4)",
         claimSuccess: "Kazanç başarıyla bakiyenize eklendi! 🎉", claimEmpty: "Henüz toplanacak kazanç birikmedi!",
-        inviteCopied: "Davet linki kopyalandı!", walletSoon: "TON Cüzdan bağlantısı yakında açılacak!",
+        inviteCopied: "Davet linki kopyalandı!", walletSoon: "TON Cüzdan başarıyla bağlandı!",
+        needWallet: "Lütfen önce Cüzdan (Wallet) sekmesinden cüzdanınızı bağlayın veya ödeme yapın!",
         petCubMsg: "🦁 Yavru çok mutlu oldu!", petAdultMsg: "🦁 Yetişkin Aslanı sevdiniz!"
       },
       en: {
@@ -597,7 +597,8 @@
         txtWalletTitle: "👛 TON Wallet", txtWalletDesc: "Connect your wallet to withdraw your earnings.", btnConnectWallet: "💎 Connect Wallet",
         caveTitleCub: "🪨 Shelter: Pride Rock ({c} Cubs)", caveTitleAdult: "👑 Adult Lioness (Speed x4)",
         claimSuccess: "Earnings claimed successfully! 🎉", claimEmpty: "No earnings to claim yet!",
-        inviteCopied: "Invite link copied!", walletSoon: "TON Wallet connection opening soon!",
+        inviteCopied: "Invite link copied!", walletSoon: "TON Wallet connected successfully!",
+        needWallet: "Please connect your wallet or make payment first!",
         petCubMsg: "🦁 The cub is so happy!", petAdultMsg: "🦁 You petted the adult lioness!"
       },
       nl: {
@@ -618,6 +619,7 @@
         caveTitleCub: "🪨 Schuilplaats: Pride Rock ({c} Welpen)", caveTitleAdult: "👑 Volwassen Leeuwin (Snelheid x4)",
         claimSuccess: "Winst succesvol geïncasseerd! 🎉", claimEmpty: "Nog geen winst om op te halen!",
         inviteCopied: "Uitnodigingslink gekopieerd!", walletSoon: "TON Wallet koppeling binnenkort beschikbaar!",
+        needWallet: "Koppel eerst je cüzdan/wallet om een aankoop te doen!",
         petCubMsg: "🦁 De welp is heel blij!", petAdultMsg: "🦁 Je hebt de volwassen leeuwin geaaid!"
       },
       ru: {
@@ -637,7 +639,8 @@
         txtWalletTitle: "👛 TON Кошелек", txtWalletDesc: "Подключите кошелек для вывода средств.", btnConnectWallet: "💎 Подключить кошелек",
         caveTitleCub: "🪨 Укрытие: Pride Rock ({c} Львят)", caveTitleAdult: "👑 Взрослая львица (Скорость x4)",
         claimSuccess: "Доход успешно собран! 🎉", claimEmpty: "Пока нет дохода для сбора!",
-        inviteCopied: "Ссылка скопирована!", walletSoon: "Подключение TON кошелька скоро!",
+        inviteCopied: "Ссылка скопирована!", walletSoon: "Подключение TON кошелька успешно!",
+        needWallet: "Сначала подключите кошелек для покупки!",
         petCubMsg: "🦁 Львенок очень рад!", petAdultMsg: "🦁 Вы погладили львицу!"
       },
       de: {
@@ -646,7 +649,7 @@
         txtMarketTitle: "🛒 Markt & Upgrades", mItem1Title: "🐾 Extra Löwenjunges adoptieren", mItem1Desc: "Fügt +1 Junges hinzu (+0.0010 / Tag)", mItem1Btn: "+1 Junges ($2)",
         mItem2Title: "🦁 Junge zur Löwin verschmelzen", mItem2Desc: "Benötigt: 6 Junge (Vervielfacht Tempo x4!)", mItem2Btn: "⚡ FUSIONIEREN ($10)",
         mItem3Title: "🥩 Fleisch-Nahrung", mItem3Desc: "Erhöht Tempo um +0.0005/Tag",
-        mItem4Title: "🏕️ Savannen-Unterkunft", mItem4Desc: "Tempo: +0.0025 / Tag",
+        mItem4Title: "🏕️️ Savannen-Unterkunft", mItem4Desc: "Tempo: +0.0025 / Tag",
         mItem5Title: "🌿 Grüne Savanne", mItem5Desc: "Tempo: +0.0080 / Tag",
         mItem6Title: "🪨 Pride Rock", mItem6Desc: "Tempo: +0.0180 / Tag",
         mItem7Title: "👑 Savannen-Imperium", mItem7Desc: "Tempo: +0.1200 / Tag",
@@ -657,37 +660,28 @@
         txtWalletTitle: "👛 TON Geldbörse", txtWalletDesc: "Verbinde deine Geldbörse, um Gewinne abzuheben.", btnConnectWallet: "💎 Wallet verbinden",
         caveTitleCub: "🪨 Unterkunft: Pride Rock ({c} Junge)", caveTitleAdult: "👑 Ausgewachsene Löwin (Tempo x4)",
         claimSuccess: "Gewinn erfolgreich abgeholt! 🎉", claimEmpty: "Noch kein Gewinn zum Abholen da!",
-        inviteCopied: "Einladungslink kopiert!", walletSoon: "TON Wallet Verbindung öffnet bald!",
+        inviteCopied: "Einladungslink kopiert!", walletSoon: "TON Wallet Verbindung erfolgreich!",
+        needWallet: "Bitte verbinde zuerst deine Geldbörse für Käufe!",
         petCubMsg: "🦁 Das Junge freut sich sehr!", petAdultMsg: "🦁 Du hast die Löwin gestreichelt!"
       }
     };
 
-    function openLanguageModal() {
-      document.getElementById('langModal').classList.add('active');
+    function saveData() {
+      localStorage.setItem('balance', balance);
+      localStorage.setItem('unclaimed', unclaimed);
+      localStorage.setItem('cubCount', cubCount);
+      localStorage.setItem('isFused', isFused);
+      localStorage.setItem('dailySpeed', dailySpeed);
+      localStorage.setItem('isWalletConnected', isWalletConnected);
+      localStorage.setItem('currentLang', currentLang);
     }
 
-    function closeLanguageModal() {
-      document.getElementById('langModal').classList.remove('active');
-    }
-
-    function selectLanguage(lang) {
-      currentLang = lang;
-      document.querySelectorAll('.lang-card').forEach(c => c.classList.remove('active'));
-      document.getElementById('btn-' + lang).classList.add('active');
-
-      const data = i18n[lang];
-      for (let key in data) {
-        let el = document.getElementById(key);
-        if (el) el.innerText = data[key];
-      }
-      updateCaveDisplay();
-    }
-
-    // Realtime Mining
+    // Realtime Mining Interval met opslag
     setInterval(() => {
       let speedPerSecond = dailySpeed / 86400;
       unclaimed += speedPerSecond;
       document.getElementById('unclaimed').innerText = unclaimed.toFixed(6);
+      saveData();
     }, 1000);
 
     function claimEarnings() {
@@ -699,22 +693,54 @@
       unclaimed = 0;
       document.getElementById('balance').innerText = balance.toFixed(6);
       document.getElementById('unclaimed').innerText = "0.000000";
+      saveData();
       alert(i18n[currentLang].claimSuccess);
     }
 
+    function connectWallet() {
+      isWalletConnected = true;
+      saveData();
+      alert(i18n[currentLang].walletSoon);
+    }
+
+    function buyCub() {
+      if (!isWalletConnected) {
+        alert(i18n[currentLang].needWallet);
+        return;
+      }
+      if (isFused || cubCount >= 6) return;
+      cubCount++;
+      dailySpeed += 0.0010;
+      updateCaveDisplay();
+      saveData();
+    }
+
+    function fuseCubs() {
+      if (!isWalletConnected) {
+        alert(i18n[currentLang].needWallet);
+        return;
+      }
+      if (isFused || cubCount < 6) return;
+      isFused = true;
+      dailySpeed = dailySpeed * 4;
+      updateCaveDisplay();
+      saveData();
+    }
+
     function updateCaveDisplay() {
+      document.getElementById('balance').innerText = balance.toFixed(6);
       const container = document.getElementById('prideContainer');
       const title = document.getElementById('caveTitle');
 
       if (isFused) {
         container.innerHTML = `<div class="lioness-adult" onclick="petAnimal('adult')"></div>`;
         title.innerText = i18n[currentLang].caveTitleAdult;
-        document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / day";
+        document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
         return;
       }
 
       title.innerText = i18n[currentLang].caveTitleCub.replace('{c}', cubCount);
-      document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / day";
+      document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
 
       let html = '';
       for (let i = 1; i <= cubCount; i++) {
@@ -723,17 +749,17 @@
       container.innerHTML = html;
     }
 
-    function buyCub() {
-      if (isFused || cubCount >= 6) return;
-      cubCount++;
-      dailySpeed += 0.0010;
-      updateCaveDisplay();
-    }
+    function openLanguageModal() { document.getElementById('langModal').classList.add('active'); }
+    function closeLanguageModal() { document.getElementById('langModal').classList.remove('active'); }
 
-    function fuseCubs() {
-      if (isFused || cubCount < 6) return;
-      isFused = true;
-      dailySpeed = dailySpeed * 4;
+    function selectLanguage(lang) {
+      currentLang = lang;
+      saveData();
+      const data = i18n[lang] || i18n['en'];
+      for (let key in data) {
+        let el = document.getElementById(key);
+        if (el) el.innerText = data[key];
+      }
       updateCaveDisplay();
     }
 
@@ -750,8 +776,16 @@
     }
 
     function buyItem(name, price) {
+      if (!isWalletConnected) {
+        alert(i18n[currentLang].needWallet);
+        return;
+      }
       alert(`${name} - $${price}`);
     }
+
+    // Direct inladen bij opstarten
+    selectLanguage(currentLang);
+    updateCaveDisplay();
   </script>
 </body>
 </html>

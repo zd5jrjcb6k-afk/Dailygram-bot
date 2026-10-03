@@ -30,17 +30,28 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* GROTERE ACHTERGROND KAART (Tot aan de rode streep) */
+    /* BEWEGENDE VIDEO ACHTERGROND KAART */
     .game-card {
       position: relative;
       width: 100%;
-      height: 470px; /* Groter gemaakt */
-      background: #122536 url('./background.JPG') center/cover no-repeat;
+      height: 470px;
       border: 3px solid #ff9900;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 8px 25px rgba(0,0,0,0.8);
       margin-bottom: 8px;
+      background: #122536;
+    }
+
+    /* Achtergrond Video */
+    .bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
     }
 
     .shelter-badge {
@@ -356,6 +367,11 @@
     <!-- TAB 1: YAVRU -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
+        <!-- Achtergrond Video -->
+        <video class="bg-video" autoplay loop muted playsinline poster="./background.JPG">
+          <source src="./background.mp4" type="video/mp4">
+        </video>
+
         <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (1 Yavru)</div>
         <div class="settings-btn" onclick="openLanguageModal()">⚙️</div>
         
@@ -567,7 +583,7 @@
         txtMarketTitle: "🛒 Market & Yükseltmeler", mItem1Title: "🐾 Ekstra Yavru Sahiplen", mItem1Desc: "Yuvaya +1 Yavru ekler (+0.0010 / gün)", mItem1Btn: "+1 Yavru ($2)",
         mItem2Title: "🦁 Yavruları Birleştir (Fuse)", mItem2Desc: "Gerekli: 6 Yavru (Hızı 4 katına çıkarır!)", mItem2Btn: "⚡ BİRLEŞTİR ($10)",
         mItem3Title: "🥩 Et Besini (Hız Artışı)", mItem3Desc: "Hızı +0.0005/gün artırır",
-        mItem4Title: "🏕️ Savana Yuvası (Lvl 1)", mItem4Desc: "Hız: +0.0025 / gün",
+        mItem4Title: "🏕️️ Savana Yuvası (Lvl 1)", mItem4Desc: "Hız: +0.0025 / gün",
         mItem5Title: "🌿 Yeşil Savana Yuvası (Lvl 2)", mItem5Desc: "Hız: +0.0080 / gün",
         mItem6Title: "🪨 Pride Rock (Gurur Kayası)", mItem6Desc: "Hız: +0.0180 / gün",
         mItem7Title: "👑 Savana İmparatorluğu", mItem7Desc: "Hız: +0.1200 / gün",

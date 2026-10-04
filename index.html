@@ -43,7 +43,6 @@
       background: #122536;
     }
 
-    /* Achtergrond Video */
     .bg-video {
       position: absolute;
       top: 0;
@@ -86,7 +85,6 @@
       z-index: 20;
     }
 
-    /* Taalkeuze Pop-up Modal */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -367,9 +365,9 @@
     <!-- TAB 1: YAVRU -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
-        <!-- Achtergrond Video -->
+        <!-- Achtergrond Video ingesteld op background.MP4 -->
         <video class="bg-video" autoplay loop muted playsinline poster="./background.JPG">
-          <source src="./background.mp4" type="video/mp4">
+          <source src="./background.MP4" type="video/mp4">
         </video>
 
         <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (1 Yavru)</div>
@@ -527,7 +525,6 @@
 
   </div>
 
-  <!-- Taalkeuze Pop-up Modal -->
   <div class="modal-overlay" id="langModal">
     <div class="modal-box">
       <div class="modal-title">🌐 Language / Dil / Taal</div>
@@ -542,7 +539,6 @@
     </div>
   </div>
 
-  <!-- Bottom Navigation -->
   <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('yavru', this)">
       <div class="nav-icon">🦁</div>
@@ -567,7 +563,6 @@
   </div>
 
   <script>
-    // Game Variabelen met Opslagfunctie (localStorage)
     let balance = parseFloat(localStorage.getItem('balance')) || 0.00000000;
     let unclaimed = parseFloat(localStorage.getItem('unclaimed')) || 0.00000000;
     let cubCount = parseInt(localStorage.getItem('cubCount')) || 1;
@@ -575,6 +570,15 @@
     let dailySpeed = parseFloat(localStorage.getItem('dailySpeed')) || 0.0010;
     let isWalletConnected = localStorage.getItem('isWalletConnected') === 'true';
     let currentLang = localStorage.getItem('currentLang') || 'tr';
+    let lastTime = parseInt(localStorage.getItem('lastSavedTime')) || Date.now();
+
+    // OFFLINE MINING REKENLOGICA (Telt door als app uit staat)
+    let now = Date.now();
+    let secondsPassed = Math.floor((now - lastTime) / 1000);
+    if (secondsPassed > 0) {
+      let offlineEarnings = (dailySpeed / 86400) * secondsPassed;
+      unclaimed += offlineEarnings;
+    }
 
     const i18n = {
       tr: {
@@ -583,7 +587,7 @@
         txtMarketTitle: "🛒 Market & Yükseltmeler", mItem1Title: "🐾 Ekstra Yavru Sahiplen", mItem1Desc: "Yuvaya +1 Yavru ekler (+0.0010 / gün)", mItem1Btn: "+1 Yavru ($2)",
         mItem2Title: "🦁 Yavruları Birleştir (Fuse)", mItem2Desc: "Gerekli: 6 Yavru (Hızı 4 katına çıkarır!)", mItem2Btn: "⚡ BİRLEŞTİR ($10)",
         mItem3Title: "🥩 Et Besini (Hız Artışı)", mItem3Desc: "Hızı +0.0005/gün artırır",
-        mItem4Title: "🏕️️ Savana Yuvası (Lvl 1)", mItem4Desc: "Hız: +0.0025 / gün",
+        mItem4Title: "🏕️ Savana Yuvası (Lvl 1)", mItem4Desc: "Hız: +0.0025 / gün",
         mItem5Title: "🌿 Yeşil Savana Yuvası (Lvl 2)", mItem5Desc: "Hız: +0.0080 / gün",
         mItem6Title: "🪨 Pride Rock (Gurur Kayası)", mItem6Desc: "Hız: +0.0180 / gün",
         mItem7Title: "👑 Savana İmparatorluğu", mItem7Desc: "Hız: +0.1200 / gün",
@@ -692,9 +696,9 @@
       localStorage.setItem('dailySpeed', dailySpeed);
       localStorage.setItem('isWalletConnected', isWalletConnected);
       localStorage.setItem('currentLang', currentLang);
+      localStorage.setItem('lastSavedTime', Date.now());
     }
 
-    // Live Mining per Seconde (met 8 decimalen)
     setInterval(() => {
       let speedPerSecond = dailySpeed / 86400;
       unclaimed += speedPerSecond;
@@ -801,7 +805,6 @@
       alert(`${name} - $${price}`);
     }
 
-    // Direct inladen bij opstarten
     selectLanguage(currentLang);
     updateCaveDisplay();
   </script>

@@ -30,7 +30,7 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* ACHTERGROND KAART - Uitgezoomed voor gehele weergave */
+    /* ACHTERGROND KAART */
     .game-card {
       position: relative;
       width: 100%;
@@ -46,7 +46,6 @@
       justify-content: center;
     }
 
-    /* Video op 'contain' gezet zodat alles volledig zichtbaar is */
     .bg-video {
       width: 100%;
       height: 100%;
@@ -309,17 +308,38 @@
     }
 
     .nav-icon { font-size: 1.3rem; }
+
+    /* IN-GAME KENNISGEVING (ZONDER DE VIDEO TE PAUZEREN) */
+    .toast-notification {
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      border: 1.5px solid #ffd700;
+      color: #ffd700;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      z-index: 50;
+      display: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
   </style>
 </head>
 <body>
 
   <div class="app-container">
 
+    <!-- Toast Notification (Vervangt de blockerende alert) -->
+    <div id="toast" class="toast-notification"></div>
+
     <!-- TAB 1: YAVRU -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
-        <video class="bg-video" autoplay loop muted playsinline poster="./background.JPG">
-          <source src="./background.MP4" type="video/mp4">
+        <video id="bgVideo" class="bg-video" autoplay loop muted playsinline poster="./background.JPG">
+          <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
         </video>
 
         <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (1 Yavru)</div>
@@ -362,18 +382,26 @@
 
           <div class="task-card">
             <div class="task-info">
-              <strong id="mItem2Title">🦁 Yavruları Birleştir (Fuse)</strong><br>
-              <small id="mItem2Desc">Gerekli: 6 Yavru (Hızı 4 katına çıkarır!)</small>
-            </div>
-            <button class="btn-buy" id="mItem2Btn" onclick="fuseCubs()">⚡ BİRLEŞTİR ($10)</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
               <strong id="mItem3Title">🥩 Et Besini (Hız Artışı)</strong><br>
               <small id="mItem3Desc">Hızı +0.0005/gün artırır</small>
             </div>
             <button class="btn-buy" onclick="buyItem('Et Besini', 3)">$3 (3 GRAM)</button>
+          </div>
+
+          <div class="task-card">
+            <div class="task-info">
+              <strong>🍖 Özel Besin Paketi</strong><br>
+              <small>Hızı +0.0015/gün artırır</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Özel Besin Paketi', 5)">$5 (5 GRAM)</button>
+          </div>
+
+          <div class="task-card">
+            <div class="task-info">
+              <strong id="mItem2Title">🦁 Yavruları Birleştir (Fuse)</strong><br>
+              <small id="mItem2Desc">Gerekli: 6 Yavru (Hızı 4 katına çıkarır!)</small>
+            </div>
+            <button class="btn-buy" id="mItem2Btn" onclick="fuseCubs()">⚡ BİRLEŞTİR ($10)</button>
           </div>
 
           <div class="task-card">
@@ -398,6 +426,14 @@
               <small id="mItem6Desc">Hız: +0.0180 / gün</small>
             </div>
             <button class="btn-buy" onclick="buyItem('Pride Rock', 100)">$100 (100 GRAM)</button>
+          </div>
+
+          <div class="task-card">
+            <div class="task-info">
+              <strong>👑 Büyük Gurur Kayası</strong><br>
+              <small>Hız: +0.0450 / gün</small>
+            </div>
+            <button class="btn-buy" onclick="buyItem('Büyük Gurur Kayası', 200)">$200 (200 GRAM)</button>
           </div>
 
           <div class="task-card">
@@ -442,7 +478,7 @@
               <small id="t3Reward">Ödül: +0.003 GRAM</small>
               <div class="progress-bar"><div class="progress-fill" style="width: 33%;"></div></div>
             </div>
-            <button class="btn-buy" id="t3Btn" onclick="alert(i18n[currentLang].inviteCopied)">Yap</button>
+            <button class="btn-buy" id="t3Btn" onclick="showToast(i18n[currentLang].inviteCopied)">Yap</button>
           </div>
         </div>
       </div>
@@ -455,7 +491,7 @@
         <p style="text-align: center; font-size: 0.85rem; color: #ccc; margin-bottom: 12px;" id="txtFriendsDesc">
           Her davet ettiğin arkadaşın için +0.001 GRAM hız kazan!
         </p>
-        <button class="btn-claim" id="btnInviteLink" onclick="alert(i18n[currentLang].inviteCopied)">🔗 Davet Linkini Kopyala</button>
+        <button class="btn-claim" id="btnInviteLink" onclick="showToast(i18n[currentLang].inviteCopied)">🔗 Davet Linkini Kopyala</button>
       </div>
     </div>
 
@@ -520,6 +556,7 @@
     let currentLang = localStorage.getItem('currentLang') || 'tr';
     let lastTime = parseInt(localStorage.getItem('lastSavedTime')) || Date.now();
 
+    // OFFLINE MINING REKENLOGICA
     let now = Date.now();
     let secondsPassed = Math.floor((now - lastTime) / 1000);
     if (secondsPassed > 0) {
@@ -630,6 +667,13 @@
       }
     };
 
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2500);
+    }
+
     function saveData() {
       localStorage.setItem('balance', balance);
       localStorage.setItem('unclaimed', unclaimed);
@@ -650,7 +694,7 @@
 
     function claimEarnings() {
       if (unclaimed < 0.00000001) {
-        alert(i18n[currentLang].claimEmpty);
+        showToast(i18n[currentLang].claimEmpty);
         return;
       }
       balance += unclaimed;
@@ -658,18 +702,18 @@
       document.getElementById('balance').innerText = balance.toFixed(8);
       document.getElementById('unclaimed').innerText = "0.00000000";
       saveData();
-      alert(i18n[currentLang].claimSuccess);
+      showToast(i18n[currentLang].claimSuccess);
     }
 
     function connectWallet() {
       isWalletConnected = true;
       saveData();
-      alert(i18n[currentLang].walletSoon);
+      showToast(i18n[currentLang].walletSoon);
     }
 
     function buyCub() {
       if (!isWalletConnected) {
-        alert(i18n[currentLang].needWallet);
+        showToast(i18n[currentLang].needWallet);
         return;
       }
       if (isFused || cubCount >= 6) return;
@@ -681,7 +725,7 @@
 
     function fuseCubs() {
       if (!isWalletConnected) {
-        alert(i18n[currentLang].needWallet);
+        showToast(i18n[currentLang].needWallet);
         return;
       }
       if (isFused || cubCount < 6) return;
@@ -694,15 +738,29 @@
     function updateCaveDisplay() {
       document.getElementById('balance').innerText = balance.toFixed(8);
       const title = document.getElementById('caveTitle');
+      const videoElem = document.getElementById('bgVideo');
+      const videoSource = document.getElementById('bgVideoSource');
 
       if (isFused) {
         title.innerText = i18n[currentLang].caveTitleAdult;
         document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
+        
+        if (!videoSource.src.includes('background_mother.MP4')) {
+          videoSource.src = './background_mother.MP4';
+          videoElem.load();
+          videoElem.play();
+        }
         return;
       }
 
       title.innerText = i18n[currentLang].caveTitleCub.replace('{c}', cubCount);
       document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
+
+      if (!videoSource.src.includes('background_empty.MP4')) {
+        videoSource.src = './background_empty.MP4';
+        videoElem.load();
+        videoElem.play();
+      }
     }
 
     function openLanguageModal() { document.getElementById('langModal').classList.add('active'); }
@@ -728,10 +786,10 @@
 
     function buyItem(name, price) {
       if (!isWalletConnected) {
-        alert(i18n[currentLang].needWallet);
+        showToast(i18n[currentLang].needWallet);
         return;
       }
-      alert(`${name} - $${price}`);
+      showToast(`${name} - $${price}`);
     }
 
     selectLanguage(currentLang);

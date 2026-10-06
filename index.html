@@ -309,7 +309,6 @@
 
     .nav-icon { font-size: 1.3rem; }
 
-    /* IN-GAME KENNISGEVING (ZONDER DE VIDEO TE PAUZEREN) */
     .toast-notification {
       position: absolute;
       top: 60px;
@@ -332,14 +331,13 @@
 
   <div class="app-container">
 
-    <!-- Toast Notification (Vervangt de blockerende alert) -->
     <div id="toast" class="toast-notification"></div>
 
     <!-- TAB 1: YAVRU -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
-        <video id="bgVideo" class="bg-video" autoplay loop muted playsinline poster="./background.JPG">
-          <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
+        <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
+          <source id="bgVideoSource" src="./background_cub1.MP4" type="video/mp4">
         </video>
 
         <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (1 Yavru)</div>
@@ -428,12 +426,13 @@
             <button class="btn-buy" onclick="buyItem('Pride Rock', 100)">$100 (100 GRAM)</button>
           </div>
 
+          <!-- NIEUW: MANNENLEEUW UPGRADE FOR $200 -->
           <div class="task-card">
             <div class="task-info">
-              <strong>👑 Büyük Gurur Kayası</strong><br>
-              <small>Hız: +0.0450 / gün</small>
+              <strong>🦁 Kral Erkek Aslan</strong><br>
+              <small>Görkemli Erkek Aslan (+0.0500 / gün)</small>
             </div>
-            <button class="btn-buy" onclick="buyItem('Büyük Gurur Kayası', 200)">$200 (200 GRAM)</button>
+            <button class="btn-buy" onclick="buyMaleLion()">$200 (200 GRAM)</button>
           </div>
 
           <div class="task-card">
@@ -551,12 +550,12 @@
     let unclaimed = parseFloat(localStorage.getItem('unclaimed')) || 0.00000000;
     let cubCount = parseInt(localStorage.getItem('cubCount')) || 1;
     let isFused = localStorage.getItem('isFused') === 'true';
+    let hasMaleLion = localStorage.getItem('hasMaleLion') === 'true';
     let dailySpeed = parseFloat(localStorage.getItem('dailySpeed')) || 0.0010;
     let isWalletConnected = localStorage.getItem('isWalletConnected') === 'true';
     let currentLang = localStorage.getItem('currentLang') || 'tr';
     let lastTime = parseInt(localStorage.getItem('lastSavedTime')) || Date.now();
 
-    // OFFLINE MINING REKENLOGICA
     let now = Date.now();
     let secondsPassed = Math.floor((now - lastTime) / 1000);
     if (secondsPassed > 0) {
@@ -580,7 +579,7 @@
         t3Title: "👥 3 Arkadaşını Davet Et", t3Reward: "Ödül: +0.003 GRAM", t3Btn: "Yap",
         txtFriendsTitle: "👥 Arkadaşını Davet Et", txtFriendsDesc: "Her davet ettiğin arkadaşın için +0.001 GRAM hız kazan!", btnInviteLink: "🔗 Davet Linkini Kopyala",
         txtWalletTitle: "👛 TON Cüzdanı", txtWalletDesc: "Cüzdanınızı bağlayarak kazançlarınızı çekebilirsiniz.", btnConnectWallet: "💎 Cüzdanı Bağla",
-        caveTitleCub: "🪨 Yuva: Pride Rock ({c} Yavru)", caveTitleAdult: "👑 Yetişkin Dişi Aslan (Hız x4)",
+        caveTitleCub: "🪨 Yuva: Pride Rock ({c} Yavru)", caveTitleAdult: "👑 Yetişkin Dişi Aslan (Hız x4)", caveTitleMale: "🦁 Kral Erkek Aslan",
         claimSuccess: "Kazanç başarıyla bakiyenize eklendi! 🎉", claimEmpty: "Henüz toplanacak kazanç birikmedi!",
         inviteCopied: "Davet linki kopyalandı!", walletSoon: "TON Cüzdan başarıyla bağlandı!",
         needWallet: "Lütfen önce Cüzdan (Wallet) sekmesinden cüzdanınızı bağlayın veya ödeme yapın!"
@@ -600,7 +599,7 @@
         t3Title: "👥 Invite 3 Friends", t3Reward: "Reward: +0.003 GRAM", t3Btn: "Do",
         txtFriendsTitle: "👥 Invite Friends", txtFriendsDesc: "Gain +0.001 GRAM daily speed for each invited friend!", btnInviteLink: "🔗 Copy Invite Link",
         txtWalletTitle: "👛 TON Wallet", txtWalletDesc: "Connect your wallet to withdraw your earnings.", btnConnectWallet: "💎 Connect Wallet",
-        caveTitleCub: "🪨 Shelter: Pride Rock ({c} Cubs)", caveTitleAdult: "👑 Adult Lioness (Speed x4)",
+        caveTitleCub: "🪨 Shelter: Pride Rock ({c} Cubs)", caveTitleAdult: "👑 Adult Lioness (Speed x4)", caveTitleMale: "🦁 King Male Lion",
         claimSuccess: "Earnings claimed successfully! 🎉", claimEmpty: "No earnings to claim yet!",
         inviteCopied: "Invite link copied!", walletSoon: "TON Wallet connected successfully!",
         needWallet: "Please connect your wallet or make payment first!"
@@ -620,7 +619,7 @@
         t3Title: "👥 Nodig 3 Vrienden uit", t3Reward: "Beloning: +0.003 GRAM", t3Btn: "Doen",
         txtFriendsTitle: "👥 Vrienden Uitnodigen", txtFriendsDesc: "Verdien +0.001 GRAM snelheid per uitgenodigde vriend!", btnInviteLink: "🔗 Uitnodigingslink Kopiëren",
         txtWalletTitle: "👛 TON Wallet", txtWalletDesc: "Koppel je wallet om winst op te nemen.", btnConnectWallet: "💎 Wallet Koppelen",
-        caveTitleCub: "🪨 Schuilplaats: Pride Rock ({c} Welpen)", caveTitleAdult: "👑 Volwassen Leeuwin (Snelheid x4)",
+        caveTitleCub: "🪨 Schuilplaats: Pride Rock ({c} Welpen)", caveTitleAdult: "👑 Volwassen Leeuwin (Snelheid x4)", caveTitleMale: "🦁 Koning Mannenleeuw",
         claimSuccess: "Winst succesvol geïncasseerd! 🎉", claimEmpty: "Nog geen winst om op te halen!",
         inviteCopied: "Uitnodigingslink gekopieerd!", walletSoon: "TON Wallet koppeling binnenkort beschikbaar!",
         needWallet: "Koppel eerst je cüzdan/wallet om een aankoop te doen!"
@@ -640,7 +639,7 @@
         t3Title: "👥 Пригласить 3 друзей", t3Reward: "Награда: +0.003 GRAM", t3Btn: "Сделать",
         txtFriendsTitle: "👥 Пригласи друзей", txtFriendsDesc: "Получай +0.001 GRAM скорости за каждого друга!", btnInviteLink: "🔗 Скопировать ссылку",
         txtWalletTitle: "👛 TON Кошелек", txtWalletDesc: "Подключите кошелек для вывода средств.", btnConnectWallet: "💎 Подключить кошелек",
-        caveTitleCub: "🪨 Укрытие: Pride Rock ({c} Львят)", caveTitleAdult: "👑 Взрослая львица (Скорость x4)",
+        caveTitleCub: "🪨 Укрытие: Pride Rock ({c} Львят)", caveTitleAdult: "👑 Взрослая львица (Скорость x4)", caveTitleMale: "🦁 Король Лев",
         claimSuccess: "Доход успешно собран! 🎉", claimEmpty: "Пока нет дохода для сбора!",
         inviteCopied: "Ссылка скопирована!", walletSoon: "Подключение TON кошелька успешно!",
         needWallet: "Сначала подключите кошелек для покупки!"
@@ -660,7 +659,7 @@
         t3Title: "👥 3 Freunde einladen", t3Reward: "Belohnung: +0.003 GRAM", t3Btn: "Start",
         txtFriendsTitle: "👥 Freunde einladen", txtFriendsDesc: "Erhalte +0.001 GRAM Tempo pro eingeladenem Freund!", btnInviteLink: "🔗 Einladungslink kopieren",
         txtWalletTitle: "👛 TON Geldbörse", txtWalletDesc: "Verbinde deine Geldbörse, um Gewinne abzuheben.", btnConnectWallet: "💎 Wallet verbinden",
-        caveTitleCub: "🪨 Unterkunft: Pride Rock ({c} Junge)", caveTitleAdult: "👑 Ausgewachsene Löwin (Tempo x4)",
+        caveTitleCub: "🪨 Unterkunft: Pride Rock ({c} Junge)", caveTitleAdult: "👑 Ausgewachsene Löwin (Tempo x4)", caveTitleMale: "🦁 König Löwe",
         claimSuccess: "Gewinn erfolgreich abgeholt! 🎉", claimEmpty: "Noch kein Gewinn zum Abholen da!",
         inviteCopied: "Einladungslink kopiert!", walletSoon: "TON Wallet Verbindung erfolgreich!",
         needWallet: "Bitte verbinde zuerst deine Geldbörse für Käufe!"
@@ -679,6 +678,7 @@
       localStorage.setItem('unclaimed', unclaimed);
       localStorage.setItem('cubCount', cubCount);
       localStorage.setItem('isFused', isFused);
+      localStorage.setItem('hasMaleLion', hasMaleLion);
       localStorage.setItem('dailySpeed', dailySpeed);
       localStorage.setItem('isWalletConnected', isWalletConnected);
       localStorage.setItem('currentLang', currentLang);
@@ -735,29 +735,44 @@
       saveData();
     }
 
+    function buyMaleLion() {
+      if (!isWalletConnected) {
+        showToast(i18n[currentLang].needWallet);
+        return;
+      }
+      hasMaleLion = true;
+      dailySpeed += 0.0500;
+      updateCaveDisplay();
+      saveData();
+    }
+
     function updateCaveDisplay() {
       document.getElementById('balance').innerText = balance.toFixed(8);
       const title = document.getElementById('caveTitle');
       const videoElem = document.getElementById('bgVideo');
       const videoSource = document.getElementById('bgVideoSource');
 
-      if (isFused) {
+      let targetVideo = './background_cub1.MP4';
+
+      if (hasMaleLion) {
+        title.innerText = i18n[currentLang].caveTitleMale;
+        targetVideo = './background_lion.MP4';
+      } else if (isFused) {
         title.innerText = i18n[currentLang].caveTitleAdult;
-        document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
-        
-        if (!videoSource.src.includes('background_mother.MP4')) {
-          videoSource.src = './background_mother.MP4';
-          videoElem.load();
-          videoElem.play();
+        targetVideo = './background_mother.MP4';
+      } else {
+        title.innerText = i18n[currentLang].caveTitleCub.replace('{c}', cubCount);
+        if (cubCount >= 2) {
+          targetVideo = './background_cubs2.MP4';
+        } else {
+          targetVideo = './background_cub1.MP4';
         }
-        return;
       }
 
-      title.innerText = i18n[currentLang].caveTitleCub.replace('{c}', cubCount);
       document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
 
-      if (!videoSource.src.includes('background_empty.MP4')) {
-        videoSource.src = './background_empty.MP4';
+      if (!videoSource.src.includes(targetVideo.replace('./', ''))) {
+        videoSource.src = targetVideo;
         videoElem.load();
         videoElem.play();
       }

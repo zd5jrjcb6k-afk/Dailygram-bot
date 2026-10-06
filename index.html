@@ -30,26 +30,27 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* BEWEGENDE VIDEO ACHTERGROND KAART */
+    /* ACHTERGROND KAART - Uitgezoomed voor gehele weergave */
     .game-card {
       position: relative;
       width: 100%;
-      height: 470px;
+      height: 420px;
       border: 3px solid #ff9900;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 8px 25px rgba(0,0,0,0.8);
       margin-bottom: 8px;
-      background: #122536;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
+    /* Video op 'contain' gezet zodat alles volledig zichtbaar is */
     .bg-video {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       z-index: 1;
     }
 
@@ -136,54 +137,7 @@
       color: #000;
     }
 
-    .pride-container {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 10;
-    }
-
-    .cub {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      background: url('https://i.imgur.com/3wiS1jY.png') center/contain no-repeat;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.7));
-      cursor: pointer;
-    }
-
-    .cub-1 { bottom: 25px; left: 15%; animation: floatSlow 4s infinite alternate ease-in-out; }
-    .cub-2 { bottom: 40px; left: 68%; animation: floatSlow 5s infinite alternate ease-in-out 1s; }
-    .cub-3 { bottom: 80px; left: 35%; animation: floatSlow 3.8s infinite alternate ease-in-out 0.5s; }
-    .cub-4 { bottom: 105px; left: 75%; animation: floatSlow 4.5s infinite alternate ease-in-out 1.5s; }
-    .cub-5 { bottom: 18px; left: 45%; animation: floatSlow 4.2s infinite alternate ease-in-out 2s; }
-    .cub-6 { bottom: 75px; left: 18%; animation: floatSlow 3.5s infinite alternate ease-in-out 0.8s; }
-
-    .lioness-adult {
-      position: absolute;
-      bottom: 25px;
-      left: 35%;
-      width: 110px;
-      height: 100px;
-      background: url('https://i.imgur.com/3wiS1jY.png') center/contain no-repeat;
-      filter: drop-shadow(0 8px 12px rgba(255, 215, 0, 0.5));
-      animation: lionessPulse 3s infinite alternate ease-in-out;
-      cursor: pointer;
-    }
-
-    @keyframes floatSlow {
-      0% { transform: translateY(0px); }
-      100% { transform: translateY(-5px); }
-    }
-
-    @keyframes lionessPulse {
-      0% { transform: scale(1.2) translateY(0px); }
-      100% { transform: scale(1.25) translateY(-4px); }
-    }
-
-    /* COMPACTER SALDO PANEEL */
+    /* SALDO PANEEL */
     .balance-card {
       background: rgba(28, 18, 10, 0.92);
       border: 1.5px solid #5a3d24;
@@ -226,7 +180,6 @@
     .stat-label { color: #aaa; font-size: 0.65rem; margin-bottom: 1px; }
     .stat-value { font-weight: bold; color: #fff; font-size: 0.78rem; }
 
-    /* KLEINERE CLAIM KNOP */
     .btn-claim {
       width: 100%;
       background: linear-gradient(135deg, #ffb700, #ff8800);
@@ -365,17 +318,12 @@
     <!-- TAB 1: YAVRU -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
-        <!-- Achtergrond Video ingesteld op background.MP4 -->
         <video class="bg-video" autoplay loop muted playsinline poster="./background.JPG">
           <source src="./background.MP4" type="video/mp4">
         </video>
 
         <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (1 Yavru)</div>
         <div class="settings-btn" onclick="openLanguageModal()">⚙️</div>
-        
-        <div class="pride-container" id="prideContainer">
-          <div class="cub cub-1" onclick="petAnimal('cub')"></div>
-        </div>
       </div>
 
       <!-- Saldo Panel -->
@@ -572,7 +520,6 @@
     let currentLang = localStorage.getItem('currentLang') || 'tr';
     let lastTime = parseInt(localStorage.getItem('lastSavedTime')) || Date.now();
 
-    // OFFLINE MINING REKENLOGICA (Telt door als app uit staat)
     let now = Date.now();
     let secondsPassed = Math.floor((now - lastTime) / 1000);
     if (secondsPassed > 0) {
@@ -599,8 +546,7 @@
         caveTitleCub: "🪨 Yuva: Pride Rock ({c} Yavru)", caveTitleAdult: "👑 Yetişkin Dişi Aslan (Hız x4)",
         claimSuccess: "Kazanç başarıyla bakiyenize eklendi! 🎉", claimEmpty: "Henüz toplanacak kazanç birikmedi!",
         inviteCopied: "Davet linki kopyalandı!", walletSoon: "TON Cüzdan başarıyla bağlandı!",
-        needWallet: "Lütfen önce Cüzdan (Wallet) sekmesinden cüzdanınızı bağlayın veya ödeme yapın!",
-        petCubMsg: "🦁 Yavru çok mutlu oldu!", petAdultMsg: "🦁 Yetişkin Aslanı sevdiniz!"
+        needWallet: "Lütfen önce Cüzdan (Wallet) sekmesinden cüzdanınızı bağlayın veya ödeme yapın!"
       },
       en: {
         navYavru: "Cub", navMarket: "Market", navGorevler: "Tasks", navArkadaslar: "Friends", navCuzdan: "Wallet",
@@ -620,8 +566,7 @@
         caveTitleCub: "🪨 Shelter: Pride Rock ({c} Cubs)", caveTitleAdult: "👑 Adult Lioness (Speed x4)",
         claimSuccess: "Earnings claimed successfully! 🎉", claimEmpty: "No earnings to claim yet!",
         inviteCopied: "Invite link copied!", walletSoon: "TON Wallet connected successfully!",
-        needWallet: "Please connect your wallet or make payment first!",
-        petCubMsg: "🦁 The cub is so happy!", petAdultMsg: "🦁 You petted the adult lioness!"
+        needWallet: "Please connect your wallet or make payment first!"
       },
       nl: {
         navYavru: "Welp", navMarket: "Winkel", navGorevler: "Taken", navArkadaslar: "Vrienden", navCuzdan: "Wallet",
@@ -641,8 +586,7 @@
         caveTitleCub: "🪨 Schuilplaats: Pride Rock ({c} Welpen)", caveTitleAdult: "👑 Volwassen Leeuwin (Snelheid x4)",
         claimSuccess: "Winst succesvol geïncasseerd! 🎉", claimEmpty: "Nog geen winst om op te halen!",
         inviteCopied: "Uitnodigingslink gekopieerd!", walletSoon: "TON Wallet koppeling binnenkort beschikbaar!",
-        needWallet: "Koppel eerst je cüzdan/wallet om een aankoop te doen!",
-        petCubMsg: "🦁 De welp is heel blij!", petAdultMsg: "🦁 Je hebt de volwassen leeuwin geaaid!"
+        needWallet: "Koppel eerst je cüzdan/wallet om een aankoop te doen!"
       },
       ru: {
         navYavru: "Львенок", navMarket: "Рынок", navGorevler: "Задачи", navArkadaslar: "Друзья", navCuzdan: "Кошелек",
@@ -662,8 +606,7 @@
         caveTitleCub: "🪨 Укрытие: Pride Rock ({c} Львят)", caveTitleAdult: "👑 Взрослая львица (Скорость x4)",
         claimSuccess: "Доход успешно собран! 🎉", claimEmpty: "Пока нет дохода для сбора!",
         inviteCopied: "Ссылка скопирована!", walletSoon: "Подключение TON кошелька успешно!",
-        needWallet: "Сначала подключите кошелек для покупки!",
-        petCubMsg: "🦁 Львенок очень рад!", petAdultMsg: "🦁 Вы погладили львицу!"
+        needWallet: "Сначала подключите кошелек для покупки!"
       },
       de: {
         navYavru: "Junge", navMarket: "Markt", navGorevler: "Aufgaben", navArkadaslar: "Freunde", navCuzdan: "Geldbörse",
@@ -683,8 +626,7 @@
         caveTitleCub: "🪨 Unterkunft: Pride Rock ({c} Junge)", caveTitleAdult: "👑 Ausgewachsene Löwin (Tempo x4)",
         claimSuccess: "Gewinn erfolgreich abgeholt! 🎉", claimEmpty: "Noch kein Gewinn zum Abholen da!",
         inviteCopied: "Einladungslink kopiert!", walletSoon: "TON Wallet Verbindung erfolgreich!",
-        needWallet: "Bitte verbinde zuerst deine Geldbörse für Käufe!",
-        petCubMsg: "🦁 Das Junge freut sich sehr!", petAdultMsg: "🦁 Du hast die Löwin gestreichelt!"
+        needWallet: "Bitte verbinde zuerst deine Geldbörse für Käufe!"
       }
     };
 
@@ -751,11 +693,9 @@
 
     function updateCaveDisplay() {
       document.getElementById('balance').innerText = balance.toFixed(8);
-      const container = document.getElementById('prideContainer');
       const title = document.getElementById('caveTitle');
 
       if (isFused) {
-        container.innerHTML = `<div class="lioness-adult" onclick="petAnimal('adult')"></div>`;
         title.innerText = i18n[currentLang].caveTitleAdult;
         document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
         return;
@@ -763,12 +703,6 @@
 
       title.innerText = i18n[currentLang].caveTitleCub.replace('{c}', cubCount);
       document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
-
-      let html = '';
-      for (let i = 1; i <= cubCount; i++) {
-        html += `<div class="cub cub-${i}" onclick="petAnimal('cub')"></div>`;
-      }
-      container.innerHTML = html;
     }
 
     function openLanguageModal() { document.getElementById('langModal').classList.add('active'); }
@@ -783,11 +717,6 @@
         if (el) el.innerText = data[key];
       }
       updateCaveDisplay();
-    }
-
-    function petAnimal(type) {
-      if (type === 'adult') alert(i18n[currentLang].petAdultMsg);
-      else alert(i18n[currentLang].petCubMsg);
     }
 
     function switchTab(tabName, element) {

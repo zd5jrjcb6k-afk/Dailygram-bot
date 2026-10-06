@@ -337,10 +337,10 @@
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
         <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
-          <source id="bgVideoSource" src="./background_cub1.MP4" type="video/mp4">
+          <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
         </video>
 
-        <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (1 Yavru)</div>
+        <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (0 Yavru)</div>
         <div class="settings-btn" onclick="openLanguageModal()">⚙️</div>
       </div>
 
@@ -426,7 +426,6 @@
             <button class="btn-buy" onclick="buyItem('Pride Rock', 100)">$100 (100 GRAM)</button>
           </div>
 
-          <!-- NIEUW: MANNENLEEUW UPGRADE FOR $200 -->
           <div class="task-card">
             <div class="task-info">
               <strong>🦁 Kral Erkek Aslan</strong><br>
@@ -479,7 +478,26 @@
             </div>
             <button class="btn-buy" id="t3Btn" onclick="showToast(i18n[currentLang].inviteCopied)">Yap</button>
           </div>
+
+          <!-- DAGELIJKSE BONUS -->
+          <div class="task-card">
+            <div class="task-info">
+              <strong>📅 Günlük Giriş Bonusu (Daily Check-in)</strong><br>
+              <small>Ödül: +0.002 GRAM</small>
+            </div>
+            <button class="btn-buy" onclick="showToast('Günlük Bonus Alındı! 🎉')">Al</button>
+          </div>
+
+          <!-- TELEGRAM STORY DELEN -->
+          <div class="task-card">
+            <div class="task-info">
+              <strong>📲 Telegram Story'de Paylaş</strong><br>
+              <small>Ödül: +0.005 GRAM</small>
+            </div>
+            <button class="btn-buy" onclick="showToast('Story Paylaşım Linki Hazırlanıyor...')">Paylaş</button>
+          </div>
         </div>
+
       </div>
     </div>
 
@@ -548,7 +566,7 @@
   <script>
     let balance = parseFloat(localStorage.getItem('balance')) || 0.00000000;
     let unclaimed = parseFloat(localStorage.getItem('unclaimed')) || 0.00000000;
-    let cubCount = parseInt(localStorage.getItem('cubCount')) || 1;
+    let cubCount = localStorage.getItem('cubCount') !== null ? parseInt(localStorage.getItem('cubCount')) : 0;
     let isFused = localStorage.getItem('isFused') === 'true';
     let hasMaleLion = localStorage.getItem('hasMaleLion') === 'true';
     let dailySpeed = parseFloat(localStorage.getItem('dailySpeed')) || 0.0010;
@@ -752,7 +770,7 @@
       const videoElem = document.getElementById('bgVideo');
       const videoSource = document.getElementById('bgVideoSource');
 
-      let targetVideo = './background_cub1.MP4';
+      let targetVideo = './background_empty.MP4';
 
       if (hasMaleLion) {
         title.innerText = i18n[currentLang].caveTitleMale;
@@ -764,8 +782,10 @@
         title.innerText = i18n[currentLang].caveTitleCub.replace('{c}', cubCount);
         if (cubCount >= 2) {
           targetVideo = './background_cubs2.MP4';
-        } else {
+        } else if (cubCount === 1) {
           targetVideo = './background_cub1.MP4';
+        } else {
+          targetVideo = './background_empty.MP4';
         }
       }
 

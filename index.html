@@ -8,9 +8,6 @@
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- TON Connect SDK -->
-  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -201,8 +198,8 @@
       border: 2px solid #ff9900;
       border-radius: 16px;
       padding: 20px;
-      width: 85%;
-      max-width: 340px;
+      width: 90%;
+      max-width: 360px;
       text-align: center;
     }
 
@@ -364,11 +361,47 @@
       cursor: not-allowed;
     }
 
-    .sleeping-banner {
-      width: 100%;
-      height: 120px;
-      background: url('https://i.imgur.com/Jj1xKCk.png') center/contain no-repeat;
-      margin-bottom: 12px;
+    .wallet-box-manual {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid #ff9900;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .wallet-box-manual label {
+      font-size: 0.75rem;
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    .wallet-input-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+      margin-bottom: 10px;
+    }
+
+    .wallet-input-row input {
+      flex: 1;
+      background: #111;
+      border: 1px solid #5a3d24;
+      color: #fff;
+      padding: 6px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+    }
+
+    .btn-copy {
+      background: #3498db;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 0.75rem;
+      cursor: pointer;
     }
 
     .bottom-nav {
@@ -419,12 +452,6 @@
       z-index: 50;
       display: none;
       box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-    }
-
-    #ton-connect-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 15px;
     }
   </style>
 </head>
@@ -483,7 +510,7 @@
               <strong id="mItem1Title">🐾 Ekstra Yavru Sahiplen</strong><br>
               <small id="mItem1Desc">Yuvaya +1 Yavru ekler (+0.0010 / gün)</small>
             </div>
-            <button class="btn-buy" onclick="payWithTon(2, 'buyCub')">+1 Yavru ($2 TON)</button>
+            <button class="btn-buy" onclick="openPaymentModal(2, 'buyCub', 'Ekstra Yavru (+1)')">$2 TON</button>
           </div>
 
           <div class="task-card">
@@ -491,7 +518,7 @@
               <strong>👑 VIP Savanna Pass</strong><br>
               <small>+%20 Daimi Hız Bonusu</small>
             </div>
-            <button class="btn-buy" onclick="payWithTon(5, 'buyVIP')">$5 (VIP TON)</button>
+            <button class="btn-buy" onclick="openPaymentModal(5, 'buyVIP', 'VIP Savanna Pass')">$5 TON</button>
           </div>
 
           <div class="task-card">
@@ -499,7 +526,7 @@
               <strong id="mItem3Title">🥩 Et Besini (Hız Artışı)</strong><br>
               <small id="mItem3Desc">Hızı +0.0005/gün artırır</small>
             </div>
-            <button class="btn-buy" onclick="payWithTon(3, 'buyItem')">$3 (3 TON)</button>
+            <button class="btn-buy" onclick="openPaymentModal(3, 'buyItem', 'Et Besini')">$3 TON</button>
           </div>
 
           <div class="task-card">
@@ -507,7 +534,7 @@
               <strong>🍖 Özel Besin Paketi</strong><br>
               <small>Hızı +0.0015/gün artırır</small>
             </div>
-            <button class="btn-buy" onclick="payWithTon(5, 'buyItem')">$5 (5 TON)</button>
+            <button class="btn-buy" onclick="openPaymentModal(5, 'buyItem', 'Özel Besin Paketi')">$5 TON</button>
           </div>
 
           <div class="task-card">
@@ -515,7 +542,7 @@
               <strong id="mItem2Title">🦁 Yavruları Birleştir (Fuse)</strong><br>
               <small id="mItem2Desc">Gerekli: 6 Yavru (Hızı 4 katına çıkarır!)</small>
             </div>
-            <button class="btn-buy" onclick="payWithTon(10, 'fuseCubs')">⚡ BİRLEŞTİR ($10 TON)</button>
+            <button class="btn-buy" onclick="openPaymentModal(10, 'fuseCubs', 'Yavruları Birleştir')">$10 TON</button>
           </div>
 
           <div class="task-card">
@@ -523,7 +550,7 @@
               <strong id="mItem4Title">🏕️ Savana Yuvası (Lvl 1)</strong><br>
               <small id="mItem4Desc">Hız: +0.0025 / gün</small>
             </div>
-            <button class="btn-buy" onclick="payWithTon(20, 'buyItem')">$20 (20 TON)</button>
+            <button class="btn-buy" onclick="openPaymentModal(20, 'buyItem', 'Savana Yuvası Lvl 1')">$20 TON</button>
           </div>
 
           <div class="task-card">
@@ -531,7 +558,7 @@
               <strong id="mItem5Title">🌿 Yeşil Savana Yuvası (Lvl 2)</strong><br>
               <small id="mItem5Desc">Hız: +0.0080 / gün</small>
             </div>
-            <button class="btn-buy" onclick="payWithTon(50, 'buyItem')">$50 (50 TON)</button>
+            <button class="btn-buy" onclick="openPaymentModal(50, 'buyItem', 'Yeşil Savana Yuvası Lvl 2')">$50 TON</button>
           </div>
 
           <div class="task-card">
@@ -539,7 +566,7 @@
               <strong id="mItem6Title">🪨 Pride Rock (Gurur Kayası)</strong><br>
               <small id="mItem6Desc">Hız: +0.0180 / gün</small>
             </div>
-            <button class="btn-buy" onclick="payWithTon(100, 'buyItem')">$100 (100 TON)</button>
+            <button class="btn-buy" onclick="openPaymentModal(100, 'buyItem', 'Pride Rock')">$100 TON</button>
           </div>
 
           <div class="task-card">
@@ -547,7 +574,7 @@
               <strong>🦁 Kral Erkek Aslan</strong><br>
               <small>Görkemli Erkek Aslan (+0.0500 / gün)</small>
             </div>
-            <button class="btn-buy" onclick="payWithTon(200, 'buyMaleLion')">$200 (200 TON)</button>
+            <button class="btn-buy" onclick="openPaymentModal(200, 'buyMaleLion', 'Kral Erkek Aslan')">$200 TON</button>
           </div>
 
           <div class="task-card">
@@ -555,7 +582,7 @@
               <strong id="mItem7Title">👑 Savana İmparatorluğu</strong><br>
               <small id="mItem7Desc">Hız: +0.1200 / gün</small>
             </div>
-            <button class="btn-buy" onclick="payWithTon(500, 'buyItem')">$500 (500 TON)</button>
+            <button class="btn-buy" onclick="openPaymentModal(500, 'buyItem', 'Savana İmparatorluğu')">$500 TON</button>
           </div>
         </div>
 
@@ -595,7 +622,7 @@
             <button class="btn-buy" id="t3Btn" onclick="showToast(i18n[currentLang].inviteCopied)">Yap</button>
           </div>
 
-          <!-- DAGELIJKSE BONUS MET 24-UURS BLOKKERING -->
+          <!-- DAGELIJKSE BONUS -->
           <div class="task-card">
             <div class="task-info">
               <strong>📅 Günlük Giriş Bonusu (Daily Check-in)</strong><br>
@@ -654,20 +681,50 @@
       </div>
     </div>
 
-    <!-- TAB 7: CÜZDAN -->
+    <!-- TAB 7: CÜZDAN (HANDMATIG KOPIËREN ZOALS HONEY FARM) -->
     <div id="tab-cuzdan" class="tab-content">
       <div class="page-box" style="text-align: center;">
-        <div class="page-title" id="txtWalletTitle">👛 TON Cüzdanı</div>
-        <div class="sleeping-banner"></div>
+        <div class="page-title" id="txtWalletTitle">👛 TON Yatırım & Ödeme</div>
         <p style="text-align: center; font-size: 0.85rem; color: #ccc; margin-bottom: 12px;" id="txtWalletDesc">
-          Cüzdanınızı bağlayarak kazançlarınızı çekebilir ve market alışverişi yapabilirsiniz.
+          Bakiyenizi artırmak veya paket satın almak için aşağıdaki cüzdan adresine istediğiniz miktarda TON/GRAM gönderin.
         </p>
-        
-        <!-- OFFICIAL TON CONNECT UI BUTTON -->
-        <div id="ton-connect-container"></div>
+
+        <div class="wallet-box-manual">
+          <label>Gönderilecek Cüzdan Adresi:</label>
+          <div class="wallet-input-row">
+            <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
+            <button class="btn-copy" onclick="copyMyWallet()">Kopyala</button>
+          </div>
+          <small style="color: #aaa; font-size: 0.68rem;">Ödeme yaptıktan sonra marketten paket seçip onaylayabilirsiniz.</small>
+        </div>
       </div>
     </div>
 
+  </div>
+
+  <!-- PAYMENT MODAL (KOPIËER BEDRAG EN ADRES) -->
+  <div class="modal-overlay" id="paymentModal">
+    <div class="modal-box">
+      <div class="modal-title" id="payModalTitle">Ödemeyi Tamamla</div>
+      <p style="font-size: 0.78rem; color: #ccc; margin-bottom: 10px;" id="payModalDesc">Lütfen aşağıdaki tam miktarı cüzdanımıza gönderin:</p>
+      
+      <div class="wallet-box-manual" style="margin-top:0;">
+        <label>Gönderilecek Miktar (TON/GRAM):</label>
+        <div class="wallet-input-row">
+          <input type="text" id="payModalAmount" readonly>
+          <button class="btn-copy" onclick="copyPayAmount()">Kopyala</button>
+        </div>
+
+        <label>Cüzdan Adresi:</label>
+        <div class="wallet-input-row">
+          <input type="text" id="payModalAddress" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
+          <button class="btn-copy" onclick="copyPayAddress()">Kopyala</button>
+        </div>
+      </div>
+
+      <button class="btn-claim" style="margin-top: 10px;" onclick="confirmManualPayment()">✅ Ödemeyi Yaptım (Onayla)</button>
+      <button class="btn-buy" style="background:#444; color:#fff; width:100%; margin-top:8px;" onclick="closePaymentModal()">İptal / Geri</button>
+    </div>
   </div>
 
   <div class="modal-overlay" id="langModal">
@@ -694,7 +751,6 @@
   </div>
 
   <script>
-    // INITIALISEER TELEGRAM WEBAPP SDK
     const tg = window.Telegram?.WebApp;
     if (tg) {
       tg.expand();
@@ -703,14 +759,7 @@
       }
     }
 
-    // JOUW ECHTE TON WALLET ADRES
     const MY_RECEIVING_WALLET = "UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH";
-
-    // INITIALISEER TON CONNECT UI
-    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-      manifestUrl: 'https://raw.githubusercontent.com/zd5jrcb6k-afk/DailygramMiner/main/tonconnect-manifest.json',
-      buttonRootId: 'ton-connect-container'
-    });
 
     let balance = parseFloat(localStorage.getItem('balance')) || 0.00000000;
     let unclaimed = parseFloat(localStorage.getItem('unclaimed')) || 0.00000000;
@@ -724,6 +773,8 @@
     let lastTime = parseInt(localStorage.getItem('lastSavedTime')) || Date.now();
     let currentRotation = 0;
 
+    let pendingAction = null;
+
     let now = Date.now();
     let secondsPassed = Math.floor((now - lastTime) / 1000);
     if (secondsPassed > 0) {
@@ -736,102 +787,52 @@
       tr: {
         navYavru: "Yavru", navMarket: "Market", navGorevler: "Görevler", navArkadaslar: "Arkadaşlar", navCuzdan: "Cüzdan",
         txtBalanceTitle: "GRAM BAKIYEM", txtDailySpeedLabel: "Günlük Hız", txtUnclaimedLabel: "Toplanacak", btnClaim: "⚡ KAZANCI TOPLA",
-        txtMarketTitle: "🛒 Market & Yükseltmeler", mItem1Title: "🐾 Ekstra Yavru Sahiplen", mItem1Desc: "Yuvaya +1 Yavru ekler (+0.0010 / gün)", mItem1Btn: "+1 Yavru ($2)",
-        mItem2Title: "🦁 Yavruları Birleştir (Fuse)", mItem2Desc: "Gerekli: 6 Yavru (Hızı 4 katına çıkarır!)", mItem2Btn: "⚡ BİRLEŞTİR ($10)",
-        mItem3Title: "🥩 Et Besini (Hız Artışı)", mItem3Desc: "Hızı +0.0005/gün artırır",
-        mItem4Title: "🏕️ Savana Yuvası (Lvl 1)", mItem4Desc: "Hız: +0.0025 / gün",
-        mItem5Title: "🌿 Yeşil Savana Yuvası (Lvl 2)", mItem5Desc: "Hız: +0.0080 / gün",
-        mItem6Title: "🪨 Pride Rock (Gurur Kayası)", mItem6Desc: "Hız: +0.0180 / gün",
-        mItem7Title: "👑 Savana İmparatorluğu", mItem7Desc: "Hız: +0.1200 / gün",
-        txtTasksTitle: "📋 Görevler", t1Title: "📢 Telegram Kanalına Katıl", t1Reward: "Ödül: +0.005 GRAM", t1Btn: "Tamamlandı",
-        t2Title: "💰 Bakiyenize en az $5 yatırın", t2Reward: "Ödül: +0.010 GRAM", t2Btn: "Tamamlandı",
-        t3Title: "👥 3 Arkadaşını Davet Et", t3Reward: "Ödül: +0.003 GRAM", t3Btn: "Yap",
-        txtFriendsTitle: "👥 Arkadaşını Davet Et", txtFriendsDesc: "Her davet ettiğin arkadaşın için +0.001 GRAM hız kazan!", btnInviteLink: "🔗 Davet Linkini Kopyala",
-        txtWalletTitle: "👛 TON Cüzdanı", txtWalletDesc: "Cüzdanınızı bağlayarak kazançlarınızı çekebilirsiniz.", btnConnectWallet: "💎 Cüzdanı Bağla",
+        txtMarketTitle: "🛒 Market & Yükseltmeler", mItem1Title: "🐾 Ekstra Yavru Sahiplen", mItem1Desc: "Yuvaya +1 Yavru ekler (+0.0010 / gün)",
+        txtTasksTitle: "📋 Görevler", txtFriendsTitle: "👥 Arkadaşını Davet Et", txtFriendsDesc: "Her davet ettiğin arkadaşın için +0.001 GRAM hız kazan!",
+        txtWalletTitle: "👛 TON Yatırım & Ödeme", txtWalletDesc: "Bakiyenizi artırmak veya paket satın almak için cüzdanımıza TON/GRAM gönderin.",
         caveTitleCub: "🪨 Yuva: Pride Rock ({c} Yavru)", caveTitleAdult: "👑 Yetişkin Dişi Aslan (Hız x4)", caveTitleMale: "🦁 Kral Erkek Aslan",
         claimSuccess: "Kazanç başarıyla bakiyenize eklendi! 🎉", claimEmpty: "Henüz toplanacak kazanç birikmedi!",
-        inviteCopied: "Davet linki kopyalandı!", walletSoon: "TON Cüzdan başarıyla bağlandı!",
-        needWallet: "Lütfen önce Cüzdan (Wallet) sekmesinden cüzdanınızı bağlayın!"
+        inviteCopied: "Davet linki kopyalandı!"
       },
       en: {
         navYavru: "Cub", navMarket: "Market", navGorevler: "Tasks", navArkadaslar: "Friends", navCuzdan: "Wallet",
         txtBalanceTitle: "MY GRAM BALANCE", txtDailySpeedLabel: "Daily Speed", txtUnclaimedLabel: "Unclaimed", btnClaim: "⚡ CLAIM EARNINGS",
-        txtMarketTitle: "🛒 Market & Upgrades", mItem1Title: "🐾 Adopt Extra Cub", mItem1Desc: "Adds +1 Cub to shelter (+0.0010 / day)", mItem1Btn: "+1 Cub ($2)",
-        mItem2Title: "🦁 Fuse Cubs into Lioness", mItem2Desc: "Requires: 6 Cubs (Multiplies speed x4!)", mItem2Btn: "⚡ FUSE ($10)",
-        mItem3Title: "🥩 Meat Food (Speed Boost)", mItem3Desc: "Increases speed by +0.0005/day",
-        mItem4Title: "🏕️ Savanna Shelter (Lvl 1)", mItem4Desc: "Speed: +0.0025 / day",
-        mItem5Title: "🌿 Green Savanna Shelter (Lvl 2)", mItem5Desc: "Speed: +0.0080 / day",
-        mItem6Title: "🪨 Pride Rock", mItem6Desc: "Speed: +0.0180 / day",
-        mItem7Title: "👑 Savanna Empire", mItem7Desc: "Speed: +0.1200 / day",
-        txtTasksTitle: "📋 Tasks", t1Title: "📢 Join Telegram Channel", t1Reward: "Reward: +0.005 GRAM", t1Btn: "Completed",
-        t2Title: "💰 Deposit at least $5", t2Reward: "Reward: +0.010 GRAM", t2Btn: "Completed",
-        t3Title: "👥 Invite 3 Friends", t3Reward: "Reward: +0.003 GRAM", t3Btn: "Do",
-        txtFriendsTitle: "👥 Invite Friends", txtFriendsDesc: "Gain +0.001 GRAM daily speed for each invited friend!", btnInviteLink: "🔗 Copy Invite Link",
-        txtWalletTitle: "👛 TON Wallet", txtWalletDesc: "Connect your wallet to withdraw your earnings.", btnConnectWallet: "💎 Connect Wallet",
+        txtMarketTitle: "🛒 Market & Upgrades", mItem1Title: "🐾 Adopt Extra Cub", mItem1Desc: "Adds +1 Cub to shelter (+0.0010 / day)",
+        txtTasksTitle: "📋 Tasks", txtFriendsTitle: "👥 Invite Friends", txtFriendsDesc: "Gain +0.001 GRAM daily speed for each invited friend!",
+        txtWalletTitle: "👛 TON Deposit & Payment", txtWalletDesc: "Send TON/GRAM to our wallet to fund your balance or purchase packages.",
         caveTitleCub: "🪨 Shelter: Pride Rock ({c} Cubs)", caveTitleAdult: "👑 Adult Lioness (Speed x4)", caveTitleMale: "🦁 King Male Lion",
         claimSuccess: "Earnings claimed successfully! 🎉", claimEmpty: "No earnings to claim yet!",
-        inviteCopied: "Invite link copied!", walletSoon: "TON Wallet connected successfully!",
-        needWallet: "Please connect your wallet first!"
+        inviteCopied: "Invite link copied!"
       },
       nl: {
         navYavru: "Welp", navMarket: "Winkel", navGorevler: "Taken", navArkadaslar: "Vrienden", navCuzdan: "Wallet",
         txtBalanceTitle: "MIJN GRAM SALDO", txtDailySpeedLabel: "Dagelijkse Snelheid", txtUnclaimedLabel: "Op te halen", btnClaim: "⚡ CLAIM WINST",
-        txtMarketTitle: "🛒 Winkel & Upgrades", mItem1Title: "🐾 Extra Welp Adopteren", mItem1Desc: "Voegt +1 Welp toe (+0.0010 / dag)", mItem1Btn: "+1 Welp ($2)",
-        mItem2Title: "🦁 Welpen Fuseren tot Leeuwin", mItem2Desc: "Vereist: 6 Welpen (Vermenigvuldigt snelheid x4!)", mItem2Btn: "⚡ FUSEREN ($10)",
-        mItem3Title: "🥩 Vlees Voeding (Heeft Boost)", mItem3Desc: "Verhoogt snelheid met +0.0005/dag",
-        mItem4Title: "🏕️ Savanne Schuilplaats (Lvl 1)", mItem4Desc: "Snelheid: +0.0025 / dag",
-        mItem5Title: "🌿 Groene Savanne (Lvl 2)", mItem5Desc: "Snelheid: +0.0080 / dag",
-        mItem6Title: "🪨 Pride Rock", mItem6Desc: "Snelheid: +0.0180 / dag",
-        mItem7Title: "👑 Savanne Imperium", mItem7Desc: "Snelheid: +0.1200 / dag",
-        txtTasksTitle: "📋 Taken", t1Title: "📢 Word lid van Telegram Kanaal", t1Reward: "Beloning: +0.005 GRAM", t1Btn: "Voltooid",
-        t2Title: "💰 Stort minimaal $5", t2Reward: "Beloning: +0.010 GRAM", t2Btn: "Voltooid",
-        t3Title: "👥 Nodig 3 Vrienden uit", t3Reward: "Beloning: +0.003 GRAM", t3Btn: "Doen",
-        txtFriendsTitle: "👥 Vrienden Uitnodigen", txtFriendsDesc: "Verdien +0.001 GRAM snelheid per uitgenodigde vriend!", btnInviteLink: "🔗 Uitnodigingslink Kopiëren",
-        txtWalletTitle: "👛 TON Wallet", txtWalletDesc: "Koppel je wallet om winst op te nemen.", btnConnectWallet: "💎 Wallet Koppelen",
+        txtMarketTitle: "🛒 Winkel & Upgrades", mItem1Title: "🐾 Extra Welp Adopteren", mItem1Desc: "Voegt +1 Welp toe (+0.0010 / dag)",
+        txtTasksTitle: "📋 Taken", txtFriendsTitle: "👥 Vrienden Uitnodigen", txtFriendsDesc: "Verdien +0.001 GRAM snelheid per uitgenodigde vriend!",
+        txtWalletTitle: "👛 TON Storting & Betaling", txtWalletDesc: "Stuur TON/GRAM naar onze wallet om je saldo aan te vullen of pakketten te kopen.",
         caveTitleCub: "🪨 Schuilplaats: Pride Rock ({c} Welpen)", caveTitleAdult: "👑 Volwassen Leeuwin (Snelheid x4)", caveTitleMale: "🦁 Koning Mannenleeuw",
         claimSuccess: "Winst succesvol geïncasseerd! 🎉", claimEmpty: "Nog geen winst om op te halen!",
-        inviteCopied: "Uitnodigingslink gekopieerd!", walletSoon: "TON Wallet koppeling succesvol!",
-        needWallet: "Koppel eerst je cüzdan/wallet!"
+        inviteCopied: "Uitnodigingslink gekopieerd!"
       },
       ru: {
         navYavru: "Львенок", navMarket: "Рынок", navGorevler: "Задачи", navArkadaslar: "Друзья", navCuzdan: "Кошелек",
         txtBalanceTitle: "БАЛАНС GRAM", txtDailySpeedLabel: "Дневная скорость", txtUnclaimedLabel: "К сбору", btnClaim: "⚡ СОБРАТЬ ДОХОД",
-        txtMarketTitle: "🛒 Магазин и улучшение", mItem1Title: "🐾 Взять львенка", mItem1Desc: "Добавляет +1 львенка (+0.0010 / день)", mItem1Btn: "+1 Львенок ($2)",
-        mItem2Title: "🦁 Объединить львят", mItem2Desc: "Нужно: 6 львят (Увеличивает скорость х4!)", mItem2Btn: "⚡ СЛИЯНИЕ ($10)",
-        mItem3Title: "🥩 Мясной рацион", mItem3Desc: "Увеличивает скорость на +0.0005/день",
-        mItem4Title: "🏕️ Укрытие в саванне", mItem4Desc: "Скорость: +0.0025 / день",
-        mItem5Title: "🌿 Зеленая саванна", mItem5Desc: "Скорость: +0.0080 / день",
-        mItem6Title: "🪨 Скала Предков", mItem6Desc: "Скорость: +0.0180 / день",
-        mItem7Title: "👑 Империя Саванны", mItem7Desc: "Скорость: +0.1200 / день",
-        txtTasksTitle: "📋 Задания", t1Title: "📢 Вступить в Telegram канал", t1Reward: "Награда: +0.005 GRAM", t1Btn: "Готово",
-        t2Title: "💰 Пополнить баланс от $5", t2Reward: "Награда: +0.010 GRAM", t2Btn: "Готово",
-        t3Title: "👥 Пригласить 3 друзей", t3Reward: "Награда: +0.003 GRAM", t3Btn: "Сделать",
-        txtFriendsTitle: "👥 Пригласи друзей", txtFriendsDesc: "Получай +0.001 GRAM скорости за каждого друга!", btnInviteLink: "🔗 Скопировать ссылку",
-        txtWalletTitle: "👛 TON Кошелек", txtWalletDesc: "Подключите кошелек для вывода средств.", btnConnectWallet: "💎 Подключить кошелек",
+        txtMarketTitle: "🛒 Магазин и улучшение", mItem1Title: "🐾 Взять львенка", mItem1Desc: "Добавляет +1 львенка (+0.0010 / день)",
+        txtTasksTitle: "📋 Задания", txtFriendsTitle: "👥 Пригласи друзей", txtFriendsDesc: "Получай +0.001 GRAM скорости за каждого друга!",
+        txtWalletTitle: "👛 TON Кошелек", txtWalletDesc: "Отправьте TON/GRAM на наш кошелек для пополнения.",
         caveTitleCub: "🪨 Укрытие: Pride Rock ({c} Львят)", caveTitleAdult: "👑 Взрослая львица (Скорость x4)", caveTitleMale: "🦁 Король Лев",
         claimSuccess: "Доход успешно собран! 🎉", claimEmpty: "Пока нет дохода для сбора!",
-        inviteCopied: "Ссылка скопирована!", walletSoon: "Подключение TON кошелька успешно!",
-        needWallet: "Сначала подключите кошелек!"
+        inviteCopied: "Ссылка скопирована!"
       },
       de: {
         navYavru: "Junge", navMarket: "Markt", navGorevler: "Aufgaben", navArkadaslar: "Freunde", navCuzdan: "Geldbörse",
         txtBalanceTitle: "MEIN GRAM GUTHABEN", txtDailySpeedLabel: "Tagesgeschwindigkeit", txtUnclaimedLabel: "Bereit zum Abholen", btnClaim: "⚡ GEWINN ABHOLEN",
-        txtMarketTitle: "🛒 Markt & Upgrades", mItem1Title: "🐾 Extra Löwenjunges adoptieren", mItem1Desc: "Fügt +1 Junges hinzu (+0.0010 / Tag)", mItem1Btn: "+1 Junges ($2)",
-        mItem2Title: "🦁 Junge zur Löwin verschmelzen", mItem2Desc: "Benötigt: 6 Junge (Vervielfacht Tempo x4!)", mItem2Btn: "⚡ FUSIONIEREN ($10)",
-        mItem3Title: "🥩 Fleisch-Nahrung", mItem3Desc: "Erhöht Tempo um +0.0005/Tag",
-        mItem4Title: "🏕️ Savannen-Unterkunft", mItem4Desc: "Tempo: +0.0025 / Tag",
-        mItem5Title: "🌿 Grüne Savanne", mItem5Desc: "Tempo: +0.0080 / Tag",
-        mItem6Title: "🪨 Pride Rock", mItem6Desc: "Tempo: +0.0180 / Tag",
-        mItem7Title: "👑 Savannen-Imperium", mItem7Desc: "Tempo: +0.1200 / Tag",
-        txtTasksTitle: "📋 Aufgaben", t1Title: "📢 Telegram-Kanal beitreten", t1Reward: "Belohnung: +0.005 GRAM", t1Btn: "Erledigt",
-        t2Title: "💰 Mindestens $5 einzahlen", t2Reward: "Belohnung: +0.010 GRAM", t2Btn: "Erledigt",
-        t3Title: "👥 3 Freunde einladen", t3Reward: "Belohnung: +0.003 GRAM", t3Btn: "Start",
-        txtFriendsTitle: "👥 Freunde einladen", txtFriendsDesc: "Erhalte +0.001 GRAM Tempo pro eingeladenem Freund!", btnInviteLink: "🔗 Einladungslink kopieren",
-        txtWalletTitle: "👛 TON Geldbörse", txtWalletDesc: "Verbinde deine Geldbörse, um Gewinne abzuheben.", btnConnectWallet: "💎 Wallet verbinden",
+        txtMarketTitle: "🛒 Markt & Upgrades", mItem1Title: "🐾 Extra Löwenjunges adoptieren", mItem1Desc: "Fügt +1 Junges hinzu (+0.0010 / Tag)",
+        txtTasksTitle: "📋 Aufgaben", txtFriendsTitle: "👥 Freunde einladen", txtFriendsDesc: "Erhalte +0.001 GRAM Tempo pro eingeladenem Freund!",
+        txtWalletTitle: "👛 TON Einzahlung", txtWalletDesc: "Sende TON/GRAM an unsere Wallet, um Pakete zu kaufen.",
         caveTitleCub: "🪨 Unterkunft: Pride Rock ({c} Junge)", caveTitleAdult: "👑 Ausgewachsene Löwin (Tempo x4)", caveTitleMale: "🦁 König Löwe",
         claimSuccess: "Gewinn erfolgreich abgeholt! 🎉", claimEmpty: "Noch kein Gewinn zum Abholen da!",
-        inviteCopied: "Einladungslink kopiert!", walletSoon: "TON Wallet Verbindung erfolgreich!",
-        needWallet: "Bitte verbinde zuerst deine Geldbörse!"
+        inviteCopied: "Einladungslink kopiert!"
       }
     };
 
@@ -891,7 +892,7 @@
     function claimDailyBonus() {
       let now = Date.now();
       if (now - lastDailyClaim < 86400000) {
-        showToast("Bugünkü bonusu zaten aldınız! Yarın tekrar gelin.");
+        showToast("Bugünkü bonusu zaten aldınız!");
         return;
       }
       balance += 0.002;
@@ -914,10 +915,8 @@
     function spinWheel() {
       let btn = document.getElementById('spinBtn');
       btn.disabled = true;
-
       let extraDegrees = Math.floor(Math.random() * 360) + 1440;
       currentRotation += extraDegrees;
-      
       document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
@@ -930,49 +929,59 @@
       }, 3500);
     }
 
-    // ECHTE TON BETALING TRANSACTIE VERZENDEN NAAR JOUW WALLET
-    async function payWithTon(amountInUsd, actionType) {
-      if (!tonConnectUI.connected) {
-        showToast(i18n[currentLang].needWallet);
-        return;
-      }
+    // HANDMATIGE BETALING MODUS (HONEY FARM STIJL)
+    function openPaymentModal(usdAmount, actionType, itemName) {
+      pendingAction = actionType;
+      // Omrekening USD naar TON (1 TON = $5.00 voorbeeld)
+      let tonPrice = (usdAmount / 5.0).toFixed(2);
+      document.getElementById('payModalTitle').innerText = itemName + " Satın Al";
+      document.getElementById('payModalAmount').value = tonPrice + " TON ($" + usdAmount + ")";
+      document.getElementById('paymentModal').classList.add('active');
+    }
 
-      // Omrekening USD naar TON NanoTon (ca. 1 TON = $5.00)
-      const tonAmount = (amountInUsd / 5.0).toFixed(2);
-      const nanoTons = (tonAmount * 1000000000).toString();
+    function closePaymentModal() {
+      document.getElementById('paymentModal').classList.remove('active');
+      pendingAction = null;
+    }
 
-      const transaction = {
-        validUntil: Math.floor(Date.now() / 1000) + 600,
-        messages: [
-          {
-            address: MY_RECEIVING_WALLET,
-            amount: nanoTons
-          }
-        ]
-      };
+    function copyMyWallet() {
+      navigator.clipboard.writeText(MY_RECEIVING_WALLET);
+      showToast("Cüzdan adresi kopyalandı! 📋");
+    }
 
-      try {
-        showToast("Cüzdan onayı bekleniyor...");
-        const result = await tonConnectUI.sendTransaction(transaction);
-        if (result) {
-          showToast("Ödeme başarılı! 🎉");
-          if (actionType === 'buyCub') {
-            cubCount++;
-            dailySpeed += 0.0010;
-          } else if (actionType === 'buyVIP') {
-            dailySpeed *= 1.2;
-          } else if (actionType === 'fuseCubs') {
-            dailySpeed *= 4;
-          } else if (actionType === 'buyMaleLion') {
-            hasMaleLion = true;
-            dailySpeed += 0.0500;
-          }
-          updateCaveDisplay();
-          saveData();
+    function copyPayAddress() {
+      navigator.clipboard.writeText(MY_RECEIVING_WALLET);
+      showToast("Cüzdan adresi kopyalandı! 📋");
+    }
+
+    function copyPayAmount() {
+      let amountVal = document.getElementById('payModalAmount').value.split(" ")[0];
+      navigator.clipboard.writeText(amountVal);
+      showToast("Gönderilecek miktar kopyalandı! 📋");
+    }
+
+    function confirmManualPayment() {
+      showToast("Ödeme talebiniz alındı! Kontrol ediliyor...");
+      setTimeout(() => {
+        if (pendingAction === 'buyCub') {
+          cubCount++;
+          dailySpeed += 0.0010;
+        } else if (pendingAction === 'buyVIP') {
+          dailySpeed *= 1.2;
+        } else if (pendingAction === 'fuseCubs') {
+          isFused = true;
+          dailySpeed *= 4;
+        } else if (pendingAction === 'buyMaleLion') {
+          hasMaleLion = true;
+          dailySpeed += 0.0500;
+        } else {
+          dailySpeed += 0.0010;
         }
-      } catch (e) {
-        showToast("Ödeme iptal edildi veya başarısız oldu.");
-      }
+        updateCaveDisplay();
+        saveData();
+        closePaymentModal();
+        showToast("Paket başarıyla aktif edildi! 🎉");
+      }, 1500);
     }
 
     function updateCaveDisplay() {
@@ -991,19 +1000,12 @@
         targetVideo = './background_mother.MP4';
       } else {
         title.innerText = i18n[currentLang].caveTitleCub.replace('{c}', cubCount);
-        if (cubCount >= 5) {
-          targetVideo = './background_cubs5.MP4';
-        } else if (cubCount === 4) {
-          targetVideo = './background_cubs4.MP4';
-        } else if (cubCount === 3) {
-          targetVideo = './background_cubs3.MP4';
-        } else if (cubCount >= 2) {
-          targetVideo = './background_cubs2.MP4';
-        } else if (cubCount === 1) {
-          targetVideo = './background_cub1.MP4';
-        } else {
-          targetVideo = './background_empty.MP4';
-        }
+        if (cubCount >= 5) targetVideo = './background_cubs5.MP4';
+        else if (cubCount === 4) targetVideo = './background_cubs4.MP4';
+        else if (cubCount === 3) targetVideo = './background_cubs3.MP4';
+        else if (cubCount >= 2) targetVideo = './background_cubs2.MP4';
+        else if (cubCount === 1) targetVideo = './background_cub1.MP4';
+        else targetVideo = './background_empty.MP4';
       }
 
       document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";

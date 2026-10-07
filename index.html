@@ -454,18 +454,18 @@
       </div>
     </div>
 
-    <!-- TAB 2: JACHT (AV - BİEFSTUK TOPLA VE İNTİKAL) -->
+    <!-- TAB 2: JACHT (AV - PASSIEF BİEFSTUK MINING) -->
     <div id="tab-hunt" class="tab-content">
       <div class="page-box" style="text-align: center;">
         <div class="page-title">🦁 Aslan Avı & Biefstuk</div>
         <p style="font-size: 0.82rem; color: #ccc; margin-bottom: 15px;">
-          Aslanları ava göndererek biefstuk toplayın. Biefstukleri GRAM coine dönüştürün veya harlanmış madencilik için harcayın!
+          Aslanlarınız mağarada otomatik olarak biefstuk (et) üretir! Biriken etleri toplayabilir veya GRAM ile takas edebilirsiniz.
         </p>
 
         <div style="background: rgba(0,0,0,0.5); border: 1px solid #ff9900; border-radius: 14px; padding: 15px; margin-bottom: 15px;">
-          <div style="font-size: 0.8rem; color: #aaa;">Biriken Biefstuk:</div>
+          <div style="font-size: 0.8rem; color: #aaa;">Toplanabilir Biefstuk:</div>
           <div style="font-size: 1.6rem; font-weight: 900; color: #ffd700; margin: 5px 0;" id="huntSteakDisplay">0 Et</div>
-          <button class="btn-claim" onclick="sendLionsToHunt()">🏹 Aslanları Ava Gönder (+50 Et)</button>
+          <button class="btn-claim" onclick="claimSteak()">📥 Biefstukleri Topla</button>
         </div>
 
         <div style="background: rgba(0,0,0,0.5); border: 1px solid #2ecc71; border-radius: 14px; padding: 15px;">
@@ -475,12 +475,28 @@
       </div>
     </div>
 
-    <!-- TAB 3: MAĞRA (MARKET YERİNE MAĞRA / GOROT) -->
+    <!-- TAB 3: MAĞRA (YÜKSETMELER & MARKET ÜRÜNLERİ) -->
     <div id="tab-market" class="tab-content">
       <div class="page-box">
         <div class="page-title">🏕️ Mağra & Yükseltmeler</div>
         
         <div class="task-list">
+          <div class="task-card">
+            <div class="task-info">
+              <strong>🐾 Ekstra Yavru Sahiplen</strong><br>
+              <small>Yuvaya +1 Yavru ekler (+10 Et/saat)</small>
+            </div>
+            <button class="btn-buy" onclick="openPaymentModal(2, 'buyCub', 'Ekstra Yavru (+1)')">$2 (2 GRAM)</button>
+          </div>
+
+          <div class="task-card">
+            <div class="task-info">
+              <strong>🥩 Et Besini (Hız Artışı)</strong><br>
+              <small>Hızı +0.0005/gün artırır</small>
+            </div>
+            <button class="btn-buy" onclick="openPaymentModal(3, 'buyItem', 'Et Besini')">$3 (3 GRAM)</button>
+          </div>
+
           <div class="task-card">
             <div class="task-info">
               <strong>👑 Büyük Aslan Mağrası (Mega Lvl 1)</strong><br>
@@ -661,6 +677,7 @@
     let balance = parseFloat(localStorage.getItem('balance')) || 0.00000000;
     let unclaimed = parseFloat(localStorage.getItem('unclaimed')) || 0.00000000;
     let steakBalance = parseInt(localStorage.getItem('steakBalance')) || 0;
+    let unclaimedSteak = parseFloat(localStorage.getItem('unclaimedSteak')) || 0;
     let inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
     let cubCount = localStorage.getItem('cubCount') !== null ? parseInt(localStorage.getItem('cubCount')) : 0;
     let isFused = localStorage.getItem('isFused') === 'true';
@@ -677,6 +694,7 @@
       localStorage.setItem('balance', balance);
       localStorage.setItem('unclaimed', unclaimed);
       localStorage.setItem('steakBalance', steakBalance);
+      localStorage.setItem('unclaimedSteak', unclaimedSteak);
       localStorage.setItem('inviteCount', inviteCount);
       localStorage.setItem('cubCount', cubCount);
       localStorage.setItem('isFused', isFused);
@@ -694,6 +712,11 @@
       let speedPerSecond = (dailySpeed * speedFactor) / 86400;
       unclaimed += speedPerSecond;
       document.getElementById('unclaimed').innerText = unclaimed.toFixed(8);
+
+      // Passieve Biefstuk productie op basis van actieve dieren (bijv. 10 et per welp per uur -> per seconde)
+      let steakPerSecond = ((cubCount * 10) + (isFused ? 50 : 0) + (hasMaleLion ? 150 : 10)) / 3600;
+      unclaimedSteak += steakPerSecond * speedFactor;
+      document.getElementById('huntSteakDisplay').innerText = Math.floor(unclaimedSteak) + " Et";
 
       if (hunger > 0) {
         hunger -= 0.05;
@@ -722,11 +745,17 @@
       showToast("Kazanç başarıyla bakiyenize eklendi! 🎉");
     }
 
-    function sendLionsToHunt() {
-      steakBalance += 50;
+    function claimSteak() {
+      let earned = Math.floor(unclaimedSteak);
+      if (earned <= 0) {
+        showToast("Henüz toplanacak biefstuk birikmedi!");
+        return;
+      }
+      steakBalance += earned;
+      unclaimedSteak -= earned;
       document.getElementById('steakBalance').innerText = steakBalance + " Et";
-      document.getElementById('huntSteakDisplay').innerText = steakBalance + " Et";
-      showToast("🦁 Aslanlar başarıyla avlandı! +50 Biefstuk (Et) kazandınız 🥩");
+      document.getElementById('huntSteakDisplay').innerText = Math.floor(unclaimedSteak) + " Et";
+      showToast(`🦁 ${earned} Biefstuk toplandı! 🥩`);
       saveData();
     }
 
@@ -740,8 +769,7 @@
       steakBalance = 0;
       document.getElementById('balance').innerText = balance.toFixed(8);
       document.getElementById('steakBalance').innerText = "0 Et";
-      document.getElementById('huntSteakDisplay').innerText = "0 Et";
-      showToast(`🎉 Takip başarılı! GRAM bakiyenize eklendi.`);
+      showToast(`🎉 Takas başarılı! GRAM bakiyenize eklendi.`);
       saveData();
     }
 
@@ -848,7 +876,6 @@
       document.getElementById('balance').innerText = balance.toFixed(8);
       document.getElementById('maxBalanceDisplay').innerText = balance.toFixed(8) + " GRAM";
       document.getElementById('steakBalance').innerText = steakBalance + " Et";
-      document.getElementById('huntSteakDisplay').innerText = steakBalance + " Et";
       document.getElementById('hungerFill').style.width = hunger + "%";
       
       let title = document.getElementById('caveTitle');

@@ -12,7 +12,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #0b1a28;
+      background: radial-gradient(circle at center, #0f2b42 0%, #06101a 100%);
       color: #ffffff;
       display: flex;
       justify-content: center;
@@ -23,27 +23,29 @@
       width: 100%;
       max-width: 480px;
       min-height: 100vh;
-      background: linear-gradient(180deg, #1d5276 0%, #0d2334 100%);
+      background: linear-gradient(180deg, rgba(29,82,118,0.85) 0%, rgba(13,35,52,0.95) 100%);
       display: flex;
       flex-direction: column;
-      padding: 8px;
-      padding-bottom: 75px;
+      padding: 10px;
+      padding-bottom: 80px;
       position: relative;
     }
 
-    .tab-content { display: none; }
+    .tab-content { display: none; animate: fadeIn 0.3s; }
     .tab-content.active { display: block; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ACHTERGROND KAART */
     .game-card {
       position: relative;
       width: 100%;
-      height: 420px;
-      border: 3px solid #ff9900;
-      border-radius: 20px;
+      height: 380px;
+      border: 3px solid #ffb700;
+      border-radius: 22px;
       overflow: hidden;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.8);
-      margin-bottom: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(255,183,0,0.3);
+      margin-bottom: 10px;
       background: #000;
       display: flex;
       align-items: center;
@@ -59,35 +61,57 @@
 
     .shelter-badge {
       position: absolute;
-      top: 8px;
-      left: 8px;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(6px);
-      padding: 4px 10px;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 6px 12px;
       border-radius: 16px;
       font-size: 0.75rem;
-      border: 1px solid rgba(255, 215, 0, 0.5);
+      border: 1px solid rgba(255, 215, 0, 0.6);
       color: #ffd700;
       z-index: 20;
+      font-weight: bold;
     }
 
     .settings-btn {
       position: absolute;
-      top: 8px;
-      right: 8px;
-      background: rgba(0, 0, 0, 0.75);
-      border: 1px solid rgba(255, 215, 0, 0.5);
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 215, 0, 0.6);
       color: #ffd700;
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 1rem;
+      font-size: 1.1rem;
       cursor: pointer;
       z-index: 20;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
+
+    /* TIKKEN / TAP MINI-GAME KNOP OP SCHERM */
+    .tap-clicker-overlay {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #ff9900, #ff5500);
+      color: #000;
+      border: 2px solid #fff;
+      border-radius: 30px;
+      padding: 8px 20px;
+      font-weight: 900;
+      font-size: 0.9rem;
+      cursor: pointer;
+      z-index: 25;
+      box-shadow: 0 5px 15px rgba(255,153,0,0.6);
+      transition: transform 0.1s;
+    }
+    .tap-clicker-overlay:active { transform: translateX(-50%) scale(0.93); }
 
     /* HONGER BALK */
     .hunger-container {
@@ -95,10 +119,10 @@
       bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
-      width: 85%;
-      background: rgba(0,0,0,0.8);
+      width: 90%;
+      background: rgba(0,0,0,0.85);
       padding: 6px 12px;
-      border-radius: 12px;
+      border-radius: 14px;
       border: 1px solid #ff9900;
       z-index: 20;
       display: flex;
@@ -117,15 +141,15 @@
     .hunger-fill {
       height: 100%;
       width: 100%;
-      background: #28a745;
+      background: #2ecc71;
       transition: width 0.3s;
     }
 
     .btn-feed {
       background: #ff9900;
       border: none;
-      padding: 4px 10px;
-      border-radius: 6px;
+      padding: 4px 12px;
+      border-radius: 8px;
       font-weight: bold;
       font-size: 0.75rem;
       color: #000;
@@ -165,28 +189,28 @@
         #f1c40f 270deg 360deg
       );
       transition: transform 3.5s cubic-bezier(0.15, 0.9, 0.15, 1);
-      box-shadow: 0 0 15px rgba(255,215,0,0.4);
+      box-shadow: 0 0 20px rgba(255,215,0,0.5);
     }
 
     .wheel-btn {
       background: linear-gradient(135deg, #e67e22, #d35400);
       color: #fff;
       border: none;
-      padding: 12px 24px;
+      padding: 12px 26px;
       font-size: 0.95rem;
       font-weight: bold;
       border-radius: 25px;
       cursor: pointer;
-      margin-top: 10px;
-      box-shadow: 0 4px 12px rgba(230,126,34,0.4);
+      margin-top: 12px;
+      box-shadow: 0 4px 15px rgba(230,126,34,0.5);
     }
 
     .modal-overlay {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(6px);
       z-index: 200;
       justify-content: center;
       align-items: center;
@@ -195,17 +219,18 @@
 
     .modal-box {
       background: #180f08;
-      border: 2px solid #ff9900;
-      border-radius: 16px;
+      border: 2px solid #ffb700;
+      border-radius: 18px;
       padding: 20px;
       width: 90%;
       max-width: 360px;
       text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.9);
     }
 
     .modal-title {
       color: #ffd700;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: bold;
       margin-bottom: 15px;
     }
@@ -234,72 +259,72 @@
 
     /* SALDO PANEEL */
     .balance-card {
-      background: rgba(28, 18, 10, 0.92);
-      border: 1.5px solid #5a3d24;
-      border-radius: 14px;
-      padding: 8px 12px;
+      background: rgba(22, 14, 8, 0.95);
+      border: 2px solid #704b2e;
+      border-radius: 16px;
+      padding: 12px;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
     }
 
     .balance-title {
       color: #bfa38a;
-      font-size: 0.68rem;
+      font-size: 0.7rem;
       letter-spacing: 1px;
       font-weight: bold;
-      margin-bottom: 1px;
+      margin-bottom: 2px;
     }
 
     .balance-amount {
-      font-size: 1.4rem;
-      font-weight: 800;
+      font-size: 1.5rem;
+      font-weight: 900;
       color: #ffd700;
-      margin-bottom: 6px;
-      text-shadow: 0 2px 6px rgba(255,215,0,0.3);
+      margin-bottom: 8px;
+      text-shadow: 0 2px 8px rgba(255,215,0,0.4);
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      margin-bottom: 6px;
+      gap: 8px;
+      margin-bottom: 8px;
     }
 
     .stat-box {
-      background: rgba(0, 0, 0, 0.4);
-      padding: 5px;
-      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 6px;
+      border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.08);
     }
 
-    .stat-label { color: #aaa; font-size: 0.65rem; margin-bottom: 1px; }
-    .stat-value { font-weight: bold; color: #fff; font-size: 0.78rem; }
+    .stat-label { color: #aaa; font-size: 0.68rem; margin-bottom: 2px; }
+    .stat-value { font-weight: bold; color: #fff; font-size: 0.8rem; }
 
     .btn-claim {
       width: 100%;
       background: linear-gradient(135deg, #ffb700, #ff8800);
       border: none;
-      padding: 8px;
-      border-radius: 10px;
+      padding: 10px;
+      border-radius: 12px;
       color: #000;
-      font-weight: 800;
-      font-size: 0.85rem;
+      font-weight: 900;
+      font-size: 0.9rem;
       cursor: pointer;
-      box-shadow: 0 3px 10px rgba(255, 136, 0, 0.4);
+      box-shadow: 0 4px 12px rgba(255, 136, 0, 0.4);
     }
 
     .btn-claim:active { transform: scale(0.98); }
 
     .page-box {
-      background: rgba(28, 18, 10, 0.9);
-      border: 2px solid #5a3d24;
+      background: rgba(22, 14, 8, 0.92);
+      border: 2px solid #704b2e;
       border-radius: 18px;
       padding: 16px;
-      margin-top: 5px;
+      margin-top: 4px;
     }
 
     .page-title {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       color: #ffd700;
       margin-bottom: 14px;
       font-weight: bold;
@@ -310,15 +335,15 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-height: 400px;
+      max-height: 420px;
       overflow-y: auto;
       padding-right: 4px;
     }
 
     .task-card {
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.45);
       border: 1px solid rgba(255, 215, 0, 0.25);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 12px;
       display: flex;
       justify-content: space-between;
@@ -328,37 +353,24 @@
     .task-info strong { color: #fff; font-size: 0.88rem; }
     .task-info small { color: #ffb700; font-size: 0.75rem; }
 
-    .progress-bar {
-      width: 100%;
-      background: rgba(255,255,255,0.1);
-      height: 6px;
-      border-radius: 4px;
-      margin-top: 6px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: #28a745;
-      width: 100%;
-    }
-
     .btn-buy {
       background: linear-gradient(135deg, #ff9900, #ff6600);
       border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 8px 14px;
+      border-radius: 10px;
       font-weight: bold;
       color: #000;
       font-size: 0.8rem;
       cursor: pointer;
       white-space: nowrap;
+      box-shadow: 0 3px 10px rgba(255,153,0,0.3);
     }
 
     .btn-buy:disabled, .btn-done {
-      background: #555;
-      color: #aaa;
+      background: #444;
+      color: #888;
       cursor: not-allowed;
+      box-shadow: none;
     }
 
     .wallet-box-manual {
@@ -388,8 +400,8 @@
       background: #111;
       border: 1px solid #5a3d24;
       color: #fff;
-      padding: 6px;
-      border-radius: 6px;
+      padding: 8px;
+      border-radius: 8px;
       font-size: 0.75rem;
     }
 
@@ -397,8 +409,8 @@
       background: #3498db;
       color: #fff;
       border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
       font-weight: bold;
       font-size: 0.75rem;
       cursor: pointer;
@@ -411,7 +423,7 @@
       transform: translateX(-50%);
       width: 100%;
       max-width: 480px;
-      background: #180f08;
+      background: #120a05;
       border-top: 2px solid #3d2716;
       display: flex;
       justify-content: space-around;
@@ -428,6 +440,7 @@
       text-decoration: none;
       cursor: pointer;
       gap: 3px;
+      transition: color 0.2s;
     }
 
     .nav-item.active {
@@ -435,14 +448,14 @@
       font-weight: bold;
     }
 
-    .nav-icon { font-size: 1.2rem; }
+    .nav-icon { font-size: 1.25rem; }
 
     .toast-notification {
       position: absolute;
-      top: 60px;
+      top: 50px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.92);
       border: 1.5px solid #ffd700;
       color: #ffd700;
       padding: 10px 18px;
@@ -451,7 +464,7 @@
       font-weight: bold;
       z-index: 300;
       display: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.8);
       text-align: center;
       max-width: 90%;
     }
@@ -463,7 +476,7 @@
 
     <div id="toast" class="toast-notification"></div>
 
-    <!-- TAB 1: YAVRU -->
+    <!-- TAB 1: YAVRU (GAME HOME) -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
         <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
@@ -472,6 +485,9 @@
 
         <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (0 Yavru)</div>
         <div class="settings-btn" onclick="openLanguageModal()">⚙️</div>
+
+        <!-- TIKKEN / TAP MINI-GAME KNOP -->
+        <button class="tap-clicker-overlay" onclick="tapMineCoin()">🐾 +0.0001 TAP!</button>
 
         <!-- HONGER BALK -->
         <div class="hunger-container">
@@ -591,7 +607,7 @@
       </div>
     </div>
 
-    <!-- TAB 3: GÖREVLER -->
+    <!-- TAB 3: GÖREVLER (UITGEBREID) -->
     <div id="tab-gorevler" class="tab-content">
       <div class="page-box">
         <div class="page-title" id="txtTasksTitle">📋 Görevler</div>
@@ -601,30 +617,26 @@
             <div class="task-info">
               <strong id="t1Title">📢 Telegram Kanalına Katıl</strong><br>
               <small id="t1Reward">Ödül: +0.005 GRAM</small>
-              <div class="progress-bar"><div class="progress-fill"></div></div>
             </div>
-            <button class="btn-done" id="t1Btn">Tamamlandı</button>
+            <button class="btn-buy" onclick="completeTask('t1', 0.005)">Yap</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
-              <strong id="t2Title">💰 Bakiyenize en az $5 yatırın</strong><br>
-              <small id="t2Reward">Ödül: +0.010 GRAM</small>
-              <div class="progress-bar"><div class="progress-fill"></div></div>
+              <strong>✖️ X (Twitter) Hesabımızı Takip Et</strong><br>
+              <small>Ödül: +0.005 GRAM</small>
             </div>
-            <button class="btn-done" id="t2Btn">Tamamlandı</button>
+            <button class="btn-buy" onclick="completeTask('t_x', 0.005)">Takip Et</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
-              <strong id="t3Title">👥 3 Arkadaşını Davet Et</strong><br>
-              <small id="t3Reward">Ödül: +0.003 GRAM</small>
-              <div class="progress-bar"><div class="progress-fill" style="width: 33%;"></div></div>
+              <strong>▶️ YouTube Tanıtım Videosunu İzle</strong><br>
+              <small>Ödül: +0.008 GRAM</small>
             </div>
-            <button class="btn-buy" id="t3Btn" onclick="showToast(i18n[currentLang].inviteCopied)">Yap</button>
+            <button class="btn-buy" onclick="completeTask('t_yt', 0.008)">İzle</button>
           </div>
 
-          <!-- DAGELIJKSE BONUS -->
           <div class="task-card">
             <div class="task-info">
               <strong>📅 Günlük Giriş Bonusu (Daily Check-in)</strong><br>
@@ -633,13 +645,12 @@
             <button class="btn-buy" id="btnDailyCheckIn" onclick="claimDailyBonus()">Al</button>
           </div>
 
-          <!-- TELEGRAM STORY DELEN -->
           <div class="task-card">
             <div class="task-info">
               <strong>📲 Telegram Story'de Paylaş</strong><br>
               <small>Ödül: +0.005 GRAM</small>
             </div>
-            <button class="btn-buy" onclick="showToast('Story Paylaşım Linki Hazırlanıyor...')">Paylaş</button>
+            <button class="btn-buy" onclick="completeTask('t_story', 0.005)">Paylaş</button>
           </div>
         </div>
 
@@ -659,14 +670,18 @@
       </div>
     </div>
 
-    <!-- TAB 5: RANGLIJST -->
+    <!-- TAB 5: RANGLIJST & STATS -->
     <div id="tab-leaderboard" class="tab-content">
       <div class="page-box">
-        <div class="page-title">🏆 En İyiler (Leaderboard)</div>
-        <p style="text-align:center; font-size:0.8rem; color:#aaa; margin-bottom:12px;">Veritabanı bağlandığında canlı skorlar burada görünecek!</p>
+        <div class="page-title">🏆 Seviye & Sıralama</div>
+        <p style="text-align:center; font-size:0.8rem; color:#aaa; margin-bottom:12px;">Aktif profil istatistikleriniz:</p>
         <div class="task-list">
           <div class="task-card">
-            <div class="task-info"><strong id="playerTag">👤 Oyuncu</strong><br><small>Senin Hızın: <span id="userRankSpeed">0.0010</span> GRAM/gün</small></div>
+            <div class="task-info">
+              <strong id="playerTag">👤 Oyuncu</strong><br>
+              <small>Seviye: <span id="playerLevel">1 (Acemi Aslan)</span></small><br>
+              <small>Hız: <span id="userRankSpeed">0.0010</span> GRAM/gün</small>
+            </div>
           </div>
         </div>
       </div>
@@ -748,7 +763,7 @@
     <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🛒</div><div id="navMarket">Market</div></div>
     <div class="nav-item" onclick="switchTab('gorevler', this)"><div class="nav-icon">📋</div><div id="navGorevler">Görevler</div></div>
     <div class="nav-item" onclick="switchTab('spin', this)"><div class="nav-icon">🎡</div><div>Çark</div></div>
-    <div class="nav-item" onclick="switchTab('leaderboard', this)"><div class="nav-icon">🏆</div><div>Sıralama</div></div>
+    <div class="nav-item" onclick="switchTab('leaderboard', this)"><div class="nav-icon">🏆</div><div>Seviye</div></div>
     <div class="nav-item" onclick="switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div id="navCuzdan">Cüzdan</div></div>
   </div>
 
@@ -869,6 +884,14 @@
       saveData();
     }, 1000);
 
+    // TAP MINI-GAME FUNCTIE
+    function tapMineCoin() {
+      balance += 0.0001;
+      document.getElementById('balance').innerText = balance.toFixed(8);
+      showToast("🐾 +0.0001 GRAM Kazandın!");
+      saveData();
+    }
+
     function feedCubs() {
       hunger = 100;
       document.getElementById('hungerFill').style.width = "100%";
@@ -887,6 +910,13 @@
       document.getElementById('unclaimed').innerText = "0.00000000";
       saveData();
       showToast(i18n[currentLang].claimSuccess);
+    }
+
+    function completeTask(taskId, reward) {
+      balance += reward;
+      document.getElementById('balance').innerText = balance.toFixed(8);
+      showToast(`Görev Tamamlandı! +${reward} GRAM Eklendi 🎉`);
+      saveData();
     }
 
     function claimDailyBonus() {
@@ -929,7 +959,6 @@
       }, 3500);
     }
 
-    // HANDMATIGE BETALING MODUS (GELDTREFFER / CONTROLE MELDING)
     function openPaymentModal(usdAmount, actionType, itemName) {
       document.getElementById('payModalTitle').innerText = itemName + " Satın Al";
       document.getElementById('payModalAmount').value = "$" + usdAmount + " USD";
@@ -958,7 +987,6 @@
 
     function confirmManualPayment() {
       closePaymentModal();
-      // Professionele melding dat de betaling gecontroleerd wordt
       showToast("⏳ Ödemeniz alındı! Ağ üzerinde kontrol ediliyor. Paketiniz birkaç dakika içinde hesabınıza tanımlanacaktır.");
     }
 
@@ -989,6 +1017,13 @@
       document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
       let rankSpeedEl = document.getElementById('userRankSpeed');
       if (rankSpeedEl) rankSpeedEl.innerText = dailySpeed.toFixed(4);
+
+      let lvlElem = document.getElementById('playerLevel');
+      if (lvlElem) {
+        if (dailySpeed > 0.05) lvlElem.innerText = "3 (Kral Aslan)";
+        else if (dailySpeed > 0.01) lvlElem.innerText = "2 (Tecrübeli Avcı)";
+        else lvlElem.innerText = "1 (Acemi Aslan)";
+      }
 
       if (!videoSource.src.includes(targetVideo.replace('./', ''))) {
         videoSource.src = targetVideo;

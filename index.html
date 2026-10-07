@@ -34,7 +34,7 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* HONEY FARM STIJL TOP LEVEL HUD (LINKS BOVEN) */
+    /* LEVEL HUD (LINKS BOVEN) */
     .top-level-hud {
       position: absolute;
       top: 10px;
@@ -79,7 +79,7 @@
     .game-card {
       position: relative;
       width: 100%;
-      height: 400px;
+      height: 380px;
       border: 3px solid #ffb700;
       border-radius: 22px;
       overflow: hidden;
@@ -174,177 +174,6 @@
       cursor: pointer;
     }
 
-    /* INTERACTIEVE HOUTEN KALCULATOR (HONEY FARM STIJL) */
-    .calc-box {
-      background: linear-gradient(135deg, #3d2612, #211308);
-      border: 2px solid #ffb700;
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 12px;
-      text-align: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
-    }
-
-    .calc-slider {
-      width: 100%;
-      margin: 10px 0;
-      accent-color: #ffb700;
-      cursor: pointer;
-    }
-
-    .calc-tiers {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 6px;
-      margin: 10px 0;
-      font-size: 0.75rem;
-      text-align: left;
-    }
-
-    .calc-tier-item {
-      background: rgba(0,0,0,0.4);
-      padding: 6px 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,183,0,0.3);
-      display: flex;
-      justify-content: space-between;
-      color: #ffd700;
-    }
-
-    /* ÇARK STIJL */
-    .wheel-tree-container {
-      position: relative;
-      width: 280px;
-      height: 280px;
-      margin: 10px auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .wheel-pointer-top {
-      position: absolute;
-      top: 0px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0; height: 0;
-      border-left: 12px solid transparent;
-      border-right: 12px solid transparent;
-      border-top: 24px solid #e74c3c;
-      z-index: 40;
-      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.7));
-    }
-
-    .wheel-wooden-frame {
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      border: 10px solid #5c3a21;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.9);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .wheel {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: conic-gradient(
-        #e74c3c 0deg 45deg, 
-        #f39c12 45deg 90deg, 
-        #f1c40f 90deg 135deg, 
-        #2ecc71 135deg 180deg, 
-        #3498db 180deg 225deg, 
-        #9b59b6 225deg 270deg, 
-        #e67e22 270deg 315deg, 
-        #1abc9c 315deg 360deg
-      );
-      transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
-    }
-
-    .wheel-center-hub {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 45px;
-      height: 45px;
-      background: radial-gradient(circle, #f1c40f, #d35400);
-      border: 3px solid #fff;
-      border-radius: 50%;
-      z-index: 30;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-    }
-
-    .wheel-btn-wood {
-      background: linear-gradient(135deg, #c0392b, #962d22);
-      color: #fff;
-      border: 3px solid #f1c40f;
-      padding: 10px 30px;
-      font-size: 1rem;
-      font-weight: 900;
-      border-radius: 22px;
-      cursor: pointer;
-      margin-top: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.6);
-    }
-    .wheel-btn-wood:disabled { background: #555; border-color: #777; cursor: not-allowed; }
-
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(6px);
-      z-index: 200;
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-overlay.active { display: flex; }
-
-    .modal-box {
-      background: #180f08;
-      border: 2px solid #ffb700;
-      border-radius: 18px;
-      padding: 20px;
-      width: 90%;
-      max-width: 360px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-    }
-
-    .modal-title {
-      color: #ffd700;
-      font-size: 1.15rem;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-
-    .lang-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .lang-card {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      padding: 10px;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 0.85rem;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .lang-card.active {
-      background: #ff9900;
-      color: #000;
-    }
-
     /* SALDO PANEEL */
     .balance-card {
       background: rgba(22, 14, 8, 0.95);
@@ -401,8 +230,6 @@
       box-shadow: 0 4px 12px rgba(255, 136, 0, 0.4);
     }
 
-    .btn-claim:active { transform: scale(0.98); }
-
     .page-box {
       background: rgba(22, 14, 8, 0.92);
       border: 2px solid #704b2e;
@@ -423,7 +250,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-height: 420px;
+      max-height: 400px;
       overflow-y: auto;
       padding-right: 4px;
     }
@@ -451,7 +278,6 @@
       font-size: 0.8rem;
       cursor: pointer;
       white-space: nowrap;
-      box-shadow: 0 3px 10px rgba(255,153,0,0.3);
     }
 
     .wallet-box-manual {
@@ -474,6 +300,7 @@
       gap: 6px;
       margin-top: 4px;
       margin-bottom: 10px;
+      align-items: center;
     }
 
     .wallet-input-row input {
@@ -484,6 +311,17 @@
       padding: 8px;
       border-radius: 8px;
       font-size: 0.75rem;
+    }
+
+    .btn-max {
+      background: #27ae60;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.75rem;
+      cursor: pointer;
     }
 
     .btn-copy {
@@ -497,75 +335,88 @@
       cursor: pointer;
     }
 
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
-      background: #120a05;
-      border-top: 2px solid #3d2716;
+    /* ÇARK STİLCİSİ */
+    .wheel-tree-container {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      margin: 10px auto;
       display: flex;
-      justify-content: space-around;
-      padding: 8px 0 12px 0;
-      z-index: 100;
-    }
-
-    .nav-item {
-      display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      color: #8a7a6e;
-      font-size: 0.68rem;
-      text-decoration: none;
-      cursor: pointer;
-      gap: 3px;
+    }
+    .wheel-pointer-top {
+      position: absolute;
+      top: 0px; left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 24px solid #e74c3c;
+      z-index: 40;
+    }
+    .wheel-wooden-frame {
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      border: 10px solid #5c3a21;
+      position: relative;
+      overflow: hidden;
+    }
+    .wheel {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: conic-gradient(#e74c3c 0deg 45deg, #f39c12 45deg 90deg, #f1c40f 90deg 135deg, #2ecc71 135deg 180deg, #3498db 180deg 225deg, #9b59b6 225deg 270deg, #e67e22 270deg 315deg, #1abc9c 315deg 360deg);
+      transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
+    }
+    .wheel-center-hub {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 40px; height: 40px; background: #f1c40f; border-radius: 50%; z-index: 30; display: flex; align-items: center; justify-content: center;
+    }
+    .wheel-btn-wood {
+      background: linear-gradient(135deg, #c0392b, #962d22);
+      color: #fff; border: 3px solid #f1c40f; padding: 10px 30px; font-size: 1rem; font-weight: 900; border-radius: 22px; cursor: pointer; margin-top: 15px;
     }
 
-    .nav-item.active {
-      color: #ffd700;
-      font-weight: bold;
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 200; justify-content: center; align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #180f08; border: 2px solid #ffb700; border-radius: 18px; padding: 20px; width: 90%; max-width: 360px; text-align: center;
     }
 
-    .nav-icon { font-size: 1.25rem; }
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 480px; background: #120a05; border-top: 2px solid #3d2716;
+      display: flex; justify-content: space-around; padding: 8px 0 12px 0; z-index: 100;
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; color: #8a7a6e; font-size: 0.65rem; text-decoration: none; cursor: pointer; gap: 3px;
+    }
+    .nav-item.active { color: #ffd700; font-weight: bold; }
+    .nav-icon { font-size: 1.2rem; }
 
     .toast-notification {
-      position: absolute;
-      top: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.92);
-      border: 1.5px solid #ffd700;
-      color: #ffd700;
-      padding: 10px 18px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: bold;
-      z-index: 300;
-      display: none;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.8);
-      text-align: center;
-      max-width: 90%;
+      position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.92); border: 1.5px solid #ffd700; color: #ffd700; padding: 10px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; z-index: 300; display: none; text-align: center; max-width: 90%;
     }
   </style>
 </head>
 <body>
 
   <div class="app-container">
-
     <div id="toast" class="toast-notification"></div>
 
-    <!-- HONEY FARM STIJL LEVEL HUD (LINKS BOVEN) -->
+    <!-- LEVEL HUD (LINKS BOVEN) -->
     <div class="top-level-hud">
       <div class="hud-avatar" id="hudAvatarLetter">A</div>
       <div>
-        <div style="font-size: 0.8rem; font-weight: 900; color: #fff;" id="hudUsername">Oyuncu</div>
+        <div style="font-size: 0.78rem; font-weight: 900; color: #fff;" id="hudUsername">Oyuncu</div>
         <div class="hud-level-number" id="hudLevelBadge">Seviye 1</div>
       </div>
     </div>
 
-    <!-- TAB 1: YAVRU -->
+    <!-- TAB 1: YAVRU (MAĞRA / GOROT) -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
         <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
@@ -590,12 +441,12 @@
 
         <div class="stats-grid">
           <div class="stat-box">
-            <div class="stat-label" id="txtDailySpeedLabel">Günlük Hız</div>
-            <div class="stat-value" id="dailySpeedText">0.0010 / gün</div>
+            <div class="stat-label">🥩 Biefstuk (Et)</div>
+            <div class="stat-value" id="steakBalance">0 Et</div>
           </div>
           <div class="stat-box">
-            <div class="stat-label" id="txtUnclaimedLabel">Toplanacak</div>
-            <div class="stat-value" id="unclaimed">0.00000000</div>
+            <div class="stat-label">Günlük Hız</div>
+            <div class="stat-value" id="dailySpeedText">0.0010 / gün</div>
           </div>
         </div>
 
@@ -603,45 +454,44 @@
       </div>
     </div>
 
-    <!-- TAB 2: MARKET & BESUTEL / BÜYÜK KOVAN SEÇİCİ -->
-    <div id="tab-market" class="tab-content">
-      <div class="page-box">
-        <div class="page-title" id="txtMarketTitle">🛒 Market & Büyük Kovanlar</div>
-        
-        <!-- HONEY FARM STIJL INTERACTIEVE KALKULATÖR (KIES BEDRAG & ONTVANG) -->
-        <div class="calc-box">
-          <div style="font-size: 0.9rem; font-weight: bold; color: #ffd700; margin-bottom: 6px;">🦁 Özel Büyük Kovan & Hız Seçici</div>
-          <div style="font-size: 0.75rem; color: #ccc;">Seçtiğin USD Bütçesi: <strong id="selectedUsdText" style="color:#ffb700; font-size:1rem;">$10 USD</strong></div>
-          
-          <input type="range" min="2" max="500" value="10" class="calc-slider" id="budgetSlider" oninput="updateCalculator(this.value)">
+    <!-- TAB 2: JACHT (AV - BİEFSTUK TOPLA VE İNTİKAL) -->
+    <div id="tab-hunt" class="tab-content">
+      <div class="page-box" style="text-align: center;">
+        <div class="page-title">🦁 Aslan Avı & Biefstuk</div>
+        <p style="font-size: 0.82rem; color: #ccc; margin-bottom: 15px;">
+          Aslanları ava göndererek biefstuk toplayın. Biefstukleri GRAM coine dönüştürün veya harlanmış madencilik için harcayın!
+        </p>
 
-          <div class="calc-tiers">
-            <div class="calc-tier-item"><span>$20 - $99.99</span><span>+100% Bonus Hız</span></div>
-            <div class="calc-tier-item"><span>$100 - $499.99</span><span>+115% Bonus Hız</span></div>
-            <div class="calc-tier-item"><span>$500+ (Mega Kovan)</span><span>+150% Bonus Hız</span></div>
-          </div>
-
-          <div style="background: rgba(0,0,0,0.6); padding: 8px; border-radius: 8px; margin-top: 8px; border: 1px solid #ffd700;">
-            <div style="font-size: 0.72rem; color: #aaa;">Alacağın Tahmini Hız Kazancı:</div>
-            <div style="font-size: 1.1rem; font-weight: 900; color: #ffd700;" id="calculatedRewardText">+0.0050 GRAM / gün</div>
-          </div>
-
-          <button class="btn-claim" style="margin-top: 10px;" onclick="buyCustomPackage()">🚀 Seçilen Paketi Satın Al</button>
+        <div style="background: rgba(0,0,0,0.5); border: 1px solid #ff9900; border-radius: 14px; padding: 15px; margin-bottom: 15px;">
+          <div style="font-size: 0.8rem; color: #aaa;">Biriken Biefstuk:</div>
+          <div style="font-size: 1.6rem; font-weight: 900; color: #ffd700; margin: 5px 0;" id="huntSteakDisplay">0 Et</div>
+          <button class="btn-claim" onclick="sendLionsToHunt()">🏹 Aslanları Ava Gönder (+50 Et)</button>
         </div>
 
-        <!-- STANDAARD PAKKETLER -->
+        <div style="background: rgba(0,0,0,0.5); border: 1px solid #2ecc71; border-radius: 14px; padding: 15px;">
+          <div style="font-size: 0.8rem; color: #aaa;">Biefstuk → GRAM Takası (100 Et = 0.0010 GRAM)</div>
+          <button class="btn-buy" style="margin-top: 10px; background: #2ecc71; color: #000; width: 100%; padding: 10px; font-weight: 900;" onclick="exchangeSteakToGram()">🔄 GRAM ile Değiştir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: MAĞRA (MARKET YERİNE MAĞRA / GOROT) -->
+    <div id="tab-market" class="tab-content">
+      <div class="page-box">
+        <div class="page-title">🏕️ Mağra & Yükseltmeler</div>
+        
         <div class="task-list">
           <div class="task-card">
             <div class="task-info">
-              <strong>👑 Büyük Aslan Kovanı (Mega Lvl 1)</strong><br>
+              <strong>👑 Büyük Aslan Mağrası (Mega Lvl 1)</strong><br>
               <small>Devasa Aslan Yuvası (+0.0500 / gün)</small>
             </div>
-            <button class="btn-buy" onclick="openPaymentModal(50, 'buyItem', 'Büyük Aslan Kovanı')">$50</button>
+            <button class="btn-buy" onclick="openPaymentModal(50, 'buyItem', 'Büyük Aslan Mağrası')">$50</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
-              <strong>🦁 Savana İmparatorluğu (Dev Kovan)</strong><br>
+              <strong>🦁 Savana İmparatorluğu (Dev Mağra)</strong><br>
               <small>En Büyük Aslan Krallığı (+0.2000 / gün)</small>
             </div>
             <button class="btn-buy" onclick="openPaymentModal(200, 'buyItem', 'Savana İmparatorluğu')">$200</button>
@@ -651,34 +501,19 @@
       </div>
     </div>
 
-    <!-- TAB 3: GÖREVLER -->
+    <!-- TAB 4: GÖREVLER (5 ARKADAŞ ÖZEL LİNK) -->
     <div id="tab-gorevler" class="tab-content">
       <div class="page-box">
-        <div class="page-title" id="txtTasksTitle">📋 Görevler</div>
+        <div class="page-title">📋 Görevler & Arkadaş Daveti</div>
         
         <div class="task-list">
           <div class="task-card">
             <div class="task-info">
-              <strong id="t1Title">📢 Telegram Kanalına Katıl</strong><br>
-              <small id="t1Reward">Ödül: +0.005 GRAM</small>
+              <strong>👥 5 Arkadaşını Özel Linkle Davet Et</strong><br>
+              <small>Ödül: +0.020 GRAM + Özel Bonus</small>
+              <div style="margin-top: 4px; font-size: 0.72rem; color: #aaa;" id="inviteCountText">Davet Edilen: 0 / 5</div>
             </div>
-            <button class="btn-buy" onclick="completeTask('t1', 0.005)">Yap</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong>✖️ X (Twitter) Hesabımızı Takip Et</strong><br>
-              <small>Ödül: +0.005 GRAM</small>
-            </div>
-            <button class="btn-buy" onclick="completeTask('t_x', 0.005)">Takip Et</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong>▶️ YouTube Tanıtım Videosunu İzle</strong><br>
-              <small>Ödül: +0.008 GRAM</small>
-            </div>
-            <button class="btn-buy" onclick="completeTask('t_yt', 0.008)">İzle</button>
+            <button class="btn-buy" onclick="inviteFiveFriends()">Davet Et</button>
           </div>
 
           <div class="task-card">
@@ -693,7 +528,7 @@
       </div>
     </div>
 
-    <!-- TAB 4: ŞANS ÇARKI (RULET) -->
+    <!-- TAB 5: ŞANS ÇARKI (RULET) -->
     <div id="tab-spin" class="tab-content">
       <div class="page-box" style="text-align: center;">
         <div class="page-title">🎡 Şans Çarkı (Rulet)</div>
@@ -711,18 +546,19 @@
       </div>
     </div>
 
-    <!-- TAB 5: BAKİYE ÇEK (WITHDRAW) -->
+    <!-- TAB 6: BAKİYE ÇEK (MAX BUTONLU) -->
     <div id="tab-withdraw" class="tab-content">
       <div class="page-box">
         <div class="page-title">💸 Bakiye Çek (Withdraw)</div>
-        <p style="text-align: center; font-size: 0.8rem; color: #ccc; margin-bottom: 15px;">
-          Biriken GRAM bakiyenizi kendi cüzdanınıza çekin.
+        <p style="text-align: center; font-size: 0.8rem; color: #ccc; margin-bottom: 12px;">
+          Mevcut Bakiyeniz: <strong id="maxBalanceDisplay" style="color:#ffd700;">0.00000000 GRAM</strong>
         </p>
         
         <div class="wallet-box-manual">
           <label>Çekilecek Tutar (GRAM):</label>
           <div class="wallet-input-row">
             <input type="text" id="withdrawAmount" placeholder="0.00000000">
+            <button class="btn-max" onclick="setMaxWithdraw()">MAX</button>
           </div>
 
           <label>Toncoin / GRAM Cüzdan Adresiniz:</label>
@@ -735,7 +571,7 @@
       </div>
     </div>
 
-    <!-- TAB 6: CÜZDAN & DEPOSITO -->
+    <!-- TAB 7: CÜZDAN -->
     <div id="tab-cuzdan" class="tab-content">
       <div class="page-box" style="text-align: center;">
         <div class="page-title">👛 GRAM / TON Cüzdan</div>
@@ -756,7 +592,6 @@
             <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
             <button class="btn-copy" onclick="copyMyWallet()">Kopyala</button>
           </div>
-          <small style="color: #aaa; font-size: 0.68rem;">Ödemeyi yaptıktan sonra marketten paket seçip onaylayabilirsiniz.</small>
         </div>
       </div>
     </div>
@@ -795,20 +630,19 @@
         <div class="lang-card active" id="btn-tr" onclick="selectLanguage('tr')">🇹🇷 Türkçe</div>
         <div class="lang-card" id="btn-en" onclick="selectLanguage('en')">🇬🇧 English</div>
         <div class="lang-card" id="btn-nl" onclick="selectLanguage('nl')">🇳🇱 Nederlands</div>
-        <div class="lang-card" id="btn-ru" onclick="selectLanguage('ru')">🇷🇺 Русский</div>
-        <div class="lang-card" id="btn-de" onclick="selectLanguage('de')">🇩🇪 Deutsch</div>
       </div>
-      <button class="btn-buy" style="width: 100%;" onclick="closeLanguageModal()">OK</button>
+      <button class="btn-buy" style="width: 100%; margin-top: 10px;" onclick="closeLanguageModal()">OK</button>
     </div>
   </div>
 
   <div class="bottom-nav">
-    <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div id="navYavru">Yavru</div></div>
-    <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🛒</div><div id="navMarket">Market</div></div>
-    <div class="nav-item" onclick="switchTab('gorevler', this)"><div class="nav-icon">📋</div><div id="navGorevler">Görevler</div></div>
+    <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Yavru</div></div>
+    <div class="nav-item" onclick="switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
+    <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
+    <div class="nav-item" onclick="switchTab('gorevler', this)"><div class="nav-icon">📋</div><div>Görevler</div></div>
     <div class="nav-item" onclick="switchTab('spin', this)"><div class="nav-icon">🎡</div><div>Çark</div></div>
     <div class="nav-item" onclick="switchTab('withdraw', this)"><div class="nav-icon">💸</div><div>Çek</div></div>
-    <div class="nav-item" onclick="switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div id="navCuzdan">Cüzdan</div></div>
+    <div class="nav-item" onclick="switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div>Cüzdan</div></div>
   </div>
 
   <script>
@@ -826,6 +660,8 @@
 
     let balance = parseFloat(localStorage.getItem('balance')) || 0.00000000;
     let unclaimed = parseFloat(localStorage.getItem('unclaimed')) || 0.00000000;
+    let steakBalance = parseInt(localStorage.getItem('steakBalance')) || 0;
+    let inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
     let cubCount = localStorage.getItem('cubCount') !== null ? parseInt(localStorage.getItem('cubCount')) : 0;
     let isFused = localStorage.getItem('isFused') === 'true';
     let hasMaleLion = localStorage.getItem('hasMaleLion') === 'true';
@@ -837,75 +673,11 @@
     let lastTime = parseInt(localStorage.getItem('lastSavedTime')) || Date.now();
     let currentRotation = 0;
 
-    let selectedBudget = 10;
-
-    function updateCalculator(val) {
-      selectedBudget = parseInt(val);
-      document.getElementById('selectedUsdText').innerText = "$" + selectedBudget + " USD";
-      let reward = (selectedBudget * 0.0005).toFixed(4);
-      document.getElementById('calculatedRewardText').innerText = "+" + reward + " GRAM / gün";
-    }
-
-    function buyCustomPackage() {
-      openPaymentModal(selectedBudget, 'customPackage', 'Özel Büyük Kovan ($' + selectedBudget + ')');
-    }
-
-    let now = Date.now();
-    let secondsPassed = Math.floor((now - lastTime) / 1000);
-    if (secondsPassed > 0) {
-      let speedFactor = hunger > 20 ? 1.0 : 0.5;
-      let offlineEarnings = ((dailySpeed * speedFactor) / 86400) * secondsPassed;
-      unclaimed += offlineEarnings;
-    }
-
-    const i18n = {
-      tr: {
-        navYavru: "Yavru", navMarket: "Market", navGorevler: "Görevler", navCuzdan: "Cüzdan",
-        txtBalanceTitle: "GRAM BAKIYEM", txtDailySpeedLabel: "Günlük Hız", txtUnclaimedLabel: "Toplanacak", btnClaim: "⚡ KAZANCI TOPLA",
-        txtMarketTitle: "🛒 Market & Büyük Kovanlar", caveTitleCub: "🪨 Pride Rock ({c} Yavru)", caveTitleAdult: "👑 Dişi Aslan (Hız x4)", caveTitleMale: "🦁 Kral Aslan",
-        claimSuccess: "Kazanç başarıyla bakiyenize eklendi! 🎉", claimEmpty: "Henüz toplanacak kazanç birikmedi!",
-        inviteCopied: "Davet linki kopyalandı!"
-      },
-      en: {
-        navYavru: "Cub", navMarket: "Market", navGorevler: "Tasks", navCuzdan: "Wallet",
-        txtBalanceTitle: "MY GRAM BALANCE", txtDailySpeedLabel: "Daily Speed", txtUnclaimedLabel: "Unclaimed", btnClaim: "⚡ CLAIM EARNINGS",
-        txtMarketTitle: "🛒 Market & Big Hives", caveTitleCub: "🪨 Pride Rock ({c} Cubs)", caveTitleAdult: "👑 Adult Lioness (Speed x4)", caveTitleMale: "🦁 King Lion",
-        claimSuccess: "Earnings claimed successfully! 🎉", claimEmpty: "No earnings to claim yet!",
-        inviteCopied: "Invite link copied!"
-      },
-      nl: {
-        navYavru: "Welp", navMarket: "Winkel", navGorevler: "Taken", navCuzdan: "Wallet",
-        txtBalanceTitle: "MIJN GRAM SALDO", txtDailySpeedLabel: "Dagelijkse Snelheid", txtUnclaimedLabel: "Op te halen", btnClaim: "⚡ CLAIM WINST",
-        txtMarketTitle: "🛒 Winkel & Grote Koven", caveTitleCub: "🪨 Pride Rock ({c} Welpen)", caveTitleAdult: "👑 Leeuwin (Snelheid x4)", caveTitleMale: "🦁 Koning Leeuw",
-        claimSuccess: "Winst succesvol geïncasseerd! 🎉", claimEmpty: "Nog geen winst om op te halen!",
-        inviteCopied: "Uitnodigingslink gekopieerd!"
-      },
-      ru: {
-        navYavru: "Львенок", navMarket: "Рынок", navGorevler: "Задачи", navCuzdan: "Кошелек",
-        txtBalanceTitle: "БАЛАНС GRAM", txtDailySpeedLabel: "Дневная скорость", txtUnclaimedLabel: "К сбору", btnClaim: "⚡ СОБРАТЬ ДОХОД",
-        txtMarketTitle: "🛒 Магазин и ульи", caveTitleCub: "🪨 Pride Rock ({c} Львят)", caveTitleAdult: "👑 Львица (Скорость x4)", caveTitleMale: "🦁 Король Лев",
-        claimSuccess: "Доход успешно собран! 🎉", claimEmpty: "Пока нет дохода для сбора!",
-        inviteCopied: "Ссылка скопирована!"
-      },
-      de: {
-        navYavru: "Junge", navMarket: "Markt", navGorevler: "Aufgaben", navCuzdan: "Geldbörse",
-        txtBalanceTitle: "MEIN GRAM GUTHABEN", txtDailySpeedLabel: "Tagesgeschwindigkeit", txtUnclaimedLabel: "Bereit zum Abholen", btnClaim: "⚡ GEWINN ABHOLEN",
-        txtMarketTitle: "🛒 Markt & Große Nester", caveTitleCub: "🪨 Pride Rock ({c} Junge)", caveTitleAdult: "👑 Löwin (Tempo x4)", caveTitleMale: "🦁 König Löwe",
-        claimSuccess: "Gewinn erfolgreich abgeholt! 🎉", claimEmpty: "Noch kein Gewinn zum Abholen da!",
-        inviteCopied: "Einladungslink kopiert!"
-      }
-    };
-
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.innerText = msg;
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 3500);
-    }
-
     function saveData() {
       localStorage.setItem('balance', balance);
       localStorage.setItem('unclaimed', unclaimed);
+      localStorage.setItem('steakBalance', steakBalance);
+      localStorage.setItem('inviteCount', inviteCount);
       localStorage.setItem('cubCount', cubCount);
       localStorage.setItem('isFused', isFused);
       localStorage.setItem('hasMaleLion', hasMaleLion);
@@ -939,7 +711,7 @@
 
     function claimEarnings() {
       if (unclaimed < 0.00000001) {
-        showToast(i18n[currentLang].claimEmpty);
+        showToast("Henüz toplanacak kazanç birikmedi!");
         return;
       }
       balance += unclaimed;
@@ -947,14 +719,61 @@
       document.getElementById('balance').innerText = balance.toFixed(8);
       document.getElementById('unclaimed').innerText = "0.00000000";
       saveData();
-      showToast(i18n[currentLang].claimSuccess);
+      showToast("Kazanç başarıyla bakiyenize eklendi! 🎉");
     }
 
-    function completeTask(taskId, reward) {
-      balance += reward;
-      document.getElementById('balance').innerText = balance.toFixed(8);
-      showToast(`Görev Tamamlandı! +${reward} GRAM Eklendi 🎉`);
+    function sendLionsToHunt() {
+      steakBalance += 50;
+      document.getElementById('steakBalance').innerText = steakBalance + " Et";
+      document.getElementById('huntSteakDisplay').innerText = steakBalance + " Et";
+      showToast("🦁 Aslanlar başarıyla avlandı! +50 Biefstuk (Et) kazandınız 🥩");
       saveData();
+    }
+
+    function exchangeSteakToGram() {
+      if (steakBalance < 100) {
+        showToast("En az 100 Biefstuk (Et) olmalıdır!");
+        return;
+      }
+      let earnedGram = (steakBalance / 100) * 0.0010;
+      balance += earnedGram;
+      steakBalance = 0;
+      document.getElementById('balance').innerText = balance.toFixed(8);
+      document.getElementById('steakBalance').innerText = "0 Et";
+      document.getElementById('huntSteakDisplay').innerText = "0 Et";
+      showToast(`🎉 Takip başarılı! GRAM bakiyenize eklendi.`);
+      saveData();
+    }
+
+    function inviteFiveFriends() {
+      let refLink = "https://t.me/DailygramMinerBot?start=ref_" + Math.random().toString(36).substring(7);
+      navigator.clipboard.writeText(refLink);
+      inviteCount = Math.min(5, inviteCount + 1);
+      document.getElementById('inviteCountText').innerText = "Davet Edilen: " + inviteCount + " / 5";
+      if (inviteCount === 5) {
+        balance += 0.020;
+        showToast("🎉 Tebrikler! 5 Arkadaş davet edildi, +0.020 GRAM ödül kazandın!");
+      } else {
+        showToast("🔗 Özel referans linkiniz kopyalandı! Arkadaşlarınızla paylaşın.");
+      }
+      saveData();
+    }
+
+    function setMaxWithdraw() {
+      document.getElementById('withdrawAmount').value = balance.toFixed(8);
+      showToast("Maksimum bakiye yazıldı!");
+    }
+
+    function requestWithdraw() {
+      let amount = document.getElementById('withdrawAmount').value;
+      let addr = document.getElementById('withdrawAddress').value;
+      if (!amount || !addr) {
+        showToast("Lütfen miktar ve cüzdan adresini girin!");
+        return;
+      }
+      showToast("📤 Para çekme talebiniz alındı! En kısa sürede işleme alınacaktır.");
+      document.getElementById('withdrawAmount').value = "";
+      document.getElementById('withdrawAddress').value = "";
     }
 
     function claimDailyBonus() {
@@ -966,24 +785,8 @@
       balance += 0.002;
       lastDailyClaim = now;
       document.getElementById('balance').innerText = balance.toFixed(8);
-      checkDailyBonusState();
       saveData();
       showToast("Günlük Bonus Alındı! (+0.002 GRAM) 🎉");
-    }
-
-    function checkDailyBonusState() {
-      let btn = document.getElementById('btnDailyCheckIn');
-      if (btn && Date.now() - lastDailyClaim < 86400000) {
-        btn.innerText = "Alındı";
-        btn.disabled = true;
-        btn.classList.add('btn-done');
-      }
-
-      let spinBtn = document.getElementById('spinBtn');
-      if (spinBtn && Date.now() - lastWheelSpin < 86400000) {
-        spinBtn.innerText = "Yarın Tekrar Gel";
-        spinBtn.disabled = true;
-      }
     }
 
     function spinWheel() {
@@ -1000,39 +803,14 @@
       document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
-        let outcome = Math.random();
-        if (outcome < 0.25) {
-          cubCount++;
-          dailySpeed += 0.0010;
-          updateCaveDisplay();
-          showToast("🎉 Tebrikler! Çarktan Ücretsiz +1 Yavru Kazandın! 🦁");
-        } else if (outcome < 0.6) {
-          let reward = 0.005;
-          balance += reward;
-          document.getElementById('balance').innerText = balance.toFixed(8);
-          showToast(`🎉 Çarktan +${reward} GRAM Kazandın! 💰`);
-        } else {
-          let reward = 0.002;
-          balance += reward;
-          document.getElementById('balance').innerText = balance.toFixed(8);
-          showToast(`🎉 Çarktan +${reward} GRAM Kazandın! 🎁`);
-        }
+        let reward = 0.002;
+        balance += reward;
+        document.getElementById('balance').innerText = balance.toFixed(8);
+        showToast(`🎉 Çarktan +${reward} GRAM Kazandın! 🎁`);
         lastWheelSpin = Date.now();
         saveData();
         btn.innerText = "Yarın Tekrar Gel";
       }, 4000);
-    }
-
-    function requestWithdraw() {
-      let amount = document.getElementById('withdrawAmount').value;
-      let addr = document.getElementById('withdrawAddress').value;
-      if (!amount || !addr) {
-        showToast("Lütfen miktar ve cüzdan adresini girin!");
-        return;
-      }
-      showToast("📤 Para çekme talebiniz alındı! En kısa sürede işleme alınacaktır.");
-      document.getElementById('withdrawAmount').value = "";
-      document.getElementById('withdrawAddress').value = "";
     }
 
     function openPaymentModal(usdAmount, actionType, itemName) {
@@ -1068,27 +846,25 @@
 
     function updateCaveDisplay() {
       document.getElementById('balance').innerText = balance.toFixed(8);
+      document.getElementById('maxBalanceDisplay').innerText = balance.toFixed(8) + " GRAM";
+      document.getElementById('steakBalance').innerText = steakBalance + " Et";
+      document.getElementById('huntSteakDisplay').innerText = steakBalance + " Et";
       document.getElementById('hungerFill').style.width = hunger + "%";
-      const title = document.getElementById('caveTitle');
-      const videoElem = document.getElementById('bgVideo');
-      const videoSource = document.getElementById('bgVideoSource');
+      
+      let title = document.getElementById('caveTitle');
+      let videoElem = document.getElementById('bgVideo');
+      let videoSource = document.getElementById('bgVideoSource');
 
       let targetVideo = './background_empty.MP4';
-
       if (hasMaleLion) {
-        title.innerText = i18n[currentLang].caveTitleMale;
+        title.innerText = "🦁 Kral Aslan";
         targetVideo = './background_lion.MP4';
       } else if (isFused) {
-        title.innerText = i18n[currentLang].caveTitleAdult;
+        title.innerText = "👑 Dişi Aslan";
         targetVideo = './background_mother.MP4';
       } else {
-        title.innerText = i18n[currentLang].caveTitleCub.replace('{c}', cubCount);
-        if (cubCount >= 5) targetVideo = './background_cubs5.MP4';
-        else if (cubCount === 4) targetVideo = './background_cubs4.MP4';
-        else if (cubCount === 3) targetVideo = './background_cubs3.MP4';
-        else if (cubCount >= 2) targetVideo = './background_cubs2.MP4';
-        else if (cubCount === 1) targetVideo = './background_cub1.MP4';
-        else targetVideo = './background_empty.MP4';
+        title.innerText = `🪨 Pride Rock (${cubCount} Yavru)`;
+        if (cubCount >= 1) targetVideo = './background_cub1.MP4';
       }
 
       document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
@@ -1112,11 +888,6 @@
     function selectLanguage(lang) {
       currentLang = lang;
       saveData();
-      const data = i18n[lang] || i18n['en'];
-      for (let key in data) {
-        let el = document.getElementById(key);
-        if (el) el.innerText = data[key];
-      }
       updateCaveDisplay();
     }
 
@@ -1127,8 +898,6 @@
       element.classList.add('active');
     }
 
-    checkDailyBonusState();
-    selectLanguage(currentLang);
     updateCaveDisplay();
   </script>
 </body>

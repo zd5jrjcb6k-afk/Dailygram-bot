@@ -826,7 +826,6 @@
       localStorage.setItem('currentLang', currentLang);
     }
 
-    // Arka planda Biftek üretimi (Saniyede bir) - 100 Biftek = GRAM dengesi için oranlandı
     setInterval(() => {
       let speedFactor = hunger > 20 ? 1.0 : 0.5;
       let steakPerHour = 20 + (cubCount * 40) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
@@ -1028,15 +1027,35 @@
 
       let targetVideo = './background_empty.MP4';
       let totalAnimals = cubCount + jaguarCount + vultureCount + hyenaCount;
+
+      // Videoların doğru sırayla ve exact isimlerle (büyük harf .MP4) eşleştirilmesi
       if (hasMaleLion) {
         title.innerText = "🦁 Kral Aslan Mağarası";
         targetVideo = './background_lion.MP4';
       } else if (isFused) {
         title.innerText = "👑 Dişi Aslan Mağarası";
         targetVideo = './background_mother.MP4';
-      } else {
+      } else if (hyenaCount > 0) {
+        title.innerText = "🐺 Hyena Sürüsü Mağarası";
+        targetVideo = './background_hyena.MP4';
+      } else if (jaguarCount > 0) {
+        title.innerText = "🐆 Jaguar Mağarası";
+        targetVideo = './background_jaguar.MP4';
+      } else if (cubCount === 3) {
+        title.innerText = "🪨 Pride Rock (3 Welp)";
+        targetVideo = './background_cub3.MP4';
+      } else if (cubCount >= 4 || totalAnimals >= 4) {
         title.innerText = `🪨 Pride Rock (${totalAnimals} Hayvan)`;
-        if (totalAnimals >= 1) targetVideo = './background_cub1.MP4';
+        targetVideo = './background_cub4.MP4';
+      } else if (cubCount === 2) {
+        title.innerText = `🪨 Pride Rock (2 Welp)`;
+        targetVideo = './background_cubs2.MP4';
+      } else if (cubCount === 1 || totalAnimals === 1) {
+        title.innerText = `🪨 Pride Rock (1 Welp)`;
+        targetVideo = './background_cub1.MP4';
+      } else {
+        title.innerText = `🪨 Pride Rock (0 Hayvan)`;
+        targetVideo = './background_empty.MP4';
       }
 
       let steakPerHour = 20 + (cubCount * 40) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
@@ -1079,7 +1098,6 @@
       document.getElementById('navTxt6').innerText = t.nav6;
       document.getElementById('navTxt7').innerText = t.nav7;
 
-      // Dil kartı aktiflik durumu
       document.querySelectorAll('.lang-card').forEach(card => card.classList.remove('active'));
       let activeLangCard = document.getElementById('btn-' + currentLang);
       if (activeLangCard) activeLangCard.classList.add('active');

@@ -34,7 +34,7 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* LEVEL HUD (ALLEEN OP HOOFDPAGINA) */
+    /* LEVEL HUD (SADECE ANA SAYFA) */
     .top-level-hud {
       display: flex;
       align-items: center;
@@ -71,7 +71,6 @@
       margin-top: 2px;
     }
 
-    /* ÜST BAR (PROFIEL + MAĞRA/DİR BİLGİSİ) */
     .main-top-bar {
       display: flex;
       justify-content: space-between;
@@ -340,6 +339,21 @@
       cursor: pointer;
     }
 
+    /* SLIDER STİLİ (HONEY FARM TARZI KAMPANYA) */
+    .campaign-box {
+      background: rgba(0,0,0,0.6);
+      border: 2px solid #f39c12;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .campaign-slider {
+      width: 100%;
+      margin: 10px 0;
+      accent-color: #f39c12;
+    }
+
     /* ÇARK STİLCİSİ */
     .wheel-tree-container {
       position: relative;
@@ -414,7 +428,6 @@
 
     <!-- TAB 1: YAVRU (MAĞRA / GOROT) -->
     <div id="tab-yavru" class="tab-content active">
-      <!-- TOP BAR: LEVEL & CAVE INFO (Sadece Ana Sayfada) -->
       <div class="main-top-bar">
         <div class="top-level-hud">
           <div class="hud-avatar" id="hudAvatarLetter">A</div>
@@ -433,7 +446,7 @@
         <div class="shelter-badge" id="caveTitle">🪨 Pride Rock (0 Yavru)</div>
         <div class="settings-btn" onclick="openLanguageModal()">⚙️</div>
 
-        <!-- HONGER BALK -->
+        <!-- TOKLUK BALK -->
         <div class="hunger-container">
           <span style="font-size: 0.75rem;">🥩 Tokluk:</span>
           <div class="hunger-bar"><div id="hungerFill" class="hunger-fill" style="width: 100%;"></div></div>
@@ -441,106 +454,100 @@
         </div>
       </div>
 
-      <!-- Saldo Panel -->
+      <!-- Saldo Panel (Biftek Odaklı) -->
       <div class="balance-card">
-        <div class="balance-title" id="txtBalanceTitle">GRAM BAKIYEM</div>
-        <div class="balance-amount" id="balance">0.00000000</div>
+        <div class="balance-title" id="txtBalanceTitle">BİFTEK BAKIYEM</div>
+        <div class="balance-amount" id="balance">0.00 Biftek</div>
 
         <div class="stats-grid">
           <div class="stat-box">
-            <div class="stat-label">🥩 Biefstuk (Et)</div>
-            <div class="stat-value" id="steakBalance">0 Et</div>
+            <div class="stat-label">💎 GRAM Cüzdan</div>
+            <div class="stat-value" id="gramBalance">0.0000 GRAM</div>
           </div>
           <div class="stat-box">
-            <div class="stat-label">Madencilik Hızı</div>
-            <div class="stat-value" id="dailySpeedText">0.0010 / gün</div>
+            <div class="stat-label">Üretim Hızı</div>
+            <div class="stat-value" id="dailySpeedText">10 Biftek / sa</div>
           </div>
         </div>
 
-        <button class="btn-claim" id="btnClaim" onclick="claimEarnings()">⚡ KAZANCI TOPLA</button>
+        <button class="btn-claim" id="btnClaim" onclick="claimEarnings()">⚡ BİEFSTEKLERİ TOPLA</button>
       </div>
     </div>
 
-    <!-- TAB 2: JACHT (AV - BİEFSTUK) -->
+    <!-- TAB 2: JACHT (AV - BİFTEK TOPLA & TAKAS) -->
     <div id="tab-hunt" class="tab-content">
       <div class="page-box" style="text-align: center;">
-        <div class="page-title">🦁 Aslan Avı & Biefstuk</div>
+        <div class="page-title">🦁 Aslan Avı & Biftek</div>
         <p style="font-size: 0.82rem; color: #ccc; margin-bottom: 15px;">
-          Aslanlarınız mağarada otomatik olarak biefstuk (et) üretir! Biriken etleri toplayabilir veya GRAM ile takas edebilirsiniz.
+          Aslanlarınız ve hayvanlarınız mağarada otomatik olarak Biftek üretir! Toplayın veya GRAM ile değiştirin.
         </p>
 
         <div style="background: rgba(0,0,0,0.5); border: 1px solid #ff9900; border-radius: 14px; padding: 15px; margin-bottom: 15px;">
-          <div style="font-size: 0.8rem; color: #aaa;">Toplanabilir Biefstuk:</div>
-          <div style="font-size: 1.6rem; font-weight: 900; color: #ffd700; margin: 5px 0;" id="huntSteakDisplay">0 Et</div>
-          <button class="btn-claim" onclick="claimSteak()">📥 Biefstukleri Topla</button>
+          <div style="font-size: 0.8rem; color: #aaa;">Toplanabilir Biftek:</div>
+          <div style="font-size: 1.6rem; font-weight: 900; color: #ffd700; margin: 5px 0;" id="huntSteakDisplay">0 Biftek</div>
+          <button class="btn-claim" onclick="claimSteak()">📥 Biftekleri Topla</button>
         </div>
 
         <div style="background: rgba(0,0,0,0.5); border: 1px solid #2ecc71; border-radius: 14px; padding: 15px;">
-          <div style="font-size: 0.8rem; color: #aaa;">Biefstuk → GRAM Takası (100 Et = 0.0010 GRAM)</div>
+          <div style="font-size: 0.8rem; color: #aaa;">Biftek → GRAM Takası (1000 Biftek = 0.0100 GRAM)</div>
           <button class="btn-buy" style="margin-top: 10px; background: #2ecc71; color: #000; width: 100%; padding: 10px; font-weight: 900;" onclick="exchangeSteakToGram()">🔄 GRAM ile Değiştir</button>
         </div>
       </div>
     </div>
 
-    <!-- TAB 3: MAĞRA (YÜKSETMELER & YENİ HAYVANLAR) -->
+    <!-- TAB 3: MAĞRA (YÜKSETMELER & BİFTEK KAMPANYA SATIN AL - HONEY FARM TARZI) -->
     <div id="tab-market" class="tab-content">
       <div class="page-box">
-        <div class="page-title">🏕️ Mağra & Hayvan Yükseltmeleri</div>
+        <div class="page-title">🏕️ Mağra & Biftek Kampanyası</div>
+
+        <!-- Honey Farm Tarzı USD ile Biftek Satın Al Kampanyası -->
+        <div class="campaign-box">
+          <div style="font-size: 0.85rem; font-weight: bold; color: #ffd700; margin-bottom: 6px;">🚀 Özel Biftek Kampanyası</div>
+          <div style="font-size: 0.75rem; color: #ccc;">Ödeyeceğin USD Miktarını Seç:</div>
+          <div style="font-size: 1.2rem; font-weight: 900; color: #fff; margin: 4px 0;" id="sliderUsdVal">$10 USD</div>
+          <input type="range" min="1" max="500" value="10" class="campaign-slider" id="usdSlider" oninput="updateCampaignSlider(this.value)">
+          <div style="font-size: 0.78rem; color: #2ecc71; font-weight: bold; margin-bottom: 8px;" id="sliderRewardVal">Alacağın: 5,000 Biftek (+%100 Bonus)</div>
+          <button class="btn-claim" onclick="buyCampaignSteak()">🛒 Biftek Paketini Satın Al</button>
+        </div>
         
         <div class="task-list">
           <div class="task-card">
             <div class="task-info">
               <strong>🐾 Ekstra Yavru Sahiplen</strong><br>
-              <small>Yuvaya +1 Yavru ekler (+10 Et/saat)</small>
+              <small>Yuvaya +1 Yavru ekler (+50 Biftek)</small>
             </div>
-            <button class="btn-buy" onclick="openPaymentModal(2, 'buyCub', 'Ekstra Yavru (+1)')">$2 (2 GRAM)</button>
+            <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Ekstra Yavru')">200 Biftek</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
               <strong>🐆 Jaguar Ekle</strong><br>
-              <small>Mağaraya Jaguar getirir (+35 Et/saat)</small>
+              <small>Mağaraya Jaguar getirir (+200 Biftek)</small>
             </div>
-            <button class="btn-buy" onclick="openPaymentModal(15, 'buyJaguar', 'Jaguar')">$15</button>
+            <button class="btn-buy" onclick="buyWithSteak(800, 'buyJaguar', 'Jaguar')">800 Biftek</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
               <strong>🦅 Afrika Akbabası Ekle</strong><br>
-              <small>Gökyüzü avcısı ekler (+20 Et/saat)</small>
+              <small>Gökyüzü avcısı ekler (+120 Biftek)</small>
             </div>
-            <button class="btn-buy" onclick="openPaymentModal(8, 'buyVulture', 'Akbaba')">$8</button>
+            <button class="btn-buy" onclick="buyWithSteak(500, 'buyVulture', 'Akbaba')">500 Biftek</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
               <strong>🐺 Hyena Sürüsü Ekle</strong><br>
-              <small>Av verimini artırır (+50 Et/saat)</small>
+              <small>Av verimini artırır (+350 Biftek)</small>
             </div>
-            <button class="btn-buy" onclick="openPaymentModal(20, 'buyHyena', 'Hyena Sürüsü')">$20</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong>👑 Büyük Aslan Mağrası (Mega Lvl 1)</strong><br>
-              <small>Devasa Aslan Yuvası (+0.0500 / gün hız)</small>
-            </div>
-            <button class="btn-buy" onclick="openPaymentModal(50, 'buyItem', 'Büyük Aslan Mağrası')">$50</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong>🦁 Savana İmparatorluğu (Dev Mağra)</strong><br>
-              <small>En Büyük Aslan Krallığı (+0.2000 / gün hız)</small>
-            </div>
-            <button class="btn-buy" onclick="openPaymentModal(200, 'buyItem', 'Savana İmparatorluğu')">$200</button>
+            <button class="btn-buy" onclick="buyWithSteak(1200, 'buyHyena', 'Hyena Sürüsü')">1200 Biftek</button>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- TAB 4: GÖREVLER (Kanal Takibi + Biefstuk Ödülü) -->
+    <!-- TAB 4: GÖREVLER (Kanal Takibi + Biftek Ödülü) -->
     <div id="tab-gorevler" class="tab-content">
       <div class="page-box">
         <div class="page-title">📋 Görevler & Ödüller</div>
@@ -549,7 +556,7 @@
           <div class="task-card">
             <div class="task-info">
               <strong>📢 Telegram Kanalını Takip Et</strong><br>
-              <small>Ödül: +50 Biefstuk (Et) Kazan</small>
+              <small>Ödül: +250 Biftek Kazan</small>
             </div>
             <button class="btn-buy" onclick="completeChannelTask()">Takip Et</button>
           </div>
@@ -557,7 +564,7 @@
           <div class="task-card">
             <div class="task-info">
               <strong>👥 5 Arkadaşını Özel Linkle Davet Et</strong><br>
-              <small>Ödül: +0.020 GRAM + 200 Et</small>
+              <small>Ödül: +1000 Biftek + 0.020 GRAM</small>
               <div style="margin-top: 4px; font-size: 0.72rem; color: #aaa;" id="inviteCountText">Davet Edilen: 0 / 5</div>
             </div>
             <button class="btn-buy" onclick="inviteFiveFriends()">Davet Et</button>
@@ -566,7 +573,7 @@
           <div class="task-card">
             <div class="task-info">
               <strong>📅 Günlük Giriş Bonusu (Daily Check-in)</strong><br>
-              <small>Ödül: +0.002 GRAM + 20 Et</small>
+              <small>Ödül: +100 Biftek</small>
             </div>
             <button class="btn-buy" id="btnDailyCheckIn" onclick="claimDailyBonus()">Al</button>
           </div>
@@ -579,7 +586,7 @@
     <div id="tab-spin" class="tab-content">
       <div class="page-box" style="text-align: center;">
         <div class="page-title">🎡 Şans Çarkı (Rulet)</div>
-        <p style="font-size:0.8rem; color:#ccc; margin-bottom:10px;">Her 24 saatte 1 kez çevir, sürpriz GRAM veya Biefstuk kazan!</p>
+        <p style="font-size:0.8rem; color:#ccc; margin-bottom:10px;">Her 24 saatte 1 kez çevir, sürpriz Biftek kazan!</p>
         
         <div class="wheel-tree-container">
           <div class="wheel-pointer-top"></div>
@@ -593,18 +600,18 @@
       </div>
     </div>
 
-    <!-- TAB 6: BAKİYE ÇEK (MAX BUTONLU) -->
+    <!-- TAB 6: BAKİYE ÇEK (WITHDRAW) -->
     <div id="tab-withdraw" class="tab-content">
       <div class="page-box">
         <div class="page-title">💸 Bakiye Çek (Withdraw)</div>
         <p style="text-align: center; font-size: 0.8rem; color: #ccc; margin-bottom: 12px;">
-          Mevcut Bakiyeniz: <strong id="maxBalanceDisplay" style="color:#ffd700;">0.00000000 GRAM</strong>
+          Mevcut GRAM Bakiyeniz: <strong id="maxBalanceDisplay" style="color:#ffd700;">0.0000 GRAM</strong>
         </p>
         
         <div class="wallet-box-manual">
           <label>Çekilecek Tutar (GRAM):</label>
           <div class="wallet-input-row">
-            <input type="text" id="withdrawAmount" placeholder="0.00000000">
+            <input type="text" id="withdrawAmount" placeholder="0.0000">
             <button class="btn-max" onclick="setMaxWithdraw()">MAX</button>
           </div>
 
@@ -683,13 +690,13 @@
   </div>
 
   <div class="bottom-nav">
-    <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Yavru</div></div>
-    <div class="nav-item" onclick="switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
-    <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
-    <div class="nav-item" onclick="switchTab('gorevler', this)"><div class="nav-icon">📋</div><div>Görevler</div></div>
-    <div class="nav-item" onclick="switchTab('spin', this)"><div class="nav-icon">🎡</div><div>Çark</div></div>
-    <div class="nav-item" onclick="switchTab('withdraw', this)"><div class="nav-icon">💸</div><div>Çek</div></div>
-    <div class="nav-item" onclick="switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div>Cüzdan</div></div>
+    <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div id="navTxt1">Yavru</div></div>
+    <div class="nav-item" onclick="switchTab('hunt', this)"><div class="nav-icon">🏹</div><div id="navTxt2">Av</div></div>
+    <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div id="navTxt3">Mağra</div></div>
+    <div class="nav-item" onclick="switchTab('gorevler', this)"><div class="nav-icon">📋</div><div id="navTxt4">Görevler</div></div>
+    <div class="nav-item" onclick="switchTab('spin', this)"><div class="nav-icon">🎡</div><div id="navTxt5">Çark</div></div>
+    <div class="nav-item" onclick="switchTab('withdraw', this)"><div class="nav-icon">💸</div><div id="navTxt6">Çek</div></div>
+    <div class="nav-item" onclick="switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div id="navTxt7">Cüzdan</div></div>
   </div>
 
   <script>
@@ -705,29 +712,34 @@
 
     const MY_RECEIVING_WALLET = "UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH";
 
-    let balance = parseFloat(localStorage.getItem('balance')) || 0.00000000;
-    let unclaimed = parseFloat(localStorage.getItem('unclaimed')) || 0.00000000;
+    let balance = parseFloat(localStorage.getItem('balance')) || 0.0; // Biftek Bakiye
+    let gramBalance = parseFloat(localStorage.getItem('gramBalance')) || 0.0000;
+    let unclaimedSteak = parseFloat(localStorage.getItem('unclaimedSteak')) || 0.0;
     let steakBalance = parseInt(localStorage.getItem('steakBalance')) || 0;
-    let unclaimedSteak = parseFloat(localStorage.getItem('unclaimedSteak')) || 0;
     let inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
-    let cubCount = localStorage.getItem('cubCount') !== null ? parseInt(localStorage.getItem('cubCount')) : 0;
+    let cubCount = parseInt(localStorage.getItem('cubCount')) || 0;
     let jaguarCount = parseInt(localStorage.getItem('jaguarCount')) || 0;
     let vultureCount = parseInt(localStorage.getItem('vultureCount')) || 0;
     let hyenaCount = parseInt(localStorage.getItem('hyenaCount')) || 0;
     let isFused = localStorage.getItem('isFused') === 'true';
     let hasMaleLion = localStorage.getItem('hasMaleLion') === 'true';
-    let dailySpeed = parseFloat(localStorage.getItem('dailySpeed')) || 0.0010;
     let hunger = parseFloat(localStorage.getItem('hunger')) || 100;
     let lastDailyClaim = parseInt(localStorage.getItem('lastDailyClaim')) || 0;
     let lastWheelSpin = parseInt(localStorage.getItem('lastWheelSpin')) || 0;
     let currentLang = localStorage.getItem('currentLang') || 'tr';
     let currentRotation = 0;
 
+    const translations = {
+      tr: { title: "BİFTEK BAKIYEM", claim: "⚡ BİFTEKLERİ TOPLA", nav1: "Yavru", nav2: "Av", nav3: "Mağra", nav4: "Görevler", nav5: "Çark", nav6: "Çek", nav7: "Cüzdan" },
+      en: { title: "BEEF BALANCE", claim: "⚡ CLAIM BEEF", nav1: "Cub", nav2: "Hunt", nav3: "Cave", nav4: "Tasks", nav5: "Spin", nav6: "Withdraw", nav7: "Wallet" },
+      nl: { title: "BIEFSTUK SALDO", claim: "⚡ BIEFSTUK CLAIMEN", nav1: "Welp", nav2: "Jacht", nav3: "Grot", nav4: "Taken", nav5: "Wiel", nav6: "Opnemen", nav7: "Portemonnee" }
+    };
+
     function saveData() {
       localStorage.setItem('balance', balance);
-      localStorage.setItem('unclaimed', unclaimed);
-      localStorage.setItem('steakBalance', steakBalance);
+      localStorage.setItem('gramBalance', gramBalance);
       localStorage.setItem('unclaimedSteak', unclaimedSteak);
+      localStorage.setItem('steakBalance', steakBalance);
       localStorage.setItem('inviteCount', inviteCount);
       localStorage.setItem('cubCount', cubCount);
       localStorage.setItem('jaguarCount', jaguarCount);
@@ -735,24 +747,19 @@
       localStorage.setItem('hyenaCount', hyenaCount);
       localStorage.setItem('isFused', isFused);
       localStorage.setItem('hasMaleLion', hasMaleLion);
-      localStorage.setItem('dailySpeed', dailySpeed);
       localStorage.setItem('hunger', hunger);
       localStorage.setItem('lastDailyClaim', lastDailyClaim);
       localStorage.setItem('lastWheelSpin', lastWheelSpin);
       localStorage.setItem('currentLang', currentLang);
     }
 
+    // Arka planda Biftek üretimi (Saniyede bir)
     setInterval(() => {
       let speedFactor = hunger > 20 ? 1.0 : 0.5;
-      let speedPerSecond = (dailySpeed * speedFactor) / 86400;
-      unclaimed += speedPerSecond;
-      document.getElementById('unclaimed').innerText = unclaimed.toFixed(8);
-
-      // Toplam et üretimi (Yavru, Jaguar, Akbaba, Hyena bazlı)
-      let steakPerHour = (cubCount * 10) + (jaguarCount * 35) + (vultureCount * 20) + (hyenaCount * 50) + (isFused ? 50 : 10);
+      let steakPerHour = 10 + (cubCount * 50) + (jaguarCount * 200) + (vultureCount * 120) + (hyenaCount * 350) + (isFused ? 100 : 0);
       let steakPerSecond = (steakPerHour / 3600) * speedFactor;
       unclaimedSteak += steakPerSecond;
-      document.getElementById('huntSteakDisplay').innerText = Math.floor(unclaimedSteak) + " Et";
+      document.getElementById('huntSteakDisplay').innerText = Math.floor(unclaimedSteak) + (currentLang === 'tr' ? " Biftek" : " Beef");
 
       if (hunger > 0) {
         hunger -= 0.05;
@@ -764,55 +771,74 @@
     function feedCubs() {
       hunger = 100;
       document.getElementById('hungerFill').style.width = "100%";
-      showToast("Yavrular başarıyla beslendi! Tokluk %100 🥩");
+      showToast(currentLang === 'tr' ? "Yavrular beslendi! Tokluk %100 🥩" : "Fed successfully! 🥩");
       saveData();
     }
 
     function claimEarnings() {
-      if (unclaimed < 0.00000001) {
-        showToast("Henüz toplanacak kazanç birikmedi!");
+      let earned = Math.floor(unclaimedSteak);
+      if (earned <= 0) {
+        showToast(currentLang === 'tr' ? "Henüz toplanacak biftek birikmedi!" : "No beef to claim yet!");
         return;
       }
-      balance += unclaimed;
-      unclaimed = 0;
-      document.getElementById('balance').innerText = balance.toFixed(8);
-      document.getElementById('unclaimed').innerText = "0.00000000";
+      balance += earned;
+      unclaimedSteak -= earned;
+      document.getElementById('balance').innerText = balance.toFixed(1) + (currentLang === 'tr' ? " Biftek" : " Beef");
+      document.getElementById('huntSteakDisplay').innerText = "0 " + (currentLang === 'tr' ? "Biftek" : "Beef");
       saveData();
-      showToast("Kazanç başarıyla bakiyenize eklendi! 🎉");
+      showToast(currentLang === 'tr' ? `🎉 ${earned} Biftek hesabınıza eklendi!` : `🎉 Claimed ${earned} Beef!`);
     }
 
     function claimSteak() {
-      let earned = Math.floor(unclaimedSteak);
-      if (earned <= 0) {
-        showToast("Henüz toplanacak biefstuk birikmedi!");
-        return;
-      }
-      steakBalance += earned;
-      unclaimedSteak -= earned;
-      document.getElementById('steakBalance').innerText = steakBalance + " Et";
-      document.getElementById('huntSteakDisplay').innerText = Math.floor(unclaimedSteak) + " Et";
-      showToast(`🦁 ${earned} Biefstuk (Et) toplandı! 🥩`);
-      saveData();
+      claimEarnings();
     }
 
     function exchangeSteakToGram() {
-      if (steakBalance < 100) {
-        showToast("En az 100 Biefstuk (Et) olmalıdır!");
+      if (balance < 1000) {
+        showToast(currentLang === 'tr' ? "En az 1000 Biftek olmalıdır!" : "Minimum 1000 Beef required!");
         return;
       }
-      let earnedGram = (steakBalance / 100) * 0.0010;
-      balance += earnedGram;
-      steakBalance = 0;
-      document.getElementById('balance').innerText = balance.toFixed(8);
-      document.getElementById('steakBalance').innerText = "0 Et";
-      showToast(`🎉 Takas başarılı! GRAM bakiyenize eklendi.`);
+      let gramEarned = (balance / 1000) * 0.0100;
+      gramBalance += gramEarned;
+      balance = 0;
+      document.getElementById('balance').innerText = "0.0 Biftek";
+      document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
       saveData();
+      showToast(currentLang === 'tr' ? "🎉 Takas başarılı! GRAM cüzdanınıza eklendi." : "🎉 Exchanged to GRAM successfully!");
+    }
+
+    function updateCampaignSlider(val) {
+      document.getElementById('sliderUsdVal').innerText = "$" + val + " USD";
+      let steakReward = val * 500;
+      document.getElementById('sliderRewardVal').innerText = (currentLang === 'tr' ? "Alacağın: " : "You get: ") + steakReward.toLocaleString() + " Biftek";
+    }
+
+    function buyCampaignSteak() {
+      let val = document.getElementById('usdSlider').value;
+      openPaymentModal(val, 'buyCampaign', 'Özel Biftek Paketi');
+    }
+
+    function buyWithSteak(cost, type, name) {
+      if (balance < cost) {
+        showToast(currentLang === 'tr' ? "Yetersiz Biftek bakiyesi!" : "Not enough Beef!");
+        return;
+      }
+      balance -= cost;
+      if (type === 'buyCub') cubCount++;
+      if (type === 'buyJaguar') jaguarCount++;
+      if (type === 'buyVulture') vultureCount++;
+      if (type === 'buyHyena') hyenaCount++;
+
+      document.getElementById('balance').innerText = balance.toFixed(1) + (currentLang === 'tr' ? " Biftek" : " Beef");
+      saveData();
+      updateCaveDisplay();
+      showToast(currentLang === 'tr' ? `🎉 Başarıyla ${name} satın alındı!` : `🎉 Successfully purchased ${name}!`);
     }
 
     function completeChannelTask() {
-      steakBalance += 50;
-      document.getElementById('steakBalance').innerText = steakBalance + " Et";
-      showToast("🎉 Kanal takip edildi! +50 Biefstuk (Et) kazandın 🥩");
+      balance += 250;
+      document.getElementById('balance').innerText = balance.toFixed(1) + (currentLang === 'tr' ? " Biftek" : " Beef");
+      showToast(currentLang === 'tr' ? "🎉 Kanal takip edildi! +250 Biftek kazandın 🥩" : "🎉 Channel followed! +250 Beef");
       saveData();
     }
 
@@ -820,30 +846,30 @@
       let refLink = "https://t.me/DailygramMinerBot?start=ref_" + Math.random().toString(36).substring(7);
       navigator.clipboard.writeText(refLink);
       inviteCount = Math.min(5, inviteCount + 1);
-      document.getElementById('inviteCountText').innerText = "Davet Edilen: " + inviteCount + " / 5";
+      document.getElementById('inviteCountText').innerText = (currentLang === 'tr' ? "Davet Edilen: " : "Invited: ") + inviteCount + " / 5";
       if (inviteCount === 5) {
-        balance += 0.020;
-        steakBalance += 200;
-        showToast("🎉 Tebrikler! 5 Arkadaş davet edildi, +0.020 GRAM + 200 Et kazandın!");
+        balance += 1000;
+        gramBalance += 0.020;
+        showToast(currentLang === 'tr' ? "🎉 Tebrikler! 5 Arkadaş davet edildi, +1000 Biftek + 0.020 GRAM kazandın!" : "🎉 5 Friends invited!");
       } else {
-        showToast("🔗 Özel referans linkiniz kopyalandı! Arkadaşlarınızla paylaşın.");
+        showToast(currentLang === 'tr' ? "🔗 Özel link kopyalandı!" : "🔗 Ref link copied!");
       }
       saveData();
     }
 
     function setMaxWithdraw() {
-      document.getElementById('withdrawAmount').value = balance.toFixed(8);
-      showToast("Maksimum bakiye yazıldı!");
+      document.getElementById('withdrawAmount').value = gramBalance.toFixed(4);
+      showToast("Maksimum GRAM yazıldı!");
     }
 
     function requestWithdraw() {
       let amount = document.getElementById('withdrawAmount').value;
       let addr = document.getElementById('withdrawAddress').value;
       if (!amount || !addr) {
-        showToast("Lütfen miktar ve cüzdan adresini girin!");
+        showToast(currentLang === 'tr' ? "Lütfen miktar ve cüzdan girin!" : "Enter amount and address!");
         return;
       }
-      showToast("📤 Para çekme talebiniz alındı! En kısa sürede işleme alınacaktır.");
+      showToast(currentLang === 'tr' ? "📤 Para çekme talebiniz alındı!" : "📤 Withdrawal request submitted!");
       document.getElementById('withdrawAmount').value = "";
       document.getElementById('withdrawAddress').value = "";
     }
@@ -851,25 +877,22 @@
     function claimDailyBonus() {
       let now = Date.now();
       if (now - lastDailyClaim < 86400000) {
-        showToast("Bugünkü bonusu zaten aldınız!");
+        showToast(currentLang === 'tr' ? "Bugünkü bonusu zaten aldınız!" : "Daily bonus already claimed!");
         return;
       }
-      balance += 0.002;
-      steakBalance += 20;
+      balance += 100;
       lastDailyClaim = now;
-      document.getElementById('balance').innerText = balance.toFixed(8);
-      document.getElementById('steakBalance').innerText = steakBalance + " Et";
+      document.getElementById('balance').innerText = balance.toFixed(1) + (currentLang === 'tr' ? " Biftek" : " Beef");
       saveData();
-      showToast("Günlük Bonus Alındı! (+0.002 GRAM + 20 Et) 🎉");
+      showToast(currentLang === 'tr' ? "Günlük Bonus Alındı! (+100 Biftek) 🎉" : "Daily Bonus Claimed! 🎉");
     }
 
     function spinWheel() {
       let now = Date.now();
       if (now - lastWheelSpin < 86400000) {
-        showToast("Bugünkü çark çevirme hakkınızı kullandınız! Yarın tekrar bekleriz.");
+        showToast(currentLang === 'tr' ? "Çark hakkınız bitti!" : "Wheel already spun today!");
         return;
       }
-
       let btn = document.getElementById('spinBtn');
       btn.disabled = true;
       let extraDegrees = Math.floor(Math.random() * 360) + 1800;
@@ -877,13 +900,13 @@
       document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
-        let reward = 0.002;
+        let reward = 250;
         balance += reward;
-        document.getElementById('balance').innerText = balance.toFixed(8);
-        showToast(`🎉 Çarktan +${reward} GRAM Kazandın! 🎁`);
+        document.getElementById('balance').innerText = balance.toFixed(1) + (currentLang === 'tr' ? " Biftek" : " Beef");
+        showToast(`🎉 Çarktan +${reward} Biftek Kazandın! 🎁`);
         lastWheelSpin = Date.now();
         saveData();
-        btn.innerText = "Yarın Tekrar Gel";
+        btn.innerText = currentLang === 'tr' ? "Yarın Tekrar Gel" : "Come back tomorrow";
       }, 4000);
     }
 
@@ -901,27 +924,21 @@
       navigator.clipboard.writeText(MY_RECEIVING_WALLET);
       showToast("Cüzdan adresi kopyalandı! 📋");
     }
-
-    function copyPayAddress() {
-      navigator.clipboard.writeText(MY_RECEIVING_WALLET);
-      showToast("Cüzdan adresi kopyalandı! 📋");
-    }
-
+    function copyPayAddress() { copyMyWallet(); }
     function copyPayAmount() {
-      let amountVal = document.getElementById('payModalAmount').value;
-      navigator.clipboard.writeText(amountVal);
+      navigator.clipboard.writeText(document.getElementById('payModalAmount').value);
       showToast("Tutar kopyalandı! 📋");
     }
 
     function confirmManualPayment() {
       closePaymentModal();
-      showToast("⏳ Ödemeniz alındı! Ağ üzerinde kontrol ediliyor. Paketiniz birkaç dakika içinde hesabınıza tanımlanacaktır.");
+      showToast("⏳ Ödemeniz alındı! Ağ üzerinde kontrol ediliyor.");
     }
 
     function updateCaveDisplay() {
-      document.getElementById('balance').innerText = balance.toFixed(8);
-      document.getElementById('maxBalanceDisplay').innerText = balance.toFixed(8) + " GRAM";
-      document.getElementById('steakBalance').innerText = steakBalance + " Et";
+      document.getElementById('balance').innerText = balance.toFixed(1) + (currentLang === 'tr' ? " Biftek" : " Beef");
+      document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
+      document.getElementById('maxBalanceDisplay').innerText = gramBalance.toFixed(4) + " GRAM";
       document.getElementById('hungerFill').style.width = hunger + "%";
       
       let title = document.getElementById('caveTitle');
@@ -929,6 +946,7 @@
       let videoSource = document.getElementById('bgVideoSource');
 
       let targetVideo = './background_empty.MP4';
+      let totalAnimals = cubCount + jaguarCount + vultureCount + hyenaCount;
       if (hasMaleLion) {
         title.innerText = "🦁 Kral Aslan Mağarası";
         targetVideo = './background_lion.MP4';
@@ -936,24 +954,36 @@
         title.innerText = "👑 Dişi Aslan Mağarası";
         targetVideo = './background_mother.MP4';
       } else {
-        let totalAnimals = cubCount + jaguarCount + vultureCount + hyenaCount;
         title.innerText = `🪨 Pride Rock (${totalAnimals} Hayvan)`;
         if (totalAnimals >= 1) targetVideo = './background_cub1.MP4';
       }
 
-      document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";
+      let steakPerHour = 10 + (cubCount * 50) + (jaguarCount * 200) + (vultureCount * 120) + (hyenaCount * 350);
+      document.getElementById('dailySpeedText').innerText = steakPerHour + " Biftek / sa";
       
       let levelNum = 1;
-      if (dailySpeed > 0.05) levelNum = 3;
-      else if (dailySpeed > 0.01) levelNum = 2;
+      if (balance > 5000) levelNum = 3;
+      else if (balance > 1000) levelNum = 2;
 
-      document.getElementById('hudLevelBadge').innerText = "Seviye " + levelNum;
+      document.getElementById('hudLevelBadge').innerText = (currentLang === 'tr' ? "Seviye " : "Level ") + levelNum;
 
       if (!videoSource.src.includes(targetVideo.replace('./', ''))) {
         videoSource.src = targetVideo;
         videoElem.load();
         videoElem.play();
       }
+
+      // Dil çevirileri
+      let t = translations[currentLang];
+      document.getElementById('txtBalanceTitle').innerText = t.title;
+      document.getElementById('btnClaim').innerText = t.claim;
+      document.getElementById('navTxt1').innerText = t.nav1;
+      document.getElementById('navTxt2').innerText = t.nav2;
+      document.getElementById('navTxt3').innerText = t.nav3;
+      document.getElementById('navTxt4').innerText = t.nav4;
+      document.getElementById('navTxt5').innerText = t.nav5;
+      document.getElementById('navTxt6').innerText = t.nav6;
+      document.getElementById('navTxt7').innerText = t.nav7;
     }
 
     function openLanguageModal() { document.getElementById('langModal').classList.add('active'); }
@@ -963,6 +993,7 @@
       currentLang = lang;
       saveData();
       updateCaveDisplay();
+      closeLanguageModal();
     }
 
     function switchTab(tabName, element) {

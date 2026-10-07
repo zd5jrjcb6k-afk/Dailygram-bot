@@ -34,11 +34,8 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* LEVEL HUD (LINKS BOVEN) */
+    /* LEVEL HUD (ALLEEN OP HOOFDPAGINA) */
     .top-level-hud {
-      position: absolute;
-      top: 10px;
-      left: 10px;
       display: flex;
       align-items: center;
       background: linear-gradient(135deg, #c28e46, #8a5a22);
@@ -46,7 +43,6 @@
       border-radius: 25px;
       padding: 3px 12px 3px 3px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-      z-index: 25;
       gap: 8px;
     }
 
@@ -75,11 +71,20 @@
       margin-top: 2px;
     }
 
+    /* ÜST BAR (PROFIEL + MAĞRA/DİR BİLGİSİ) */
+    .main-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      z-index: 25;
+    }
+
     /* ACHTERGROND KAART */
     .game-card {
       position: relative;
       width: 100%;
-      height: 380px;
+      height: 360px;
       border: 3px solid #ffb700;
       border-radius: 22px;
       overflow: hidden;
@@ -407,17 +412,19 @@
   <div class="app-container">
     <div id="toast" class="toast-notification"></div>
 
-    <!-- LEVEL HUD (LINKS BOVEN) -->
-    <div class="top-level-hud">
-      <div class="hud-avatar" id="hudAvatarLetter">A</div>
-      <div>
-        <div style="font-size: 0.78rem; font-weight: 900; color: #fff;" id="hudUsername">Oyuncu</div>
-        <div class="hud-level-number" id="hudLevelBadge">Seviye 1</div>
-      </div>
-    </div>
-
     <!-- TAB 1: YAVRU (MAĞRA / GOROT) -->
     <div id="tab-yavru" class="tab-content active">
+      <!-- TOP BAR: LEVEL & CAVE INFO (Sadece Ana Sayfada) -->
+      <div class="main-top-bar">
+        <div class="top-level-hud">
+          <div class="hud-avatar" id="hudAvatarLetter">A</div>
+          <div>
+            <div style="font-size: 0.78rem; font-weight: 900; color: #fff;" id="hudUsername">Oyuncu</div>
+            <div class="hud-level-number" id="hudLevelBadge">Seviye 1</div>
+          </div>
+        </div>
+      </div>
+
       <div class="game-card">
         <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
           <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
@@ -445,7 +452,7 @@
             <div class="stat-value" id="steakBalance">0 Et</div>
           </div>
           <div class="stat-box">
-            <div class="stat-label">Günlük Hız</div>
+            <div class="stat-label">Madencilik Hızı</div>
             <div class="stat-value" id="dailySpeedText">0.0010 / gün</div>
           </div>
         </div>
@@ -454,7 +461,7 @@
       </div>
     </div>
 
-    <!-- TAB 2: JACHT (AV - PASSIEF BİEFSTUK MINING) -->
+    <!-- TAB 2: JACHT (AV - BİEFSTUK) -->
     <div id="tab-hunt" class="tab-content">
       <div class="page-box" style="text-align: center;">
         <div class="page-title">🦁 Aslan Avı & Biefstuk</div>
@@ -475,10 +482,10 @@
       </div>
     </div>
 
-    <!-- TAB 3: MAĞRA (YÜKSETMELER & MARKET ÜRÜNLERİ) -->
+    <!-- TAB 3: MAĞRA (YÜKSETMELER & YENİ HAYVANLAR) -->
     <div id="tab-market" class="tab-content">
       <div class="page-box">
-        <div class="page-title">🏕️ Mağra & Yükseltmeler</div>
+        <div class="page-title">🏕️ Mağra & Hayvan Yükseltmeleri</div>
         
         <div class="task-list">
           <div class="task-card">
@@ -491,16 +498,32 @@
 
           <div class="task-card">
             <div class="task-info">
-              <strong>🥩 Et Besini (Hız Artışı)</strong><br>
-              <small>Hızı +0.0005/gün artırır</small>
+              <strong>🐆 Jaguar Ekle</strong><br>
+              <small>Mağaraya Jaguar getirir (+35 Et/saat)</small>
             </div>
-            <button class="btn-buy" onclick="openPaymentModal(3, 'buyItem', 'Et Besini')">$3 (3 GRAM)</button>
+            <button class="btn-buy" onclick="openPaymentModal(15, 'buyJaguar', 'Jaguar')">$15</button>
+          </div>
+
+          <div class="task-card">
+            <div class="task-info">
+              <strong>🦅 Afrika Akbabası Ekle</strong><br>
+              <small>Gökyüzü avcısı ekler (+20 Et/saat)</small>
+            </div>
+            <button class="btn-buy" onclick="openPaymentModal(8, 'buyVulture', 'Akbaba')">$8</button>
+          </div>
+
+          <div class="task-card">
+            <div class="task-info">
+              <strong>🐺 Hyena Sürüsü Ekle</strong><br>
+              <small>Av verimini artırır (+50 Et/saat)</small>
+            </div>
+            <button class="btn-buy" onclick="openPaymentModal(20, 'buyHyena', 'Hyena Sürüsü')">$20</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
               <strong>👑 Büyük Aslan Mağrası (Mega Lvl 1)</strong><br>
-              <small>Devasa Aslan Yuvası (+0.0500 / gün)</small>
+              <small>Devasa Aslan Yuvası (+0.0500 / gün hız)</small>
             </div>
             <button class="btn-buy" onclick="openPaymentModal(50, 'buyItem', 'Büyük Aslan Mağrası')">$50</button>
           </div>
@@ -508,7 +531,7 @@
           <div class="task-card">
             <div class="task-info">
               <strong>🦁 Savana İmparatorluğu (Dev Mağra)</strong><br>
-              <small>En Büyük Aslan Krallığı (+0.2000 / gün)</small>
+              <small>En Büyük Aslan Krallığı (+0.2000 / gün hız)</small>
             </div>
             <button class="btn-buy" onclick="openPaymentModal(200, 'buyItem', 'Savana İmparatorluğu')">$200</button>
           </div>
@@ -517,16 +540,24 @@
       </div>
     </div>
 
-    <!-- TAB 4: GÖREVLER (5 ARKADAŞ ÖZEL LİNK) -->
+    <!-- TAB 4: GÖREVLER (Kanal Takibi + Biefstuk Ödülü) -->
     <div id="tab-gorevler" class="tab-content">
       <div class="page-box">
-        <div class="page-title">📋 Görevler & Arkadaş Daveti</div>
+        <div class="page-title">📋 Görevler & Ödüller</div>
         
         <div class="task-list">
           <div class="task-card">
             <div class="task-info">
+              <strong>📢 Telegram Kanalını Takip Et</strong><br>
+              <small>Ödül: +50 Biefstuk (Et) Kazan</small>
+            </div>
+            <button class="btn-buy" onclick="completeChannelTask()">Takip Et</button>
+          </div>
+
+          <div class="task-card">
+            <div class="task-info">
               <strong>👥 5 Arkadaşını Özel Linkle Davet Et</strong><br>
-              <small>Ödül: +0.020 GRAM + Özel Bonus</small>
+              <small>Ödül: +0.020 GRAM + 200 Et</small>
               <div style="margin-top: 4px; font-size: 0.72rem; color: #aaa;" id="inviteCountText">Davet Edilen: 0 / 5</div>
             </div>
             <button class="btn-buy" onclick="inviteFiveFriends()">Davet Et</button>
@@ -535,7 +566,7 @@
           <div class="task-card">
             <div class="task-info">
               <strong>📅 Günlük Giriş Bonusu (Daily Check-in)</strong><br>
-              <small>Ödül: +0.002 GRAM</small>
+              <small>Ödül: +0.002 GRAM + 20 Et</small>
             </div>
             <button class="btn-buy" id="btnDailyCheckIn" onclick="claimDailyBonus()">Al</button>
           </div>
@@ -548,7 +579,7 @@
     <div id="tab-spin" class="tab-content">
       <div class="page-box" style="text-align: center;">
         <div class="page-title">🎡 Şans Çarkı (Rulet)</div>
-        <p style="font-size:0.8rem; color:#ccc; margin-bottom:10px;">Her 24 saatte 1 kez çevir, sürpriz GRAM veya Yavru kazan!</p>
+        <p style="font-size:0.8rem; color:#ccc; margin-bottom:10px;">Her 24 saatte 1 kez çevir, sürpriz GRAM veya Biefstuk kazan!</p>
         
         <div class="wheel-tree-container">
           <div class="wheel-pointer-top"></div>
@@ -680,6 +711,9 @@
     let unclaimedSteak = parseFloat(localStorage.getItem('unclaimedSteak')) || 0;
     let inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
     let cubCount = localStorage.getItem('cubCount') !== null ? parseInt(localStorage.getItem('cubCount')) : 0;
+    let jaguarCount = parseInt(localStorage.getItem('jaguarCount')) || 0;
+    let vultureCount = parseInt(localStorage.getItem('vultureCount')) || 0;
+    let hyenaCount = parseInt(localStorage.getItem('hyenaCount')) || 0;
     let isFused = localStorage.getItem('isFused') === 'true';
     let hasMaleLion = localStorage.getItem('hasMaleLion') === 'true';
     let dailySpeed = parseFloat(localStorage.getItem('dailySpeed')) || 0.0010;
@@ -687,7 +721,6 @@
     let lastDailyClaim = parseInt(localStorage.getItem('lastDailyClaim')) || 0;
     let lastWheelSpin = parseInt(localStorage.getItem('lastWheelSpin')) || 0;
     let currentLang = localStorage.getItem('currentLang') || 'tr';
-    let lastTime = parseInt(localStorage.getItem('lastSavedTime')) || Date.now();
     let currentRotation = 0;
 
     function saveData() {
@@ -697,6 +730,9 @@
       localStorage.setItem('unclaimedSteak', unclaimedSteak);
       localStorage.setItem('inviteCount', inviteCount);
       localStorage.setItem('cubCount', cubCount);
+      localStorage.setItem('jaguarCount', jaguarCount);
+      localStorage.setItem('vultureCount', vultureCount);
+      localStorage.setItem('hyenaCount', hyenaCount);
       localStorage.setItem('isFused', isFused);
       localStorage.setItem('hasMaleLion', hasMaleLion);
       localStorage.setItem('dailySpeed', dailySpeed);
@@ -704,7 +740,6 @@
       localStorage.setItem('lastDailyClaim', lastDailyClaim);
       localStorage.setItem('lastWheelSpin', lastWheelSpin);
       localStorage.setItem('currentLang', currentLang);
-      localStorage.setItem('lastSavedTime', Date.now());
     }
 
     setInterval(() => {
@@ -713,9 +748,10 @@
       unclaimed += speedPerSecond;
       document.getElementById('unclaimed').innerText = unclaimed.toFixed(8);
 
-      // Passieve Biefstuk productie op basis van actieve dieren (bijv. 10 et per welp per uur -> per seconde)
-      let steakPerSecond = ((cubCount * 10) + (isFused ? 50 : 0) + (hasMaleLion ? 150 : 10)) / 3600;
-      unclaimedSteak += steakPerSecond * speedFactor;
+      // Toplam et üretimi (Yavru, Jaguar, Akbaba, Hyena bazlı)
+      let steakPerHour = (cubCount * 10) + (jaguarCount * 35) + (vultureCount * 20) + (hyenaCount * 50) + (isFused ? 50 : 10);
+      let steakPerSecond = (steakPerHour / 3600) * speedFactor;
+      unclaimedSteak += steakPerSecond;
       document.getElementById('huntSteakDisplay').innerText = Math.floor(unclaimedSteak) + " Et";
 
       if (hunger > 0) {
@@ -755,7 +791,7 @@
       unclaimedSteak -= earned;
       document.getElementById('steakBalance').innerText = steakBalance + " Et";
       document.getElementById('huntSteakDisplay').innerText = Math.floor(unclaimedSteak) + " Et";
-      showToast(`🦁 ${earned} Biefstuk toplandı! 🥩`);
+      showToast(`🦁 ${earned} Biefstuk (Et) toplandı! 🥩`);
       saveData();
     }
 
@@ -773,6 +809,13 @@
       saveData();
     }
 
+    function completeChannelTask() {
+      steakBalance += 50;
+      document.getElementById('steakBalance').innerText = steakBalance + " Et";
+      showToast("🎉 Kanal takip edildi! +50 Biefstuk (Et) kazandın 🥩");
+      saveData();
+    }
+
     function inviteFiveFriends() {
       let refLink = "https://t.me/DailygramMinerBot?start=ref_" + Math.random().toString(36).substring(7);
       navigator.clipboard.writeText(refLink);
@@ -780,7 +823,8 @@
       document.getElementById('inviteCountText').innerText = "Davet Edilen: " + inviteCount + " / 5";
       if (inviteCount === 5) {
         balance += 0.020;
-        showToast("🎉 Tebrikler! 5 Arkadaş davet edildi, +0.020 GRAM ödül kazandın!");
+        steakBalance += 200;
+        showToast("🎉 Tebrikler! 5 Arkadaş davet edildi, +0.020 GRAM + 200 Et kazandın!");
       } else {
         showToast("🔗 Özel referans linkiniz kopyalandı! Arkadaşlarınızla paylaşın.");
       }
@@ -811,10 +855,12 @@
         return;
       }
       balance += 0.002;
+      steakBalance += 20;
       lastDailyClaim = now;
       document.getElementById('balance').innerText = balance.toFixed(8);
+      document.getElementById('steakBalance').innerText = steakBalance + " Et";
       saveData();
-      showToast("Günlük Bonus Alındı! (+0.002 GRAM) 🎉");
+      showToast("Günlük Bonus Alındı! (+0.002 GRAM + 20 Et) 🎉");
     }
 
     function spinWheel() {
@@ -884,14 +930,15 @@
 
       let targetVideo = './background_empty.MP4';
       if (hasMaleLion) {
-        title.innerText = "🦁 Kral Aslan";
+        title.innerText = "🦁 Kral Aslan Mağarası";
         targetVideo = './background_lion.MP4';
       } else if (isFused) {
-        title.innerText = "👑 Dişi Aslan";
+        title.innerText = "👑 Dişi Aslan Mağarası";
         targetVideo = './background_mother.MP4';
       } else {
-        title.innerText = `🪨 Pride Rock (${cubCount} Yavru)`;
-        if (cubCount >= 1) targetVideo = './background_cub1.MP4';
+        let totalAnimals = cubCount + jaguarCount + vultureCount + hyenaCount;
+        title.innerText = `🪨 Pride Rock (${totalAnimals} Hayvan)`;
+        if (totalAnimals >= 1) targetVideo = './background_cub1.MP4';
       }
 
       document.getElementById('dailySpeedText').innerText = dailySpeed.toFixed(4) + " / gün";

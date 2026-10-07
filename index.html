@@ -34,49 +34,61 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* LEVEL HUD (SADECE ANA SAYFA) */
-    .top-level-hud {
+    /* STRAKKE LEVEL & KULLANICI HUD */
+    .top-user-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(40,25,15,0.95), rgba(20,12,6,0.95));
+      border: 2px solid #ffb700;
+      border-radius: 16px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      z-index: 25;
+    }
+
+    .user-info-left {
       display: flex;
       align-items: center;
-      background: linear-gradient(135deg, #c28e46, #8a5a22);
-      border: 2.5px solid #ffde6b;
-      border-radius: 25px;
-      padding: 3px 12px 3px 3px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-      gap: 8px;
+      gap: 10px;
     }
 
     .hud-avatar {
-      width: 34px;
-      height: 34px;
-      background: linear-gradient(135deg, #ffe380, #e69500);
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #ffd700, #ff8800);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      color: #3b2200;
-      font-size: 1rem;
+      color: #1a0f05;
+      font-size: 1.1rem;
       border: 2px solid #fff;
     }
 
-    .hud-level-number {
-      background: #3b2200;
-      color: #ffde6b;
-      font-size: 0.7rem;
+    .hud-username {
+      font-size: 0.9rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+
+    .hud-level-badge {
+      font-size: 0.72rem;
+      color: #ffd700;
+      background: rgba(255, 183, 0, 0.15);
+      padding: 2px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 183, 0, 0.4);
       font-weight: bold;
-      padding: 2px 6px;
-      border-radius: 10px;
-      border: 1px solid #ffde6b;
+      display: inline-block;
       margin-top: 2px;
     }
 
-    .main-top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      z-index: 25;
+    .hud-level-progress {
+      text-align: right;
     }
 
     /* ACHTERGROND KAART */
@@ -105,7 +117,7 @@
     .shelter-badge {
       position: absolute;
       top: 12px;
-      right: 12px;
+      left: 12px;
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(8px);
       padding: 6px 12px;
@@ -119,7 +131,7 @@
 
     .settings-btn {
       position: absolute;
-      top: 55px;
+      top: 12px;
       right: 12px;
       background: rgba(0, 0, 0, 0.8);
       border: 1px solid rgba(255, 215, 0, 0.6);
@@ -133,49 +145,6 @@
       font-size: 1.1rem;
       cursor: pointer;
       z-index: 20;
-    }
-
-    /* TOKLUK BALK */
-    .hunger-container {
-      position: absolute;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      background: rgba(0,0,0,0.85);
-      padding: 8px 14px;
-      border-radius: 14px;
-      border: 1px solid #ff9900;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .hunger-bar {
-      flex: 1;
-      height: 12px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-
-    .hunger-fill {
-      height: 100%;
-      width: 100%;
-      background: #2ecc71;
-      transition: width 0.3s ease;
-    }
-
-    .btn-feed {
-      background: #ff9900;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 0.8rem;
-      color: #000;
-      cursor: pointer;
     }
 
     /* SALDO PANEEL */
@@ -197,7 +166,7 @@
     }
 
     .balance-amount {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 900;
       color: #ffd700;
       margin-bottom: 8px;
@@ -376,45 +345,62 @@
       font-weight: bold;
     }
 
-    /* ÇARK STİLCİSİ */
+    /* LUKSE CASINO ŞANS ÇARKI TASARIMI */
     .wheel-tree-container {
       position: relative;
-      width: 260px;
-      height: 260px;
-      margin: 10px auto;
+      width: 280px;
+      height: 280px;
+      margin: 15px auto;
       display: flex;
       justify-content: center;
       align-items: center;
+      filter: drop-shadow(0 0 15px rgba(255, 183, 0, 0.4));
     }
     .wheel-pointer-top {
       position: absolute;
-      top: 0px; left: 50%;
+      top: -2px; left: 50%;
       transform: translateX(-50%);
       width: 0; height: 0;
-      border-left: 12px solid transparent;
-      border-right: 12px solid transparent;
-      border-top: 24px solid #e74c3c;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 28px solid #ff3333;
       z-index: 40;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
     }
     .wheel-wooden-frame {
-      width: 240px; height: 240px;
+      width: 260px; height: 260px;
       border-radius: 50%;
-      border: 10px solid #5c3a21;
+      border: 12px solid #b8860b;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 20px rgba(218,165,32,0.6);
       position: relative;
       overflow: hidden;
+      background: #222;
     }
     .wheel {
       width: 100%; height: 100%; border-radius: 50%;
-      background: conic-gradient(#e74c3c 0deg 45deg, #f39c12 45deg 90deg, #f1c40f 90deg 135deg, #2ecc71 135deg 180deg, #3498db 180deg 225deg, #9b59b6 225deg 270deg, #e67e22 270deg 315deg, #1abc9c 315deg 360deg);
+      background: conic-gradient(
+        #ff4d4d 0deg 45deg, 
+        #ffa500 45deg 90deg, 
+        #ffd700 90deg 135deg, 
+        #2ecc71 135deg 180deg, 
+        #1abc9c 180deg 225deg, 
+        #3498db 225deg 270deg, 
+        #9b59b6 270deg 315deg, 
+        #e74c3c 315deg 360deg
+      );
       transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
     }
     .wheel-center-hub {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 40px; height: 40px; background: #f1c40f; border-radius: 50%; z-index: 30; display: flex; align-items: center; justify-content: center;
+      width: 50px; height: 50px; background: radial-gradient(circle, #fff 0%, #ffd700 100%); 
+      border-radius: 50%; border: 3px solid #8b6508; z-index: 30; 
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
     }
     .wheel-btn-wood {
-      background: linear-gradient(135deg, #c0392b, #962d22);
-      color: #fff; border: 3px solid #f1c40f; padding: 10px 30px; font-size: 1rem; font-weight: 900; border-radius: 22px; cursor: pointer; margin-top: 15px;
+      background: linear-gradient(135deg, #ffd700, #ff8800);
+      color: #1a0f05; border: 2px solid #fff; padding: 12px 35px; font-size: 1.05rem; font-weight: 900; border-radius: 25px; cursor: pointer; margin-top: 15px;
+      box-shadow: 0 4px 15px rgba(255,165,0,0.5);
     }
 
     .modal-overlay {
@@ -432,10 +418,10 @@
       display: flex; justify-content: space-around; padding: 8px 0 12px 0; z-index: 100;
     }
     .nav-item {
-      display: flex; flex-direction: column; align-items: center; color: #8a7a6e; font-size: 0.65rem; text-decoration: none; cursor: pointer; gap: 3px;
+      display: flex; flex-direction: column; align-items: center; color: #8a7a6e; font-size: 0.62rem; text-decoration: none; cursor: pointer; gap: 3px;
     }
     .nav-item.active { color: #ffd700; font-weight: bold; }
-    .nav-icon { font-size: 1.2rem; }
+    .nav-icon { font-size: 1.1rem; }
 
     .toast-notification {
       position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
@@ -450,13 +436,19 @@
 
     <!-- TAB 1: YAVRU (MAĞRA) -->
     <div id="tab-yavru" class="tab-content active">
-      <div class="main-top-bar">
-        <div class="top-level-hud">
+      
+      <!-- STRAKKE LEVEL & İSİM HUD -->
+      <div class="top-user-bar">
+        <div class="user-info-left">
           <div class="hud-avatar" id="hudAvatarLetter">A</div>
           <div>
-            <div style="font-size: 0.78rem; font-weight: 900; color: #fff;" id="hudUsername">Oyuncu</div>
-            <div class="hud-level-number" id="hudLevelBadge">Seviye 1</div>
+            <div class="hud-username" id="hudUsername">Oyuncu</div>
+            <div class="hud-level-badge" id="hudLevelBadge">⭐ Seviye 1</div>
           </div>
+        </div>
+        <div class="hud-level-progress">
+          <div style="font-size: 0.68rem; color: #aaa;" id="expLabel">Sonraki Level:</div>
+          <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700;" id="expText">0 / 500 🥩</div>
         </div>
       </div>
 
@@ -467,19 +459,12 @@
 
         <div class="shelter-badge" id="caveTitle">🪨 Pride Rock (0 Hayvan)</div>
         <div class="settings-btn" onclick="openLanguageModal()">⚙️</div>
-
-        <!-- TOKLUK BALK -->
-        <div class="hunger-container">
-          <span style="font-size: 0.75rem;" id="txtHunger">🥩 Tokluk:</span>
-          <div class="hunger-bar"><div id="hungerFill" class="hunger-fill" style="width: 100%;"></div></div>
-          <button class="btn-feed" onclick="feedCubs()" id="btnFeed">Besle</button>
-        </div>
       </div>
 
-      <!-- Saldo Panel (Biftek Odaklı) -->
+      <!-- Saldo Panel (Biftek Odaklı + 🥩 Icon) -->
       <div class="balance-card">
         <div class="balance-title" id="txtBalanceTitle">BİFTEK BAKIYEM</div>
-        <div class="balance-amount" id="balance">0.0 Biftek</div>
+        <div class="balance-amount" id="balance">0.0 🥩</div>
 
         <div class="stats-grid">
           <div class="stat-box">
@@ -488,7 +473,7 @@
           </div>
           <div class="stat-box">
             <div class="stat-label" id="txtSpeedLabel">Üretim Hızı</div>
-            <div class="stat-value" id="dailySpeedText">10 Biftek / sa</div>
+            <div class="stat-value" id="dailySpeedText">20 Biftek / sa</div>
           </div>
         </div>
 
@@ -496,7 +481,7 @@
       </div>
     </div>
 
-    <!-- TAB 2: JACHT (AV - BİFTEK TOPLA & TAKAS 100 BİFTEK = GRAM) -->
+    <!-- TAB 2: JACHT (AV - BİFTEK TOPLA & TAKAS) -->
     <div id="tab-hunt" class="tab-content">
       <div class="page-box" style="text-align: center;">
         <div class="page-title" id="huntTitle">🦁 Aslan Avı & Biftek</div>
@@ -506,7 +491,7 @@
 
         <div style="background: rgba(0,0,0,0.5); border: 1px solid #ff9900; border-radius: 14px; padding: 15px; margin-bottom: 15px;">
           <div style="font-size: 0.8rem; color: #aaa;" id="huntCollectLabel">Toplanabilir Biftek:</div>
-          <div style="font-size: 1.6rem; font-weight: 900; color: #ffd700; margin: 5px 0;" id="huntSteakDisplay">0 Biftek</div>
+          <div style="font-size: 1.6rem; font-weight: 900; color: #ffd700; margin: 5px 0;" id="huntSteakDisplay">0 🥩</div>
           <button class="btn-claim" onclick="claimSteak()" id="huntClaimBtn">📥 Biftekleri Topla</button>
         </div>
 
@@ -517,18 +502,17 @@
       </div>
     </div>
 
-    <!-- TAB 3: MAĞRA (YÜKSETMELER & BİFTEK KAMPANYA) -->
+    <!-- TAB 3: MAĞRA (YÜKSELMELER & KAMPANYA) -->
     <div id="tab-market" class="tab-content">
       <div class="page-box">
         <div class="page-title" id="marketTitle">🏕️ Mağra & Biftek Kampanyası</div>
 
-        <!-- Honey Farm Tarzı USD ile Biftek Kampanya Satın Al -->
         <div class="campaign-box">
           <div style="font-size: 0.85rem; font-weight: bold; color: #ffd700; margin-bottom: 6px;" id="campTitle">🚀 Özel Biftek Kampanyası</div>
           <div style="font-size: 0.75rem; color: #ccc;" id="campSub">Ödeyeceğin USD Miktarını Seç:</div>
           <div style="font-size: 1.2rem; font-weight: 900; color: #fff; margin: 4px 0;" id="sliderUsdVal">$10 USD</div>
           <input type="range" min="1" max="500" value="10" class="campaign-slider" id="usdSlider" oninput="updateCampaignSlider(this.value)">
-          <div style="font-size: 0.78rem; color: #2ecc71; font-weight: bold; margin-bottom: 8px;" id="sliderRewardVal">Alacağın: 5,000 Biftek (+%100 Bonus)</div>
+          <div style="font-size: 0.78rem; color: #2ecc71; font-weight: bold; margin-bottom: 8px;" id="sliderRewardVal">Alacağın: 5,000 🥩 (+%100 Bonus)</div>
           <button class="btn-claim" onclick="buyCampaignSteak()" id="campBtn">🛒 Biftek Paketini Satın Al</button>
         </div>
         
@@ -536,33 +520,33 @@
           <div class="task-card">
             <div class="task-info">
               <strong id="item1Title">🐾 Ekstra Yavru Sahiplen</strong><br>
-              <small id="item1Desc">Yuvaya +1 Yavru ekler (+50 Biftek)</small>
+              <small id="item1Desc">Yuvaya +1 Yavru ekler (+50 🥩/sa)</small>
             </div>
-            <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Ekstra Yavru')">200 Biftek</button>
+            <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Ekstra Yavru')">200 🥩</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
               <strong id="item2Title">🐆 Jaguar Ekle</strong><br>
-              <small id="item2Desc">Mağaraya Jaguar getirir (+200 Biftek)</small>
+              <small id="item2Desc">Mağaraya Jaguar getirir (+120 🥩/sa)</small>
             </div>
-            <button class="btn-buy" onclick="buyWithSteak(800, 'buyJaguar', 'Jaguar')">800 Biftek</button>
+            <button class="btn-buy" onclick="buyWithSteak(800, 'buyJaguar', 'Jaguar')">800 🥩</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
               <strong id="item3Title">🦅 Afrika Akbabası Ekle</strong><br>
-              <small id="item3Desc">Gökyüzü avcısı ekler (+120 Biftek)</small>
+              <small id="item3Desc">Gökyüzü avcısı ekler (+80 🥩/sa)</small>
             </div>
-            <button class="btn-buy" onclick="buyWithSteak(500, 'buyVulture', 'Akbaba')">500 Biftek</button>
+            <button class="btn-buy" onclick="buyWithSteak(500, 'buyVulture', 'Akbaba')">500 🥩</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
               <strong id="item4Title">🐺 Hyena Sürüsü Ekle</strong><br>
-              <small id="item4Desc">Av verimini artırır (+350 Biftek)</small>
+              <small id="item4Desc">Av verimini artırır (+200 🥩/sa)</small>
             </div>
-            <button class="btn-buy" onclick="buyWithSteak(1200, 'buyHyena', 'Hyena Sürüsü')">1200 Biftek</button>
+            <button class="btn-buy" onclick="buyWithSteak(1200, 'buyHyena', 'Hyena Sürüsü')">1200 🥩</button>
           </div>
         </div>
 
@@ -578,15 +562,15 @@
           <div class="task-card">
             <div class="task-info">
               <strong id="t1Title">📢 Telegram Kanalını Takip Et</strong><br>
-              <small id="t1Desc">Ödül: +250 Biftek Kazan</small>
+              <small id="t1Desc">Ödül: +250 🥩 Kazan</small>
             </div>
             <button class="btn-buy" onclick="completeChannelTask()" id="t1Btn">Takip Et</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
-              <strong id="t2Title">👥 5 Arkadaşını Özel Linkle Davet Et</strong><br>
-              <small id="t2Desc">Ödül: +1000 Biftek + 0.020 GRAM</small>
+              <strong id="t2Title">👥 5 Arkadaşını Davet Et</strong><br>
+              <small id="t2Desc">Ödül: +1000 🥩 + 0.020 GRAM</small>
               <div style="margin-top: 4px; font-size: 0.72rem; color: #aaa;" id="inviteCountText">Davet Edilen: 0 / 5</div>
             </div>
             <button class="btn-buy" onclick="inviteFiveFriends()" id="t2Btn">Davet Et</button>
@@ -594,8 +578,8 @@
 
           <div class="task-card">
             <div class="task-info">
-              <strong id="t3Title">📅 Günlük Giriş Bonusu (Daily Check-in)</strong><br>
-              <small id="t3Desc">Ödül: +100 Biftek</small>
+              <strong id="t3Title">📅 Günlük Giriş Bonusu</strong><br>
+              <small id="t3Desc">Ödül: +100 🥩</small>
             </div>
             <button class="btn-buy" id="btnDailyCheckIn" onclick="claimDailyBonus()" id="t3Btn">Al</button>
           </div>
@@ -604,25 +588,60 @@
       </div>
     </div>
 
-    <!-- TAB 5: ŞANS ÇARKI -->
+    <!-- TAB 5: ŞANS ÇARKI (LUXE WHEEL) -->
     <div id="tab-spin" class="tab-content">
       <div class="page-box" style="text-align: center;">
         <div class="page-title" id="wheelTitle">🎡 Şans Çarkı (Rulet)</div>
-        <p style="font-size:0.8rem; color:#ccc; margin-bottom:10px;" id="wheelDesc">Her 24 saatte 1 kez çevir, sürpriz Biftek kazan!</p>
+        <p style="font-size:0.8rem; color:#ccc; margin-bottom:5px;" id="wheelDesc">Her 24 saatte 1 kez çevir, sürpriz Biftek kazan!</p>
         
         <div class="wheel-tree-container">
           <div class="wheel-pointer-top"></div>
           <div class="wheel-wooden-frame">
             <div class="wheel" id="wheel"></div>
-            <div class="wheel-center-hub">🦁</div>
+            <div class="wheel-center-hub">🥩</div>
           </div>
         </div>
 
-        <button class="wheel-btn-wood" id="spinBtn" onclick="spinWheel()">ÇEVİR</button>
+        <button class="wheel-btn-wood" id="spinBtn" onclick="spinWheel()">ÇEVİR (SPIN)</button>
       </div>
     </div>
 
-    <!-- TAB 6: BAKİYE ÇEK (WITHDRAW) -->
+    <!-- TAB 6: LEADERBOARD (YENİ!) -->
+    <div id="tab-leaderboard" class="tab-content">
+      <div class="page-box">
+        <div class="page-title" id="lbTitle">🏆 Liderlik Tablosu (Leaderboard)</div>
+        <p style="text-align: center; font-size: 0.78rem; color: #ccc; margin-bottom: 12px;">En çok Biftek ve GRAM üreten en iyi madenciler!</p>
+        
+        <div class="task-list">
+          <div class="task-card" style="border-color: #ffd700; background: rgba(255,215,0,0.1);">
+            <div class="task-info">
+              <strong>🥇 1. CryptoKing_TR</strong><br><small>Level 15 • 142.5k 🥩</small>
+            </div>
+            <span style="font-weight:900; color:#ffd700;">1.42 GRAM</span>
+          </div>
+          <div class="task-card">
+            <div class="task-info">
+              <strong>🥈 2. LionMaster</strong><br><small>Level 12 • 98.2k 🥩</small>
+            </div>
+            <span style="font-weight:900; color:#ccc;">0.98 GRAM</span>
+          </div>
+          <div class="task-card">
+            <div class="task-info">
+              <strong>🥉 3. DailyMiner_99</strong><br><small>Level 10 • 74.0k 🥩</small>
+            </div>
+            <span style="font-weight:900; color:#cd7f32;">0.74 GRAM</span>
+          </div>
+          <div class="task-card" id="myRankCard" style="border-color: #2ecc71;">
+            <div class="task-info">
+              <strong id="myRankName">⭐ 42. Sen (Oyuncu)</strong><br><small id="myRankDetails">Level 1 • 0.0 🥩</small>
+            </div>
+            <span style="font-weight:900; color:#2ecc71;" id="myRankGram">0.00 GRAM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 7: BAKİYE ÇEK (WITHDRAW) -->
     <div id="tab-withdraw" class="tab-content">
       <div class="page-box">
         <div class="page-title" id="withdrawTitle">💸 Bakiye Çek (Withdraw)</div>
@@ -647,7 +666,7 @@
       </div>
     </div>
 
-    <!-- TAB 7: CÜZDAN -->
+    <!-- TAB 8: CÜZDAN -->
     <div id="tab-cuzdan" class="tab-content">
       <div class="page-box" style="text-align: center;">
         <div class="page-title" id="walletTitle">👛 GRAM / TON Cüzdan</div>
@@ -699,7 +718,7 @@
     </div>
   </div>
 
-  <!-- GENİŞLETİLMİŞ DİL SEÇİM MODALI -->
+  <!-- DİL SEÇİM MODALI -->
   <div class="modal-overlay" id="langModal">
     <div class="modal-box">
       <div class="modal-title">🌐 Dil Seçimi / Language / Taal</div>
@@ -708,7 +727,7 @@
         <div class="lang-card" id="btn-en" onclick="selectLanguage('en')">🇬🇧 English</div>
         <div class="lang-card" id="btn-nl" onclick="selectLanguage('nl')">🇳🇱 Nederlands</div>
         <div class="lang-card" id="btn-de" onclick="selectLanguage('de')">🇩🇪 Deutsch</div>
-        <div class="lang-card" id="btn-fr" onclick="selectLanguage('fr')">🇫🇷 Français</div>
+        <div class="lang-card" id="btn-fr" onclick="selectLanguage('fr')">🇷🇷 Français</div>
         <div class="lang-card" id="btn-es" onclick="selectLanguage('es')">🇪🇸 Español</div>
         <div class="lang-card" id="btn-ru" onclick="selectLanguage('ru')">🇷🇺 Русский</div>
       </div>
@@ -716,14 +735,16 @@
     </div>
   </div>
 
+  <!-- ALT NAVİGASYON (8 TAB) -->
   <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div id="navTxt1">Yavru</div></div>
     <div class="nav-item" onclick="switchTab('hunt', this)"><div class="nav-icon">🏹</div><div id="navTxt2">Av</div></div>
     <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div id="navTxt3">Mağra</div></div>
     <div class="nav-item" onclick="switchTab('gorevler', this)"><div class="nav-icon">📋</div><div id="navTxt4">Görevler</div></div>
     <div class="nav-item" onclick="switchTab('spin', this)"><div class="nav-icon">🎡</div><div id="navTxt5">Çark</div></div>
-    <div class="nav-item" onclick="switchTab('withdraw', this)"><div class="nav-icon">💸</div><div id="navTxt6">Çek</div></div>
-    <div class="nav-item" onclick="switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div id="navTxt7">Cüzdan</div></div>
+    <div class="nav-item" onclick="switchTab('leaderboard', this)"><div class="nav-icon">🏆</div><div id="navTxt6">Lider</div></div>
+    <div class="nav-item" onclick="switchTab('withdraw', this)"><div class="nav-icon">💸</div><div id="navTxt7">Çek</div></div>
+    <div class="nav-item" onclick="switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div id="navTxt8">Cüzdan</div></div>
   </div>
 
   <script>
@@ -742,7 +763,6 @@
     let balance = parseFloat(localStorage.getItem('balance')) || 0.0; 
     let gramBalance = parseFloat(localStorage.getItem('gramBalance')) || 0.0000;
     let unclaimedSteak = parseFloat(localStorage.getItem('unclaimedSteak')) || 0.0;
-    let steakBalance = parseInt(localStorage.getItem('steakBalance')) || 0;
     let inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
     let cubCount = parseInt(localStorage.getItem('cubCount')) || 0;
     let jaguarCount = parseInt(localStorage.getItem('jaguarCount')) || 0;
@@ -750,7 +770,8 @@
     let hyenaCount = parseInt(localStorage.getItem('hyenaCount')) || 0;
     let isFused = localStorage.getItem('isFused') === 'true';
     let hasMaleLion = localStorage.getItem('hasMaleLion') === 'true';
-    let hunger = parseFloat(localStorage.getItem('hunger')) || 100;
+    let totalEarnedSteak = parseFloat(localStorage.getItem('totalEarnedSteak')) || 0.0;
+    let level = parseInt(localStorage.getItem('level')) || 1;
     let lastDailyClaim = parseInt(localStorage.getItem('lastDailyClaim')) || 0;
     let lastWheelSpin = parseInt(localStorage.getItem('lastWheelSpin')) || 0;
     let currentLang = localStorage.getItem('currentLang') || 'tr';
@@ -762,49 +783,21 @@
         huntTitle: "🦁 Aslan Avı & Biftek", huntDesc: "Aslanlarınız ve hayvanlarınız mağarada otomatik olarak Biftek üretir! Toplayın veya GRAM ile değiştirin.",
         collectLbl: "Toplanabilir Biftek:", collectBtn: "📥 Biftekleri Topla", exchangeLbl: "Biftek → GRAM Takası (100 Biftek = 0.0100 GRAM)", exchangeBtn: "🔄 GRAM ile Değiştir",
         marketTitle: "🏕️ Mağra & Biftek Kampanyası", campTitle: "🚀 Özel Biftek Kampanyası", campSub: "Ödeyeceğin USD Miktarını Seç:", campBtn: "🛒 Biftek Paketini Satın Al",
-        nav1: "Yavru", nav2: "Av", nav3: "Mağra", nav4: "Görevler", nav5: "Çark", nav6: "Çek", nav7: "Cüzdan"
+        nav1: "Yavru", nav2: "Av", nav3: "Mağra", nav4: "Görevler", nav5: "Çark", nav6: "Lider", nav7: "Çek", nav8: "Cüzdan"
       },
       en: { 
         title: "BEEF BALANCE", claim: "⚡ CLAIM BEEF", speed: "Mining Speed", 
         huntTitle: "🦁 Lion Hunt & Beef", huntDesc: "Your animals automatically produce Beef in the cave! Claim or exchange for GRAM.",
         collectLbl: "Claimable Beef:", collectBtn: "📥 Claim Beef", exchangeLbl: "Beef → GRAM Exchange (100 Beef = 0.0100 GRAM)", exchangeBtn: "🔄 Exchange for GRAM",
         marketTitle: "🏕️ Cave & Beef Campaign", campTitle: "🚀 Special Beef Campaign", campSub: "Select USD Amount to Pay:", campBtn: "🛒 Buy Beef Package",
-        nav1: "Cub", nav2: "Hunt", nav3: "Cave", nav4: "Tasks", nav5: "Spin", nav6: "Withdraw", nav7: "Wallet"
+        nav1: "Cub", nav2: "Hunt", nav3: "Cave", nav4: "Tasks", nav5: "Spin", nav6: "Rank", nav7: "Withdraw", nav8: "Wallet"
       },
       nl: { 
         title: "BIEFSTUK SALDO", claim: "⚡ BIEFSTUK CLAIMEN", speed: "Snelheid", 
         huntTitle: "🦁 Leeuwenjacht & Biefstuk", huntDesc: "Jouw dieren produceren automatisch Biefstuk in de grot! Claim of wissel om voor GRAM.",
         collectLbl: "Te claimen Biefstuk:", collectBtn: "📥 Biefstuk Claimen", exchangeLbl: "Biefstuk → GRAM (100 Biefstuk = 0.0100 GRAM)", exchangeBtn: "🔄 Wissel voor GRAM",
         marketTitle: "🏕️ Grot & Biefstuk Campagne", campTitle: "🚀 Speciale Biefstuk Campagne", campSub: "Selecteer USD Bedrag:", campBtn: "🛒 Koop Biefstuk Pakket",
-        nav1: "Welp", nav2: "Jacht", nav3: "Grot", nav4: "Taken", nav5: "Wiel", nav6: "Opnemen", nav7: "Portemonnee"
-      },
-      de: { 
-        title: "FLEISCH GUTHABEN", claim: "⚡ FLEISCH EINFORDERN", speed: "Geschwindigkeit", 
-        huntTitle: "🦁 Löwenjagd & Fleisch", huntDesc: "Deine Tiere produzieren automatisch Fleisch in der Höhle!",
-        collectLbl: "Einsammelbares Fleisch:", collectBtn: "📥 Fleisch Einsammeln", exchangeLbl: "Fleisch → GRAM (100 Fleisch = 0.0100 GRAM)", exchangeBtn: "🔄 In GRAM tauschen",
-        marketTitle: "🏕️ Höhle & Fleisch", campTitle: "🚀 Spezial Kampagne", campSub: "USD Betrag wählen:", campBtn: "🛒 Paket Kaufen",
-        nav1: "Welpe", nav2: "Jagd", nav3: "Höhle", nav4: "Aufgaben", nav5: "Rad", nav6: "Auszahlen", nav7: "Wallet"
-      },
-      fr: { 
-        title: "SOLDE DE BŒUF", claim: "⚡ RÉCLAMER", speed: "Vitesse", 
-        huntTitle: "🦁 Chasse au Lion", huntDesc: "Vos animaux produisent automatiquement du bœuf dans la grotte !",
-        collectLbl: "Bœuf réclamable:", collectBtn: "📥 Réclamer", exchangeLbl: "Bœuf → GRAM (100 Bœuf = 0.0100 GRAM)", exchangeBtn: "🔄 Échanger",
-        marketTitle: "🏕️ Grotte & Campagne", campTitle: "🚀 Campagne Spéciale", campSub: "Sélectionnez le montant USD:", campBtn: "🛒 Acheter",
-        nav1: "Lionceau", nav2: "Chasse", nav3: "Grotte", nav4: "Tâches", nav5: "Roue", nav6: "Retirer", nav7: "Portefeuille"
-      },
-      es: { 
-        title: "SALDO DE CARNE", claim: "⚡ RECLAMAR", speed: "Velocidad", 
-        huntTitle: "🦁 Caza de Leones", huntDesc: "¡Tus animales producen carne automáticamente!",
-        collectLbl: "Carne reclamable:", collectBtn: "📥 Reclamar", exchangeLbl: "Carne → GRAM (100 Carne = 0.0100 GRAM)", exchangeBtn: "🔄 Intercambiar",
-        marketTitle: "🏕️ Cueva y Campaña", campTitle: "🚀 Campaña Especial", campSub: "Selecciona USD:", campBtn: "🛒 Comprar",
-        nav1: "Cachorro", nav2: "Caza", nav3: "Cueva", nav4: "Tareas", nav5: "Ruleta", nav6: "Retirar", nav7: "Billetera"
-      },
-      ru: { 
-        title: "БАЛАНС МЯСА", claim: "⚡ СОБРАТЬ", speed: "Скорость", 
-        huntTitle: "🦁 Охота на львов", huntDesc: "Ваши животные автоматически добывают мясо в пещере!",
-        collectLbl: "Доступно мяса:", collectBtn: "📥 Собрать мясо", exchangeLbl: "Мясо → GRAM (100 Мяса = 0.0100 GRAM)", exchangeBtn: "🔄 Обменять на GRAM",
-        marketTitle: "🏕️ Пещера и Акция", campTitle: "🚀 Специальная акция", campSub: "Выберите USD:", campBtn: "🛒 Купить пакет",
-        nav1: "Львенок", nav2: "Охота", nav3: "Пещера", nav4: "Задания", nav5: "Колесо", nav6: "Вывод", nav7: "Кошелек"
+        nav1: "Welp", nav2: "Jacht", nav3: "Grot", nav4: "Taken", nav5: "Wiel", nav6: "Rang", nav7: "Opnemen", nav8: "Portemonnee"
       }
     };
 
@@ -812,7 +805,6 @@
       localStorage.setItem('balance', balance);
       localStorage.setItem('gramBalance', gramBalance);
       localStorage.setItem('unclaimedSteak', unclaimedSteak);
-      localStorage.setItem('steakBalance', steakBalance);
       localStorage.setItem('inviteCount', inviteCount);
       localStorage.setItem('cubCount', cubCount);
       localStorage.setItem('jaguarCount', jaguarCount);
@@ -820,34 +812,36 @@
       localStorage.setItem('hyenaCount', hyenaCount);
       localStorage.setItem('isFused', isFused);
       localStorage.setItem('hasMaleLion', hasMaleLion);
-      localStorage.setItem('hunger', hunger);
+      localStorage.setItem('totalEarnedSteak', totalEarnedSteak);
+      localStorage.setItem('level', level);
       localStorage.setItem('lastDailyClaim', lastDailyClaim);
       localStorage.setItem('lastWheelSpin', lastWheelSpin);
       localStorage.setItem('currentLang', currentLang);
     }
 
-    setInterval(() => {
-      let speedFactor = hunger > 20 ? 1.0 : 0.5;
-      let steakPerHour = 20 + (cubCount * 40) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
-      let steakPerSecond = (steakPerHour / 3600) * speedFactor;
-      unclaimedSteak += steakPerSecond;
-      
-      let tText = currentLang === 'tr' ? " Biftek" : (currentLang === 'nl' ? " Biefstuk" : " Beef");
-      document.getElementById('huntSteakDisplay').innerText = Math.floor(unclaimedSteak) + tText;
-
-      if (hunger > 0) {
-        hunger -= 0.05;
-        document.getElementById('hungerFill').style.width = Math.max(0, hunger) + "%";
+    function checkLevelUp() {
+      let requiredForNext = level * 1000;
+      if (totalEarnedSteak >= requiredForNext) {
+        level++;
+        balance += level * 200; // Level atlama ödülü
+        showToast(`🎉 TEBRİKLER! Seviye ${level} Oldun! +${level * 200} 🥩 Bonus Kazandın!`);
       }
+      let currentProgress = Math.floor(totalEarnedSteak % 1000);
+      document.getElementById('expText500') || (document.getElementById('expText').innerText = `${currentProgress} / 1000 🥩`);
+      document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
+    }
+
+    // Otomatik Minigame / Biftek Üretimi (Saniyede bir)
+    setInterval(() => {
+      let steakPerHour = 20 + (cubCount * 50) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
+      let steakPerSecond = steakPerHour / 3600;
+      unclaimedSteak += steakPerSecond;
+      totalEarnedSteak += steakPerSecond;
+      
+      document.getElementById('huntSteakDisplay').innerText = Math.floor(unclaimedSteak) + " 🥩";
+      checkLevelUp();
       saveData();
     }, 1000);
-
-    function feedCubs() {
-      hunger = 100;
-      document.getElementById('hungerFill').style.width = "100%";
-      showToast(currentLang === 'tr' ? "Yavrular beslendi! Tokluk %100 🥩" : "Fed successfully! 🥩");
-      saveData();
-    }
 
     function claimEarnings() {
       let earned = Math.floor(unclaimedSteak);
@@ -857,16 +851,15 @@
       }
       balance += earned;
       unclaimedSteak -= earned;
-      let tText = currentLang === 'tr' ? " Biftek" : (currentLang === 'nl' ? " Biefstuk" : " Beef");
-      document.getElementById('balance').innerText = balance.toFixed(1) + tText;
-      document.getElementById('huntSteakDisplay').innerText = "0" + tText;
+      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
+      document.getElementById('huntSteakDisplay').innerText = "0 🥩";
+      document.getElementById('myRankDetails').innerText = `Level ${level} • ${balance.toFixed(0)} 🥩`;
+      document.getElementById('myRankGram').innerText = gramBalance.toFixed(2) + " GRAM";
       saveData();
-      showToast(currentLang === 'tr' ? `🎉 ${earned} Biftek hesabınıza eklendi!` : `🎉 Claimed ${earned}!`);
+      showToast(currentLang === 'tr' ? `🎉 ${earned} 🥩 Biftek cüzdana eklendi!` : `🎉 Claimed ${earned}!`);
     }
 
-    function claimSteak() {
-      claimEarnings();
-    }
+    function claimSteak() { claimEarnings(); }
 
     function exchangeSteakToGram() {
       if (balance < 100) {
@@ -876,16 +869,17 @@
       let gramEarned = (balance / 100) * 0.0100;
       gramBalance += gramEarned;
       balance = 0;
-      document.getElementById('balance').innerText = "0.0 Biftek";
+      document.getElementById('balance').innerText = "0.0 🥩";
       document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
+      document.getElementById('maxBalanceDisplay').innerText = gramBalance.toFixed(4) + " GRAM";
       saveData();
-      showToast(currentLang === 'tr' ? "🎉 Takas başarılı! GRAM cüzdanınıza eklendi." : "🎉 Exchanged to GRAM successfully!");
+      showToast(currentLang === 'tr' ? "🎉 Takas başarılı! GRAM cüzdana eklendi." : "🎉 Exchanged to GRAM!");
     }
 
     function updateCampaignSlider(val) {
       document.getElementById('sliderUsdVal').innerText = "$" + val + " USD";
       let steakReward = val * 500;
-      document.getElementById('sliderRewardVal').innerText = (currentLang === 'tr' ? "Alacağın: " : "You get: ") + steakReward.toLocaleString() + " Biftek";
+      document.getElementById('sliderRewardVal').innerText = (currentLang === 'tr' ? "Alacağın: " : "You get: ") + steakReward.toLocaleString() + " 🥩";
     }
 
     function buyCampaignSteak() {
@@ -904,18 +898,16 @@
       if (type === 'buyVulture') vultureCount++;
       if (type === 'buyHyena') hyenaCount++;
 
-      let tText = currentLang === 'tr' ? " Biftek" : (currentLang === 'nl' ? " Biefstuk" : " Beef");
-      document.getElementById('balance').innerText = balance.toFixed(1) + tText;
+      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
       updateCaveDisplay();
-      showToast(currentLang === 'tr' ? `🎉 Başarıyla ${name} satın alındı!` : `🎉 Successfully purchased ${name}!`);
+      showToast(currentLang === 'tr' ? `🎉 Başarıyla ${name} satın alındı!` : `🎉 Purchased ${name}!`);
     }
 
     function completeChannelTask() {
       balance += 250;
-      let tText = currentLang === 'tr' ? " Biftek" : (currentLang === 'nl' ? " Biefstuk" : " Beef");
-      document.getElementById('balance').innerText = balance.toFixed(1) + tText;
-      showToast(currentLang === 'tr' ? "🎉 Kanal takip edildi! +250 Biftek kazandın 🥩" : "🎉 Channel followed! +250 Beef");
+      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
+      showToast(currentLang === 'tr' ? "🎉 Kanal takip edildi! +250 🥩 kazandın" : "🎉 Channel followed!");
       saveData();
     }
 
@@ -927,9 +919,9 @@
       if (inviteCount === 5) {
         balance += 1000;
         gramBalance += 0.020;
-        showToast(currentLang === 'tr' ? "🎉 Tebrikler! 5 Arkadaş davet edildi, +1000 Biftek + 0.020 GRAM kazandın!" : "🎉 5 Friends invited!");
+        showToast("🎉 5 Arkadaş davet edildi, ödüller eklendi!");
       } else {
-        showToast(currentLang === 'tr' ? "🔗 Özel link kopyalandı!" : "🔗 Ref link copied!");
+        showToast("🔗 Davet linki kopyalandı!");
       }
       saveData();
     }
@@ -943,10 +935,10 @@
       let amount = document.getElementById('withdrawAmount').value;
       let addr = document.getElementById('withdrawAddress').value;
       if (!amount || !addr) {
-        showToast(currentLang === 'tr' ? "Lütfen miktar ve cüzdan girin!" : "Enter amount and address!");
+        showToast(currentLang === 'tr' ? "Lütfen miktar ve cüzdan girin!" : "Enter amount & address!");
         return;
       }
-      showToast(currentLang === 'tr' ? "📤 Para çekme talebiniz alındı!" : "📤 Withdrawal request submitted!");
+      showToast(currentLang === 'tr' ? "📤 Para çekme talebiniz alındı!" : "📤 Withdrawal requested!");
       document.getElementById('withdrawAmount').value = "";
       document.getElementById('withdrawAddress').value = "";
     }
@@ -954,15 +946,14 @@
     function claimDailyBonus() {
       let now = Date.now();
       if (now - lastDailyClaim < 86400000) {
-        showToast(currentLang === 'tr' ? "Bugünkü bonusu zaten aldınız!" : "Daily bonus already claimed!");
+        showToast(currentLang === 'tr' ? "Bugünkü bonusu zaten aldınız!" : "Bonus already claimed!");
         return;
       }
       balance += 100;
       lastDailyClaim = now;
-      let tText = currentLang === 'tr' ? " Biftek" : (currentLang === 'nl' ? " Biefstuk" : " Beef");
-      document.getElementById('balance').innerText = balance.toFixed(1) + tText;
+      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
-      showToast(currentLang === 'tr' ? "Günlük Bonus Alındı! (+100 Biftek) 🎉" : "Daily Bonus Claimed! 🎉");
+      showToast("Günlük Bonus Alındı! (+100 🥩) 🎉");
     }
 
     function spinWheel() {
@@ -978,11 +969,10 @@
       document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
-        let reward = 250;
+        let reward = 300;
         balance += reward;
-        let tText = currentLang === 'tr' ? " Biftek" : (currentLang === 'nl' ? " Biefstuk" : " Beef");
-        document.getElementById('balance').innerText = balance.toFixed(1) + tText;
-        showToast(`🎉 Çarktan +${reward} Biftek Kazandın! 🎁`);
+        document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
+        showToast(`🎉 Çarktan +${reward} 🥩 Kazandın! 🎁`);
         lastWheelSpin = Date.now();
         saveData();
         btn.innerText = currentLang === 'tr' ? "Yarın Tekrar Gel" : "Come back tomorrow";
@@ -995,10 +985,7 @@
       document.getElementById('paymentModal').classList.add('active');
     }
 
-    function closePaymentModal() {
-      document.getElementById('paymentModal').classList.remove('active');
-    }
-
+    function closePaymentModal() { document.getElementById('paymentModal').classList.remove('active'); }
     function copyMyWallet() {
       navigator.clipboard.writeText(MY_RECEIVING_WALLET);
       showToast("Cüzdan adresi kopyalandı! 📋");
@@ -1008,18 +995,15 @@
       navigator.clipboard.writeText(document.getElementById('payModalAmount').value);
       showToast("Tutar kopyalandı! 📋");
     }
-
     function confirmManualPayment() {
       closePaymentModal();
       showToast("⏳ Ödemeniz alındı! Ağ üzerinde kontrol ediliyor.");
     }
 
     function updateCaveDisplay() {
-      let tText = currentLang === 'tr' ? " Biftek" : (currentLang === 'nl' ? " Biefstuk" : " Beef");
-      document.getElementById('balance').innerText = balance.toFixed(1) + tText;
+      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
       document.getElementById('maxBalanceDisplay').innerText = gramBalance.toFixed(4) + " GRAM";
-      document.getElementById('hungerFill').style.width = hunger + "%";
       
       let title = document.getElementById('caveTitle');
       let videoElem = document.getElementById('bgVideo');
@@ -1028,7 +1012,6 @@
       let targetVideo = './background_empty.MP4';
       let totalAnimals = cubCount + jaguarCount + vultureCount + hyenaCount;
 
-      // Videoların doğru sırayla ve exact isimlerle (büyük harf .MP4) eşleştirilmesi
       if (hasMaleLion) {
         title.innerText = "🦁 Kral Aslan Mağarası";
         targetVideo = './background_lion.MP4';
@@ -1058,16 +1041,11 @@
         targetVideo = './background_empty.MP4';
       }
 
-      let steakPerHour = 20 + (cubCount * 40) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
-      let hourText = currentLang === 'tr' ? " Biftek / sa" : (currentLang === 'nl' ? " Biefstuk / u" : " Beef / hr");
-      document.getElementById('dailySpeedText').innerText = steakPerHour + hourText;
-      
-      let levelNum = 1;
-      if (balance > 5000) levelNum = 3;
-      else if (balance > 1000) levelNum = 2;
-
-      let lvlWord = currentLang === 'tr' ? "Seviye " : (currentLang === 'nl' ? "Niveau " : "Level ");
-      document.getElementById('hudLevelBadge').innerText = lvlWord + levelNum;
+      let steakPerHour = 20 + (cubCount * 50) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
+      document.getElementById('dailySpeedText').innerText = steakPerHour + " 🥩 / sa";
+      document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
+      document.getElementById('myRankDetails').innerText = `Level ${level} • ${balance.toFixed(0)} 🥩`;
+      document.getElementById('myRankGram').innerText = gramBalance.toFixed(2) + " GRAM";
 
       if (!videoSource.src.includes(targetVideo.replace('./', ''))) {
         videoSource.src = targetVideo;
@@ -1075,7 +1053,6 @@
         videoElem.play();
       }
 
-      // Çevirileri uygula
       let t = translations[currentLang] || translations.tr;
       document.getElementById('txtBalanceTitle').innerText = t.title;
       document.getElementById('btnClaim').innerText = t.claim;
@@ -1097,6 +1074,7 @@
       document.getElementById('navTxt5').innerText = t.nav5;
       document.getElementById('navTxt6').innerText = t.nav6;
       document.getElementById('navTxt7').innerText = t.nav7;
+      document.getElementById('navTxt8').innerText = t.nav8;
 
       document.querySelectorAll('.lang-card').forEach(card => card.classList.remove('active'));
       let activeLangCard = document.getElementById('btn-' + currentLang);
@@ -1105,19 +1083,20 @@
 
     function openLanguageModal() { document.getElementById('langModal').classList.add('active'); }
     function closeLanguageModal() { document.getElementById('langModal').classList.remove('active'); }
-
-    function selectLanguage(lang) {
-      currentLang = lang;
-      saveData();
-      updateCaveDisplay();
-      closeLanguageModal();
-    }
+    function selectLanguage(lang) { currentLang = lang; saveData(); updateCaveDisplay(); closeLanguageModal(); }
 
     function switchTab(tabName, element) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
       element.classList.add('active');
+    }
+
+    function showToast(text) {
+      let t = document.getElementById('toast');
+      t.innerText = text;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
 
     updateCaveDisplay();

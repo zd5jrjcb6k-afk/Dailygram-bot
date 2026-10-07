@@ -31,20 +31,18 @@
       position: relative;
     }
 
-    .tab-content { display: none; animate: fadeIn 0.3s; }
+    .tab-content { display: none; }
     .tab-content.active { display: block; }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ACHTERGROND KAART */
     .game-card {
       position: relative;
       width: 100%;
-      height: 380px;
+      height: 400px;
       border: 3px solid #ffb700;
       border-radius: 22px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(255,183,0,0.3);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
       margin-bottom: 10px;
       background: #000;
       display: flex;
@@ -90,51 +88,30 @@
       font-size: 1.1rem;
       cursor: pointer;
       z-index: 20;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
-
-    /* TIKKEN / TAP MINI-GAME KNOP OP SCHERM */
-    .tap-clicker-overlay {
-      position: absolute;
-      bottom: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #ff9900, #ff5500);
-      color: #000;
-      border: 2px solid #fff;
-      border-radius: 30px;
-      padding: 8px 20px;
-      font-weight: 900;
-      font-size: 0.9rem;
-      cursor: pointer;
-      z-index: 25;
-      box-shadow: 0 5px 15px rgba(255,153,0,0.6);
-      transition: transform 0.1s;
-    }
-    .tap-clicker-overlay:active { transform: translateX(-50%) scale(0.93); }
 
     /* HONGER BALK */
     .hunger-container {
       position: absolute;
-      bottom: 10px;
+      bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
       background: rgba(0,0,0,0.85);
-      padding: 6px 12px;
+      padding: 8px 14px;
       border-radius: 14px;
       border: 1px solid #ff9900;
       z-index: 20;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .hunger-bar {
       flex: 1;
-      height: 10px;
+      height: 12px;
       background: rgba(255,255,255,0.2);
-      border-radius: 5px;
+      border-radius: 6px;
       overflow: hidden;
     }
 
@@ -142,67 +119,103 @@
       height: 100%;
       width: 100%;
       background: #2ecc71;
-      transition: width 0.3s;
+      transition: width 0.3s ease;
     }
 
     .btn-feed {
       background: #ff9900;
       border: none;
-      padding: 4px 12px;
+      padding: 6px 14px;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: #000;
       cursor: pointer;
     }
 
-    /* DRAAIEND RAD VAN FORTUIN */
-    .wheel-container {
+    /* MOOIE HONEY FARM STIJL CHAK / RAD */
+    .wheel-tree-container {
       position: relative;
-      width: 220px;
-      height: 220px;
-      margin: 15px auto;
+      width: 300px;
+      height: 300px;
+      margin: 10px auto;
+      background: radial-gradient(circle, rgba(139,69,19,0.3) 0%, transparent 70%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .wheel-pointer {
+    .wheel-pointer-top {
       position: absolute;
-      top: -10px;
+      top: 5px;
       left: 50%;
       transform: translateX(-50%);
       width: 0; height: 0;
-      border-left: 12px solid transparent;
-      border-right: 12px solid transparent;
-      border-top: 22px solid #ffd700;
-      z-index: 30;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 26px solid #e74c3c;
+      z-index: 40;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.7));
+    }
+
+    .wheel-wooden-frame {
+      width: 270px;
+      height: 270px;
+      border-radius: 50%;
+      border: 12px solid #5c3a21;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 15px rgba(0,0,0,0.8);
+      position: relative;
+      overflow: hidden;
     }
 
     .wheel {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      border: 5px solid #ffd700;
       background: conic-gradient(
-        #e74c3c 0deg 90deg, 
-        #3498db 90deg 180deg, 
-        #2ecc71 180deg 270deg, 
-        #f1c40f 270deg 360deg
+        #e74c3c 0deg 45deg, 
+        #f39c12 45deg 90deg, 
+        #f1c40f 90deg 135deg, 
+        #2ecc71 135deg 180deg, 
+        #3498db 180deg 225deg, 
+        #9b59b6 225deg 270deg, 
+        #e67e22 270deg 315deg, 
+        #1abc9c 315deg 360deg
       );
-      transition: transform 3.5s cubic-bezier(0.15, 0.9, 0.15, 1);
-      box-shadow: 0 0 20px rgba(255,215,0,0.5);
+      transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
     }
 
-    .wheel-btn {
-      background: linear-gradient(135deg, #e67e22, #d35400);
+    .wheel-center-hub {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      background: radial-gradient(circle, #f1c40f, #d35400);
+      border: 4px solid #fff;
+      border-radius: 50%;
+      z-index: 30;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .wheel-btn-wood {
+      background: linear-gradient(135deg, #c0392b, #962d22);
       color: #fff;
-      border: none;
-      padding: 12px 26px;
-      font-size: 0.95rem;
-      font-weight: bold;
+      border: 3px solid #f1c40f;
+      padding: 10px 35px;
+      font-size: 1.1rem;
+      font-weight: 900;
       border-radius: 25px;
       cursor: pointer;
-      margin-top: 12px;
-      box-shadow: 0 4px 15px rgba(230,126,34,0.5);
+      margin-top: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .modal-overlay {
@@ -476,7 +489,7 @@
 
     <div id="toast" class="toast-notification"></div>
 
-    <!-- TAB 1: YAVRU (GAME HOME) -->
+    <!-- TAB 1: YAVRU -->
     <div id="tab-yavru" class="tab-content active">
       <div class="game-card">
         <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
@@ -486,13 +499,10 @@
         <div class="shelter-badge" id="caveTitle">🪨 Yuva: Pride Rock (0 Yavru)</div>
         <div class="settings-btn" onclick="openLanguageModal()">⚙️</div>
 
-        <!-- TIKKEN / TAP MINI-GAME KNOP -->
-        <button class="tap-clicker-overlay" onclick="tapMineCoin()">🐾 +0.0001 TAP!</button>
-
-        <!-- HONGER BALK -->
+        <!-- HONGER BALK (BESLE) -->
         <div class="hunger-container">
           <span style="font-size: 0.75rem;">🥩 Tokluk:</span>
-          <div class="hunger-bar"><div id="hungerFill" class="hunger-fill"></div></div>
+          <div class="hunger-bar"><div id="hungerFill" class="hunger-fill" style="width: 100%;"></div></div>
           <button class="btn-feed" onclick="feedCubs()">Besle</button>
         </div>
       </div>
@@ -607,7 +617,7 @@
       </div>
     </div>
 
-    <!-- TAB 3: GÖREVLER (UITGEBREID) -->
+    <!-- TAB 3: GÖREVLER -->
     <div id="tab-gorevler" class="tab-content">
       <div class="page-box">
         <div class="page-title" id="txtTasksTitle">📋 Görevler</div>
@@ -657,20 +667,25 @@
       </div>
     </div>
 
-    <!-- TAB 4: FORTUNE SPIN -->
+    <!-- TAB 4: FORTUNE SPIN (MOOIE HONEY FARM STIJL CHAK) -->
     <div id="tab-spin" class="tab-content">
       <div class="page-box" style="text-align: center;">
-        <div class="page-title">🎡 Şans Çarkı</div>
-        <p style="font-size:0.85rem; color:#ccc; margin-bottom:15px;">Her gün 1 ücretsiz çark çevirme hakkı kazan!</p>
-        <div class="wheel-container">
-          <div class="wheel-pointer"></div>
-          <div class="wheel" id="wheel"></div>
+        <div class="page-title">🎡 Şans Çarkı (Çevir & Kazan)</div>
+        <p style="font-size:0.82rem; color:#ccc; margin-bottom:10px;">Her gün şansını dene, ücretsiz GRAM veya Ekstra Welp kazan!</p>
+        
+        <div class="wheel-tree-container">
+          <div class="wheel-pointer-top"></div>
+          <div class="wheel-wooden-frame">
+            <div class="wheel" id="wheel"></div>
+            <div class="wheel-center-hub">🦁</div>
+          </div>
         </div>
-        <button class="wheel-btn" id="spinBtn" onclick="spinWheel()">🎁 ÇARKICIK ÇEVİR</button>
+
+        <button class="wheel-btn-wood" id="spinBtn" onclick="spinWheel()">ÇEVİR</button>
       </div>
     </div>
 
-    <!-- TAB 5: RANGLIJST & STATS -->
+    <!-- TAB 5: SEVİYE & STATS -->
     <div id="tab-leaderboard" class="tab-content">
       <div class="page-box">
         <div class="page-title">🏆 Seviye & Sıralama</div>
@@ -698,12 +713,23 @@
       </div>
     </div>
 
-    <!-- TAB 7: CÜZDAN -->
+    <!-- TAB 7: CÜZDAN (TONCOIN/GRAM LOGO) -->
     <div id="tab-cuzdan" class="tab-content">
       <div class="page-box" style="text-align: center;">
-        <div class="page-title" id="txtWalletTitle">👛 Cüzdan & Ödeme</div>
-        <p style="text-align: center; font-size: 0.85rem; color: #ccc; margin-bottom: 12px;" id="txtWalletDesc">
-          Bakiyenizi artırmak veya paket satın almak için aşağıdaki cüzdan adresine istediğiniz miktarda kripto gönderin.
+        <div class="page-title" id="txtWalletTitle">👛 TON / GRAM Cüzdan</div>
+        
+        <!-- TONCOIN LOGO -->
+        <div style="margin: 15px 0;">
+          <svg width="60" height="60" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 4px 10px rgba(0,136,204,0.4));">
+            <circle cx="28" cy="28" r="28" fill="#0088CC"/>
+            <path d="M37.5313 17.5C38.0703 17.5 38.4688 17.7656 38.6484 18.2578L41.3516 32.3203C41.5625 33.4297 40.9141 34 39.9219 34C39.4609 34 38.9375 33.7812 38.4609 33.3984L30.9531 27.3125L26.6094 31.4219C26.1484 31.8828 25.7578 32.2266 25.0469 32.2266L25.6719 24.3672L35.8594 18.5938C36.3828 18.2969 36.9531 17.5 37.5313 17.5Z" fill="white"/>
+            <path d="M23.9531 27.6719L18.4219 25.9062C17.4531 25.6094 17.4375 24.9375 18.625 24.4688L40.2344 16.1406C41.25 15.7344 42.0625 16.3125 41.7188 17.3906L37.5313 37.4062C37.2812 38.5938 36.4844 38.75 35.4844 37.8906L28.1875 32.3281L23.9531 27.6719Z" fill="white" fill-opacity="0.8"/>
+            <path d="M23.9531 27.6719L28.1875 32.3281L35.8594 18.5938L25.6719 24.3672L23.9531 27.6719Z" fill="white" fill-opacity="0.6"/>
+          </svg>
+        </div>
+
+        <p style="text-align: center; font-size: 0.82rem; color: #ccc; margin-bottom: 12px;">
+          Bakiyenizi artırmak veya paket satın almak için cüzdan adresimize TON / GRAM gönderin.
         </p>
 
         <div class="wallet-box-manual">
@@ -784,7 +810,7 @@
     let isFused = localStorage.getItem('isFused') === 'true';
     let hasMaleLion = localStorage.getItem('hasMaleLion') === 'true';
     let dailySpeed = parseFloat(localStorage.getItem('dailySpeed')) || 0.0010;
-    let hunger = parseFloat(localStorage.getItem('hunger')) || 100;
+    let hunger = parseFloat(localStorage.getItem('hunger')) !== NaN ? parseFloat(localStorage.getItem('hunger')) : 100;
     let lastDailyClaim = parseInt(localStorage.getItem('lastDailyClaim')) || 0;
     let currentLang = localStorage.getItem('currentLang') || 'tr';
     let lastTime = parseInt(localStorage.getItem('lastSavedTime')) || Date.now();
@@ -804,7 +830,7 @@
         txtBalanceTitle: "GRAM BAKIYEM", txtDailySpeedLabel: "Günlük Hız", txtUnclaimedLabel: "Toplanacak", btnClaim: "⚡ KAZANCI TOPLA",
         txtMarketTitle: "🛒 Market & Yükseltmeler", mItem1Title: "🐾 Ekstra Yavru Sahiplen", mItem1Desc: "Yuvaya +1 Yavru ekler (+0.0010 / gün)",
         txtTasksTitle: "📋 Görevler", txtFriendsTitle: "👥 Arkadaşını Davet Et", txtFriendsDesc: "Her davet ettiğin arkadaşın için +0.001 GRAM hız kazan!",
-        txtWalletTitle: "👛 Cüzdan & Ödeme", txtWalletDesc: "Bakiyenizi artırmak veya paket satın almak için cüzdanımıza kripto gönderin.",
+        txtWalletTitle: "👛 TON / GRAM Cüzdan", txtWalletDesc: "Bakiyenizi artırmak veya paket satın almak için cüzdanımıza kripto gönderin.",
         caveTitleCub: "🪨 Yuva: Pride Rock ({c} Yavru)", caveTitleAdult: "👑 Yetişkin Dişi Aslan (Hız x4)", caveTitleMale: "🦁 Kral Erkek Aslan",
         claimSuccess: "Kazanç başarıyla bakiyenize eklendi! 🎉", claimEmpty: "Henüz toplanacak kazanç birikmedi!",
         inviteCopied: "Davet linki kopyalandı!"
@@ -814,7 +840,7 @@
         txtBalanceTitle: "MY GRAM BALANCE", txtDailySpeedLabel: "Daily Speed", txtUnclaimedLabel: "Unclaimed", btnClaim: "⚡ CLAIM EARNINGS",
         txtMarketTitle: "🛒 Market & Upgrades", mItem1Title: "🐾 Adopt Extra Cub", mItem1Desc: "Adds +1 Cub to shelter (+0.0010 / day)",
         txtTasksTitle: "📋 Tasks", txtFriendsTitle: "👥 Invite Friends", txtFriendsDesc: "Gain +0.001 GRAM daily speed for each invited friend!",
-        txtWalletTitle: "👛 Wallet & Payment", txtWalletDesc: "Send crypto to our wallet to fund your balance or purchase packages.",
+        txtWalletTitle: "👛 TON / GRAM Wallet", txtWalletDesc: "Send crypto to our wallet to fund your balance or purchase packages.",
         caveTitleCub: "🪨 Shelter: Pride Rock ({c} Cubs)", caveTitleAdult: "👑 Adult Lioness (Speed x4)", caveTitleMale: "🦁 King Male Lion",
         claimSuccess: "Earnings claimed successfully! 🎉", claimEmpty: "No earnings to claim yet!",
         inviteCopied: "Invite link copied!"
@@ -824,7 +850,7 @@
         txtBalanceTitle: "MIJN GRAM SALDO", txtDailySpeedLabel: "Dagelijkse Snelheid", txtUnclaimedLabel: "Op te halen", btnClaim: "⚡ CLAIM WINST",
         txtMarketTitle: "🛒 Winkel & Upgrades", mItem1Title: "🐾 Extra Welp Adopteren", mItem1Desc: "Voegt +1 Welp toe (+0.0010 / dag)",
         txtTasksTitle: "📋 Taken", txtFriendsTitle: "👥 Vrienden Uitnodigen", txtFriendsDesc: "Verdien +0.001 GRAM snelheid per uitgenodigde vriend!",
-        txtWalletTitle: "👛 Wallet & Betaling", txtWalletDesc: "Stuur crypto naar onze wallet om je saldo aan te vullen of pakketten te kopen.",
+        txtWalletTitle: "👛 TON / GRAM Wallet", txtWalletDesc: "Stuur crypto naar onze wallet om je saldo aan te vullen of pakketten te kopen.",
         caveTitleCub: "🪨 Schuilplaats: Pride Rock ({c} Welpen)", caveTitleAdult: "👑 Volwassen Leeuwin (Snelheid x4)", caveTitleMale: "🦁 Koning Mannenleeuw",
         claimSuccess: "Winst succesvol geïncasseerd! 🎉", claimEmpty: "Nog geen winst om op te halen!",
         inviteCopied: "Uitnodigingslink gekopieerd!"
@@ -834,7 +860,7 @@
         txtBalanceTitle: "БАЛАНС GRAM", txtDailySpeedLabel: "Дневная скорость", txtUnclaimedLabel: "К сбору", btnClaim: "⚡ СОБРАТЬ ДОХОД",
         txtMarketTitle: "🛒 Магазин и улучшение", mItem1Title: "🐾 Взять львенка", mItem1Desc: "Добавляет +1 львенка (+0.0010 / день)",
         txtTasksTitle: "📋 Задания", txtFriendsTitle: "👥 Пригласи друзей", txtFriendsDesc: "Получай +0.001 GRAM скорости за каждого друга!",
-        txtWalletTitle: "👛 Кошелек", txtWalletDesc: "Отправьте криптовалюту на наш кошелек для пополнения.",
+        txtWalletTitle: "👛 TON / GRAM Кошелек", txtWalletDesc: "Отправьте криптовалюту на наш кошелек для пополнения.",
         caveTitleCub: "🪨 Укрытие: Pride Rock ({c} Львят)", caveTitleAdult: "👑 Взрослая львица (Скорость x4)", caveTitleMale: "🦁 Король Лев",
         claimSuccess: "Доход успешно собран! 🎉", claimEmpty: "Пока нет дохода для сбора!",
         inviteCopied: "Ссылка скопирована!"
@@ -844,7 +870,7 @@
         txtBalanceTitle: "MEIN GRAM GUTHABEN", txtDailySpeedLabel: "Tagesgeschwindigkeit", txtUnclaimedLabel: "Bereit zum Abholen", btnClaim: "⚡ GEWINN ABHOLEN",
         txtMarketTitle: "🛒 Markt & Upgrades", mItem1Title: "🐾 Extra Löwenjunges adoptieren", mItem1Desc: "Fügt +1 Junges hinzu (+0.0010 / Tag)",
         txtTasksTitle: "📋 Aufgaben", txtFriendsTitle: "👥 Freunde einladen", txtFriendsDesc: "Erhalte +0.001 GRAM Tempo pro eingeladenem Freund!",
-        txtWalletTitle: "👛 Wallet & Zahlung", txtWalletDesc: "Sende Krypto an unsere Wallet, um Pakete zu kaufen.",
+        txtWalletTitle: "👛 TON / GRAM Wallet", txtWalletDesc: "Sende Krypto an unsere Wallet, um Pakete zu kaufen.",
         caveTitleCub: "🪨 Unterkunft: Pride Rock ({c} Junge)", caveTitleAdult: "👑 Ausgewachsene Löwin (Tempo x4)", caveTitleMale: "🦁 König Löwe",
         claimSuccess: "Gewinn erfolgreich abgeholt! 🎉", claimEmpty: "Noch kein Gewinn zum Abholen da!",
         inviteCopied: "Einladungslink kopiert!"
@@ -877,25 +903,18 @@
       unclaimed += speedPerSecond;
       document.getElementById('unclaimed').innerText = unclaimed.toFixed(8);
 
+      // Tokluk her saniye düzenli azalır (100 saniyede bir tur veya yavaşça)
       if (hunger > 0) {
-        hunger -= 0.005;
+        hunger -= 0.05;
         document.getElementById('hungerFill').style.width = Math.max(0, hunger) + "%";
       }
       saveData();
     }, 1000);
 
-    // TAP MINI-GAME FUNCTIE
-    function tapMineCoin() {
-      balance += 0.0001;
-      document.getElementById('balance').innerText = balance.toFixed(8);
-      showToast("🐾 +0.0001 GRAM Kazandın!");
-      saveData();
-    }
-
     function feedCubs() {
       hunger = 100;
       document.getElementById('hungerFill').style.width = "100%";
-      showToast("Yavrular beslendi! 🥩");
+      showToast("Yavrular başarıyla beslendi! Tokluk %100 🥩");
       saveData();
     }
 
@@ -942,21 +961,36 @@
       }
     }
 
+    // HONEY FARM STIJL CHAK / RAD ÇEVİRME
     function spinWheel() {
       let btn = document.getElementById('spinBtn');
       btn.disabled = true;
-      let extraDegrees = Math.floor(Math.random() * 360) + 1440;
+      let extraDegrees = Math.floor(Math.random() * 360) + 1800;
       currentRotation += extraDegrees;
       document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
-        let reward = 0.002;
-        balance += reward;
-        document.getElementById('balance').innerText = balance.toFixed(8);
-        showToast(`Çark durdu! +${reward} GRAM Kazandın! 🎉`);
+        let outcome = Math.random();
+        if (outcome < 0.3) {
+          // Ücretsiz Welp Kazanma Şansı!
+          cubCount++;
+          dailySpeed += 0.0010;
+          updateCaveDisplay();
+          showToast("🎉 Tebrikler! Çarktan Ücretsiz +1 Yavru Kazandın! 🦁");
+        } else if (outcome < 0.6) {
+          let reward = 0.005;
+          balance += reward;
+          document.getElementById('balance').innerText = balance.toFixed(8);
+          showToast(`🎉 Çarktan +${reward} GRAM Kazandın! 💰`);
+        } else {
+          let reward = 0.002;
+          balance += reward;
+          document.getElementById('balance').innerText = balance.toFixed(8);
+          showToast(`🎉 Çarktan +${reward} GRAM Kazandın! 🎁`);
+        }
         saveData();
         btn.disabled = false;
-      }, 3500);
+      }, 4000);
     }
 
     function openPaymentModal(usdAmount, actionType, itemName) {
@@ -992,6 +1026,7 @@
 
     function updateCaveDisplay() {
       document.getElementById('balance').innerText = balance.toFixed(8);
+      document.getElementById('hungerFill').style.width = hunger + "%";
       const title = document.getElementById('caveTitle');
       const videoElem = document.getElementById('bgVideo');
       const videoSource = document.getElementById('bgVideoSource');

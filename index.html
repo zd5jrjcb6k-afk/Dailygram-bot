@@ -34,7 +34,7 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* HONEY FARM STIJL TOP LEVEL BADGE (LINKS BOVEN) */
+    /* HONEY FARM STIJL TOP LEVEL HUD (LINKS BOVEN) */
     .top-level-hud {
       position: absolute;
       top: 10px;
@@ -174,7 +174,44 @@
       cursor: pointer;
     }
 
-    /* ÇARK (WHEEL) STIJL */
+    /* INTERACTIEVE HOUTEN KALCULATOR (HONEY FARM STIJL) */
+    .calc-box {
+      background: linear-gradient(135deg, #3d2612, #211308);
+      border: 2px solid #ffb700;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+    }
+
+    .calc-slider {
+      width: 100%;
+      margin: 10px 0;
+      accent-color: #ffb700;
+      cursor: pointer;
+    }
+
+    .calc-tiers {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin: 10px 0;
+      font-size: 0.75rem;
+      text-align: left;
+    }
+
+    .calc-tier-item {
+      background: rgba(0,0,0,0.4);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,183,0,0.3);
+      display: flex;
+      justify-content: space-between;
+      color: #ffd700;
+    }
+
+    /* ÇARK STIJL */
     .wheel-tree-container {
       position: relative;
       width: 280px;
@@ -417,13 +454,6 @@
       box-shadow: 0 3px 10px rgba(255,153,0,0.3);
     }
 
-    .btn-buy:disabled, .btn-done {
-      background: #444;
-      color: #888;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
     .wallet-box-manual {
       background: rgba(0, 0, 0, 0.5);
       border: 1px solid #ff9900;
@@ -491,7 +521,6 @@
       text-decoration: none;
       cursor: pointer;
       gap: 3px;
-      transition: color 0.2s;
     }
 
     .nav-item.active {
@@ -574,90 +603,48 @@
       </div>
     </div>
 
-    <!-- TAB 2: MARKET -->
+    <!-- TAB 2: MARKET & BESUTEL / BÜYÜK KOVAN SEÇİCİ -->
     <div id="tab-market" class="tab-content">
       <div class="page-box">
-        <div class="page-title" id="txtMarketTitle">🛒 Market & Yükseltmeler</div>
+        <div class="page-title" id="txtMarketTitle">🛒 Market & Büyük Kovanlar</div>
         
+        <!-- HONEY FARM STIJL INTERACTIEVE KALKULATÖR (KIES BEDRAG & ONTVANG) -->
+        <div class="calc-box">
+          <div style="font-size: 0.9rem; font-weight: bold; color: #ffd700; margin-bottom: 6px;">🦁 Özel Büyük Kovan & Hız Seçici</div>
+          <div style="font-size: 0.75rem; color: #ccc;">Seçtiğin USD Bütçesi: <strong id="selectedUsdText" style="color:#ffb700; font-size:1rem;">$10 USD</strong></div>
+          
+          <input type="range" min="2" max="500" value="10" class="calc-slider" id="budgetSlider" oninput="updateCalculator(this.value)">
+
+          <div class="calc-tiers">
+            <div class="calc-tier-item"><span>$20 - $99.99</span><span>+100% Bonus Hız</span></div>
+            <div class="calc-tier-item"><span>$100 - $499.99</span><span>+115% Bonus Hız</span></div>
+            <div class="calc-tier-item"><span>$500+ (Mega Kovan)</span><span>+150% Bonus Hız</span></div>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.6); padding: 8px; border-radius: 8px; margin-top: 8px; border: 1px solid #ffd700;">
+            <div style="font-size: 0.72rem; color: #aaa;">Alacağın Tahmini Hız Kazancı:</div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #ffd700;" id="calculatedRewardText">+0.0050 GRAM / gün</div>
+          </div>
+
+          <button class="btn-claim" style="margin-top: 10px;" onclick="buyCustomPackage()">🚀 Seçilen Paketi Satın Al</button>
+        </div>
+
+        <!-- STANDAARD PAKKETLER -->
         <div class="task-list">
           <div class="task-card">
             <div class="task-info">
-              <strong id="mItem1Title">🐾 Ekstra Yavru Sahiplen</strong><br>
-              <small id="mItem1Desc">Yuvaya +1 Yavru ekler (+0.0010 / gün)</small>
+              <strong>👑 Büyük Aslan Kovanı (Mega Lvl 1)</strong><br>
+              <small>Devasa Aslan Yuvası (+0.0500 / gün)</small>
             </div>
-            <button class="btn-buy" onclick="openPaymentModal(2, 'buyCub', 'Ekstra Yavru (+1)')">$2</button>
+            <button class="btn-buy" onclick="openPaymentModal(50, 'buyItem', 'Büyük Aslan Kovanı')">$50</button>
           </div>
 
           <div class="task-card">
             <div class="task-info">
-              <strong>👑 VIP Savanna Pass</strong><br>
-              <small>+%20 Daimi Hız Bonusu</small>
+              <strong>🦁 Savana İmparatorluğu (Dev Kovan)</strong><br>
+              <small>En Büyük Aslan Krallığı (+0.2000 / gün)</small>
             </div>
-            <button class="btn-buy" onclick="openPaymentModal(5, 'buyVIP', 'VIP Savanna Pass')">$5</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="mItem3Title">🥩 Et Besini (Hız Artışı)</strong><br>
-              <small id="mItem3Desc">Hızı +0.0005/gün artırır</small>
-            </div>
-            <button class="btn-buy" onclick="openPaymentModal(3, 'buyItem', 'Et Besini')">$3</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong>🍖 Özel Besin Paketi</strong><br>
-              <small>Hızı +0.0015/gün artırır</small>
-            </div>
-            <button class="btn-buy" onclick="openPaymentModal(5, 'buyItem', 'Özel Besin Paketi')">$5</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="mItem2Title">🦁 Yavruları Birleştir (Fuse)</strong><br>
-              <small id="mItem2Desc">Gerekli: 6 Yavru (Hızı 4 katına çıkarır!)</small>
-            </div>
-            <button class="btn-buy" onclick="openPaymentModal(10, 'fuseCubs', 'Yavruları Birleştir')">$10</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="mItem4Title">🏕️ Savana Yuvası (Lvl 1)</strong><br>
-              <small id="mItem4Desc">Hız: +0.0025 / gün</small>
-            </div>
-            <button class="btn-buy" onclick="openPaymentModal(20, 'buyItem', 'Savana Yuvası Lvl 1')">$20</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="mItem5Title">🌿 Yeşil Savana Yuvası (Lvl 2)</strong><br>
-              <small id="mItem5Desc">Hız: +0.0080 / gün</small>
-            </div>
-            <button class="btn-buy" onclick="openPaymentModal(50, 'buyItem', 'Yeşil Savana Yuvası Lvl 2')">$50</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="mItem6Title">🪨 Pride Rock (Gurur Kayası)</strong><br>
-              <small id="mItem6Desc">Hız: +0.0180 / gün</small>
-            </div>
-            <button class="btn-buy" onclick="openPaymentModal(100, 'buyItem', 'Pride Rock')">$100</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong>🦁 Kral Erkek Aslan</strong><br>
-              <small>Görkemli Erkek Aslan (+0.0500 / gün)</small>
-            </div>
-            <button class="btn-buy" onclick="openPaymentModal(200, 'buyMaleLion', 'Kral Erkek Aslan')">$200</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="mItem7Title">👑 Savana İmparatorluğu</strong><br>
-              <small id="mItem7Desc">Hız: +0.1200 / gün</small>
-            </div>
-            <button class="btn-buy" onclick="openPaymentModal(500, 'buyItem', 'Savana İmparatorluğu')">$500</button>
+            <button class="btn-buy" onclick="openPaymentModal(200, 'buyItem', 'Savana İmparatorluğu')">$200</button>
           </div>
         </div>
 
@@ -701,20 +688,12 @@
             </div>
             <button class="btn-buy" id="btnDailyCheckIn" onclick="claimDailyBonus()">Al</button>
           </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong>📲 Telegram Story'de Paylaş</strong><br>
-              <small>Ödül: +0.005 GRAM</small>
-            </div>
-            <button class="btn-buy" onclick="completeTask('t_story', 0.005)">Paylaş</button>
-          </div>
         </div>
 
       </div>
     </div>
 
-    <!-- TAB 4: ŞANS ÇARKI (RULET - 1 KEZ GÜNLÜK COOLDOWN) -->
+    <!-- TAB 4: ŞANS ÇARKI (RULET) -->
     <div id="tab-spin" class="tab-content">
       <div class="page-box" style="text-align: center;">
         <div class="page-title">🎡 Şans Çarkı (Rulet)</div>
@@ -756,12 +735,11 @@
       </div>
     </div>
 
-    <!-- TAB 6: CÜZDAN & DEPOSITO (JUISTE GRAM/TON LOGO) -->
+    <!-- TAB 6: CÜZDAN & DEPOSITO -->
     <div id="tab-cuzdan" class="tab-content">
       <div class="page-box" style="text-align: center;">
         <div class="page-title">👛 GRAM / TON Cüzdan</div>
         
-        <!-- JUISTE GRAM LOGO (OFFICIEEL TON/GRAM STIJL) -->
         <div style="margin: 15px 0; display: flex; justify-content: center;">
           <div style="width: 64px; height: 64px; background: #0088CC; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,136,204,0.5);">
             <span style="font-size: 1.8rem; font-weight: 900; color: #fff;">💎</span>
@@ -859,6 +837,19 @@
     let lastTime = parseInt(localStorage.getItem('lastSavedTime')) || Date.now();
     let currentRotation = 0;
 
+    let selectedBudget = 10;
+
+    function updateCalculator(val) {
+      selectedBudget = parseInt(val);
+      document.getElementById('selectedUsdText').innerText = "$" + selectedBudget + " USD";
+      let reward = (selectedBudget * 0.0005).toFixed(4);
+      document.getElementById('calculatedRewardText').innerText = "+" + reward + " GRAM / gün";
+    }
+
+    function buyCustomPackage() {
+      openPaymentModal(selectedBudget, 'customPackage', 'Özel Büyük Kovan ($' + selectedBudget + ')');
+    }
+
     let now = Date.now();
     let secondsPassed = Math.floor((now - lastTime) / 1000);
     if (secondsPassed > 0) {
@@ -871,35 +862,35 @@
       tr: {
         navYavru: "Yavru", navMarket: "Market", navGorevler: "Görevler", navCuzdan: "Cüzdan",
         txtBalanceTitle: "GRAM BAKIYEM", txtDailySpeedLabel: "Günlük Hız", txtUnclaimedLabel: "Toplanacak", btnClaim: "⚡ KAZANCI TOPLA",
-        txtMarketTitle: "🛒 Market & Yükseltmeler", caveTitleCub: "🪨 Pride Rock ({c} Yavru)", caveTitleAdult: "👑 Dişi Aslan (Hız x4)", caveTitleMale: "🦁 Kral Aslan",
+        txtMarketTitle: "🛒 Market & Büyük Kovanlar", caveTitleCub: "🪨 Pride Rock ({c} Yavru)", caveTitleAdult: "👑 Dişi Aslan (Hız x4)", caveTitleMale: "🦁 Kral Aslan",
         claimSuccess: "Kazanç başarıyla bakiyenize eklendi! 🎉", claimEmpty: "Henüz toplanacak kazanç birikmedi!",
         inviteCopied: "Davet linki kopyalandı!"
       },
       en: {
         navYavru: "Cub", navMarket: "Market", navGorevler: "Tasks", navCuzdan: "Wallet",
         txtBalanceTitle: "MY GRAM BALANCE", txtDailySpeedLabel: "Daily Speed", txtUnclaimedLabel: "Unclaimed", btnClaim: "⚡ CLAIM EARNINGS",
-        txtMarketTitle: "🛒 Market & Upgrades", caveTitleCub: "🪨 Pride Rock ({c} Cubs)", caveTitleAdult: "👑 Adult Lioness (Speed x4)", caveTitleMale: "🦁 King Lion",
+        txtMarketTitle: "🛒 Market & Big Hives", caveTitleCub: "🪨 Pride Rock ({c} Cubs)", caveTitleAdult: "👑 Adult Lioness (Speed x4)", caveTitleMale: "🦁 King Lion",
         claimSuccess: "Earnings claimed successfully! 🎉", claimEmpty: "No earnings to claim yet!",
         inviteCopied: "Invite link copied!"
       },
       nl: {
         navYavru: "Welp", navMarket: "Winkel", navGorevler: "Taken", navCuzdan: "Wallet",
         txtBalanceTitle: "MIJN GRAM SALDO", txtDailySpeedLabel: "Dagelijkse Snelheid", txtUnclaimedLabel: "Op te halen", btnClaim: "⚡ CLAIM WINST",
-        txtMarketTitle: "🛒 Winkel & Upgrades", caveTitleCub: "🪨 Pride Rock ({c} Welpen)", caveTitleAdult: "👑 Leeuwin (Snelheid x4)", caveTitleMale: "🦁 Koning Leeuw",
+        txtMarketTitle: "🛒 Winkel & Grote Koven", caveTitleCub: "🪨 Pride Rock ({c} Welpen)", caveTitleAdult: "👑 Leeuwin (Snelheid x4)", caveTitleMale: "🦁 Koning Leeuw",
         claimSuccess: "Winst succesvol geïncasseerd! 🎉", claimEmpty: "Nog geen winst om op te halen!",
         inviteCopied: "Uitnodigingslink gekopieerd!"
       },
       ru: {
         navYavru: "Львенок", navMarket: "Рынок", navGorevler: "Задачи", navCuzdan: "Кошелек",
         txtBalanceTitle: "БАЛАНС GRAM", txtDailySpeedLabel: "Дневная скорость", txtUnclaimedLabel: "К сбору", btnClaim: "⚡ СОБРАТЬ ДОХОД",
-        txtMarketTitle: "🛒 Магазин и улучшение", caveTitleCub: "🪨 Pride Rock ({c} Львят)", caveTitleAdult: "👑 Львица (Скорость x4)", caveTitleMale: "🦁 Король Лев",
+        txtMarketTitle: "🛒 Магазин и ульи", caveTitleCub: "🪨 Pride Rock ({c} Львят)", caveTitleAdult: "👑 Львица (Скорость x4)", caveTitleMale: "🦁 Король Лев",
         claimSuccess: "Доход успешно собран! 🎉", claimEmpty: "Пока нет дохода для сбора!",
         inviteCopied: "Ссылка скопирована!"
       },
       de: {
         navYavru: "Junge", navMarket: "Markt", navGorevler: "Aufgaben", navCuzdan: "Geldbörse",
         txtBalanceTitle: "MEIN GRAM GUTHABEN", txtDailySpeedLabel: "Tagesgeschwindigkeit", txtUnclaimedLabel: "Bereit zum Abholen", btnClaim: "⚡ GEWINN ABHOLEN",
-        txtMarketTitle: "🛒 Markt & Upgrades", caveTitleCub: "🪨 Pride Rock ({c} Junge)", caveTitleAdult: "👑 Löwin (Tempo x4)", caveTitleMale: "🦁 König Löwe",
+        txtMarketTitle: "🛒 Markt & Große Nester", caveTitleCub: "🪨 Pride Rock ({c} Junge)", caveTitleAdult: "👑 Löwin (Tempo x4)", caveTitleMale: "🦁 König Löwe",
         claimSuccess: "Gewinn erfolgreich abgeholt! 🎉", claimEmpty: "Noch kein Gewinn zum Abholen da!",
         inviteCopied: "Einladungslink kopiert!"
       }
@@ -988,7 +979,6 @@
         btn.classList.add('btn-done');
       }
 
-      // Check Wheel Cooldown (24 saat)
       let spinBtn = document.getElementById('spinBtn');
       if (spinBtn && Date.now() - lastWheelSpin < 86400000) {
         spinBtn.innerText = "Yarın Tekrar Gel";
@@ -996,7 +986,6 @@
       }
     }
 
-    // RULET / ÇARK ÇEVİRME (1 GÜN COOLDOWN İLE)
     function spinWheel() {
       let now = Date.now();
       if (now - lastWheelSpin < 86400000) {

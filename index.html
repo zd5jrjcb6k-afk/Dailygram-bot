@@ -229,7 +229,7 @@
     }
     .campaign-slider { width: 100%; margin: 6px 0; accent-color: #f39c12; }
 
-    /* ACHTERGROND KIEZER GRID (ALLE 10 VIDEO'S) */
+    /* ACHTERGROND KIEZER GRID (TÜM TEMALAR) */
     .bg-switcher-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -376,9 +376,9 @@
           <div class="task-list">
             <div class="task-card">
               <div class="task-info">
-                <strong>🐾 Ekstra Yavru Sahiplen (<span id="countCub">0</span>)</strong><br><small>+50 🥩 / sa</small>
+                <strong>🦁 Aslan Yavrusu Ekle (<span id="countCub">0</span>)</strong><br><small>+50 🥩 / sa</small>
               </div>
-              <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Yavru')">200 🥩</button>
+              <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
@@ -390,29 +390,30 @@
               <div class="task-info">
                 <strong>🦅 Afrika Akbabası Ekle (<span id="countVulture">0</span>)</strong><br><small>+80 🥩 / sa</small>
               </div>
-              <button class="btn-buy" onclick="buyWithSteak(500, 'buyVulture', 'Akbaba')">500 🥩</button>
+              <button class="btn-buy" onclick="buyWithSteak(500, 'buyVulture', 'Afrika Akbabası')">500 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
-                <strong>🐺 Hyena Sürüsü Ekle (<span id="countHyena">0</span>)</strong><br><small>+200 🥩 / sa</small>
+                <strong>🐺 Aslan & Sırtlan Sürüsü (<span id="countHyena">0</span>)</strong><br><small>+200 🥩 / sa</small>
               </div>
-              <button class="btn-buy" onclick="buyWithSteak(1200, 'buyHyena', 'Hyena')">1200 🥩</button>
+              <button class="btn-buy" onclick="buyWithSteak(1200, 'buyHyena', 'Aslan & Sırtlan')">1200 🥩</button>
             </div>
           </div>
 
-          <!-- ACHTERGROND SWITCHER (ALLE 10 VIDEO'S VAN GITHUB) -->
+          <!-- ACHTERGROND SWITCHER (TÜM TEMALAR - TÜRKÇE) -->
           <div style="margin-top: 10px; border-top: 1px solid rgba(255,215,0,0.3); padding-top: 8px;">
             <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Tüm Temalar)</div>
             <div class="bg-switcher-grid">
               <button class="bg-option-btn active" id="bgBtn-empty" onclick="changeBackground('./background_empty.MP4', 'empty')">🪨 Standart Mağra</button>
-              <button class="bg-option-btn" id="bgBtn-cub1" onclick="changeBackground('./background_cub1.MP4', 'cub1')">🐾 1 Welpje</button>
-              <button class="bg-option-btn" id="bgBtn-cubs2" onclick="changeBackground('./background_cubs2.MP4', 'cubs2')">🐾🐾 2 Welpjes</button>
-              <button class="bg-option-btn" id="bgBtn-cub3" onclick="changeBackground('./background_cub3.MP4', 'cub3')">🐾 3 Welpjes</button>
-              <button class="bg-option-btn" id="bgBtn-cub4" onclick="changeBackground('./background_cub4.MP4', 'cub4')">🐾 4+ Welpjes</button>
-              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="changeBackground('./background_jaguar.MP4', 'jaguar')">🐆 Jaguar</button>
-              <button class="bg-option-btn" id="bgBtn-hyena" onclick="changeBackground('./background_hyena.MP4', 'hyena')">🐺 Kurt / Hyena</button>
+              <button class="bg-option-btn" id="bgBtn-cub1" onclick="changeBackground('./background_cub1.MP4', 'cub1')">🐾 1 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cubs2" onclick="changeBackground('./background_cubs2.MP4', 'cubs2')">🐾🐾 2 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cub3" onclick="changeBackground('./background_cub3.MP4', 'cub3')">🐾 3 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cub4" onclick="changeBackground('./background_cub4.MP4', 'cub4')">🐾 4+ Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="changeBackground('./background_jaguar.MP4', 'jaguar')">🐆 Jaguar Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-vulture" onclick="changeBackground('./background_vulture.MP4', 'vulture')">🦅 Akbaba Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-hyena" onclick="changeBackground('./background_hyena.MP4', 'hyena')">🐺 Sırtlan Sürüsü</button>
               <button class="bg-option-btn" id="bgBtn-lion" onclick="changeBackground('./background_lion.MP4', 'lion')">🦁 Kral Aslan</button>
-              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="changeBackground('./background_two_lions.MP4', 'two_lions')">🦁🦁 2 Mavi/Manks Leeuw</button>
+              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="changeBackground('./background_two_lions.MP4', 'two_lions')">🦁🦁 2 Erkek Aslan</button>
               <button class="bg-option-btn" id="bgBtn-mother" onclick="changeBackground('./background_mother.MP4', 'mother')">👑 Dişi Aslan</button>
             </div>
           </div>
@@ -528,7 +529,7 @@
 
     <!-- ALT MENÜ -->
     <div class="bottom-nav">
-      <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Yavru</div></div>
+      <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Aslan</div></div>
       <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
       <div class="nav-item" onclick="switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
       <div class="nav-item" onclick="toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menü</div></div>
@@ -677,6 +678,7 @@
       }
       if (type === 'buyVulture') {
         vultureCount++;
+        currentCustomBg = './background_vulture.MP4';
       }
       if (type === 'buyHyena') {
         hyenaCount++;

@@ -20,7 +20,7 @@
       overflow: hidden;
     }
 
-    /* RUIMERE FULLSCREEN ACHTERGROND VIDEO (VERTE EFFECT) */
+    /* RUIME, NIET-INGEZOOMDE ACHTERGROND VIDEO */
     .bg-video {
       position: fixed;
       top: 0;
@@ -28,7 +28,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.05); /* Zorgt voor een iets ruimtelijkere, wijdere blik */
+      object-position: center;
       z-index: 1;
     }
 
@@ -123,15 +123,16 @@
       cursor: pointer;
     }
 
-    /* KLEINER EN VERLAAGD CENTRAAL CLAIM BLOK */
+    /* STRAK VERLAAGD CENTRAAL CLAIM BLOK */
     .center-action-box {
-      background: rgba(22, 14, 8, 0.85);
+      background: rgba(22, 14, 8, 0.88);
       backdrop-filter: blur(6px);
       border: 2px solid #ffb700;
       border-radius: 18px;
       padding: 12px;
       text-align: center;
-      margin-top: 180px; /* Mooi naar beneden geplaatst zoals gevraagd */
+      margin-top: auto;
+      margin-bottom: 30px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.8);
       max-width: 90%;
       margin-left: auto;
@@ -228,7 +229,7 @@
     }
     .campaign-slider { width: 100%; margin: 6px 0; accent-color: #f39c12; }
 
-    /* ACHTERGROND KIEZER STIJL (SWITCHER) */
+    /* ACHTERGROND KIEZER GRID (ALLE 10 VIDEO'S) */
     .bg-switcher-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -241,7 +242,7 @@
       padding: 6px;
       border-radius: 8px;
       color: #fff;
-      font-size: 0.72rem;
+      font-size: 0.65rem;
       font-weight: bold;
       cursor: pointer;
       text-align: center;
@@ -275,7 +276,7 @@
       background: linear-gradient(135deg, #ffd700, #ff8800); color: #1a0f05; border: 2px solid #fff; padding: 8px 25px; font-weight: 900; border-radius: 20px; cursor: pointer; margin-top: 8px;
     }
 
-    /* 4/5 ÖNEMLİ ALT MENÜ (Honey Farm Tarzı) */
+    /* ALT MENÜ */
     .bottom-nav {
       position: absolute;
       bottom: 0;
@@ -318,7 +319,7 @@
 </head>
 <body>
 
-  <!-- FULLSCREEN ACHTERGROND VIDEO (RUIM & VERTE EFFECT) -->
+  <!-- FULLSCREEN ACHTERGROND VIDEO -->
   <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
@@ -344,7 +345,7 @@
         </div>
       </div>
 
-      <!-- TAB 1: YAVRU / ANA SAYFA (VERLAAGD & KLEINER CLAIM BLOK) -->
+      <!-- TAB 1: YAVRU / ANA SAYFA -->
       <div id="tab-yavru" class="tab-content active">
         <div class="center-action-box">
           <div style="font-size: 0.72rem; color: #aaa;">Toplanabilir Biftek:</div>
@@ -353,12 +354,12 @@
         </div>
       </div>
 
-      <!-- TAB 2: MAĞRA & KAMPANYA BİRLEŞTİRİLDİ -->
+      <!-- TAB 2: MAĞRA & KAMPANYA -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏕️ Mağra & Kampanya</div>
 
-          <!-- Kampanya Bölümü -->
+          <!-- Kampanya -->
           <div class="campaign-box">
             <div style="font-size: 0.78rem; font-weight: bold; color: #ffd700;">🚀 Özel Biftek Kampanyası</div>
             <div style="font-size: 0.7rem; color: #ccc;">USD Miktarını Seç:</div>
@@ -399,14 +400,20 @@
             </div>
           </div>
 
-          <!-- ACHTERGROND SWITCHER (JOUW IDEE!) -->
+          <!-- ACHTERGROND SWITCHER (ALLE 10 VIDEO'S VAN GITHUB) -->
           <div style="margin-top: 10px; border-top: 1px solid rgba(255,215,0,0.3); padding-top: 8px;">
-            <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Tema Değiştir)</div>
+            <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Tüm Temalar)</div>
             <div class="bg-switcher-grid">
               <button class="bg-option-btn active" id="bgBtn-empty" onclick="changeBackground('./background_empty.MP4', 'empty')">🪨 Standart Mağra</button>
-              <button class="bg-option-btn" id="bgBtn-lion" onclick="changeBackground('./background_lion.MP4', 'lion')">🦁 Kral Aslan</button>
-              <button class="bg-option-btn" id="bgBtn-mother" onclick="changeBackground('./background_mother.MP4', 'mother')">👑 Dişi Aslan</button>
+              <button class="bg-option-btn" id="bgBtn-cub1" onclick="changeBackground('./background_cub1.MP4', 'cub1')">🐾 1 Welpje</button>
+              <button class="bg-option-btn" id="bgBtn-cubs2" onclick="changeBackground('./background_cubs2.MP4', 'cubs2')">🐾🐾 2 Welpjes</button>
+              <button class="bg-option-btn" id="bgBtn-cub3" onclick="changeBackground('./background_cub3.MP4', 'cub3')">🐾 3 Welpjes</button>
+              <button class="bg-option-btn" id="bgBtn-cub4" onclick="changeBackground('./background_cub4.MP4', 'cub4')">🐾 4+ Welpjes</button>
+              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="changeBackground('./background_jaguar.MP4', 'jaguar')">🐆 Jaguar</button>
               <button class="bg-option-btn" id="bgBtn-hyena" onclick="changeBackground('./background_hyena.MP4', 'hyena')">🐺 Kurt / Hyena</button>
+              <button class="bg-option-btn" id="bgBtn-lion" onclick="changeBackground('./background_lion.MP4', 'lion')">🦁 Kral Aslan</button>
+              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="changeBackground('./background_two_lions.MP4', 'two_lions')">🦁🦁 2 Mavi/Manks Leeuw</button>
+              <button class="bg-option-btn" id="bgBtn-mother" onclick="changeBackground('./background_mother.MP4', 'mother')">👑 Dişi Aslan</button>
             </div>
           </div>
 
@@ -500,15 +507,15 @@
         </div>
       </div>
 
-      <!-- CÜZDAN (TONCOIN / GRAM LOGO & AÇIKLAMA EKLENDİ) -->
+      <!-- CÜZDAN -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">👛 Toncoin (TON) & GRAM Cüzdan</div>
           <p style="font-size: 0.72rem; color: #ccc; margin-bottom: 8px;">
-            💎 Lütfen yalnızca <strong>Toncoin (TON)</strong> veya <strong>GRAM</strong> ağından yatırım yapın.
+            💎 Lütfen cüzdanımıza yalnızca <strong>Toncoin (TON)</strong> veya <strong>GRAM</strong> gönderin.
           </p>
           <div class="wallet-box-manual">
-            <label>Yatırım Yapılacak Cüzdan Adresi:</label>
+            <label>Yatırım Yapılacak Toncoin (TON) Adresi:</label>
             <div class="wallet-input-row">
               <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
               <button class="btn-copy" onclick="copyMyWallet()">Kopya</button>
@@ -519,7 +526,7 @@
 
     </div>
 
-    <!-- 4 ÖNEMLİ ALT MENÜ (Mağra envanter içine alındı) -->
+    <!-- ALT MENÜ -->
     <div class="bottom-nav">
       <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Yavru</div></div>
       <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
@@ -536,7 +543,7 @@
       <div class="wallet-box-manual" style="margin-top:0;">
         <label>Ödenecek Tutar (USD):</label>
         <div class="wallet-input-row"><input type="text" id="payModalAmount" readonly><button class="btn-copy" onclick="copyPayAmount()">Kopya</button></div>
-        <label>Toncoin Cüzdan:</label>
+        <label>Toncoin (TON) Cüzdan:</label>
         <div class="wallet-input-row"><input type="text" id="payModalAddress" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly><button class="btn-copy" onclick="copyPayAddress()">Kopya</button></div>
       </div>
       <button class="btn-claim" onclick="confirmManualPayment()">✅ Ödemeyi Yaptım</button>
@@ -656,15 +663,30 @@
         return;
       }
       balance -= cost;
-      if (type === 'buyCub') cubCount++;
-      if (type === 'buyJaguar') jaguarCount++;
-      if (type === 'buyVulture') vultureCount++;
-      if (type === 'buyHyena') hyenaCount++;
+
+      if (type === 'buyCub') {
+        cubCount++;
+        if (cubCount === 1) currentCustomBg = './background_cub1.MP4';
+        else if (cubCount === 2) currentCustomBg = './background_cubs2.MP4';
+        else if (cubCount === 3) currentCustomBg = './background_cub3.MP4';
+        else if (cubCount >= 4) currentCustomBg = './background_cub4.MP4';
+      }
+      if (type === 'buyJaguar') {
+        jaguarCount++;
+        currentCustomBg = './background_jaguar.MP4';
+      }
+      if (type === 'buyVulture') {
+        vultureCount++;
+      }
+      if (type === 'buyHyena') {
+        hyenaCount++;
+        currentCustomBg = './background_hyena.MP4';
+      }
 
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
       updateCaveDisplay();
-      showToast(`🎉 Başarıyla ${name} satın alındı!`);
+      showToast(`🎉 Başarıyla ${name} satın alındı! Arka plan güncellendi.`);
     }
 
     function changeBackground(videoSrc, btnKey) {
@@ -799,7 +821,6 @@
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
       
-      // Hayvan sayılarını güncelle
       document.getElementById('countCub').innerText = cubCount;
       document.getElementById('countJaguar').innerText = jaguarCount;
       document.getElementById('countVulture').innerText = vultureCount;

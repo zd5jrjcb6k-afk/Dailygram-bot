@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Dailygram Miner</title>
 
-  <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
@@ -350,7 +349,6 @@
 </head>
 <body>
 
-  <!-- FULLSCREEN ACHTERGROND VIDEO -->
   <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
@@ -360,7 +358,6 @@
 
     <div class="overlay-content">
 
-      <!-- TOP HUD -->
       <div class="top-hud-container">
         <div class="wood-panel">
           <div class="hud-avatar" id="hudAvatarLetter">A</div>
@@ -376,7 +373,6 @@
         </div>
       </div>
 
-      <!-- TAB 1: ASLAN / ANA SAYFA -->
       <div id="tab-yavru" class="tab-content active">
         <div class="center-action-box">
           <div style="font-size: 0.72rem; color: #aaa;">Toplanabilir Biftek:</div>
@@ -385,12 +381,10 @@
         </div>
       </div>
 
-      <!-- TAB 2: MAĞRA & KAMPANYA -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏕️ Mağra & Kampanya</div>
 
-          <!-- Kampanya -->
           <div class="campaign-box">
             <div style="font-size: 0.78rem; font-weight: bold; color: #ffd700;">🚀 Özel Biftek Kampanyası</div>
             <div style="font-size: 0.7rem; color: #ccc;">USD Miktarını Seç:</div>
@@ -400,7 +394,6 @@
             <button class="btn-claim" style="padding: 6px; font-size: 0.8rem;" onclick="buyCampaignSteak()">Paketi Satın Al</button>
           </div>
 
-          <!-- Hayvanlar & Üretim Hızı -->
           <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">🐾 Hayvan Sahiplen & Üretim Hızını Artır</div>
           <div style="font-size: 0.68rem; color: #aaa; margin-bottom: 6px;" id="totalSpeedInfo">Toplam Üretim Hızı: 10 🥩 / sa</div>
           
@@ -443,7 +436,6 @@
             </div>
           </div>
 
-          <!-- ACHTERGROND KIEZER -->
           <div style="margin-top: 10px; border-top: 1px solid rgba(255,215,0,0.3); padding-top: 8px;">
             <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Önce Satın Almalısın)</div>
             <div class="bg-switcher-grid">
@@ -464,7 +456,6 @@
         </div>
       </div>
 
-      <!-- TAB 3: AV / TAKAS (STRENGER GEMAAKT: 2500 Biftek = 0.0100 GRAM) -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🔄 Biftek → GRAM Takası</div>
@@ -473,7 +464,6 @@
         </div>
       </div>
 
-      <!-- POP-UP MENÜ -->
       <div class="menu-popup" id="menuPopup">
         <div class="menu-popup-btn" onclick="openModalTab('gorevler')">📋 Görevler</div>
         <div class="menu-popup-btn" onclick="openModalTab('spin')">🎡 Şans Çarkı</div>
@@ -482,7 +472,6 @@
         <div class="menu-popup-btn" onclick="openModalTab('cuzdan')">👛 Cüzdan</div>
       </div>
 
-      <!-- MODAL TABS -->
       <div id="tab-gorevler" class="tab-content">
         <div class="page-box">
           <div class="page-title">📋 Görevler & Ödüller</div>
@@ -503,7 +492,6 @@
         </div>
       </div>
 
-      <!-- ŞANS ÇARKI -->
       <div id="tab-spin" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🎡 Şans Çarkı</div>
@@ -561,7 +549,6 @@
         </div>
       </div>
 
-      <!-- CÜZDAN -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">👛 Toncoin (TON) & GRAM Cüzdan</div>
@@ -580,7 +567,6 @@
 
     </div>
 
-    <!-- ALT MENÜ -->
     <div class="bottom-nav">
       <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Aslan</div></div>
       <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
@@ -590,7 +576,6 @@
 
   </div>
 
-  <!-- PAYMENT MODAL -->
   <div class="modal-overlay" id="paymentModal">
     <div class="modal-box">
       <div class="modal-title" id="payModalTitle">Ödemeyi Tamamla</div>
@@ -711,7 +696,6 @@
       showToast(`🎉 ${earned} 🥩 cüzdana eklendi!`);
     }
 
-    // Aangepast naar 2500 biftek per 0.01 GRAM voor een veel stabielere economie
     function exchangeSteakToGram() {
       if (balance < 2500) {
         showToast("En az 2,500 Biftek olmalıdır!");
@@ -908,9 +892,19 @@
       navigator.clipboard.writeText(document.getElementById('payModalAmount').value);
       showToast("Tutar kopyalandı! 📋");
     }
+
+    // AUTOMATISCHE TELEGRAM BOT MELDING (Ingesteld met jouw gegevens)
     function confirmManualPayment() {
+      let amount = document.getElementById('payModalAmount').value;
       closePaymentModal();
-      showToast("⏳ Ödemeniz alındı! Ağ üzerinde kontrol ediliyor.");
+      showToast("⏳ Ödemeniz alındı! Bildirim gönderiliyor...");
+
+      let botToken = "8890432514:AAHNRHlv8gwHccqG7jr9x8o8IheSCyx9rEQ";
+      let chatId = "7645167688";
+      let message = `🚨 YENİ ÖDEME BİLDİRİMİ!%0A👤 Kullanıcı: ${username}%0A💰 Tutar: ${amount}`;
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`)
+        .catch(err => console.log("Bot bildirim hatası:", err));
     }
 
     function toggleMenuPopup() {

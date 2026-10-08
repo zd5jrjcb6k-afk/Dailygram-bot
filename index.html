@@ -12,51 +12,77 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at center, #0f2b42 0%, #06101a 100%);
+      background: #000;
       color: #ffffff;
       display: flex;
       justify-content: center;
       min-height: 100vh;
-      overflow-x: hidden;
+      overflow: hidden;
     }
+
+    /* FULLSCREEN ACHTERGROND VIDEO */
+    .bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
     .app-container {
       width: 100%;
       max-width: 480px;
-      min-height: 100vh;
-      background: linear-gradient(180deg, rgba(29,82,118,0.85) 0%, rgba(13,35,52,0.95) 100%);
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      padding: 10px;
-      padding-bottom: 85px;
-      position: relative;
+      justify-content: space-between;
+      z-index: 10;
     }
 
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
+    /* OVERLAY CONTENT (Bovenop video) */
+    .overlay-content {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      padding-bottom: 75px;
+      overflow-y: auto;
+    }
 
-    /* STRAKKE LEVEL & KULLANICI HUD */
-    .top-user-bar {
+    .tab-content { display: none; height: 100%; flex-direction: column; justify-content: space-between; }
+    .tab-content.active { display: flex; }
+
+    /* HONEY FARM STIJL TOP HUD */
+    .top-hud-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(135deg, rgba(40,25,15,0.95), rgba(20,12,6,0.95));
-      border: 2px solid #ffb700;
-      border-radius: 16px;
-      padding: 8px 12px;
-      margin-bottom: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-      z-index: 25;
+      width: 100%;
+      gap: 8px;
     }
 
-    .user-info-left {
+    .wood-panel {
+      background: linear-gradient(135deg, rgba(139, 90, 43, 0.95), rgba(92, 58, 33, 0.95));
+      border: 2px solid #ffde6b;
+      border-radius: 16px;
+      padding: 6px 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .hud-avatar {
-      width: 38px;
-      height: 38px;
+      width: 32px;
+      height: 32px;
       background: linear-gradient(135deg, #ffd700, #ff8800);
       border-radius: 50%;
       display: flex;
@@ -64,157 +90,79 @@
       justify-content: center;
       font-weight: 900;
       color: #1a0f05;
-      font-size: 1.1rem;
+      font-size: 0.9rem;
       border: 2px solid #fff;
     }
 
-    .hud-username {
-      font-size: 0.9rem;
-      font-weight: 900;
+    /* HONEY FARM STIJL MENUGRID (POP-UP) */
+    .menu-popup {
+      position: absolute;
+      bottom: 75px;
+      right: 10px;
+      background: rgba(24, 15, 8, 0.95);
+      border: 2px solid #ffb700;
+      border-radius: 16px;
+      padding: 10px;
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 150;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+      width: 160px;
+    }
+    .menu-popup.active { display: flex; }
+    .menu-popup-btn {
+      background: linear-gradient(135deg, #c28e46, #8a5a22);
+      border: 1px solid #ffde6b;
       color: #fff;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-    }
-
-    .hud-level-badge {
-      font-size: 0.72rem;
-      color: #ffd700;
-      background: rgba(255, 183, 0, 0.15);
-      padding: 2px 8px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 183, 0, 0.4);
-      font-weight: bold;
-      display: inline-block;
-      margin-top: 2px;
-    }
-
-    .hud-level-progress {
-      text-align: right;
-    }
-
-    /* RUIME ACHTERGROND KAART MET COVER VIDEO */
-    .game-card {
-      position: relative;
-      width: 100%;
-      height: 340px;
-      border: 3px solid #ffb700;
-      border-radius: 22px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      margin-bottom: 10px;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .bg-video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover; /* Video vult de hele kaart ruim op */
-      z-index: 1;
-    }
-
-    .shelter-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
-      padding: 6px 12px;
-      border-radius: 16px;
-      font-size: 0.75rem;
-      border: 1px solid rgba(255, 215, 0, 0.6);
-      color: #ffd700;
-      z-index: 20;
-      font-weight: bold;
-    }
-
-    .settings-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(255, 215, 0, 0.6);
-      color: #ffd700;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.1rem;
-      cursor: pointer;
-      z-index: 20;
-    }
-
-    /* SALDO PANEEL */
-    .balance-card {
-      background: rgba(22, 14, 8, 0.95);
-      border: 2px solid #704b2e;
-      border-radius: 16px;
-      padding: 12px;
-      text-align: center;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-    }
-
-    .balance-title {
-      color: #bfa38a;
-      font-size: 0.7rem;
-      letter-spacing: 1px;
-      font-weight: bold;
-      margin-bottom: 2px;
-    }
-
-    .balance-amount {
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: #ffd700;
-      margin-bottom: 8px;
-      text-shadow: 0 2px 8px rgba(255,215,0,0.4);
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .stat-box {
-      background: rgba(0, 0, 0, 0.5);
-      padding: 6px;
+      padding: 8px;
       border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.78rem;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
     }
 
-    .stat-label { color: #aaa; font-size: 0.68rem; margin-bottom: 2px; }
-    .stat-value { font-weight: bold; color: #fff; font-size: 0.8rem; }
+    /* CENTRAAL ACTIEBLOK */
+    .center-action-box {
+      background: rgba(22, 14, 8, 0.88);
+      backdrop-filter: blur(6px);
+      border: 2px solid #ffb700;
+      border-radius: 20px;
+      padding: 16px;
+      text-align: center;
+      margin: auto 0;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+    }
 
     .btn-claim {
       width: 100%;
       background: linear-gradient(135deg, #ffb700, #ff8800);
       border: none;
-      padding: 10px;
-      border-radius: 12px;
+      padding: 12px;
+      border-radius: 14px;
       color: #000;
       font-weight: 900;
-      font-size: 0.9rem;
+      font-size: 1rem;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(255, 136, 0, 0.4);
+      box-shadow: 0 4px 15px rgba(255, 136, 0, 0.5);
+      margin-top: 8px;
     }
 
     .page-box {
       background: rgba(22, 14, 8, 0.92);
       border: 2px solid #704b2e;
       border-radius: 18px;
-      padding: 16px;
-      margin-top: 4px;
+      padding: 14px;
+      max-height: 75vh;
+      overflow-y: auto;
+      margin-top: 10px;
     }
 
     .page-title {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       color: #ffd700;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       font-weight: bold;
       text-align: center;
     }
@@ -222,185 +170,114 @@
     .task-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      max-height: 400px;
-      overflow-y: auto;
-      padding-right: 4px;
+      gap: 8px;
     }
 
     .task-card {
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(255, 215, 0, 0.25);
-      border-radius: 14px;
-      padding: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 12px;
+      padding: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .task-info strong { color: #fff; font-size: 0.88rem; }
-    .task-info small { color: #ffb700; font-size: 0.75rem; }
+    .task-info strong { color: #fff; font-size: 0.85rem; }
+    .task-info small { color: #ffb700; font-size: 0.72rem; }
 
     .btn-buy {
       background: linear-gradient(135deg, #ff9900, #ff6600);
       border: none;
-      padding: 8px 14px;
-      border-radius: 10px;
+      padding: 6px 12px;
+      border-radius: 8px;
       font-weight: bold;
       color: #000;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       cursor: pointer;
       white-space: nowrap;
     }
 
     .wallet-box-manual {
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.6);
       border: 1px solid #ff9900;
       border-radius: 12px;
-      padding: 12px;
-      margin-top: 10px;
+      padding: 10px;
+      margin-top: 8px;
       text-align: left;
     }
+    .wallet-box-manual label { font-size: 0.72rem; color: #ffd700; font-weight: bold; }
+    .wallet-input-row { display: flex; gap: 6px; margin-top: 4px; margin-bottom: 8px; align-items: center; }
+    .wallet-input-row input { flex: 1; background: #111; border: 1px solid #5a3d24; color: #fff; padding: 7px; border-radius: 6px; font-size: 0.72rem; }
 
-    .wallet-box-manual label {
-      font-size: 0.75rem;
-      color: #ffd700;
-      font-weight: bold;
+    .btn-max, .btn-copy {
+      background: #27ae60; color: #fff; border: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 0.72rem; cursor: pointer;
     }
+    .btn-copy { background: #3498db; }
 
-    .wallet-input-row {
-      display: flex;
-      gap: 6px;
-      margin-top: 4px;
-      margin-bottom: 10px;
-      align-items: center;
-    }
-
-    .wallet-input-row input {
-      flex: 1;
-      background: #111;
-      border: 1px solid #5a3d24;
-      color: #fff;
-      padding: 8px;
-      border-radius: 8px;
-      font-size: 0.75rem;
-    }
-
-    .btn-max {
-      background: #27ae60;
-      color: #fff;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 0.75rem;
-      cursor: pointer;
-    }
-
-    .btn-copy {
-      background: #3498db;
-      color: #fff;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 0.75rem;
-      cursor: pointer;
-    }
-
-    /* KAMPANYA SLİDER STİLİ */
     .campaign-box {
       background: rgba(0,0,0,0.6);
       border: 2px solid #f39c12;
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 15px;
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
       text-align: center;
     }
-    .campaign-slider {
-      width: 100%;
-      margin: 10px 0;
-      accent-color: #f39c12;
-    }
+    .campaign-slider { width: 100%; margin: 8px 0; accent-color: #f39c12; }
 
-    /* DİL SEÇİM GRID */
-    .lang-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin: 10px 0;
-    }
-    .lang-card {
-      background: #22150a;
-      border: 1px solid #5a3d24;
-      padding: 8px;
-      border-radius: 10px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      text-align: center;
-    }
-    .lang-card.active {
-      border-color: #ffd700;
-      background: #3d2716;
-      font-weight: bold;
-    }
-
-    /* LUKSE CASINO ŞANS ÇARKI TASARIMI */
+    /* LUCHTELIGE ÇARK STİLİ */
     .wheel-tree-container {
-      position: relative;
-      width: 280px;
-      height: 280px;
-      margin: 15px auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      filter: drop-shadow(0 0 15px rgba(255, 183, 0, 0.4));
+      position: relative; width: 240px; height: 240px; margin: 10px auto; display: flex; justify-content: center; align-items: center;
     }
     .wheel-pointer-top {
-      position: absolute;
-      top: -2px; left: 50%;
-      transform: translateX(-50%);
-      width: 0; height: 0;
-      border-left: 14px solid transparent;
-      border-right: 14px solid transparent;
-      border-top: 28px solid #ff3333;
-      z-index: 40;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+      position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 24px solid #ff3333; z-index: 40;
     }
     .wheel-wooden-frame {
-      width: 260px; height: 260px;
-      border-radius: 50%;
-      border: 12px solid #b8860b;
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 20px rgba(218,165,32,0.6);
-      position: relative;
-      overflow: hidden;
-      background: #222;
+      width: 220px; height: 220px; border-radius: 50%; border: 10px solid #b8860b; position: relative; overflow: hidden; background: #222;
     }
     .wheel {
       width: 100%; height: 100%; border-radius: 50%;
-      background: conic-gradient(
-        #ff4d4d 0deg 45deg, 
-        #ffa500 45deg 90deg, 
-        #ffd700 90deg 135deg, 
-        #2ecc71 135deg 180deg, 
-        #1abc9c 180deg 225deg, 
-        #3498db 225deg 270deg, 
-        #9b59b6 270deg 315deg, 
-        #e74c3c 315deg 360deg
-      );
+      background: conic-gradient(#ff4d4d 0deg 45deg, #ffa500 45deg 90deg, #ffd700 90deg 135deg, #2ecc71 135deg 180deg, #1abc9c 180deg 225deg, #3498db 225deg 270deg, #9b59b6 270deg 315deg, #e74c3c 315deg 360deg);
       transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
     }
     .wheel-center-hub {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 50px; height: 50px; background: radial-gradient(circle, #fff 0%, #ffd700 100%); 
-      border-radius: 50%; border: 3px solid #8b6508; z-index: 30; 
-      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+      width: 40px; height: 40px; background: #ffd700; border-radius: 50%; border: 2px solid #8b6508; z-index: 30; display: flex; align-items: center; justify-content: center;
     }
     .wheel-btn-wood {
-      background: linear-gradient(135deg, #ffd700, #ff8800);
-      color: #1a0f05; border: 2px solid #fff; padding: 12px 35px; font-size: 1.05rem; font-weight: 900; border-radius: 25px; cursor: pointer; margin-top: 15px;
-      box-shadow: 0 4px 15px rgba(255,165,0,0.5);
+      background: linear-gradient(135deg, #ffd700, #ff8800); color: #1a0f05; border: 2px solid #fff; padding: 10px 30px; font-weight: 900; border-radius: 20px; cursor: pointer; margin-top: 10px;
+    }
+
+    /* 5 ÖNEMLİ ALT MENÜ (Honey Farm Tarzı) */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(18,10,5,0.92), rgba(10,5,2,0.99));
+      border-top: 2px solid #5a3d24;
+      display: flex;
+      justify-content: space-around;
+      padding: 6px 0 10px 0;
+      z-index: 100;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #bfa38a;
+      font-size: 0.62rem;
+      text-decoration: none;
+      cursor: pointer;
+      gap: 2px;
+    }
+    .nav-item.active { color: #ffd700; font-weight: bold; }
+    .nav-icon { font-size: 1.15rem; }
+
+    .toast-notification {
+      position: absolute; top: 50px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.92); border: 1.5px solid #ffd700; color: #ffd700; padding: 8px 16px; border-radius: 20px; font-size: 0.78rem; font-weight: bold; z-index: 300; display: none; text-align: center;
     }
 
     .modal-overlay {
@@ -411,284 +288,202 @@
     .modal-box {
       background: #180f08; border: 2px solid #ffb700; border-radius: 18px; padding: 20px; width: 90%; max-width: 360px; text-align: center;
     }
-
-    .bottom-nav {
-      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 100%; max-width: 480px; background: #120a05; border-top: 2px solid #3d2716;
-      display: flex; justify-content: space-around; padding: 8px 0 12px 0; z-index: 100;
-    }
-    .nav-item {
-      display: flex; flex-direction: column; align-items: center; color: #8a7a6e; font-size: 0.62rem; text-decoration: none; cursor: pointer; gap: 3px;
-    }
-    .nav-item.active { color: #ffd700; font-weight: bold; }
-    .nav-icon { font-size: 1.1rem; }
-
-    .toast-notification {
-      position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
-      background: rgba(0,0,0,0.92); border: 1.5px solid #ffd700; color: #ffd700; padding: 10px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; z-index: 300; display: none; text-align: center; max-width: 90%;
-    }
   </style>
 </head>
 <body>
 
+  <!-- FULLSCREEN ACHTERGROND VIDEO (RUST OVER HET HELE SCHERM) -->
+  <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
+    <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
+  </video>
+
   <div class="app-container">
     <div id="toast" class="toast-notification"></div>
 
-    <!-- TAB 1: YAVRU (MAĞRA) -->
-    <div id="tab-yavru" class="tab-content active">
-      
-      <!-- STRAKKE LEVEL & İSİM HUD -->
-      <div class="top-user-bar">
-        <div class="user-info-left">
+    <!-- OVERLAYS & INHOUD -->
+    <div class="overlay-content">
+
+      <!-- TOP HUD (Honey Farm Stijl) -->
+      <div class="top-hud-container">
+        <div class="wood-panel">
           <div class="hud-avatar" id="hudAvatarLetter">A</div>
           <div>
-            <div class="hud-username" id="hudUsername">Oyuncu</div>
-            <div class="hud-level-badge" id="hudLevelBadge">⭐ Seviye 1</div>
-          </div>
-        </div>
-        <div class="hud-level-progress">
-          <div style="font-size: 0.68rem; color: #aaa;" id="expLabel">Sonraki Level:</div>
-          <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700;" id="expText">0 / 500 🥩</div>
-        </div>
-      </div>
-
-      <div class="game-card">
-        <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
-          <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
-        </video>
-
-        <div class="shelter-badge" id="caveTitle">🪨 Pride Rock (0 Hayvan)</div>
-        <div class="settings-btn" onclick="openLanguageModal()">⚙️</div>
-      </div>
-
-      <!-- Saldo Panel (Biftek Odaklı + 🥩 Icon) -->
-      <div class="balance-card">
-        <div class="balance-title" id="txtBalanceTitle">BİFTEK BAKIYEM</div>
-        <div class="balance-amount" id="balance">0.0 🥩</div>
-
-        <div class="stats-grid">
-          <div class="stat-box">
-            <div class="stat-label">💎 GRAM Cüzdan</div>
-            <div class="stat-value" id="gramBalance">0.0000 GRAM</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-label" id="txtSpeedLabel">Üretim Hızı</div>
-            <div class="stat-value" id="dailySpeedText">20 Biftek / sa</div>
+            <div style="font-size: 0.72rem; font-weight: 900; color: #fff;" id="hudUsername">Oyuncu</div>
+            <div style="font-size: 0.65rem; color: #ffd700;" id="hudLevelBadge">⭐ Seviye 1</div>
           </div>
         </div>
 
-        <button class="btn-claim" id="btnClaim" onclick="claimEarnings()">⚡ BİFTEKLERİ TOPLA</button>
+        <div class="wood-panel" style="flex-direction: column; align-items: flex-end;">
+          <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;" id="balance">0.0 🥩</div>
+          <div style="font-size: 0.65rem; color: #ccc;" id="gramBalance">0.0000 GRAM</div>
+        </div>
       </div>
+
+      <!-- TAB 1: YAVRU / ANA SAYFA -->
+      <div id="tab-yavru" class="tab-content active">
+        <div class="center-action-box">
+          <div style="font-size: 0.75rem; color: #aaa;" id="huntCollectLabel">Toplanabilir Biftek:</div>
+          <div style="font-size: 1.6rem; font-weight: 900; color: #ffd700; margin: 4px 0;" id="huntSteakDisplay">0 🥩</div>
+          <button class="btn-claim" onclick="claimEarnings()" id="huntClaimBtn">📥 Biftekleri Topla</button>
+        </div>
+      </div>
+
+      <!-- TAB 2: MAĞRA / YÜKSELMELER -->
+      <div id="tab-market" class="tab-content">
+        <div class="page-box">
+          <div class="page-title" id="marketTitle">🏕️ Mağra & Hayvanlar</div>
+          <div class="task-list">
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🐾 Ekstra Yavru Sahiplen</strong><br><small>+50 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Yavru')">200 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🐆 Jaguar Ekle</strong><br><small>+120 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(800, 'buyJaguar', 'Jaguar')">800 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🦅 Afrika Akbabası Ekle</strong><br><small>+80 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(500, 'buyVulture', 'Akbaba')">500 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🐺 Hyena Sürüsü Ekle</strong><br><small>+200 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(1200, 'buyHyena', 'Hyena')">1200 🥩</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: AV / TAKAS -->
+      <div id="tab-hunt" class="tab-content">
+        <div class="page-box" style="text-align: center;">
+          <div class="page-title">🔄 Biftek → GRAM Takası</div>
+          <p style="font-size: 0.78rem; color: #ccc; margin-bottom: 10px;">100 Biftek = 0.0100 GRAM</p>
+          <button class="btn-claim" onclick="exchangeSteakToGram()" style="background: #2ecc71; color: #000;">GRAM ile Değiştir</button>
+        </div>
+      </div>
+
+      <!-- TAB 4: KAMPANYA -->
+      <div id="tab-kampanya" class="tab-content">
+        <div class="page-box" style="text-align: center;">
+          <div class="page-title">🚀 Özel Biftek Kampanyası</div>
+          <div class="campaign-box">
+            <div style="font-size: 0.75rem; color: #ccc;">USD Miktarını Seç:</div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #fff; margin: 4px 0;" id="sliderUsdVal">$10 USD</div>
+            <input type="range" min="1" max="500" value="10" class="campaign-slider" id="usdSlider" oninput="updateCampaignSlider(this.value)">
+            <div style="font-size: 0.78rem; color: #2ecc71; font-weight: bold; margin-bottom: 6px;" id="sliderRewardVal">Alacağın: 5,000 🥩</div>
+            <button class="btn-claim" onclick="buyCampaignSteak()">Paketi Satın Al</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- POP-UP MENÜ (EXTRA MODÜLLER) -->
+      <div class="menu-popup" id="menuPopup">
+        <div class="menu-popup-btn" onclick="openModalTab('gorevler')">📋 Görevler</div>
+        <div class="menu-popup-btn" onclick="openModalTab('spin')">🎡 Şans Çarkı</div>
+        <div class="menu-popup-btn" onclick="openModalTab('leaderboard')">🏆 Liderlik</div>
+        <div class="menu-popup-btn" onclick="openModalTab('withdraw')">💸 Para Çek</div>
+        <div class="menu-popup-btn" onclick="openModalTab('cuzdan')">👛 Cüzdan</div>
+      </div>
+
+      <!-- MODAL TABS -->
+      <div id="tab-gorevler" class="tab-content">
+        <div class="page-box">
+          <div class="page-title">📋 Görevler & Ödüller</div>
+          <div class="task-list">
+            <div class="task-card">
+              <div class="task-info"><strong>📢 Telegram Kanalını Takip Et</strong><br><small>+250 🥩</small></div>
+              <button class="btn-buy" onclick="completeChannelTask()">Takip Et</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info"><strong>👥 5 Arkadaşını Davet Et</strong><br><small>+1000 🥩 + 0.02 GRAM</small></div>
+              <button class="btn-buy" onclick="inviteFiveFriends()">Davet Et</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info"><strong>📅 Günlük Giriş Bonusu</strong><br><small>+100 🥩</small></div>
+              <button class="btn-buy" onclick="claimDailyBonus()">Al</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-spin" class="tab-content">
+        <div class="page-box" style="text-align: center;">
+          <div class="page-title">🎡 Şans Çarkı</div>
+          <div class="wheel-tree-container">
+            <div class="wheel-pointer-top"></div>
+            <div class="wheel-wooden-frame">
+              <div class="wheel" id="wheel"></div>
+              <div class="wheel-center-hub">🥩</div>
+            </div>
+          </div>
+          <button class="wheel-btn-wood" id="spinBtn" onclick="spinWheel()">ÇEVİR</button>
+        </div>
+      </div>
+
+      <div id="tab-leaderboard" class="tab-content">
+        <div class="page-box">
+          <div class="page-title">🏆 Liderlik Tablosu</div>
+          <div class="task-list">
+            <div class="task-card" style="border-color: #ffd700;">
+              <div class="task-info"><strong>🥇 CryptoKing_TR</strong><br><small>Level 15 • 142.5k 🥩</small></div>
+              <span style="font-weight:900; color:#ffd700;">1.42 GRAM</span>
+            </div>
+            <div class="task-card" id="myRankCard" style="border-color: #2ecc71;">
+              <div class="task-info"><strong id="myRankName">⭐ Sen (Oyuncu)</strong><br><small id="myRankDetails">Level 1 • 0 🥩</small></div>
+              <span style="font-weight:900; color:#2ecc71;" id="myRankGram">0.00 GRAM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-withdraw" class="tab-content">
+        <div class="page-box">
+          <div class="page-title">💸 Bakiye Çek</div>
+          <div class="wallet-box-manual">
+            <label>Çekilecek Tutar (GRAM):</label>
+            <div class="wallet-input-row">
+              <input type="text" id="withdrawAmount" placeholder="0.0000">
+              <button class="btn-max" onclick="setMaxWithdraw()">MAX</button>
+            </div>
+            <label>Cüzdan Adresiniz:</label>
+            <div class="wallet-input-row">
+              <input type="text" id="withdrawAddress" placeholder="UQ...">
+            </div>
+            <button class="btn-claim" onclick="requestWithdraw()">Talep Oluştur</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-cuzdan" class="tab-content">
+        <div class="page-box" style="text-align: center;">
+          <div class="page-title">👛 Cüzdan</div>
+          <div class="wallet-box-manual">
+            <label>Yatırım Adresi:</label>
+            <div class="wallet-input-row">
+              <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
+              <button class="btn-copy" onclick="copyMyWallet()">Kopya</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- TAB 2: JACHT (AV - BİFTEK TOPLA & TAKAS) -->
-    <div id="tab-hunt" class="tab-content">
-      <div class="page-box" style="text-align: center;">
-        <div class="page-title" id="huntTitle">🦁 Aslan Avı & Biftek</div>
-        <p style="font-size: 0.82rem; color: #ccc; margin-bottom: 15px;" id="huntDesc">
-          Aslanlarınız ve hayvanlarınız mağarada otomatik olarak Biftek üretir! Toplayın veya GRAM ile değiştirin.
-        </p>
-
-        <div style="background: rgba(0,0,0,0.5); border: 1px solid #ff9900; border-radius: 14px; padding: 15px; margin-bottom: 15px;">
-          <div style="font-size: 0.8rem; color: #aaa;" id="huntCollectLabel">Toplanabilir Biftek:</div>
-          <div style="font-size: 1.6rem; font-weight: 900; color: #ffd700; margin: 5px 0;" id="huntSteakDisplay">0 🥩</div>
-          <button class="btn-claim" onclick="claimSteak()" id="huntClaimBtn">📥 Biftekleri Topla</button>
-        </div>
-
-        <div style="background: rgba(0,0,0,0.5); border: 1px solid #2ecc71; border-radius: 14px; padding: 15px;">
-          <div style="font-size: 0.8rem; color: #aaa;" id="exchangeRateLabel">Biftek → GRAM Takası (100 Biftek = 0.0100 GRAM)</div>
-          <button class="btn-buy" style="margin-top: 10px; background: #2ecc71; color: #000; width: 100%; padding: 10px; font-weight: 900;" onclick="exchangeSteakToGram()" id="exchangeBtn">🔄 GRAM ile Değiştir</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 3: MAĞRA (YÜKSELMELER & KAMPANYA) -->
-    <div id="tab-market" class="tab-content">
-      <div class="page-box">
-        <div class="page-title" id="marketTitle">🏕️ Mağra & Biftek Kampanyası</div>
-
-        <div class="campaign-box">
-          <div style="font-size: 0.85rem; font-weight: bold; color: #ffd700; margin-bottom: 6px;" id="campTitle">🚀 Özel Biftek Kampanyası</div>
-          <div style="font-size: 0.75rem; color: #ccc;" id="campSub">Ödeyeceğin USD Miktarını Seç:</div>
-          <div style="font-size: 1.2rem; font-weight: 900; color: #fff; margin: 4px 0;" id="sliderUsdVal">$10 USD</div>
-          <input type="range" min="1" max="500" value="10" class="campaign-slider" id="usdSlider" oninput="updateCampaignSlider(this.value)">
-          <div style="font-size: 0.78rem; color: #2ecc71; font-weight: bold; margin-bottom: 8px;" id="sliderRewardVal">Alacağın: 5,000 🥩 (+%100 Bonus)</div>
-          <button class="btn-claim" onclick="buyCampaignSteak()" id="campBtn">🛒 Biftek Paketini Satın Al</button>
-        </div>
-        
-        <div class="task-list">
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="item1Title">🐾 Ekstra Yavru Sahiplen</strong><br>
-              <small id="item1Desc">Yuvaya +1 Yavru ekler (+50 🥩/sa)</small>
-            </div>
-            <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Ekstra Yavru')">200 🥩</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="item2Title">🐆 Jaguar Ekle</strong><br>
-              <small id="item2Desc">Mağaraya Jaguar getirir (+120 🥩/sa)</small>
-            </div>
-            <button class="btn-buy" onclick="buyWithSteak(800, 'buyJaguar', 'Jaguar')">800 🥩</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="item3Title">🦅 Afrika Akbabası Ekle</strong><br>
-              <small id="item3Desc">Gökyüzü avcısı ekler (+80 🥩/sa)</small>
-            </div>
-            <button class="btn-buy" onclick="buyWithSteak(500, 'buyVulture', 'Akbaba')">500 🥩</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="item4Title">🐺 Hyena Sürüsü Ekle</strong><br>
-              <small id="item4Desc">Av verimini artırır (+200 🥩/sa)</small>
-            </div>
-            <button class="btn-buy" onclick="buyWithSteak(1200, 'buyHyena', 'Hyena Sürüsü')">1200 🥩</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- TAB 4: GÖREVLER -->
-    <div id="tab-gorevler" class="tab-content">
-      <div class="page-box">
-        <div class="page-title" id="tasksTitle">📋 Görevler & Ödüller</div>
-        
-        <div class="task-list">
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="t1Title">📢 Telegram Kanalını Takip Et</strong><br>
-              <small id="t1Desc">Ödül: +250 🥩 Kazan</small>
-            </div>
-            <button class="btn-buy" onclick="completeChannelTask()" id="t1Btn">Takip Et</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="t2Title">👥 5 Arkadaşını Davet Et</strong><br>
-              <small id="t2Desc">Ödül: +1000 🥩 + 0.020 GRAM</small>
-              <div style="margin-top: 4px; font-size: 0.72rem; color: #aaa;" id="inviteCountText">Davet Edilen: 0 / 5</div>
-            </div>
-            <button class="btn-buy" onclick="inviteFiveFriends()" id="t2Btn">Davet Et</button>
-          </div>
-
-          <div class="task-card">
-            <div class="task-info">
-              <strong id="t3Title">📅 Günlük Giriş Bonusu</strong><br>
-              <small id="t3Desc">Ödül: +100 🥩</small>
-            </div>
-            <button class="btn-buy" id="btnDailyCheckIn" onclick="claimDailyBonus()" id="t3Btn">Al</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- TAB 5: ŞANS ÇARKI (LUXE WHEEL) -->
-    <div id="tab-spin" class="tab-content">
-      <div class="page-box" style="text-align: center;">
-        <div class="page-title" id="wheelTitle">🎡 Şans Çarkı (Rulet)</div>
-        <p style="font-size:0.8rem; color:#ccc; margin-bottom:5px;" id="wheelDesc">Her 24 saatte 1 kez çevir, sürpriz Biftek kazan!</p>
-        
-        <div class="wheel-tree-container">
-          <div class="wheel-pointer-top"></div>
-          <div class="wheel-wooden-frame">
-            <div class="wheel" id="wheel"></div>
-            <div class="wheel-center-hub">🥩</div>
-          </div>
-        </div>
-
-        <button class="wheel-btn-wood" id="spinBtn" onclick="spinWheel()">ÇEVİR (SPIN)</button>
-      </div>
-    </div>
-
-    <!-- TAB 6: LEADERBOARD -->
-    <div id="tab-leaderboard" class="tab-content">
-      <div class="page-box">
-        <div class="page-title" id="lbTitle">🏆 Liderlik Tablosu (Leaderboard)</div>
-        <p style="text-align: center; font-size: 0.78rem; color: #ccc; margin-bottom: 12px;">En çok Biftek ve GRAM üreten en iyi madenciler!</p>
-        
-        <div class="task-list">
-          <div class="task-card" style="border-color: #ffd700; background: rgba(255,215,0,0.1);">
-            <div class="task-info">
-              <strong>🥇 1. CryptoKing_TR</strong><br><small>Level 15 • 142.5k 🥩</small>
-            </div>
-            <span style="font-weight:900; color:#ffd700;">1.42 GRAM</span>
-          </div>
-          <div class="task-card">
-            <div class="task-info">
-              <strong>🥈 2. LionMaster</strong><br><small>Level 12 • 98.2k 🥩</small>
-            </div>
-            <span style="font-weight:900; color:#ccc;">0.98 GRAM</span>
-          </div>
-          <div class="task-card">
-            <div class="task-info">
-              <strong>🥉 3. DailyMiner_99</strong><br><small>Level 10 • 74.0k 🥩</small>
-            </div>
-            <span style="font-weight:900; color:#cd7f32;">0.74 GRAM</span>
-          </div>
-          <div class="task-card" id="myRankCard" style="border-color: #2ecc71;">
-            <div class="task-info">
-              <strong id="myRankName">⭐ 42. Sen (Oyuncu)</strong><br><small id="myRankDetails">Level 1 • 0.0 🥩</small>
-            </div>
-            <span style="font-weight:900; color:#2ecc71;" id="myRankGram">0.00 GRAM</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 7: BAKİYE ÇEK (WITHDRAW) -->
-    <div id="tab-withdraw" class="tab-content">
-      <div class="page-box">
-        <div class="page-title" id="withdrawTitle">💸 Bakiye Çek (Withdraw)</div>
-        <p style="text-align: center; font-size: 0.8rem; color: #ccc; margin-bottom: 12px;">
-          Mevcut GRAM Bakiyeniz: <strong id="maxBalanceDisplay" style="color:#ffd700;">0.0000 GRAM</strong>
-        </p>
-        
-        <div class="wallet-box-manual">
-          <label id="wAmountLabel">Çekilecek Tutar (GRAM):</label>
-          <div class="wallet-input-row">
-            <input type="text" id="withdrawAmount" placeholder="0.0000">
-            <button class="btn-max" onclick="setMaxWithdraw()">MAX</button>
-          </div>
-
-          <label id="wAddrLabel">Toncoin / GRAM Cüzdan Adresiniz:</label>
-          <div class="wallet-input-row">
-            <input type="text" id="withdrawAddress" placeholder="UQ... cüzdan adresinizi girin">
-          </div>
-
-          <button class="btn-claim" style="margin-top: 6px;" onclick="requestWithdraw()" id="wSubmitBtn">📤 Para Çekme Talebi Oluştur</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 8: CÜZDAN -->
-    <div id="tab-cuzdan" class="tab-content">
-      <div class="page-box" style="text-align: center;">
-        <div class="page-title" id="walletTitle">👛 GRAM / TON Cüzdan</div>
-        
-        <div style="margin: 15px 0; display: flex; justify-content: center;">
-          <div style="width: 64px; height: 64px; background: #0088CC; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,136,204,0.5);">
-            <span style="font-size: 1.8rem; font-weight: 900; color: #fff;">💎</span>
-          </div>
-        </div>
-
-        <p style="text-align: center; font-size: 0.82rem; color: #ccc; margin-bottom: 12px;" id="walletDesc">
-          Bakiyenizi artırmak veya paket satın almak için cüzdan adresimize TON / GRAM gönderin.
-        </p>
-
-        <div class="wallet-box-manual">
-          <label id="walletAddrLabel">Yatırım Yapılacak Cüzdan Adresi:</label>
-          <div class="wallet-input-row">
-            <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
-            <button class="btn-copy" onclick="copyMyWallet()">Kopyala</button>
-          </div>
-        </div>
-      </div>
+    <!-- 5 ÖNEMLİ ALT MENÜ (Honey Farm Tarzı) -->
+    <div class="bottom-nav">
+      <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Yavru</div></div>
+      <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
+      <div class="nav-item" onclick="switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
+      <div class="nav-item" onclick="switchTab('kampanya', this)"><div class="nav-icon">🚀</div><div>Kampanya</div></div>
+      <div class="nav-item" onclick="toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menü</div></div>
     </div>
 
   </div>
@@ -697,54 +492,15 @@
   <div class="modal-overlay" id="paymentModal">
     <div class="modal-box">
       <div class="modal-title" id="payModalTitle">Ödemeyi Tamamla</div>
-      <p style="font-size: 0.78rem; color: #ccc; margin-bottom: 10px;">Lütfen seçtiğiniz USD tutarını cüzdanımıza gönderin:</p>
-      
       <div class="wallet-box-manual" style="margin-top:0;">
         <label>Ödenecek Tutar (USD):</label>
-        <div class="wallet-input-row">
-          <input type="text" id="payModalAmount" readonly>
-          <button class="btn-copy" onclick="copyPayAmount()">Kopyala</button>
-        </div>
-
-        <label>Cüzdan Adresi:</label>
-        <div class="wallet-input-row">
-          <input type="text" id="payModalAddress" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
-          <button class="btn-copy" onclick="copyPayAddress()">Kopyala</button>
-        </div>
+        <div class="wallet-input-row"><input type="text" id="payModalAmount" readonly><button class="btn-copy" onclick="copyPayAmount()">Kopya</button></div>
+        <label>Cüzdan:</label>
+        <div class="wallet-input-row"><input type="text" id="payModalAddress" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly><button class="btn-copy" onclick="copyPayAddress()">Kopya</button></div>
       </div>
-
-      <button class="btn-claim" style="margin-top: 10px;" onclick="confirmManualPayment()">✅ Ödemeyi Yaptım (Onayla)</button>
-      <button class="btn-buy" style="background:#444; color:#fff; width:100%; margin-top:8px;" onclick="closePaymentModal()">İptal / Geri</button>
+      <button class="btn-claim" onclick="confirmManualPayment()">✅ Ödemeyi Yaptım</button>
+      <button class="btn-buy" style="background:#444; color:#fff; width:100%; margin-top:8px;" onclick="closePaymentModal()">İptal</button>
     </div>
-  </div>
-
-  <!-- DİL SEÇİM MODALI -->
-  <div class="modal-overlay" id="langModal">
-    <div class="modal-box">
-      <div class="modal-title">🌐 Dil Seçimi / Language / Taal</div>
-      <div class="lang-grid">
-        <div class="lang-card" id="btn-tr" onclick="selectLanguage('tr')">🇹🇷 Türkçe</div>
-        <div class="lang-card" id="btn-en" onclick="selectLanguage('en')">🇬🇧 English</div>
-        <div class="lang-card" id="btn-nl" onclick="selectLanguage('nl')">🇳🇱 Nederlands</div>
-        <div class="lang-card" id="btn-de" onclick="selectLanguage('de')">🇩🇪 Deutsch</div>
-        <div class="lang-card" id="btn-fr" onclick="selectLanguage('fr')">🇷🇷 Français</div>
-        <div class="lang-card" id="btn-es" onclick="selectLanguage('es')">🇪🇸 Español</div>
-        <div class="lang-card" id="btn-ru" onclick="selectLanguage('ru')">🇷🇺 Русский</div>
-      </div>
-      <button class="btn-buy" style="width: 100%; margin-top: 10px;" onclick="closeLanguageModal()">OK</button>
-    </div>
-  </div>
-
-  <!-- ALT NAVİGASYON (8 TAB) -->
-  <div class="bottom-nav">
-    <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div id="navTxt1">Yavru</div></div>
-    <div class="nav-item" onclick="switchTab('hunt', this)"><div class="nav-icon">🏹</div><div id="navTxt2">Av</div></div>
-    <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div id="navTxt3">Mağra</div></div>
-    <div class="nav-item" onclick="switchTab('gorevler', this)"><div class="nav-icon">📋</div><div id="navTxt4">Görevler</div></div>
-    <div class="nav-item" onclick="switchTab('spin', this)"><div class="nav-icon">🎡</div><div id="navTxt5">Çark</div></div>
-    <div class="nav-item" onclick="switchTab('leaderboard', this)"><div class="nav-icon">🏆</div><div id="navTxt6">Lider</div></div>
-    <div class="nav-item" onclick="switchTab('withdraw', this)"><div class="nav-icon">💸</div><div id="navTxt7">Çek</div></div>
-    <div class="nav-item" onclick="switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div id="navTxt8">Cüzdan</div></div>
   </div>
 
   <script>
@@ -774,32 +530,7 @@
     let level = parseInt(localStorage.getItem('level')) || 1;
     let lastDailyClaim = parseInt(localStorage.getItem('lastDailyClaim')) || 0;
     let lastWheelSpin = parseInt(localStorage.getItem('lastWheelSpin')) || 0;
-    let currentLang = localStorage.getItem('currentLang') || 'tr';
     let currentRotation = 0;
-
-    const translations = {
-      tr: { 
-        title: "BİFTEK BAKIYEM", claim: "⚡ BİFTEKLERİ TOPLA", speed: "Üretim Hızı", 
-        huntTitle: "🦁 Aslan Avı & Biftek", huntDesc: "Aslanlarınız ve hayvanlarınız mağarada otomatik olarak Biftek üretir! Toplayın veya GRAM ile değiştirin.",
-        collectLbl: "Toplanabilir Biftek:", collectBtn: "📥 Biftekleri Topla", exchangeLbl: "Biftek → GRAM Takası (100 Biftek = 0.0100 GRAM)", exchangeBtn: "🔄 GRAM ile Değiştir",
-        marketTitle: "🏕️ Mağra & Biftek Kampanyası", campTitle: "🚀 Özel Biftek Kampanyası", campSub: "Ödeyeceğin USD Miktarını Seç:", campBtn: "🛒 Biftek Paketini Satın Al",
-        nav1: "Yavru", nav2: "Av", nav3: "Mağra", nav4: "Görevler", nav5: "Çark", nav6: "Lider", nav7: "Çek", nav8: "Cüzdan"
-      },
-      en: { 
-        title: "BEEF BALANCE", claim: "⚡ CLAIM BEEF", speed: "Mining Speed", 
-        huntTitle: "🦁 Lion Hunt & Beef", huntDesc: "Your animals automatically produce Beef in the cave! Claim or exchange for GRAM.",
-        collectLbl: "Claimable Beef:", collectBtn: "📥 Claim Beef", exchangeLbl: "Beef → GRAM Exchange (100 Beef = 0.0100 GRAM)", exchangeBtn: "🔄 Exchange for GRAM",
-        marketTitle: "🏕️ Cave & Beef Campaign", campTitle: "🚀 Special Beef Campaign", campSub: "Select USD Amount to Pay:", campBtn: "🛒 Buy Beef Package",
-        nav1: "Cub", nav2: "Hunt", nav3: "Cave", nav4: "Tasks", nav5: "Spin", nav6: "Rank", nav7: "Withdraw", nav8: "Wallet"
-      },
-      nl: { 
-        title: "BIEFSTUK SALDO", claim: "⚡ BIEFSTUK CLAIMEN", speed: "Snelheid", 
-        huntTitle: "🦁 Leeuwenjacht & Biefstuk", huntDesc: "Jouw dieren produceren automatisch Biefstuk in de grot! Claim of wissel om voor GRAM.",
-        collectLbl: "Te claimen Biefstuk:", collectBtn: "📥 Biefstuk Claimen", exchangeLbl: "Biefstuk → GRAM (100 Biefstuk = 0.0100 GRAM)", exchangeBtn: "🔄 Wissel voor GRAM",
-        marketTitle: "🏕️ Grot & Biefstuk Campagne", campTitle: "🚀 Speciale Biefstuk Campagne", campSub: "Selecteer USD Bedrag:", campBtn: "🛒 Koop Biefstuk Pakket",
-        nav1: "Welp", nav2: "Jacht", nav3: "Grot", nav4: "Taken", nav5: "Wiel", nav6: "Rang", nav7: "Opnemen", nav8: "Portemonnee"
-      }
-    };
 
     function saveData() {
       localStorage.setItem('balance', balance);
@@ -816,18 +547,15 @@
       localStorage.setItem('level', level);
       localStorage.setItem('lastDailyClaim', lastDailyClaim);
       localStorage.setItem('lastWheelSpin', lastWheelSpin);
-      localStorage.setItem('currentLang', currentLang);
     }
 
     function checkLevelUp() {
       let requiredForNext = level * 1000;
       if (totalEarnedSteak >= requiredForNext) {
         level++;
-        balance += level * 200; 
-        showToast(`🎉 TEBRİKLER! Seviye ${level} Oldun! +${level * 200} 🥩 Bonus Kazandın!`);
+        balance += level * 200;
+        showToast(`🎉 TEBRİKLER! Seviye ${level} Oldun! +${level * 200} 🥩 Bonus!`);
       }
-      let currentProgress = Math.floor(totalEarnedSteak % 1000);
-      document.getElementById('expText').innerText = `${currentProgress} / 1000 🥩`;
       document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
     }
 
@@ -845,7 +573,7 @@
     function claimEarnings() {
       let earned = Math.floor(unclaimedSteak);
       if (earned <= 0) {
-        showToast(currentLang === 'tr' ? "Henüz toplanacak biftek birikmedi!" : "No beef to claim yet!");
+        showToast("Henüz toplanacak biftek birikmedi!");
         return;
       }
       balance += earned;
@@ -855,30 +583,27 @@
       document.getElementById('myRankDetails').innerText = `Level ${level} • ${balance.toFixed(0)} 🥩`;
       document.getElementById('myRankGram').innerText = gramBalance.toFixed(2) + " GRAM";
       saveData();
-      showToast(currentLang === 'tr' ? `🎉 ${earned} 🥩 Biftek cüzdana eklendi!` : `🎉 Claimed ${earned}!`);
+      showToast(`🎉 ${earned} 🥩 cüzdana eklendi!`);
     }
-
-    function claimSteak() { claimEarnings(); }
 
     function exchangeSteakToGram() {
       if (balance < 100) {
-        showToast(currentLang === 'tr' ? "En az 100 Biftek olmalıdır!" : "Minimum 100 Beef required!");
+        showToast("En az 100 Biftek olmalıdır!");
         return;
       }
       let gramEarned = (balance / 100) * 0.0100;
       gramBalance += gramEarned;
       balance = 0;
-      document.getElementById('balance').innerText = "0.0 🥩";
+      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
-      document.getElementById('maxBalanceDisplay').innerText = gramBalance.toFixed(4) + " GRAM";
       saveData();
-      showToast(currentLang === 'tr' ? "🎉 Takas başarılı! GRAM cüzdana eklendi." : "🎉 Exchanged to GRAM!");
+      showToast("🎉 Takas başarılı! GRAM cüzdana eklendi.");
     }
 
     function updateCampaignSlider(val) {
       document.getElementById('sliderUsdVal').innerText = "$" + val + " USD";
       let steakReward = val * 500;
-      document.getElementById('sliderRewardVal').innerText = (currentLang === 'tr' ? "Alacağın: " : "You get: ") + steakReward.toLocaleString() + " 🥩";
+      document.getElementById('sliderRewardVal').innerText = "Alacağın: " + steakReward.toLocaleString() + " 🥩";
     }
 
     function buyCampaignSteak() {
@@ -888,7 +613,7 @@
 
     function buyWithSteak(cost, type, name) {
       if (balance < cost) {
-        showToast(currentLang === 'tr' ? "Yetersiz Biftek bakiyesi!" : "Not enough Beef!");
+        showToast("Yetersiz Biftek bakiyesi!");
         return;
       }
       balance -= cost;
@@ -900,13 +625,13 @@
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
       updateCaveDisplay();
-      showToast(currentLang === 'tr' ? `🎉 Başarıyla ${name} satın alındı!` : `🎉 Purchased ${name}!`);
+      showToast(`🎉 Başarıyla ${name} satın alındı!`);
     }
 
     function completeChannelTask() {
       balance += 250;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      showToast(currentLang === 'tr' ? "🎉 Kanal takip edildi! +250 🥩 kazandın" : "🎉 Channel followed!");
+      showToast("🎉 Kanal takip edildi! +250 🥩 kazandın");
       saveData();
     }
 
@@ -914,7 +639,6 @@
       let refLink = "https://t.me/DailygramMinerBot?start=ref_" + Math.random().toString(36).substring(7);
       navigator.clipboard.writeText(refLink);
       inviteCount = Math.min(5, inviteCount + 1);
-      document.getElementById('inviteCountText').innerText = (currentLang === 'tr' ? "Davet Edilen: " : "Invited: ") + inviteCount + " / 5";
       if (inviteCount === 5) {
         balance += 1000;
         gramBalance += 0.020;
@@ -934,10 +658,10 @@
       let amount = document.getElementById('withdrawAmount').value;
       let addr = document.getElementById('withdrawAddress').value;
       if (!amount || !addr) {
-        showToast(currentLang === 'tr' ? "Lütfen miktar ve cüzdan girin!" : "Enter amount & address!");
+        showToast("Lütfen miktar ve cüzdan girin!");
         return;
       }
-      showToast(currentLang === 'tr' ? "📤 Para çekme talebiniz alındı!" : "📤 Withdrawal requested!");
+      showToast("📤 Para çekme talebiniz alındı!");
       document.getElementById('withdrawAmount').value = "";
       document.getElementById('withdrawAddress').value = "";
     }
@@ -945,7 +669,7 @@
     function claimDailyBonus() {
       let now = Date.now();
       if (now - lastDailyClaim < 86400000) {
-        showToast(currentLang === 'tr' ? "Bugünkü bonusu zaten aldınız!" : "Bonus already claimed!");
+        showToast("Bugünkü bonusu zaten aldınız!");
         return;
       }
       balance += 100;
@@ -958,7 +682,7 @@
     function spinWheel() {
       let now = Date.now();
       if (now - lastWheelSpin < 86400000) {
-        showToast(currentLang === 'tr' ? "Çark hakkınız bitti!" : "Wheel already spun today!");
+        showToast("Çark hakkınız bitti!");
         return;
       }
       let btn = document.getElementById('spinBtn');
@@ -974,7 +698,7 @@
         showToast(`🎉 Çarktan +${reward} 🥩 Kazandın! 🎁`);
         lastWheelSpin = Date.now();
         saveData();
-        btn.innerText = currentLang === 'tr' ? "Yarın Tekrar Gel" : "Come back tomorrow";
+        btn.innerText = "Yarın Tekrar Gel";
       }, 4000);
     }
 
@@ -999,49 +723,40 @@
       showToast("⏳ Ödemeniz alındı! Ağ üzerinde kontrol ediliyor.");
     }
 
+    function toggleMenuPopup() {
+      document.getElementById('menuPopup').classList.toggle('active');
+    }
+
+    function switchTab(tabName, element) {
+      document.getElementById('menuPopup').classList.remove('active');
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      document.getElementById('tab-' + tabName).classList.add('active');
+      if(element) element.classList.add('active');
+    }
+
+    function openModalTab(tabName) {
+      switchTab(tabName, null);
+    }
+
     function updateCaveDisplay() {
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
-      document.getElementById('maxBalanceDisplay').innerText = gramBalance.toFixed(4) + " GRAM";
       
-      let title = document.getElementById('caveTitle');
       let videoElem = document.getElementById('bgVideo');
       let videoSource = document.getElementById('bgVideoSource');
-
       let targetVideo = './background_empty.MP4';
       let totalAnimals = cubCount + jaguarCount + vultureCount + hyenaCount;
 
-      if (hasMaleLion) {
-        title.innerText = "🦁 Kral Aslan Mağarası";
-        targetVideo = './background_lion.MP4';
-      } else if (isFused) {
-        title.innerText = "👑 Dişi Aslan Mağarası";
-        targetVideo = './background_mother.MP4';
-      } else if (hyenaCount > 0) {
-        title.innerText = "🐺 Hyena Sürüsü Mağarası";
-        targetVideo = './background_hyena.MP4';
-      } else if (jaguarCount > 0) {
-        title.innerText = "🐆 Jaguar Mağarası";
-        targetVideo = './background_jaguar.MP4';
-      } else if (cubCount === 3) {
-        title.innerText = "🪨 Pride Rock (3 Welp)";
-        targetVideo = './background_cub3.MP4';
-      } else if (cubCount >= 4 || totalAnimals >= 4) {
-        title.innerText = `🪨 Pride Rock (${totalAnimals} Hayvan)`;
-        targetVideo = './background_cub4.MP4';
-      } else if (cubCount === 2) {
-        title.innerText = `🪨 Pride Rock (2 Welp)`;
-        targetVideo = './background_cubs2.MP4';
-      } else if (cubCount === 1 || totalAnimals === 1) {
-        title.innerText = `🪨 Pride Rock (1 Welp)`;
-        targetVideo = './background_cub1.MP4';
-      } else {
-        title.innerText = `🪨 Pride Rock (0 Hayvan)`;
-        targetVideo = './background_empty.MP4';
-      }
+      if (hasMaleLion) targetVideo = './background_lion.MP4';
+      else if (isFused) targetVideo = './background_mother.MP4';
+      else if (hyenaCount > 0) targetVideo = './background_hyena.MP4';
+      else if (jaguarCount > 0) targetVideo = './background_jaguar.MP4';
+      else if (cubCount === 3) targetVideo = './background_cub3.MP4';
+      else if (cubCount >= 4 || totalAnimals >= 4) targetVideo = './background_cub4.MP4';
+      else if (cubCount === 2) targetVideo = './background_cubs2.MP4';
+      else if (cubCount === 1 || totalAnimals === 1) targetVideo = './background_cub1.MP4';
 
-      let steakPerHour = 20 + (cubCount * 50) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
-      document.getElementById('dailySpeedText').innerText = steakPerHour + " 🥩 / sa";
       document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
       document.getElementById('myRankDetails').innerText = `Level ${level} • ${balance.toFixed(0)} 🥩`;
       document.getElementById('myRankGram').innerText = gramBalance.toFixed(2) + " GRAM";
@@ -1051,44 +766,6 @@
         videoElem.load();
         videoElem.play();
       }
-
-      let t = translations[currentLang] || translations.tr;
-      document.getElementById('txtBalanceTitle').innerText = t.title;
-      document.getElementById('btnClaim').innerText = t.claim;
-      document.getElementById('txtSpeedLabel').innerText = t.speed;
-      document.getElementById('huntTitle').innerText = t.huntTitle;
-      document.getElementById('huntDesc').innerText = t.huntDesc;
-      document.getElementById('huntCollectLabel').innerText = t.collectLbl;
-      document.getElementById('huntClaimBtn').innerText = t.collectBtn;
-      document.getElementById('exchangeRateLabel').innerText = t.exchangeLbl;
-      document.getElementById('exchangeBtn').innerText = t.exchangeBtn;
-      document.getElementById('marketTitle').innerText = t.marketTitle;
-      document.getElementById('campTitle').innerText = t.campTitle;
-      document.getElementById('campSub').innerText = t.campSub;
-      document.getElementById('campBtn').innerText = t.campBtn;
-      document.getElementById('navTxt1').innerText = t.nav1;
-      document.getElementById('navTxt2').innerText = t.nav2;
-      document.getElementById('navTxt3').innerText = t.nav3;
-      document.getElementById('navTxt4').innerText = t.nav4;
-      document.getElementById('navTxt5').innerText = t.nav5;
-      document.getElementById('navTxt6').innerText = t.nav6;
-      document.getElementById('navTxt7').innerText = t.nav7;
-      document.getElementById('navTxt8').innerText = t.nav8;
-
-      document.querySelectorAll('.lang-card').forEach(card => card.classList.remove('active'));
-      let activeLangCard = document.getElementById('btn-' + currentLang);
-      if (activeLangCard) activeLangCard.classList.add('active');
-    }
-
-    function openLanguageModal() { document.getElementById('langModal').classList.add('active'); }
-    function closeLanguageModal() { document.getElementById('langModal').classList.remove('active'); }
-    function selectLanguage(lang) { currentLang = lang; saveData(); updateCaveDisplay(); closeLanguageModal(); }
-
-    function switchTab(tabName, element) {
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-      document.getElementById('tab-' + tabName).classList.add('active');
-      element.classList.add('active');
     }
 
     function showToast(text) {

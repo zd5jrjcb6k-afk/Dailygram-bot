@@ -20,15 +20,15 @@
       overflow: hidden;
     }
 
-    /* RUIME ACHTERGROND VIDEO */
+    /* VOLLEDIG UITGEZOOMDE ACHTERGROND VIDEO */
     .bg-video {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center;
+      object-fit: contain;
+      background-color: #000;
       z-index: 1;
     }
 
@@ -246,10 +246,10 @@
       font-weight: bold;
       cursor: pointer;
       text-align: center;
-      opacity: 0.5; /* Vergrendeld standaard */
+      opacity: 0.5;
     }
     .bg-option-btn.unlocked {
-      opacity: 1; /* Vrijgegeven na aankoop */
+      opacity: 1;
       border-color: #ffd700;
     }
     .bg-option-btn.active {
@@ -350,7 +350,7 @@
         </div>
       </div>
 
-      <!-- TAB 1: YAVRU / ANA SAYFA -->
+      <!-- TAB 1: ASLAN / ANA SAYFA -->
       <div id="tab-yavru" class="tab-content active">
         <div class="center-action-box">
           <div style="font-size: 0.72rem; color: #aaa;">Toplanabilir Biftek:</div>
@@ -370,54 +370,54 @@
             <div style="font-size: 0.7rem; color: #ccc;">USD Miktarını Seç:</div>
             <div style="font-size: 1rem; font-weight: 900; color: #fff; margin: 2px 0;" id="sliderUsdVal">$10 USD</div>
             <input type="range" min="1" max="500" value="10" class="campaign-slider" id="usdSlider" oninput="updateCampaignSlider(this.value)">
-            <div style="font-size: 0.72rem; color: #2ecc71; font-weight: bold; margin-bottom: 4px;" id="sliderRewardVal">Alacağın: 5,000 🥩</div>
+            <div style="font-size: 0.72rem; color: #2ecc71; font-weight: bold; margin-bottom: 4px;" id="sliderRewardVal">Alacağın: 2,500 🥩</div>
             <button class="btn-claim" style="padding: 6px; font-size: 0.8rem;" onclick="buyCampaignSteak()">Paketi Satın Al</button>
           </div>
 
-          <!-- Hayvanlar & Üretim Hızı (Aslan en Sırtlanlar tamamen ayrı) -->
+          <!-- Hayvanlar & Üretim Hızı (Balans / Snelheid verlaagd) -->
           <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">🐾 Hayvan Sahiplen & Üretim Hızını Artır</div>
-          <div style="font-size: 0.68rem; color: #aaa; margin-bottom: 6px;" id="totalSpeedInfo">Toplam Üretim Hızı: 20 🥩 / sa</div>
+          <div style="font-size: 0.68rem; color: #aaa; margin-bottom: 6px;" id="totalSpeedInfo">Toplam Üretim Hızı: 10 🥩 / sa</div>
           
           <div class="task-list">
             <div class="task-card">
               <div class="task-info">
-                <strong>🐾 Aslan Yavrusu (<span id="countCub">0</span>)</strong><br><small>+50 🥩 / sa</small>
+                <strong>🐾 Aslan Yavrusu (<span id="countCub">0</span>)</strong><br><small>+20 🥩 / sa</small>
               </div>
-              <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
+              <button class="btn-buy" onclick="buyWithSteak(250, 'buyCub', 'Aslan Yavrusu')">250 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
-                <strong>🦁 Kral Aslan (<span id="countLion">0</span>)</strong><br><small>+300 🥩 / sa</small>
+                <strong>🦁 Kral Aslan (<span id="countLion">0</span>)</strong><br><small>+100 🥩 / sa</small>
               </div>
-              <button class="btn-buy" onclick="buyWithSteak(1500, 'buyLion', 'Kral Aslan')">1500 🥩</button>
+              <button class="btn-buy" onclick="buyWithSteak(1200, 'buyLion', 'Kral Aslan')">1200 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
-                <strong>🦁🦁 2 Erkek Aslan (<span id="countTwoLions">0</span>)</strong><br><small>+500 🥩 / sa</small>
+                <strong>🦁🦁 2 Erkek Aslan (<span id="countTwoLions">0</span>)</strong><br><small>+250 🥩 / sa</small>
               </div>
               <button class="btn-buy" onclick="buyWithSteak(3000, 'buyTwoLions', '2 Erkek Aslan')">3000 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
-                <strong>🐆 Jaguar Ekle (<span id="countJaguar">0</span>)</strong><br><small>+120 🥩 / sa</small>
+                <strong>🐆 Jaguar Ekle (<span id="countJaguar">0</span>)</strong><br><small>+60 🥩 / sa</small>
               </div>
-              <button class="btn-buy" onclick="buyWithSteak(800, 'buyJaguar', 'Jaguar')">800 🥩</button>
+              <button class="btn-buy" onclick="buyWithSteak(700, 'buyJaguar', 'Jaguar')">700 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
-                <strong>🦅 Afrika Akbabası (<span id="countVulture">0</span>)</strong><br><small>+80 🥩 / sa</small>
+                <strong>🦅 Afrika Akbabası (<span id="countVulture">0</span>)</strong><br><small>+40 🥩 / sa</small>
               </div>
-              <button class="btn-buy" onclick="buyWithSteak(500, 'buyVulture', 'Afrika Akbabası')">500 🥩</button>
+              <button class="btn-buy" onclick="buyWithSteak(400, 'buyVulture', 'Afrika Akbabası')">400 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
-                <strong>🐺 Sırtlan Sürüsü (<span id="countHyena">0</span>)</strong><br><small>+200 🥩 / sa</small>
+                <strong>🐺 Sırtlan Sürüsü (<span id="countHyena">0</span>)</strong><br><small>+150 🥩 / sa</small>
               </div>
-              <button class="btn-buy" onclick="buyWithSteak(1200, 'buyHyena', 'Sırtlan Sürüsü')">1200 🥩</button>
+              <button class="btn-buy" onclick="buyWithSteak(1500, 'buyHyena', 'Sırtlan Sürüsü')">1500 🥩</button>
             </div>
           </div>
 
-          <!-- ACHTERGROND KIEZER (GEBLOKKEERD TOT AANKOOP) -->
+          <!-- ACHTERGROND KIEZER -->
           <div style="margin-top: 10px; border-top: 1px solid rgba(255,215,0,0.3); padding-top: 8px;">
             <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Önce Satın Almalısın)</div>
             <div class="bg-switcher-grid">
@@ -438,11 +438,11 @@
         </div>
       </div>
 
-      <!-- TAB 3: AV / TAKAS -->
+      <!-- TAB 3: AV / TAKAS (Aangepast: 500 Biftek = 0.0100 GRAM) -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🔄 Biftek → GRAM Takası</div>
-          <p style="font-size: 0.75rem; color: #ccc; margin-bottom: 8px;">100 Biftek = 0.0100 GRAM</p>
+          <p style="font-size: 0.75rem; color: #ccc; margin-bottom: 8px;">500 Biftek = 0.0100 GRAM</p>
           <button class="btn-claim" onclick="exchangeSteakToGram()" style="background: #2ecc71; color: #000;">GRAM ile Değiştir</button>
         </div>
       </div>
@@ -462,15 +462,15 @@
           <div class="page-title">📋 Görevler & Ödüller</div>
           <div class="task-list">
             <div class="task-card">
-              <div class="task-info"><strong>📢 Telegram Kanalını Takip Et</strong><br><small>+250 🥩</small></div>
+              <div class="task-info"><strong>📢 Telegram Kanalını Takip Et</strong><br><small>+100 🥩</small></div>
               <button class="btn-buy" onclick="completeChannelTask()">Takip Et</button>
             </div>
             <div class="task-card">
-              <div class="task-info"><strong>👥 5 Arkadaşını Davet Et</strong><br><small>+1000 🥩 + 0.02 GRAM</small></div>
+              <div class="task-info"><strong>👥 5 Arkadaşını Davet Et</strong><br><small>+500 🥩 + 0.01 GRAM</small></div>
               <button class="btn-buy" onclick="inviteFiveFriends()">Davet Et</button>
             </div>
             <div class="task-card">
-              <div class="task-info"><strong>📅 Günlük Giriş Bonusu</strong><br><small>+100 🥩</small></div>
+              <div class="task-info"><strong>📅 Günlük Giriş Bonusu</strong><br><small>+50 🥩</small></div>
               <button class="btn-buy" onclick="claimDailyBonus()">Al</button>
             </div>
           </div>
@@ -496,8 +496,8 @@
           <div class="page-title">🏆 Liderlik Tablosu</div>
           <div class="task-list">
             <div class="task-card" style="border-color: #ffd700;">
-              <div class="task-info"><strong>🥇 CryptoKing_TR</strong><br><small>Level 15 • 142.5k 🥩</small></div>
-              <span style="font-weight:900; color:#ffd700;">1.42 GRAM</span>
+              <div class="task-info"><strong>🥇 CryptoKing_TR</strong><br><small>Level 15 • 42.5k 🥩</small></div>
+              <span style="font-weight:900; color:#ffd700;">0.85 GRAM</span>
             </div>
             <div class="task-card" id="myRankCard" style="border-color: #2ecc71;">
               <div class="task-info"><strong id="myRankName">⭐ Sen (Oyuncu)</strong><br><small id="myRankDetails">Level 1 • 0 🥩</small></div>
@@ -587,7 +587,6 @@
     let unclaimedSteak = parseFloat(localStorage.getItem('unclaimedSteak')) || 0.0;
     let inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
     
-    // Aankoopstatussen voor elk dier
     let cubCount = parseInt(localStorage.getItem('cubCount')) || 0;
     let lionCount = parseInt(localStorage.getItem('lionCount')) || 0;
     let twoLionsCount = parseInt(localStorage.getItem('twoLionsCount')) || 0;
@@ -621,17 +620,17 @@
     }
 
     function checkLevelUp() {
-      let requiredForNext = level * 1000;
+      let requiredForNext = level * 1500;
       if (totalEarnedSteak >= requiredForNext) {
         level++;
-        balance += level * 200;
-        showToast(`🎉 TEBRİKLER! Seviye ${level} Oldun! +${level * 200} 🥩 Bonus!`);
+        balance += level * 100;
+        showToast(`🎉 TEBRİKLER! Seviye ${level} Oldun! +${level * 100} 🥩 Bonus!`);
       }
       document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
     }
 
     setInterval(() => {
-      let steakPerHour = 20 + (cubCount * 50) + (lionCount * 300) + (twoLionsCount * 500) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
+      let steakPerHour = 10 + (cubCount * 20) + (lionCount * 100) + (twoLionsCount * 250) + (jaguarCount * 60) + (vultureCount * 40) + (hyenaCount * 150);
       let steakPerSecond = steakPerHour / 3600;
       unclaimedSteak += steakPerSecond;
       totalEarnedSteak += steakPerSecond;
@@ -658,11 +657,11 @@
     }
 
     function exchangeSteakToGram() {
-      if (balance < 100) {
-        showToast("En az 100 Biftek olmalıdır!");
+      if (balance < 500) {
+        showToast("En az 500 Biftek olmalıdır!");
         return;
       }
-      let gramEarned = (balance / 100) * 0.0100;
+      let gramEarned = (balance / 500) * 0.0100;
       gramBalance += gramEarned;
       balance = 0;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
@@ -673,7 +672,7 @@
 
     function updateCampaignSlider(val) {
       document.getElementById('sliderUsdVal').innerText = "$" + val + " USD";
-      let steakReward = val * 500;
+      let steakReward = val * 250;
       document.getElementById('sliderRewardVal').innerText = "Alacağın: " + steakReward.toLocaleString() + " 🥩";
     }
 
@@ -723,7 +722,6 @@
       showToast(`🎉 Başarıyla ${name} satın alındı!`);
     }
 
-    // Controleer of de gebruiker de aankoop heeft gedaan voordat de achtergrond mag veranderen
     function checkAndChangeBg(bgKey, videoSrc) {
       let unlocked = false;
 
@@ -764,9 +762,9 @@
     }
 
     function completeChannelTask() {
-      balance += 250;
+      balance += 100;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      showToast("🎉 Kanal takip edildi! +250 🥩 kazandın");
+      showToast("🎉 Kanal takip edildi! +100 🥩 kazandın");
       saveData();
     }
 
@@ -775,8 +773,8 @@
       navigator.clipboard.writeText(refLink);
       inviteCount = Math.min(5, inviteCount + 1);
       if (inviteCount === 5) {
-        balance += 1000;
-        gramBalance += 0.020;
+        balance += 500;
+        gramBalance += 0.010;
         showToast("🎉 5 Arkadaş davet edildi, ödüller eklendi!");
       } else {
         showToast("🔗 Davet linki kopyalandı!");
@@ -807,11 +805,11 @@
         showToast("Bugünkü bonusu zaten aldınız!");
         return;
       }
-      balance += 100;
+      balance += 50;
       lastDailyClaim = now;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
-      showToast("Günlük Bonus Alındı! (+100 🥩) 🎉");
+      showToast("Günlük Bonus Alındı! (+50 🥩) 🎉");
     }
 
     function spinWheel() {
@@ -827,7 +825,7 @@
       document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
-        let reward = 300;
+        let reward = 100;
         balance += reward;
         document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
         showToast(`🎉 Çarktan +${reward} 🥩 Kazandın! 🎁`);
@@ -885,10 +883,9 @@
       document.getElementById('countVulture').innerText = vultureCount;
       document.getElementById('countHyena').innerText = hyenaCount;
 
-      let steakPerHour = 20 + (cubCount * 50) + (lionCount * 300) + (twoLionsCount * 500) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
+      let steakPerHour = 10 + (cubCount * 20) + (lionCount * 100) + (twoLionsCount * 250) + (jaguarCount * 60) + (vultureCount * 40) + (hyenaCount * 150);
       document.getElementById('totalSpeedInfo').innerText = `Toplam Üretim Hızı: ${steakPerHour} 🥩 / sa`;
 
-      // Active status van knoppen in de achtergrondkiezer bijwerken
       const updateBtnUnlock = (key, condition) => {
         let b = document.getElementById('bgBtn-' + key);
         if (b) {

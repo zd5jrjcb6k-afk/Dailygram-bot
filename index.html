@@ -20,7 +20,7 @@
       overflow: hidden;
     }
 
-    /* RUIME, NIET-INGEZOOMDE ACHTERGROND VIDEO */
+    /* RUIME ACHTERGROND VIDEO */
     .bg-video {
       position: fixed;
       top: 0;
@@ -123,7 +123,7 @@
       cursor: pointer;
     }
 
-    /* STRAK VERLAAGD CENTRAAL CLAIM BLOK */
+    /* CENTRAAL CLAIM BLOK */
     .center-action-box {
       background: rgba(22, 14, 8, 0.88);
       backdrop-filter: blur(6px);
@@ -229,7 +229,7 @@
     }
     .campaign-slider { width: 100%; margin: 6px 0; accent-color: #f39c12; }
 
-    /* ACHTERGROND KIEZER GRID (TÜM TEMALAR) */
+    /* ACHTERGROND KIEZER GRID */
     .bg-switcher-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -246,9 +246,14 @@
       font-weight: bold;
       cursor: pointer;
       text-align: center;
+      opacity: 0.5; /* Vergrendeld standaard */
+    }
+    .bg-option-btn.unlocked {
+      opacity: 1; /* Vrijgegeven na aankoop */
+      border-color: #ffd700;
     }
     .bg-option-btn.active {
-      border-color: #ffd700;
+      border-color: #00ffcc;
       background: #5c3a21;
     }
 
@@ -369,16 +374,28 @@
             <button class="btn-claim" style="padding: 6px; font-size: 0.8rem;" onclick="buyCampaignSteak()">Paketi Satın Al</button>
           </div>
 
-          <!-- Hayvanlar & Üretim Hızı -->
+          <!-- Hayvanlar & Üretim Hızı (Aslan en Sırtlanlar tamamen ayrı) -->
           <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">🐾 Hayvan Sahiplen & Üretim Hızını Artır</div>
           <div style="font-size: 0.68rem; color: #aaa; margin-bottom: 6px;" id="totalSpeedInfo">Toplam Üretim Hızı: 20 🥩 / sa</div>
           
           <div class="task-list">
             <div class="task-card">
               <div class="task-info">
-                <strong>🦁 Aslan Yavrusu Ekle (<span id="countCub">0</span>)</strong><br><small>+50 🥩 / sa</small>
+                <strong>🐾 Aslan Yavrusu (<span id="countCub">0</span>)</strong><br><small>+50 🥩 / sa</small>
               </div>
               <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🦁 Kral Aslan (<span id="countLion">0</span>)</strong><br><small>+300 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(1500, 'buyLion', 'Kral Aslan')">1500 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🦁🦁 2 Erkek Aslan (<span id="countTwoLions">0</span>)</strong><br><small>+500 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(3000, 'buyTwoLions', '2 Erkek Aslan')">3000 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
@@ -388,33 +405,33 @@
             </div>
             <div class="task-card">
               <div class="task-info">
-                <strong>🦅 Afrika Akbabası Ekle (<span id="countVulture">0</span>)</strong><br><small>+80 🥩 / sa</small>
+                <strong>🦅 Afrika Akbabası (<span id="countVulture">0</span>)</strong><br><small>+80 🥩 / sa</small>
               </div>
               <button class="btn-buy" onclick="buyWithSteak(500, 'buyVulture', 'Afrika Akbabası')">500 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
-                <strong>🐺 Aslan & Sırtlan Sürüsü (<span id="countHyena">0</span>)</strong><br><small>+200 🥩 / sa</small>
+                <strong>🐺 Sırtlan Sürüsü (<span id="countHyena">0</span>)</strong><br><small>+200 🥩 / sa</small>
               </div>
-              <button class="btn-buy" onclick="buyWithSteak(1200, 'buyHyena', 'Aslan & Sırtlan')">1200 🥩</button>
+              <button class="btn-buy" onclick="buyWithSteak(1200, 'buyHyena', 'Sırtlan Sürüsü')">1200 🥩</button>
             </div>
           </div>
 
-          <!-- ACHTERGROND SWITCHER (TÜM TEMALAR - TÜRKÇE) -->
+          <!-- ACHTERGROND KIEZER (GEBLOKKEERD TOT AANKOOP) -->
           <div style="margin-top: 10px; border-top: 1px solid rgba(255,215,0,0.3); padding-top: 8px;">
-            <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Tüm Temalar)</div>
+            <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Önce Satın Almalısın)</div>
             <div class="bg-switcher-grid">
-              <button class="bg-option-btn active" id="bgBtn-empty" onclick="changeBackground('./background_empty.MP4', 'empty')">🪨 Standart Mağra</button>
-              <button class="bg-option-btn" id="bgBtn-cub1" onclick="changeBackground('./background_cub1.MP4', 'cub1')">🐾 1 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cubs2" onclick="changeBackground('./background_cubs2.MP4', 'cubs2')">🐾🐾 2 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cub3" onclick="changeBackground('./background_cub3.MP4', 'cub3')">🐾 3 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cub4" onclick="changeBackground('./background_cub4.MP4', 'cub4')">🐾 4+ Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="changeBackground('./background_jaguar.MP4', 'jaguar')">🐆 Jaguar Mağarası</button>
-              <button class="bg-option-btn" id="bgBtn-vulture" onclick="changeBackground('./background_vulture.MP4', 'vulture')">🦅 Akbaba Mağarası</button>
-              <button class="bg-option-btn" id="bgBtn-hyena" onclick="changeBackground('./background_hyena.MP4', 'hyena')">🐺 Sırtlan Sürüsü</button>
-              <button class="bg-option-btn" id="bgBtn-lion" onclick="changeBackground('./background_lion.MP4', 'lion')">🦁 Kral Aslan</button>
-              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="changeBackground('./background_two_lions.MP4', 'two_lions')">🦁🦁 2 Erkek Aslan</button>
-              <button class="bg-option-btn" id="bgBtn-mother" onclick="changeBackground('./background_mother.MP4', 'mother')">👑 Dişi Aslan</button>
+              <button class="bg-option-btn unlocked active" id="bgBtn-empty" onclick="changeBackground('./background_empty.MP4', 'empty')">🪨 Standart Mağra</button>
+              <button class="bg-option-btn" id="bgBtn-cub1" onclick="checkAndChangeBg('cub1', './background_cub1.MP4')">🐾 1 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cubs2" onclick="checkAndChangeBg('cubs2', './background_cubs2.MP4')">🐾🐾 2 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cub3" onclick="checkAndChangeBg('cub3', './background_cub3.MP4')">🐾 3 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cub4" onclick="checkAndChangeBg('cub4', './background_cub4.MP4')">🐾 4+ Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="checkAndChangeBg('jaguar', './background_jaguar.MP4')">🐆 Jaguar Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-vulture" onclick="checkAndChangeBg('vulture', './background_vulture.MP4')">🦅 Akbaba Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-hyena" onclick="checkAndChangeBg('hyena', './background_hyena.MP4')">🐺 Sırtlan Sürüsü</button>
+              <button class="bg-option-btn" id="bgBtn-lion" onclick="checkAndChangeBg('lion', './background_lion.MP4')">🦁 Kral Aslan</button>
+              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="checkAndChangeBg('two_lions', './background_two_lions.MP4')">🦁🦁 2 Erkek Aslan</button>
+              <button class="bg-option-btn" id="bgBtn-mother" onclick="checkAndChangeBg('mother', './background_mother.MP4')">👑 Dişi Aslan</button>
             </div>
           </div>
 
@@ -569,10 +586,15 @@
     let gramBalance = parseFloat(localStorage.getItem('gramBalance')) || 0.0000;
     let unclaimedSteak = parseFloat(localStorage.getItem('unclaimedSteak')) || 0.0;
     let inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
+    
+    // Aankoopstatussen voor elk dier
     let cubCount = parseInt(localStorage.getItem('cubCount')) || 0;
+    let lionCount = parseInt(localStorage.getItem('lionCount')) || 0;
+    let twoLionsCount = parseInt(localStorage.getItem('twoLionsCount')) || 0;
     let jaguarCount = parseInt(localStorage.getItem('jaguarCount')) || 0;
     let vultureCount = parseInt(localStorage.getItem('vultureCount')) || 0;
     let hyenaCount = parseInt(localStorage.getItem('hyenaCount')) || 0;
+
     let totalEarnedSteak = parseFloat(localStorage.getItem('totalEarnedSteak')) || 0.0;
     let level = parseInt(localStorage.getItem('level')) || 1;
     let lastDailyClaim = parseInt(localStorage.getItem('lastDailyClaim')) || 0;
@@ -586,6 +608,8 @@
       localStorage.setItem('unclaimedSteak', unclaimedSteak);
       localStorage.setItem('inviteCount', inviteCount);
       localStorage.setItem('cubCount', cubCount);
+      localStorage.setItem('lionCount', lionCount);
+      localStorage.setItem('twoLionsCount', twoLionsCount);
       localStorage.setItem('jaguarCount', jaguarCount);
       localStorage.setItem('vultureCount', vultureCount);
       localStorage.setItem('hyenaCount', hyenaCount);
@@ -607,7 +631,7 @@
     }
 
     setInterval(() => {
-      let steakPerHour = 20 + (cubCount * 50) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
+      let steakPerHour = 20 + (cubCount * 50) + (lionCount * 300) + (twoLionsCount * 500) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
       let steakPerSecond = steakPerHour / 3600;
       unclaimedSteak += steakPerSecond;
       totalEarnedSteak += steakPerSecond;
@@ -672,15 +696,23 @@
         else if (cubCount === 3) currentCustomBg = './background_cub3.MP4';
         else if (cubCount >= 4) currentCustomBg = './background_cub4.MP4';
       }
-      if (type === 'buyJaguar') {
+      else if (type === 'buyLion') {
+        lionCount++;
+        currentCustomBg = './background_lion.MP4';
+      }
+      else if (type === 'buyTwoLions') {
+        twoLionsCount++;
+        currentCustomBg = './background_two_lions.MP4';
+      }
+      else if (type === 'buyJaguar') {
         jaguarCount++;
         currentCustomBg = './background_jaguar.MP4';
       }
-      if (type === 'buyVulture') {
+      else if (type === 'buyVulture') {
         vultureCount++;
         currentCustomBg = './background_vulture.MP4';
       }
-      if (type === 'buyHyena') {
+      else if (type === 'buyHyena') {
         hyenaCount++;
         currentCustomBg = './background_hyena.MP4';
       }
@@ -688,7 +720,30 @@
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
       updateCaveDisplay();
-      showToast(`🎉 Başarıyla ${name} satın alındı! Arka plan güncellendi.`);
+      showToast(`🎉 Başarıyla ${name} satın alındı!`);
+    }
+
+    // Controleer of de gebruiker de aankoop heeft gedaan voordat de achtergrond mag veranderen
+    function checkAndChangeBg(bgKey, videoSrc) {
+      let unlocked = false;
+
+      if (bgKey === 'empty') unlocked = true;
+      if (bgKey === 'cub1' && cubCount >= 1) unlocked = true;
+      if (bgKey === 'cubs2' && cubCount >= 2) unlocked = true;
+      if (bgKey === 'cub3' && cubCount >= 3) unlocked = true;
+      if (bgKey === 'cub4' && cubCount >= 4) unlocked = true;
+      if (bgKey === 'lion' && lionCount >= 1) unlocked = true;
+      if (bgKey === 'two_lions' && twoLionsCount >= 1) unlocked = true;
+      if (bgKey === 'jaguar' && jaguarCount >= 1) unlocked = true;
+      if (bgKey === 'vulture' && vultureCount >= 1) unlocked = true;
+      if (bgKey === 'hyena' && hyenaCount >= 1) unlocked = true;
+
+      if (!unlocked) {
+        showToast("🔒 Önce bu hayvanı mağradan satın almalısın!");
+        return;
+      }
+
+      changeBackground(videoSrc, bgKey);
     }
 
     function changeBackground(videoSrc, btnKey) {
@@ -824,12 +879,33 @@
       document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
       
       document.getElementById('countCub').innerText = cubCount;
+      document.getElementById('countLion').innerText = lionCount;
+      document.getElementById('countTwoLions').innerText = twoLionsCount;
       document.getElementById('countJaguar').innerText = jaguarCount;
       document.getElementById('countVulture').innerText = vultureCount;
       document.getElementById('countHyena').innerText = hyenaCount;
 
-      let steakPerHour = 20 + (cubCount * 50) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
+      let steakPerHour = 20 + (cubCount * 50) + (lionCount * 300) + (twoLionsCount * 500) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
       document.getElementById('totalSpeedInfo').innerText = `Toplam Üretim Hızı: ${steakPerHour} 🥩 / sa`;
+
+      // Active status van knoppen in de achtergrondkiezer bijwerken
+      const updateBtnUnlock = (key, condition) => {
+        let b = document.getElementById('bgBtn-' + key);
+        if (b) {
+          if (condition) b.classList.add('unlocked');
+          else b.classList.remove('unlocked');
+        }
+      };
+
+      updateBtnUnlock('cub1', cubCount >= 1);
+      updateBtnUnlock('cubs2', cubCount >= 2);
+      updateBtnUnlock('cub3', cubCount >= 3);
+      updateBtnUnlock('cub4', cubCount >= 4);
+      updateBtnUnlock('lion', lionCount >= 1);
+      updateBtnUnlock('two_lions', twoLionsCount >= 1);
+      updateBtnUnlock('jaguar', jaguarCount >= 1);
+      updateBtnUnlock('vulture', vultureCount >= 1);
+      updateBtnUnlock('hyena', hyenaCount >= 1);
 
       let videoElem = document.getElementById('bgVideo');
       let videoSource = document.getElementById('bgVideoSource');

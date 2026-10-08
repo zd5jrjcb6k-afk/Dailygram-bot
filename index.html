@@ -20,7 +20,7 @@
       overflow: hidden;
     }
 
-    /* FULLSCREEN ACHTERGROND VIDEO */
+    /* RUIMERE FULLSCREEN ACHTERGROND VIDEO (VERTE EFFECT) */
     .bg-video {
       position: fixed;
       top: 0;
@@ -28,6 +28,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transform: scale(1.05); /* Zorgt voor een iets ruimtelijkere, wijdere blik */
       z-index: 1;
     }
 
@@ -43,7 +44,6 @@
       z-index: 10;
     }
 
-    /* OVERLAY CONTENT (Bovenop video) */
     .overlay-content {
       position: relative;
       z-index: 10;
@@ -60,7 +60,7 @@
     .tab-content { display: none; height: 100%; flex-direction: column; justify-content: space-between; }
     .tab-content.active { display: flex; }
 
-    /* HONEY FARM STIJL TOP HUD */
+    /* TOP HUD */
     .top-hud-container {
       display: flex;
       justify-content: space-between;
@@ -94,7 +94,7 @@
       border: 2px solid #fff;
     }
 
-    /* HONEY FARM STIJL MENUGRID (POP-UP) */
+    /* MENU POP-UP */
     .menu-popup {
       position: absolute;
       bottom: 75px;
@@ -123,46 +123,49 @@
       cursor: pointer;
     }
 
-    /* CENTRAAL ACTIEBLOK */
+    /* KLEINER EN VERLAAGD CENTRAAL CLAIM BLOK */
     .center-action-box {
-      background: rgba(22, 14, 8, 0.88);
+      background: rgba(22, 14, 8, 0.85);
       backdrop-filter: blur(6px);
       border: 2px solid #ffb700;
-      border-radius: 20px;
-      padding: 16px;
+      border-radius: 18px;
+      padding: 12px;
       text-align: center;
-      margin: auto 0;
+      margin-top: 180px; /* Mooi naar beneden geplaatst zoals gevraagd */
       box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .btn-claim {
       width: 100%;
       background: linear-gradient(135deg, #ffb700, #ff8800);
       border: none;
-      padding: 12px;
-      border-radius: 14px;
+      padding: 10px;
+      border-radius: 12px;
       color: #000;
       font-weight: 900;
-      font-size: 1rem;
+      font-size: 0.95rem;
       cursor: pointer;
       box-shadow: 0 4px 15px rgba(255, 136, 0, 0.5);
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .page-box {
       background: rgba(22, 14, 8, 0.92);
       border: 2px solid #704b2e;
       border-radius: 18px;
-      padding: 14px;
-      max-height: 75vh;
+      padding: 12px;
+      max-height: 78vh;
       overflow-y: auto;
-      margin-top: 10px;
+      margin-top: 6px;
     }
 
     .page-title {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       color: #ffd700;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-weight: bold;
       text-align: center;
     }
@@ -177,14 +180,14 @@
       background: rgba(0, 0, 0, 0.5);
       border: 1px solid rgba(255, 215, 0, 0.3);
       border-radius: 12px;
-      padding: 10px;
+      padding: 8px 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .task-info strong { color: #fff; font-size: 0.85rem; }
-    .task-info small { color: #ffb700; font-size: 0.72rem; }
+    .task-info strong { color: #fff; font-size: 0.82rem; }
+    .task-info small { color: #ffb700; font-size: 0.7rem; }
 
     .btn-buy {
       background: linear-gradient(135deg, #ff9900, #ff6600);
@@ -193,7 +196,7 @@
       border-radius: 8px;
       font-weight: bold;
       color: #000;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       cursor: pointer;
       white-space: nowrap;
     }
@@ -203,7 +206,7 @@
       border: 1px solid #ff9900;
       border-radius: 12px;
       padding: 10px;
-      margin-top: 8px;
+      margin-top: 6px;
       text-align: left;
     }
     .wallet-box-manual label { font-size: 0.72rem; color: #ffd700; font-weight: bold; }
@@ -219,22 +222,45 @@
       background: rgba(0,0,0,0.6);
       border: 2px solid #f39c12;
       border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 10px;
+      padding: 10px;
+      margin-bottom: 8px;
       text-align: center;
     }
-    .campaign-slider { width: 100%; margin: 8px 0; accent-color: #f39c12; }
+    .campaign-slider { width: 100%; margin: 6px 0; accent-color: #f39c12; }
 
-    /* LUCHTELIGE ÇARK STİLİ */
+    /* ACHTERGROND KIEZER STIJL (SWITCHER) */
+    .bg-switcher-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .bg-option-btn {
+      background: #2b1a0f;
+      border: 1px solid #704b2e;
+      padding: 6px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+    }
+    .bg-option-btn.active {
+      border-color: #ffd700;
+      background: #5c3a21;
+    }
+
+    /* ÇARK */
     .wheel-tree-container {
-      position: relative; width: 240px; height: 240px; margin: 10px auto; display: flex; justify-content: center; align-items: center;
+      position: relative; width: 220px; height: 220px; margin: 10px auto; display: flex; justify-content: center; align-items: center;
     }
     .wheel-pointer-top {
       position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
       width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 24px solid #ff3333; z-index: 40;
     }
     .wheel-wooden-frame {
-      width: 220px; height: 220px; border-radius: 50%; border: 10px solid #b8860b; position: relative; overflow: hidden; background: #222;
+      width: 200px; height: 200px; border-radius: 50%; border: 10px solid #b8860b; position: relative; overflow: hidden; background: #222;
     }
     .wheel {
       width: 100%; height: 100%; border-radius: 50%;
@@ -243,13 +269,13 @@
     }
     .wheel-center-hub {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 40px; height: 40px; background: #ffd700; border-radius: 50%; border: 2px solid #8b6508; z-index: 30; display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; background: #ffd700; border-radius: 50%; border: 2px solid #8b6508; z-index: 30; display: flex; align-items: center; justify-content: center;
     }
     .wheel-btn-wood {
-      background: linear-gradient(135deg, #ffd700, #ff8800); color: #1a0f05; border: 2px solid #fff; padding: 10px 30px; font-weight: 900; border-radius: 20px; cursor: pointer; margin-top: 10px;
+      background: linear-gradient(135deg, #ffd700, #ff8800); color: #1a0f05; border: 2px solid #fff; padding: 8px 25px; font-weight: 900; border-radius: 20px; cursor: pointer; margin-top: 8px;
     }
 
-    /* 5 ÖNEMLİ ALT MENÜ (Honey Farm Tarzı) */
+    /* 4/5 ÖNEMLİ ALT MENÜ (Honey Farm Tarzı) */
     .bottom-nav {
       position: absolute;
       bottom: 0;
@@ -276,8 +302,8 @@
     .nav-icon { font-size: 1.15rem; }
 
     .toast-notification {
-      position: absolute; top: 50px; left: 50%; transform: translateX(-50%);
-      background: rgba(0,0,0,0.92); border: 1.5px solid #ffd700; color: #ffd700; padding: 8px 16px; border-radius: 20px; font-size: 0.78rem; font-weight: bold; z-index: 300; display: none; text-align: center;
+      position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.92); border: 1.5px solid #ffd700; color: #ffd700; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; z-index: 300; display: none; text-align: center;
     }
 
     .modal-overlay {
@@ -286,13 +312,13 @@
     }
     .modal-overlay.active { display: flex; }
     .modal-box {
-      background: #180f08; border: 2px solid #ffb700; border-radius: 18px; padding: 20px; width: 90%; max-width: 360px; text-align: center;
+      background: #180f08; border: 2px solid #ffb700; border-radius: 18px; padding: 16px; width: 90%; max-width: 360px; text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <!-- FULLSCREEN ACHTERGROND VIDEO (RUST OVER HET HELE SCHERM) -->
+  <!-- FULLSCREEN ACHTERGROND VIDEO (RUIM & VERTE EFFECT) -->
   <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
@@ -300,64 +326,90 @@
   <div class="app-container">
     <div id="toast" class="toast-notification"></div>
 
-    <!-- OVERLAYS & INHOUD -->
     <div class="overlay-content">
 
-      <!-- TOP HUD (Honey Farm Stijl) -->
+      <!-- TOP HUD -->
       <div class="top-hud-container">
         <div class="wood-panel">
           <div class="hud-avatar" id="hudAvatarLetter">A</div>
           <div>
             <div style="font-size: 0.72rem; font-weight: 900; color: #fff;" id="hudUsername">Oyuncu</div>
-            <div style="font-size: 0.65rem; color: #ffd700;" id="hudLevelBadge">⭐ Seviye 1</div>
+            <div style="font-size: 0.62rem; color: #ffd700;" id="hudLevelBadge">⭐ Seviye 1</div>
           </div>
         </div>
 
         <div class="wood-panel" style="flex-direction: column; align-items: flex-end;">
           <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;" id="balance">0.0 🥩</div>
-          <div style="font-size: 0.65rem; color: #ccc;" id="gramBalance">0.0000 GRAM</div>
+          <div style="font-size: 0.62rem; color: #ccc;" id="gramBalance">0.0000 GRAM</div>
         </div>
       </div>
 
-      <!-- TAB 1: YAVRU / ANA SAYFA -->
+      <!-- TAB 1: YAVRU / ANA SAYFA (VERLAAGD & KLEINER CLAIM BLOK) -->
       <div id="tab-yavru" class="tab-content active">
         <div class="center-action-box">
-          <div style="font-size: 0.75rem; color: #aaa;" id="huntCollectLabel">Toplanabilir Biftek:</div>
-          <div style="font-size: 1.6rem; font-weight: 900; color: #ffd700; margin: 4px 0;" id="huntSteakDisplay">0 🥩</div>
-          <button class="btn-claim" onclick="claimEarnings()" id="huntClaimBtn">📥 Biftekleri Topla</button>
+          <div style="font-size: 0.72rem; color: #aaa;">Toplanabilir Biftek:</div>
+          <div style="font-size: 1.4rem; font-weight: 900; color: #ffd700; margin: 3px 0;" id="huntSteakDisplay">0 🥩</div>
+          <button class="btn-claim" onclick="claimEarnings()">📥 Biftekleri Topla</button>
         </div>
       </div>
 
-      <!-- TAB 2: MAĞRA / YÜKSELMELER -->
+      <!-- TAB 2: MAĞRA & KAMPANYA BİRLEŞTİRİLDİ -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
-          <div class="page-title" id="marketTitle">🏕️ Mağra & Hayvanlar</div>
+          <div class="page-title">🏕️ Mağra & Kampanya</div>
+
+          <!-- Kampanya Bölümü -->
+          <div class="campaign-box">
+            <div style="font-size: 0.78rem; font-weight: bold; color: #ffd700;">🚀 Özel Biftek Kampanyası</div>
+            <div style="font-size: 0.7rem; color: #ccc;">USD Miktarını Seç:</div>
+            <div style="font-size: 1rem; font-weight: 900; color: #fff; margin: 2px 0;" id="sliderUsdVal">$10 USD</div>
+            <input type="range" min="1" max="500" value="10" class="campaign-slider" id="usdSlider" oninput="updateCampaignSlider(this.value)">
+            <div style="font-size: 0.72rem; color: #2ecc71; font-weight: bold; margin-bottom: 4px;" id="sliderRewardVal">Alacağın: 5,000 🥩</div>
+            <button class="btn-claim" style="padding: 6px; font-size: 0.8rem;" onclick="buyCampaignSteak()">Paketi Satın Al</button>
+          </div>
+
+          <!-- Hayvanlar & Üretim Hızı -->
+          <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">🐾 Hayvan Sahiplen & Üretim Hızını Artır</div>
+          <div style="font-size: 0.68rem; color: #aaa; margin-bottom: 6px;" id="totalSpeedInfo">Toplam Üretim Hızı: 20 🥩 / sa</div>
+          
           <div class="task-list">
             <div class="task-card">
               <div class="task-info">
-                <strong>🐾 Ekstra Yavru Sahiplen</strong><br><small>+50 🥩 / sa</small>
+                <strong>🐾 Ekstra Yavru Sahiplen (<span id="countCub">0</span>)</strong><br><small>+50 🥩 / sa</small>
               </div>
               <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Yavru')">200 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
-                <strong>🐆 Jaguar Ekle</strong><br><small>+120 🥩 / sa</small>
+                <strong>🐆 Jaguar Ekle (<span id="countJaguar">0</span>)</strong><br><small>+120 🥩 / sa</small>
               </div>
               <button class="btn-buy" onclick="buyWithSteak(800, 'buyJaguar', 'Jaguar')">800 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
-                <strong>🦅 Afrika Akbabası Ekle</strong><br><small>+80 🥩 / sa</small>
+                <strong>🦅 Afrika Akbabası Ekle (<span id="countVulture">0</span>)</strong><br><small>+80 🥩 / sa</small>
               </div>
               <button class="btn-buy" onclick="buyWithSteak(500, 'buyVulture', 'Akbaba')">500 🥩</button>
             </div>
             <div class="task-card">
               <div class="task-info">
-                <strong>🐺 Hyena Sürüsü Ekle</strong><br><small>+200 🥩 / sa</small>
+                <strong>🐺 Hyena Sürüsü Ekle (<span id="countHyena">0</span>)</strong><br><small>+200 🥩 / sa</small>
               </div>
               <button class="btn-buy" onclick="buyWithSteak(1200, 'buyHyena', 'Hyena')">1200 🥩</button>
             </div>
           </div>
+
+          <!-- ACHTERGROND SWITCHER (JOUW IDEE!) -->
+          <div style="margin-top: 10px; border-top: 1px solid rgba(255,215,0,0.3); padding-top: 8px;">
+            <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Tema Değiştir)</div>
+            <div class="bg-switcher-grid">
+              <button class="bg-option-btn active" id="bgBtn-empty" onclick="changeBackground('./background_empty.MP4', 'empty')">🪨 Standart Mağra</button>
+              <button class="bg-option-btn" id="bgBtn-lion" onclick="changeBackground('./background_lion.MP4', 'lion')">🦁 Kral Aslan</button>
+              <button class="bg-option-btn" id="bgBtn-mother" onclick="changeBackground('./background_mother.MP4', 'mother')">👑 Dişi Aslan</button>
+              <button class="bg-option-btn" id="bgBtn-hyena" onclick="changeBackground('./background_hyena.MP4', 'hyena')">🐺 Kurt / Hyena</button>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -365,26 +417,12 @@
       <div id="tab-hunt" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🔄 Biftek → GRAM Takası</div>
-          <p style="font-size: 0.78rem; color: #ccc; margin-bottom: 10px;">100 Biftek = 0.0100 GRAM</p>
+          <p style="font-size: 0.75rem; color: #ccc; margin-bottom: 8px;">100 Biftek = 0.0100 GRAM</p>
           <button class="btn-claim" onclick="exchangeSteakToGram()" style="background: #2ecc71; color: #000;">GRAM ile Değiştir</button>
         </div>
       </div>
 
-      <!-- TAB 4: KAMPANYA -->
-      <div id="tab-kampanya" class="tab-content">
-        <div class="page-box" style="text-align: center;">
-          <div class="page-title">🚀 Özel Biftek Kampanyası</div>
-          <div class="campaign-box">
-            <div style="font-size: 0.75rem; color: #ccc;">USD Miktarını Seç:</div>
-            <div style="font-size: 1.1rem; font-weight: 900; color: #fff; margin: 4px 0;" id="sliderUsdVal">$10 USD</div>
-            <input type="range" min="1" max="500" value="10" class="campaign-slider" id="usdSlider" oninput="updateCampaignSlider(this.value)">
-            <div style="font-size: 0.78rem; color: #2ecc71; font-weight: bold; margin-bottom: 6px;" id="sliderRewardVal">Alacağın: 5,000 🥩</div>
-            <button class="btn-claim" onclick="buyCampaignSteak()">Paketi Satın Al</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- POP-UP MENÜ (EXTRA MODÜLLER) -->
+      <!-- POP-UP MENÜ -->
       <div class="menu-popup" id="menuPopup">
         <div class="menu-popup-btn" onclick="openModalTab('gorevler')">📋 Görevler</div>
         <div class="menu-popup-btn" onclick="openModalTab('spin')">🎡 Şans Çarkı</div>
@@ -462,11 +500,15 @@
         </div>
       </div>
 
+      <!-- CÜZDAN (TONCOIN / GRAM LOGO & AÇIKLAMA EKLENDİ) -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box" style="text-align: center;">
-          <div class="page-title">👛 Cüzdan</div>
+          <div class="page-title">👛 Toncoin (TON) & GRAM Cüzdan</div>
+          <p style="font-size: 0.72rem; color: #ccc; margin-bottom: 8px;">
+            💎 Lütfen yalnızca <strong>Toncoin (TON)</strong> veya <strong>GRAM</strong> ağından yatırım yapın.
+          </p>
           <div class="wallet-box-manual">
-            <label>Yatırım Adresi:</label>
+            <label>Yatırım Yapılacak Cüzdan Adresi:</label>
             <div class="wallet-input-row">
               <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
               <button class="btn-copy" onclick="copyMyWallet()">Kopya</button>
@@ -477,12 +519,11 @@
 
     </div>
 
-    <!-- 5 ÖNEMLİ ALT MENÜ (Honey Farm Tarzı) -->
+    <!-- 4 ÖNEMLİ ALT MENÜ (Mağra envanter içine alındı) -->
     <div class="bottom-nav">
       <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Yavru</div></div>
       <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
       <div class="nav-item" onclick="switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
-      <div class="nav-item" onclick="switchTab('kampanya', this)"><div class="nav-icon">🚀</div><div>Kampanya</div></div>
       <div class="nav-item" onclick="toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menü</div></div>
     </div>
 
@@ -495,7 +536,7 @@
       <div class="wallet-box-manual" style="margin-top:0;">
         <label>Ödenecek Tutar (USD):</label>
         <div class="wallet-input-row"><input type="text" id="payModalAmount" readonly><button class="btn-copy" onclick="copyPayAmount()">Kopya</button></div>
-        <label>Cüzdan:</label>
+        <label>Toncoin Cüzdan:</label>
         <div class="wallet-input-row"><input type="text" id="payModalAddress" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly><button class="btn-copy" onclick="copyPayAddress()">Kopya</button></div>
       </div>
       <button class="btn-claim" onclick="confirmManualPayment()">✅ Ödemeyi Yaptım</button>
@@ -524,12 +565,11 @@
     let jaguarCount = parseInt(localStorage.getItem('jaguarCount')) || 0;
     let vultureCount = parseInt(localStorage.getItem('vultureCount')) || 0;
     let hyenaCount = parseInt(localStorage.getItem('hyenaCount')) || 0;
-    let isFused = localStorage.getItem('isFused') === 'true';
-    let hasMaleLion = localStorage.getItem('hasMaleLion') === 'true';
     let totalEarnedSteak = parseFloat(localStorage.getItem('totalEarnedSteak')) || 0.0;
     let level = parseInt(localStorage.getItem('level')) || 1;
     let lastDailyClaim = parseInt(localStorage.getItem('lastDailyClaim')) || 0;
     let lastWheelSpin = parseInt(localStorage.getItem('lastWheelSpin')) || 0;
+    let currentCustomBg = localStorage.getItem('currentCustomBg') || './background_empty.MP4';
     let currentRotation = 0;
 
     function saveData() {
@@ -541,12 +581,11 @@
       localStorage.setItem('jaguarCount', jaguarCount);
       localStorage.setItem('vultureCount', vultureCount);
       localStorage.setItem('hyenaCount', hyenaCount);
-      localStorage.setItem('isFused', isFused);
-      localStorage.setItem('hasMaleLion', hasMaleLion);
       localStorage.setItem('totalEarnedSteak', totalEarnedSteak);
       localStorage.setItem('level', level);
       localStorage.setItem('lastDailyClaim', lastDailyClaim);
       localStorage.setItem('lastWheelSpin', lastWheelSpin);
+      localStorage.setItem('currentCustomBg', currentCustomBg);
     }
 
     function checkLevelUp() {
@@ -626,6 +665,23 @@
       saveData();
       updateCaveDisplay();
       showToast(`🎉 Başarıyla ${name} satın alındı!`);
+    }
+
+    function changeBackground(videoSrc, btnKey) {
+      currentCustomBg = videoSrc;
+      let videoElem = document.getElementById('bgVideo');
+      let videoSource = document.getElementById('bgVideoSource');
+      
+      videoSource.src = videoSrc;
+      videoElem.load();
+      videoElem.play();
+
+      document.querySelectorAll('.bg-option-btn').forEach(btn => btn.classList.remove('active'));
+      let activeBtn = document.getElementById('bgBtn-' + btnKey);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      saveData();
+      showToast("🎬 Arka plan güncellendi!");
     }
 
     function completeChannelTask() {
@@ -743,29 +799,27 @@
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
       
+      // Hayvan sayılarını güncelle
+      document.getElementById('countCub').innerText = cubCount;
+      document.getElementById('countJaguar').innerText = jaguarCount;
+      document.getElementById('countVulture').innerText = vultureCount;
+      document.getElementById('countHyena').innerText = hyenaCount;
+
+      let steakPerHour = 20 + (cubCount * 50) + (jaguarCount * 120) + (vultureCount * 80) + (hyenaCount * 200);
+      document.getElementById('totalSpeedInfo').innerText = `Toplam Üretim Hızı: ${steakPerHour} 🥩 / sa`;
+
       let videoElem = document.getElementById('bgVideo');
       let videoSource = document.getElementById('bgVideoSource');
-      let targetVideo = './background_empty.MP4';
-      let totalAnimals = cubCount + jaguarCount + vultureCount + hyenaCount;
 
-      if (hasMaleLion) targetVideo = './background_lion.MP4';
-      else if (isFused) targetVideo = './background_mother.MP4';
-      else if (hyenaCount > 0) targetVideo = './background_hyena.MP4';
-      else if (jaguarCount > 0) targetVideo = './background_jaguar.MP4';
-      else if (cubCount === 3) targetVideo = './background_cub3.MP4';
-      else if (cubCount >= 4 || totalAnimals >= 4) targetVideo = './background_cub4.MP4';
-      else if (cubCount === 2) targetVideo = './background_cubs2.MP4';
-      else if (cubCount === 1 || totalAnimals === 1) targetVideo = './background_cub1.MP4';
+      if (!videoSource.src.includes(currentCustomBg.replace('./', ''))) {
+        videoSource.src = currentCustomBg;
+        videoElem.load();
+        videoElem.play();
+      }
 
       document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
       document.getElementById('myRankDetails').innerText = `Level ${level} • ${balance.toFixed(0)} 🥩`;
       document.getElementById('myRankGram').innerText = gramBalance.toFixed(2) + " GRAM";
-
-      if (!videoSource.src.includes(targetVideo.replace('./', ''))) {
-        videoSource.src = targetVideo;
-        videoElem.load();
-        videoElem.play();
-      }
     }
 
     function showToast(text) {

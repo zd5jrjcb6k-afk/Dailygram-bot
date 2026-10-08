@@ -257,25 +257,51 @@
       background: #5c3a21;
     }
 
-    /* ÇARK */
+    /* ŞANS ÇARKI */
     .wheel-tree-container {
-      position: relative; width: 220px; height: 220px; margin: 10px auto; display: flex; justify-content: center; align-items: center;
+      position: relative; width: 240px; height: 240px; margin: 10px auto; display: flex; justify-content: center; align-items: center;
     }
     .wheel-pointer-top {
-      position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
+      position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
       width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 24px solid #ff3333; z-index: 40;
     }
     .wheel-wooden-frame {
-      width: 200px; height: 200px; border-radius: 50%; border: 10px solid #b8860b; position: relative; overflow: hidden; background: #222;
+      width: 220px; height: 220px; border-radius: 50%; border: 10px solid #b8860b; position: relative; overflow: hidden; background: #222; box-shadow: 0 0 15px rgba(0,0,0,0.8);
     }
     .wheel {
       width: 100%; height: 100%; border-radius: 50%;
-      background: conic-gradient(#ff4d4d 0deg 45deg, #ffa500 45deg 90deg, #ffd700 90deg 135deg, #2ecc71 135deg 180deg, #1abc9c 180deg 225deg, #3498db 225deg 270deg, #9b59b6 270deg 315deg, #e74c3c 315deg 360deg);
+      background: conic-gradient(
+        #e74c3c 0deg 45deg, 
+        #e67e22 45deg 90deg, 
+        #f1c40f 90deg 135deg, 
+        #2ecc71 135deg 180deg, 
+        #1abc9c 180deg 225deg, 
+        #3498db 225deg 270deg, 
+        #9b59b6 270deg 315deg, 
+        #f39c12 315deg 360deg
+      );
       transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
+      position: relative;
+    }
+    .wheel-label {
+      position: absolute;
+      width: 50%;
+      height: 30px;
+      top: 50%;
+      left: 50%;
+      transform-origin: left center;
+      font-size: 0.65rem;
+      font-weight: 900;
+      color: #000;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      padding-left: 45px;
+      pointer-events: none;
     }
     .wheel-center-hub {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 36px; height: 36px; background: #ffd700; border-radius: 50%; border: 2px solid #8b6508; z-index: 30; display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; background: #ffd700; border-radius: 50%; border: 3px solid #8b6508; z-index: 30; display: flex; align-items: center; justify-content: center; font-size: 1rem;
     }
     .wheel-btn-wood {
       background: linear-gradient(135deg, #ffd700, #ff8800); color: #1a0f05; border: 2px solid #fff; padding: 8px 25px; font-weight: 900; border-radius: 20px; cursor: pointer; margin-top: 8px;
@@ -374,7 +400,7 @@
             <button class="btn-claim" style="padding: 6px; font-size: 0.8rem;" onclick="buyCampaignSteak()">Paketi Satın Al</button>
           </div>
 
-          <!-- Hayvanlar & Üretim Hızı (Balans / Snelheid verlaagd) -->
+          <!-- Hayvanlar & Üretim Hızı -->
           <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">🐾 Hayvan Sahiplen & Üretim Hızını Artır</div>
           <div style="font-size: 0.68rem; color: #aaa; margin-bottom: 6px;" id="totalSpeedInfo">Toplam Üretim Hızı: 10 🥩 / sa</div>
           
@@ -438,11 +464,11 @@
         </div>
       </div>
 
-      <!-- TAB 3: AV / TAKAS (Aangepast: 500 Biftek = 0.0100 GRAM) -->
+      <!-- TAB 3: AV / TAKAS (STRENGER GEMAAKT: 2500 Biftek = 0.0100 GRAM) -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🔄 Biftek → GRAM Takası</div>
-          <p style="font-size: 0.75rem; color: #ccc; margin-bottom: 8px;">500 Biftek = 0.0100 GRAM</p>
+          <p style="font-size: 0.75rem; color: #ccc; margin-bottom: 8px;">2,500 Biftek = 0.0100 GRAM</p>
           <button class="btn-claim" onclick="exchangeSteakToGram()" style="background: #2ecc71; color: #000;">GRAM ile Değiştir</button>
         </div>
       </div>
@@ -477,14 +503,24 @@
         </div>
       </div>
 
+      <!-- ŞANS ÇARKI -->
       <div id="tab-spin" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🎡 Şans Çarkı</div>
           <div class="wheel-tree-container">
             <div class="wheel-pointer-top"></div>
             <div class="wheel-wooden-frame">
-              <div class="wheel" id="wheel"></div>
-              <div class="wheel-center-hub">🥩</div>
+              <div class="wheel" id="wheel">
+                <div class="wheel-label" style="transform: rotate(22.5deg);">50 🥩</div>
+                <div class="wheel-label" style="transform: rotate(67.5deg);">100 🥩</div>
+                <div class="wheel-label" style="transform: rotate(112.5deg);">250 🥩</div>
+                <div class="wheel-label" style="transform: rotate(157.5deg);">500 🥩</div>
+                <div class="wheel-label" style="transform: rotate(202.5deg);">75 🥩</div>
+                <div class="wheel-label" style="transform: rotate(247.5deg);">150 🥩</div>
+                <div class="wheel-label" style="transform: rotate(292.5deg);">300 🥩</div>
+                <div class="wheel-label" style="transform: rotate(337.5deg);">1000 🥩</div>
+              </div>
+              <div class="wheel-center-hub">🎁</div>
             </div>
           </div>
           <button class="wheel-btn-wood" id="spinBtn" onclick="spinWheel()">ÇEVİR</button>
@@ -585,6 +621,7 @@
     let balance = parseFloat(localStorage.getItem('balance')) || 0.0; 
     let gramBalance = parseFloat(localStorage.getItem('gramBalance')) || 0.0000;
     let unclaimedSteak = parseFloat(localStorage.getItem('unclaimedSteak')) || 0.0;
+    let lastClaimTime = parseInt(localStorage.getItem('lastClaimTime')) || Date.now();
     let inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
     
     let cubCount = parseInt(localStorage.getItem('cubCount')) || 0;
@@ -601,10 +638,24 @@
     let currentCustomBg = localStorage.getItem('currentCustomBg') || './background_empty.MP4';
     let currentRotation = 0;
 
+    function calculateOfflineEarnings() {
+      let now = Date.now();
+      let elapsedSeconds = (now - lastClaimTime) / 1000;
+      if (elapsedSeconds > 0) {
+        let steakPerHour = 10 + (cubCount * 20) + (lionCount * 100) + (twoLionsCount * 250) + (jaguarCount * 60) + (vultureCount * 40) + (hyenaCount * 150);
+        let earnedOffline = (steakPerHour / 3600) * elapsedSeconds;
+        unclaimedSteak += earnedOffline;
+        totalEarnedSteak += earnedOffline;
+      }
+      lastClaimTime = now;
+      saveData();
+    }
+
     function saveData() {
       localStorage.setItem('balance', balance);
       localStorage.setItem('gramBalance', gramBalance);
       localStorage.setItem('unclaimedSteak', unclaimedSteak);
+      localStorage.setItem('lastClaimTime', lastClaimTime);
       localStorage.setItem('inviteCount', inviteCount);
       localStorage.setItem('cubCount', cubCount);
       localStorage.setItem('lionCount', lionCount);
@@ -629,11 +680,14 @@
       document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
     }
 
+    calculateOfflineEarnings();
+
     setInterval(() => {
       let steakPerHour = 10 + (cubCount * 20) + (lionCount * 100) + (twoLionsCount * 250) + (jaguarCount * 60) + (vultureCount * 40) + (hyenaCount * 150);
       let steakPerSecond = steakPerHour / 3600;
       unclaimedSteak += steakPerSecond;
       totalEarnedSteak += steakPerSecond;
+      lastClaimTime = Date.now();
       
       document.getElementById('huntSteakDisplay').innerText = Math.floor(unclaimedSteak) + " 🥩";
       checkLevelUp();
@@ -648,6 +702,7 @@
       }
       balance += earned;
       unclaimedSteak -= earned;
+      lastClaimTime = Date.now();
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('huntSteakDisplay').innerText = "0 🥩";
       document.getElementById('myRankDetails').innerText = `Level ${level} • ${balance.toFixed(0)} 🥩`;
@@ -656,12 +711,13 @@
       showToast(`🎉 ${earned} 🥩 cüzdana eklendi!`);
     }
 
+    // Aangepast naar 2500 biftek per 0.01 GRAM voor een veel stabielere economie
     function exchangeSteakToGram() {
-      if (balance < 500) {
-        showToast("En az 500 Biftek olmalıdır!");
+      if (balance < 2500) {
+        showToast("En az 2,500 Biftek olmalıdır!");
         return;
       }
-      let gramEarned = (balance / 500) * 0.0100;
+      let gramEarned = (balance / 2500) * 0.0100;
       gramBalance += gramEarned;
       balance = 0;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
@@ -825,10 +881,11 @@
       document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
-        let reward = 100;
-        balance += reward;
+        let rewards = [50, 100, 250, 500, 75, 150, 300, 1000];
+        let randomReward = rewards[Math.floor(Math.random() * rewards.length)];
+        balance += randomReward;
         document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-        showToast(`🎉 Çarktan +${reward} 🥩 Kazandın! 🎁`);
+        showToast(`🎉 Çarktan +${randomReward} 🥩 Kazandın! 🎁`);
         lastWheelSpin = Date.now();
         saveData();
         btn.innerText = "Yarın Tekrar Gel";
@@ -918,12 +975,14 @@
       document.getElementById('myRankGram').innerText = gramBalance.toFixed(2) + " GRAM";
     }
 
-    function showToast(text) {
+    function showToken(text) {
       let t = document.getElementById('toast');
       t.innerText = text;
       t.style.display = 'block';
       setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
+    
+    function showToast(text) { showToken(text); }
 
     updateCaveDisplay();
   </script>

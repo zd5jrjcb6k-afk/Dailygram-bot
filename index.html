@@ -400,6 +400,7 @@
           <div style="font-size: 0.68rem; color: #aaa; margin-bottom: 6px;" id="totalSpeedInfo">Toplam Üretim Hızı: 10 🥩 / sa</div>
           
           <div class="task-list">
+            <!-- Bestaande dieren -->
             <div class="task-card">
               <div class="task-info">
                 <strong>🐾 Aslan Yavrusu (<span id="countCub">0</span>)</strong><br><small>+20 🥩 / sa</small>
@@ -435,6 +436,56 @@
                 <strong>🐺 Sırtlan Sürüsü (<span id="countHyena">0</span>)</strong><br><small>+150 🥩 / sa</small>
               </div>
               <button class="btn-buy" onclick="buyWithSteak(1500, 'buyHyena', 'Sırtlan Sürüsü')">1500 🥩</button>
+            </div>
+
+            <!-- Nieuwe savannedieren -->
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🦌 Antilop (<span id="countAntelope">0</span>)</strong><br><small>+50 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(2000, 'buyAntelope', 'Antilop')">2000 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🐺 Jakhals (<span id="countJackal">0</span>)</strong><br><small>+120 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(5000, 'buyJackal', 'Jakhals')">5000 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🐆 Jachtluipaard (<span id="countCheetah">0</span>)</strong><br><small>+250 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(10000, 'buyCheetah', 'Jachtluipaard')">10000 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🐍 Python Slang (<span id="countPython">0</span>)</strong><br><small>+550 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(22000, 'buyPython', 'Python Slang')">22000 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🐊 Krokodil (<span id="countCrocodile">0</span>)</strong><br><small>+1200 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(45000, 'buyCrocodile', 'Krokodil')">45000 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🦏 Zwarte Neushoorn (<span id="countBlackRhino">0</span>)</strong><br><small>+2500 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(90000, 'buyBlackRhino', 'Zwarte Neushoorn')">90000 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🦏 Witte Neushoorn (<span id="countWhiteRhino">0</span>)</strong><br><small>+5200 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(180000, 'buyWhiteRhino', 'Witte Neushoorn')">180000 🥩</button>
+            </div>
+            <div class="task-card">
+              <div class="task-info">
+                <strong>🐘 Olifant (<span id="countElephant">0</span>)</strong><br><small>+10000 🥩 / sa</small>
+              </div>
+              <button class="btn-buy" onclick="buyWithSteak(350000, 'buyElephant', 'Olifant')">350000 🥩</button>
             </div>
           </div>
 
@@ -618,6 +669,16 @@
     let jaguarCount = parseInt(localStorage.getItem('jaguarCount')) || 0;
     let vultureCount = parseInt(localStorage.getItem('vultureCount')) || 0;
     let hyenaCount = parseInt(localStorage.getItem('hyenaCount')) || 0;
+    
+    // Nieuwe dierentellers
+    let antelopeCount = parseInt(localStorage.getItem('antelopeCount')) || 0;
+    let jackalCount = parseInt(localStorage.getItem('jackalCount')) || 0;
+    let cheetahCount = parseInt(localStorage.getItem('cheetahCount')) || 0;
+    let pythonCount = parseInt(localStorage.getItem('pythonCount')) || 0;
+    let crocodileCount = parseInt(localStorage.getItem('crocodileCount')) || 0;
+    let blackRhinoCount = parseInt(localStorage.getItem('blackRhinoCount')) || 0;
+    let whiteRhinoCount = parseInt(localStorage.getItem('whiteRhinoCount')) || 0;
+    let elephantCount = parseInt(localStorage.getItem('elephantCount')) || 0;
 
     let totalEarnedSteak = parseFloat(localStorage.getItem('totalEarnedSteak')) || 0.0;
     let level = parseInt(localStorage.getItem('level')) || 1;
@@ -625,6 +686,24 @@
     let lastWheelSpin = parseInt(localStorage.getItem('lastWheelSpin')) || 0;
     let currentCustomBg = localStorage.getItem('currentCustomBg') || './background_empty.MP4';
     let currentRotation = 0;
+
+    function getSteakPerHour() {
+      return 10 + 
+        (cubCount * 20) + 
+        (lionCount * 100) + 
+        (twoLionsCount * 250) + 
+        (jaguarCount * 60) + 
+        (vultureCount * 40) + 
+        (hyenaCount * 150) +
+        (antelopeCount * 50) +
+        (jackalCount * 120) +
+        (cheetahCount * 250) +
+        (pythonCount * 550) +
+        (crocodileCount * 1200) +
+        (blackRhinoCount * 2500) +
+        (whiteRhinoCount * 5200) +
+        (elephantCount * 10000);
+    }
 
     function calculateEarnings() {
       let now = Date.now();
@@ -636,7 +715,7 @@
       }
 
       if (elapsedSeconds > 0) {
-        let steakPerHour = 10 + (cubCount * 20) + (lionCount * 100) + (twoLionsCount * 250) + (jaguarCount * 60) + (vultureCount * 40) + (hyenaCount * 150);
+        let steakPerHour = getSteakPerHour();
         let earned = (steakPerHour / 3600) * elapsedSeconds;
         unclaimedSteak += earned;
         totalEarnedSteak += earned;
@@ -657,6 +736,14 @@
       localStorage.setItem('jaguarCount', jaguarCount);
       localStorage.setItem('vultureCount', vultureCount);
       localStorage.setItem('hyenaCount', hyenaCount);
+      localStorage.setItem('antelopeCount', antelopeCount);
+      localStorage.setItem('jackalCount', jackalCount);
+      localStorage.setItem('cheetahCount', cheetahCount);
+      localStorage.setItem('pythonCount', pythonCount);
+      localStorage.setItem('crocodileCount', crocodileCount);
+      localStorage.setItem('blackRhinoCount', blackRhinoCount);
+      localStorage.setItem('whiteRhinoCount', whiteRhinoCount);
+      localStorage.setItem('elephantCount', elephantCount);
       localStorage.setItem('totalEarnedSteak', totalEarnedSteak);
       localStorage.setItem('level', level);
       localStorage.setItem('lastDailyClaim', lastDailyClaim);
@@ -682,7 +769,7 @@
       let maxSeconds = 3 * 3600;
       if (elapsedSeconds > maxSeconds) elapsedSeconds = maxSeconds;
 
-      let steakPerHour = 10 + (cubCount * 20) + (lionCount * 100) + (twoLionsCount * 250) + (jaguarCount * 60) + (vultureCount * 40) + (hyenaCount * 150);
+      let steakPerHour = getSteakPerHour();
       let currentDisplaySteak = unclaimedSteak + ((steakPerHour / 3600) * elapsedSeconds);
       
       document.getElementById('huntSteakDisplay').innerText = Math.floor(currentDisplaySteak) + " 🥩";
@@ -747,26 +834,19 @@
         else if (cubCount === 3) currentCustomBg = './background_cub3.MP4';
         else if (cubCount >= 4) currentCustomBg = './background_cub4.MP4';
       }
-      else if (type === 'buyLion') {
-        lionCount++;
-        currentCustomBg = './background_lion.MP4';
-      }
-      else if (type === 'buyTwoLions') {
-        twoLionsCount++;
-        currentCustomBg = './background_two_lions.MP4';
-      }
-      else if (type === 'buyJaguar') {
-        jaguarCount++;
-        currentCustomBg = './background_jaguar.MP4';
-      }
-      else if (type === 'buyVulture') {
-        vultureCount++;
-        currentCustomBg = './background_vulture.MP4';
-      }
-      else if (type === 'buyHyena') {
-        hyenaCount++;
-        currentCustomBg = './background_hyena.MP4';
-      }
+      else if (type === 'buyLion') { lionCount++; currentCustomBg = './background_lion.MP4'; }
+      else if (type === 'buyTwoLions') { twoLionsCount++; currentCustomBg = './background_two_lions.MP4'; }
+      else if (type === 'buyJaguar') { jaguarCount++; currentCustomBg = './background_jaguar.MP4'; }
+      else if (type === 'buyVulture') { vultureCount++; currentCustomBg = './background_vulture.MP4'; }
+      else if (type === 'buyHyena') { hyenaCount++; currentCustomBg = './background_hyena.MP4'; }
+      else if (type === 'buyAntelope') { antelopeCount++; }
+      else if (type === 'buyJackal') { jackalCount++; }
+      else if (type === 'buyCheetah') { cheetahCount++; }
+      else if (type === 'buyPython') { pythonCount++; }
+      else if (type === 'buyCrocodile') { crocodileCount++; }
+      else if (type === 'buyBlackRhino') { blackRhinoCount++; }
+      else if (type === 'buyWhiteRhino') { whiteRhinoCount++; }
+      else if (type === 'buyElephant') { elephantCount++; }
 
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
@@ -944,8 +1024,17 @@
       document.getElementById('countJaguar').innerText = jaguarCount;
       document.getElementById('countVulture').innerText = vultureCount;
       document.getElementById('countHyena').innerText = hyenaCount;
+      
+      document.getElementById('countAntelope').innerText = antelopeCount;
+      document.getElementById('countJackal').innerText = jackalCount;
+      document.getElementById('countCheetah').innerText = cheetahCount;
+      document.getElementById('countPython').innerText = pythonCount;
+      document.getElementById('countCrocodile').innerText = crocodileCount;
+      document.getElementById('countBlackRhino').innerText = blackRhinoCount;
+      document.getElementById('countWhiteRhino').innerText = whiteRhinoCount;
+      document.getElementById('countElephant').innerText = elephantCount;
 
-      let steakPerHour = 10 + (cubCount * 20) + (lionCount * 100) + (twoLionsCount * 250) + (jaguarCount * 60) + (vultureCount * 40) + (hyenaCount * 150);
+      let steakPerHour = getSteakPerHour();
       document.getElementById('totalSpeedInfo').innerText = `Toplam Üretim Hızı: ${steakPerHour} 🥩 / sa`;
 
       const updateBtnUnlock = (key, condition) => {

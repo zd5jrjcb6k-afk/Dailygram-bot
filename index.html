@@ -256,28 +256,28 @@
       background: #5c3a21;
     }
 
-    /* ŞANS ÇARKI */
+    /* ŞANS ÇARKI (SIMPEL WIT / ZWART GEOMETRISCH STIJL) */
     .wheel-tree-container {
       position: relative; width: 240px; height: 240px; margin: 10px auto; display: flex; justify-content: center; align-items: center;
     }
     .wheel-pointer-top {
       position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
-      width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 24px solid #ff3333; z-index: 40;
+      width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 24px solid #fff; z-index: 40;
     }
     .wheel-wooden-frame {
-      width: 220px; height: 220px; border-radius: 50%; border: 10px solid #b8860b; position: relative; overflow: hidden; background: #222; box-shadow: 0 0 15px rgba(0,0,0,0.8);
+      width: 220px; height: 220px; border-radius: 50%; border: 8px solid #ffffff; position: relative; overflow: hidden; background: #111; box-shadow: 0 0 15px rgba(255,255,255,0.2);
     }
     .wheel {
       width: 100%; height: 100%; border-radius: 50%;
       background: conic-gradient(
-        #e74c3c 0deg 45deg, 
-        #e67e22 45deg 90deg, 
-        #f1c40f 90deg 135deg, 
-        #2ecc71 135deg 180deg, 
-        #1abc9c 180deg 225deg, 
-        #3498db 225deg 270deg, 
-        #9b59b6 270deg 315deg, 
-        #f39c12 315deg 360deg
+        #222 0deg 45deg, 
+        #444 45deg 90deg, 
+        #111 90deg 135deg, 
+        #555 135deg 180deg, 
+        #222 180deg 225deg, 
+        #666 225deg 270deg, 
+        #111 270deg 315deg, 
+        #333 315deg 360deg
       );
       transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
       position: relative;
@@ -291,8 +291,8 @@
       transform-origin: left center;
       font-size: 0.65rem;
       font-weight: 900;
-      color: #000;
-      text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.9);
       display: flex;
       align-items: center;
       padding-left: 45px;
@@ -300,10 +300,10 @@
     }
     .wheel-center-hub {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 40px; height: 40px; background: #ffd700; border-radius: 50%; border: 3px solid #8b6508; z-index: 30; display: flex; align-items: center; justify-content: center; font-size: 1rem;
+      width: 40px; height: 40px; background: #ffffff; border-radius: 50%; border: 3px solid #000; z-index: 30; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #000;
     }
     .wheel-btn-wood {
-      background: linear-gradient(135deg, #ffd700, #ff8800); color: #1a0f05; border: 2px solid #fff; padding: 8px 25px; font-weight: 900; border-radius: 20px; cursor: pointer; margin-top: 8px;
+      background: linear-gradient(135deg, #ffffff, #cccccc); color: #000; border: 2px solid #fff; padding: 8px 25px; font-weight: 900; border-radius: 20px; cursor: pointer; margin-top: 8px;
     }
 
     /* ALT MENÜ */
@@ -375,7 +375,7 @@
 
       <div id="tab-yavru" class="tab-content active">
         <div class="center-action-box">
-          <div style="font-size: 0.72rem; color: #aaa;">Toplanabilir Biftek:</div>
+          <div style="font-size: 0.72rem; color: #aaa;">Toplanabilir Biftek (Max 3 Saat):</div>
           <div style="font-size: 1.4rem; font-weight: 900; color: #ffd700; margin: 3px 0;" id="huntSteakDisplay">0 🥩</div>
           <button class="btn-claim" onclick="claimEarnings()">📥 Biftekleri Topla</button>
         </div>
@@ -623,14 +623,22 @@
     let currentCustomBg = localStorage.getItem('currentCustomBg') || './background_empty.MP4';
     let currentRotation = 0;
 
-    function calculateOfflineEarnings() {
+    // BEREKENING VOOR MAXIMALE 3 UUR CAP
+    function calculateEarnings() {
       let now = Date.now();
       let elapsedSeconds = (now - lastClaimTime) / 1000;
+      
+      // Maximaal 3 uur (10800 seconden)
+      let maxSeconds = 3 * 3600;
+      if (elapsedSeconds > maxSeconds) {
+        elapsedSeconds = maxSeconds;
+      }
+
       if (elapsedSeconds > 0) {
         let steakPerHour = 10 + (cubCount * 20) + (lionCount * 100) + (twoLionsCount * 250) + (jaguarCount * 60) + (vultureCount * 40) + (hyenaCount * 150);
-        let earnedOffline = (steakPerHour / 3600) * elapsedSeconds;
-        unclaimedSteak += earnedOffline;
-        totalEarnedSteak += earnedOffline;
+        let earned = (steakPerHour / 3600) * elapsedSeconds;
+        unclaimedSteak += earned;
+        totalEarnedSteak += earned;
       }
       lastClaimTime = now;
       saveData();
@@ -665,33 +673,38 @@
       document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
     }
 
-    calculateOfflineEarnings();
+    // Direct berekenen bij opstarten
+    calculateEarnings();
 
+    // Elke seconde alleen de visuele weergave bijwerken (GEEN automatische toevoeging meer achter de schermen, pas na claimen)
     setInterval(() => {
+      let now = Date.now();
+      let elapsedSeconds = (now - lastClaimTime) / 1000;
+      let maxSeconds = 3 * 3600;
+      if (elapsedSeconds > maxSeconds) elapsedSeconds = maxSeconds;
+
       let steakPerHour = 10 + (cubCount * 20) + (lionCount * 100) + (twoLionsCount * 250) + (jaguarCount * 60) + (vultureCount * 40) + (hyenaCount * 150);
-      let steakPerSecond = steakPerHour / 3600;
-      unclaimedSteak += steakPerSecond;
-      totalEarnedSteak += steakPerSecond;
-      lastClaimTime = Date.now();
+      let currentDisplaySteak = unclaimedSteak + ((steakPerHour / 3600) * elapsedSeconds);
       
-      document.getElementById('huntSteakDisplay').innerText = Math.floor(unclaimedSteak) + " 🥩";
-      checkLevelUp();
-      saveData();
+      document.getElementById('huntSteakDisplay').innerText = Math.floor(currentDisplaySteak) + " 🥩";
     }, 1000);
 
     function claimEarnings() {
+      calculateEarnings();
       let earned = Math.floor(unclaimedSteak);
       if (earned <= 0) {
         showToast("Henüz toplanacak biftek birikmedi!");
         return;
       }
       balance += earned;
-      unclaimedSteak -= earned;
+      unclaimedSteak = 0;
       lastClaimTime = Date.now();
+      
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('huntSteakDisplay').innerText = "0 🥩";
       document.getElementById('myRankDetails').innerText = `Level ${level} • ${balance.toFixed(0)} 🥩`;
       document.getElementById('myRankGram').innerText = gramBalance.toFixed(2) + " GRAM";
+      checkLevelUp();
       saveData();
       showToast(`🎉 ${earned} 🥩 cüzdana eklendi!`);
     }
@@ -893,7 +906,6 @@
       showToast("Tutar kopyalandı! 📋");
     }
 
-    // AUTOMATISCHE TELEGRAM BOT MELDING (Ingesteld met jouw gegevens)
     function confirmManualPayment() {
       let amount = document.getElementById('payModalAmount').value;
       closePaymentModal();

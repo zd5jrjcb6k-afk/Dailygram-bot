@@ -120,6 +120,8 @@
       font-weight: bold;
       text-align: center;
       cursor: pointer;
+      text-decoration: none;
+      display: block;
     }
 
     /* CENTRAAL CLAIM BLOK */
@@ -470,6 +472,7 @@
         <div class="menu-popup-btn" onclick="openModalTab('leaderboard')">🏆 Liderlik</div>
         <div class="menu-popup-btn" onclick="openModalTab('withdraw')">💸 Para Çek</div>
         <div class="menu-popup-btn" onclick="openModalTab('cuzdan')">👛 Cüzdan</div>
+        <a href="https://t.me/DailygramMinerOfficial" target="_blank" class="menu-popup-btn" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">📢 Resmi Kanal</a>
       </div>
 
       <div id="tab-gorevler" class="tab-content">
@@ -623,12 +626,10 @@
     let currentCustomBg = localStorage.getItem('currentCustomBg') || './background_empty.MP4';
     let currentRotation = 0;
 
-    // BEREKENING VOOR MAXIMALE 3 UUR CAP
     function calculateEarnings() {
       let now = Date.now();
       let elapsedSeconds = (now - lastClaimTime) / 1000;
       
-      // Maximaal 3 uur (10800 seconden)
       let maxSeconds = 3 * 3600;
       if (elapsedSeconds > maxSeconds) {
         elapsedSeconds = maxSeconds;
@@ -673,10 +674,8 @@
       document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
     }
 
-    // Direct berekenen bij opstarten
     calculateEarnings();
 
-    // Elke seconde alleen de visuele weergave bijwerken (GEEN automatische toevoeging meer achter de schermen, pas na claimen)
     setInterval(() => {
       let now = Date.now();
       let elapsedSeconds = (now - lastClaimTime) / 1000;

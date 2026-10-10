@@ -400,7 +400,6 @@
           <div style="font-size: 0.68rem; color: #aaa; margin-bottom: 6px;" id="totalSpeedInfo">Toplam Üretim Hızı: 10 🥩 / sa</div>
           
           <div class="task-list">
-            <!-- Dierenlijst met correcte Turkse vertalingen -->
             <div class="task-card">
               <div class="task-info">
                 <strong>🐾 Aslan Yavrusu (<span id="countCub">0</span>)</strong><br><small>+20 🥩 / sa</small>
@@ -501,6 +500,9 @@
               <button class="bg-option-btn" id="bgBtn-lion" onclick="checkAndChangeBg('lion', './background_lion.MP4')">🦁 Kral Aslan</button>
               <button class="bg-option-btn" id="bgBtn-two_lions" onclick="checkAndChangeBg('two_lions', './background_two_lions.MP4')">🦁🦁 2 Erkek Aslan</button>
               <button class="bg-option-btn" id="bgBtn-black_rhino" onclick="checkAndChangeBg('black_rhino', './BACKGROUND_BLACK_RHINO.MP4')">🦏 Siyah Gergedan</button>
+              <!-- NİYE YENİ VİDEOLAR EKLENDİ -->
+              <button class="bg-option-btn" id="bgBtn-elephant" onclick="checkAndChangeBg('elephant', './background_elephant.mp4')">🐘 Afrika Fili</button>
+              <button class="bg-option-btn" id="bgBtn-white_rhino" onclick="checkAndChangeBg('white_rhino', './background_white_rhino.mp4')">🦏 Witte Neushoorn</button>
             </div>
           </div>
 
@@ -842,8 +844,8 @@
       else if (type === 'buyPython') { pythonCount++; }
       else if (type === 'buyCrocodile') { crocodileCount++; }
       else if (type === 'buyBlackRhino') { blackRhinoCount++; currentCustomBg = './BACKGROUND_BLACK_RHINO.MP4'; }
-      else if (type === 'buyWhiteRhino') { whiteRhinoCount++; }
-      else if (type === 'buyElephant') { elephantCount++; }
+      else if (type === 'buyWhiteRhino') { whiteRhinoCount++; currentCustomBg = './background_white_rhino.mp4'; }
+      else if (type === 'buyElephant') { elephantCount++; currentCustomBg = './background_elephant.mp4'; }
 
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
@@ -865,6 +867,8 @@
       if (bgKey === 'vulture' && vultureCount >= 1) unlocked = true;
       if (bgKey === 'hyena' && hyenaCount >= 1) unlocked = true;
       if (bgKey === 'black_rhino' && blackRhinoCount >= 1) unlocked = true;
+      if (bgKey === 'white_rhino' && whiteRhinoCount >= 1) unlocked = true;
+      if (bgKey === 'elephant' && elephantCount >= 1) unlocked = true;
 
       if (!unlocked) {
         showToast("🔒 Önce bu hayvanı mağradan satın almalısın!");
@@ -984,7 +988,7 @@
     }
 
     function confirmManualPayment() {
-      let amount = document.getElementById('payModalAmount').value;
+      let amount = document.getElementById('payModalAmount'].value;
       closePaymentModal();
       showToast("⏳ Ödemeniz alındı! Bildirim gönderiliyor...");
 
@@ -1053,6 +1057,8 @@
       updateBtnUnlock('vulture', vultureCount >= 1);
       updateBtnUnlock('hyena', hyenaCount >= 1);
       updateBtnUnlock('black_rhino', blackRhinoCount >= 1);
+      updateBtnUnlock('white_rhino', whiteRhinoCount >= 1);
+      updateBtnUnlock('elephant', elephantCount >= 1);
 
       let videoElem = document.getElementById('bgVideo');
       let videoSource = document.getElementById('bgVideoSource');

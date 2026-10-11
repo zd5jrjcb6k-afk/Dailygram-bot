@@ -319,11 +319,11 @@
 
     @keyframes floatUp {
       0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-50px) scale(1.3); }
+      100% { opacity: 0; transform: translateY(-60px) scale(1.4); }
     }
     .floating-reward {
-      position: absolute; font-size: 1.4rem; font-weight: 900; color: #ffd700;
-      text-shadow: 0 0 8px rgba(0,0,0,0.9), 0 0 15px #ff8800; pointer-events: none;
+      position: absolute; font-size: 1.5rem; font-weight: 900; color: #ffd700;
+      text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 20px #ff8800; pointer-events: none;
       animation: floatUp 0.8s ease-out forwards; z-index: 50;
     }
 
@@ -438,7 +438,6 @@
               <div class="task-info"><strong>Çakal (<span id="countJackal">0</span>)</strong><br><small>+160 🥩 / sa</small></div>
               <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
             </div>
-            <!-- NIEUW: KURT (WOLF) -->
             <div class="task-card">
               <div class="animal-icon-box">🐺</div>
               <div class="task-info"><strong>Kurt (<span id="countWolf">0</span>)</strong><br><small>+260 🥩 / sa</small></div>
@@ -497,7 +496,6 @@
               <button class="bg-option-btn" id="bgBtn-jaguar" onclick="playSound('click'); checkAndChangeBg('jaguar', './background_jaguar.MP4')">🐆 Jaguar Mağarası</button>
               <button class="bg-option-btn" id="bgBtn-vulture" onclick="playSound('click'); checkAndChangeBg('vulture', './background_vulture.MP4')">🦅 Akbaba Mağarası</button>
               <button class="bg-option-btn" id="bgBtn-hyena" onclick="playSound('click'); checkAndChangeBg('hyena', './background_hyena.MP4')">🐺 Sırtlan Sürüsü</button>
-              <!-- NIEUWE ACHTERGROND KNOPPEN -->
               <button class="bg-option-btn" id="bgBtn-jackal" onclick="playSound('click'); checkAndChangeBg('jackal', './background_jackal.MP4')">🦊 Çakal Mağarası</button>
               <button class="bg-option-btn" id="bgBtn-wolf" onclick="playSound('click'); checkAndChangeBg('wolf', './background_wolf.MP4')">🐺 Kurt Mağarası</button>
               <button class="bg-option-btn" id="bgBtn-lion" onclick="playSound('click'); checkAndChangeBg('lion', './background_lion.MP4')">🦁 Kral Aslan</button>
@@ -618,13 +616,11 @@
         </div>
       </div>
 
-      <!-- DYNAMISCH LİDERLİK TABLOSU -->
+      <!-- LİDERLİK TABLOSU -->
       <div id="tab-leaderboard" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏆 Liderlik Tablosu</div>
-          <div class="task-list" id="leaderboardListContainer">
-            <!-- Wordt dynamisch gevuld -->
-          </div>
+          <div class="task-list" id="leaderboardListContainer"></div>
         </div>
       </div>
 
@@ -754,10 +750,15 @@
     const tg = window.Telegram?.WebApp;
     let username = "Oyuncu";
     let userId = "12345678";
+    let startParam = "";
+
     if (tg && tg.initDataUnsafe?.user) {
       tg.expand();
       username = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name || "Oyuncu";
       userId = tg.initDataUnsafe.user.id || "12345678";
+      if (tg.initDataUnsafe.start_param) {
+        startParam = tg.initDataUnsafe.start_param;
+      }
     }
 
     document.getElementById('hudUsername').innerText = username;
@@ -768,40 +769,146 @@
 
     const MY_RECEIVING_WALLET = "UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH";
 
-    let balance = parseFloat(localStorage.getItem('balance')) || 0.0; 
-    let gramBalance = parseFloat(localStorage.getItem('gramBalance')) || 0.0000;
-    let unclaimedSteak = parseFloat(localStorage.getItem('unclaimedSteak')) || 0.0;
-    let lastClaimTime = parseInt(localStorage.getItem('lastClaimTime')) || Date.now();
-    let inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
-    
-    let storedHuntEnergy = parseInt(localStorage.getItem('huntEnergy'));
-    let huntEnergy = !isNaN(storedHuntEnergy) ? storedHuntEnergy : 10;
-    let lastHuntReset = parseInt(localStorage.getItem('lastHuntReset')) || Date.now();
+    // Telegram Cloud Storage (met localStorage fallback)
+    let balance = 0.0;
+    let gramBalance = 0.0000;
+    let unclaimedSteak = 0.0;
+    let lastClaimTime = Date.now();
+    let inviteCount = 0;
+    let huntEnergy = 10;
+    let lastHuntReset = Date.now();
+    let cubCount = 0, lionCount = 0, twoLionsCount = 0, jaguarCount = 0, vultureCount = 0, hyenaCount = 0, wolfCount = 0;
+    let antelopeCount = 0, jackalCount = 0, cheetahCount = 0, pythonCount = 0, crocodileCount = 0, blackRhinoCount = 0, whiteRhinoCount = 0, elephantCount = 0;
+    let totalEarnedSteak = 0.0;
+    let level = 1;
+    let lastDailyClaim = 0;
+    let lastWheelSpin = 0;
+    let currentCustomBg = './background_empty.MP4';
+    let channelTaskCompleted = false;
+
+    function loadCloudData() {
+      if (tg && tg.CloudStorage) {
+        tg.CloudStorage.getItem('game_data', (err, val) => {
+          if (!err && val) {
+            try {
+              let data = JSON.parse(val);
+              balance = data.balance || 0.0;
+              gramBalance = data.gramBalance || 0.0000;
+              unclaimedSteak = data.unclaimedSteak || 0.0;
+              lastClaimTime = data.lastClaimTime || Date.now();
+              inviteCount = data.inviteCount || 0;
+              huntEnergy = data.huntEnergy !== undefined ? data.huntEnergy : 10;
+              lastHuntReset = data.lastHuntReset || Date.now();
+              cubCount = data.cubCount || 0;
+              lionCount = data.lionCount || 0;
+              twoLionsCount = data.twoLionsCount || 0;
+              jaguarCount = data.jaguarCount || 0;
+              vultureCount = data.vultureCount || 0;
+              hyenaCount = data.hyenaCount || 0;
+              wolfCount = data.wolfCount || 0;
+              antelopeCount = data.antelopeCount || 0;
+              jackalCount = data.jackalCount || 0;
+              cheetahCount = data.cheetahCount || 0;
+              pythonCount = data.pythonCount || 0;
+              crocodileCount = data.crocodileCount || 0;
+              blackRhinoCount = data.blackRhinoCount || 0;
+              whiteRhinoCount = data.whiteRhinoCount || 0;
+              elephantCount = data.elephantCount || 0;
+              totalEarnedSteak = data.totalEarnedSteak || 0.0;
+              level = data.level || 1;
+              lastDailyClaim = data.lastDailyClaim || 0;
+              lastWheelSpin = data.lastWheelSpin || 0;
+              currentCustomBg = data.currentCustomBg || './background_empty.MP4';
+              channelTaskCompleted = data.channelTaskCompleted || false;
+            } catch(e) { loadLocalFallback(); }
+          } else { loadLocalFallback(); }
+          checkReferralParam();
+          calculateEarnings();
+          checkHuntEnergyReset();
+          updateCaveDisplay();
+          updateLeaderboardUI();
+        });
+      } else {
+        loadLocalFallback();
+        checkReferralParam();
+        calculateEarnings();
+        checkHuntEnergyReset();
+        updateCaveDisplay();
+        updateLeaderboardUI();
+      }
+    }
+
+    function loadLocalFallback() {
+      balance = parseFloat(localStorage.getItem('balance')) || 0.0; 
+      gramBalance = parseFloat(localStorage.getItem('gramBalance')) || 0.0000;
+      unclaimedSteak = parseFloat(localStorage.getItem('unclaimedSteak')) || 0.0;
+      lastClaimTime = parseInt(localStorage.getItem('lastClaimTime')) || Date.now();
+      inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
+      let storedHuntEnergy = parseInt(localStorage.getItem('huntEnergy'));
+      huntEnergy = !isNaN(storedHuntEnergy) ? storedHuntEnergy : 10;
+      lastHuntReset = parseInt(localStorage.getItem('lastHuntReset')) || Date.now();
+      cubCount = parseInt(localStorage.getItem('cubCount')) || 0;
+      lionCount = parseInt(localStorage.getItem('lionCount')) || 0;
+      twoLionsCount = parseInt(localStorage.getItem('twoLionsCount')) || 0;
+      jaguarCount = parseInt(localStorage.getItem('jaguarCount')) || 0;
+      vultureCount = parseInt(localStorage.getItem('vultureCount')) || 0;
+      hyenaCount = parseInt(localStorage.getItem('hyenaCount')) || 0;
+      wolfCount = parseInt(localStorage.getItem('wolfCount')) || 0;
+      antelopeCount = parseInt(localStorage.getItem('antelopeCount')) || 0;
+      jackalCount = parseInt(localStorage.getItem('jackalCount')) || 0;
+      cheetahCount = parseInt(localStorage.getItem('cheetahCount')) || 0;
+      pythonCount = parseInt(localStorage.getItem('pythonCount')) || 0;
+      crocodileCount = parseInt(localStorage.getItem('crocodileCount')) || 0;
+      blackRhinoCount = parseInt(localStorage.getItem('blackRhinoCount')) || 0;
+      whiteRhinoCount = parseInt(localStorage.getItem('whiteRhinoCount')) || 0;
+      elephantCount = parseInt(localStorage.getItem('elephantCount')) || 0;
+      totalEarnedSteak = parseFloat(localStorage.getItem('totalEarnedSteak')) || 0.0;
+      level = parseInt(localStorage.getItem('level')) || 1;
+      lastDailyClaim = parseInt(localStorage.getItem('lastDailyClaim')) || 0;
+      lastWheelSpin = parseInt(localStorage.getItem('lastWheelSpin')) || 0;
+      currentCustomBg = localStorage.getItem('currentCustomBg') || './background_empty.MP4';
+      channelTaskCompleted = localStorage.getItem('channelTaskCompleted') === 'true';
+    }
+
+    function saveData() {
+      let data = {
+        balance, gramBalance, unclaimedSteak, lastClaimTime, inviteCount, huntEnergy, lastHuntReset,
+        cubCount, lionCount, twoLionsCount, jaguarCount, vultureCount, hyenaCount, wolfCount,
+        antelopeCount, jackalCount, cheetahCount, pythonCount, crocodileCount, blackRhinoCount, whiteRhinoCount, elephantCount,
+        totalEarnedSteak, level, lastDailyClaim, lastWheelSpin, currentCustomBg, channelTaskCompleted
+      };
+
+      localStorage.setItem('balance', balance);
+      localStorage.setItem('gramBalance', gramBalance);
+      localStorage.setItem('unclaimedSteak', unclaimedSteak);
+      localStorage.setItem('lastClaimTime', lastClaimTime);
+      localStorage.setItem('inviteCount', inviteCount);
+      localStorage.setItem('huntEnergy', huntEnergy);
+      localStorage.setItem('lastHuntReset', lastHuntReset);
+      localStorage.setItem('cubCount', cubCount);
+      localStorage.setItem('channelTaskCompleted', channelTaskCompleted);
+
+      if (tg && tg.CloudStorage) {
+        tg.CloudStorage.setItem('game_data', JSON.stringify(data));
+      }
+    }
+
+    function checkReferralParam() {
+      if (startParam && startParam.startsWith('ref_')) {
+        let refBy = startParam.replace('ref_', '');
+        let claimedRefs = localStorage.getItem('claimed_ref_' + refBy);
+        if (!claimedRefs && refBy !== userId) {
+          balance += 500;
+          gramBalance += 0.0100;
+          localStorage.setItem('claimed_ref_' + refBy, 'true');
+          showToast("🎁 Arkadaş daveti bonusu eklendi! (+500 🥩 + 0.01 GRAM)");
+          saveData();
+        }
+      }
+    }
+
     const preyList = ['🐇', '🦌', '🐗', '🦊', '🦃'];
     let currentPreyIndex = 0;
-
-    let cubCount = parseInt(localStorage.getItem('cubCount')) || 0;
-    let lionCount = parseInt(localStorage.getItem('lionCount')) || 0;
-    let twoLionsCount = parseInt(localStorage.getItem('twoLionsCount')) || 0;
-    let jaguarCount = parseInt(localStorage.getItem('jaguarCount')) || 0;
-    let vultureCount = parseInt(localStorage.getItem('vultureCount')) || 0;
-    let hyenaCount = parseInt(localStorage.getItem('hyenaCount')) || 0;
-    let wolfCount = parseInt(localStorage.getItem('wolfCount')) || 0; // NIEUW
-    
-    let antelopeCount = parseInt(localStorage.getItem('antelopeCount')) || 0;
-    let jackalCount = parseInt(localStorage.getItem('jackalCount')) || 0;
-    let cheetahCount = parseInt(localStorage.getItem('cheetahCount')) || 0;
-    let pythonCount = parseInt(localStorage.getItem('pythonCount')) || 0;
-    let crocodileCount = parseInt(localStorage.getItem('crocodileCount')) || 0;
-    let blackRhinoCount = parseInt(localStorage.getItem('blackRhinoCount')) || 0;
-    let whiteRhinoCount = parseInt(localStorage.getItem('whiteRhinoCount')) || 0;
-    let elephantCount = parseInt(localStorage.getItem('elephantCount')) || 0;
-
-    let totalEarnedSteak = parseFloat(localStorage.getItem('totalEarnedSteak')) || 0.0;
-    let level = parseInt(localStorage.getItem('level')) || 1;
-    let lastDailyClaim = parseInt(localStorage.getItem('lastDailyClaim')) || 0;
-    let lastWheelSpin = parseInt(localStorage.getItem('lastWheelSpin')) || 0;
-    let currentCustomBg = localStorage.getItem('currentCustomBg') || './background_empty.MP4';
     let currentRotation = 0;
 
     function getSteakPerHour() {
@@ -812,7 +919,7 @@
         (jaguarCount * 30) + 
         (hyenaCount * 70) + 
         (jackalCount * 160) +
-        (wolfCount * 260) + // NIEUW
+        (wolfCount * 260) +
         (lionCount * 370) +
         (cheetahCount * 850) +
         (twoLionsCount * 1950) +
@@ -837,36 +944,6 @@
       }
       lastClaimTime = now;
       saveData();
-    }
-
-    function saveData() {
-      localStorage.setItem('balance', balance);
-      localStorage.setItem('gramBalance', gramBalance);
-      localStorage.setItem('unclaimedSteak', unclaimedSteak);
-      localStorage.setItem('lastClaimTime', lastClaimTime);
-      localStorage.setItem('inviteCount', inviteCount);
-      localStorage.setItem('huntEnergy', huntEnergy);
-      localStorage.setItem('lastHuntReset', lastHuntReset);
-      localStorage.setItem('cubCount', cubCount);
-      localStorage.setItem('lionCount', lionCount);
-      localStorage.setItem('twoLionsCount', twoLionsCount);
-      localStorage.setItem('jaguarCount', jaguarCount);
-      localStorage.setItem('vultureCount', vultureCount);
-      localStorage.setItem('hyenaCount', hyenaCount);
-      localStorage.setItem('wolfCount', wolfCount); // NIEUW
-      localStorage.setItem('antelopeCount', antelopeCount);
-      localStorage.setItem('jackalCount', jackalCount);
-      localStorage.setItem('cheetahCount', cheetahCount);
-      localStorage.setItem('pythonCount', pythonCount);
-      localStorage.setItem('crocodileCount', crocodileCount);
-      localStorage.setItem('blackRhinoCount', blackRhinoCount);
-      localStorage.setItem('whiteRhinoCount', whiteRhinoCount);
-      localStorage.setItem('elephantCount', elephantCount);
-      localStorage.setItem('totalEarnedSteak', totalEarnedSteak);
-      localStorage.setItem('level', level);
-      localStorage.setItem('lastDailyClaim', lastDailyClaim);
-      localStorage.setItem('lastWheelSpin', lastWheelSpin);
-      localStorage.setItem('currentCustomBg', currentCustomBg);
     }
 
     function checkLevelUp() {
@@ -927,9 +1004,6 @@
       document.getElementById('huntEnergyText').innerText = `Av Hakkı: ${huntEnergy} / 10`;
       saveData();
     }
-
-    calculateEarnings();
-    checkHuntEnergyReset();
 
     setInterval(() => {
       let now = Date.now();
@@ -1002,7 +1076,7 @@
         else if (cubCount === 3) currentCustomBg = './background_cub3.MP4';
         else if (cubCount >= 4) currentCustomBg = './background_cub4.MP4';
       }
-      else if (type === 'buyWolf') { wolfCount++; currentCustomBg = './background_wolf.MP4'; } // NIEUW
+      else if (type === 'buyWolf') { wolfCount++; currentCustomBg = './background_wolf.MP4'; }
       else if (type === 'buyJackal') { jackalCount++; currentCustomBg = './background_jackal.MP4'; }
       else if (type === 'buyLion') { lionCount++; currentCustomBg = './background_lion.MP4'; }
       else if (type === 'buyTwoLions') { twoLionsCount++; currentCustomBg = './background_two_lions.MP4'; }
@@ -1031,7 +1105,7 @@
       if (bgKey === 'cubs2' && cubCount >= 2) unlocked = true;
       if (bgKey === 'cub3' && cubCount >= 3) unlocked = true;
       if (bgKey === 'cub4' && cubCount >= 4) unlocked = true;
-      if (bgKey === 'wolf' && wolfCount >= 1) unlocked = true; // NIEUW
+      if (bgKey === 'wolf' && wolfCount >= 1) unlocked = true;
       if (bgKey === 'jackal' && jackalCount >= 1) unlocked = true;
       if (bgKey === 'lion' && lionCount >= 1) unlocked = true;
       if (bgKey === 'two_lions' && twoLionsCount >= 1) unlocked = true;
@@ -1079,11 +1153,17 @@
     }
 
     function completeChannelTask() {
-      balance += 100;
-      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      showToast("🎉 Kanal takip edildi! +100 🥩 kazandın");
-      saveData();
-      updateLeaderboardUI();
+      window.open("https://t.me/DailygramMinerOfficial", "_blank");
+      if (!channelTaskCompleted) {
+        channelTaskCompleted = true;
+        balance += 100;
+        document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
+        showToast("🎉 Kanal takip edildi! +100 🥩 kazandın");
+        saveData();
+        updateLeaderboardUI();
+      } else {
+        showToast("✅ Bu ödülü zaten aldın!");
+      }
     }
 
     function setMaxWithdraw() {
@@ -1233,7 +1313,7 @@
       document.getElementById('countJaguar').innerText = jaguarCount;
       document.getElementById('countVulture').innerText = vultureCount;
       document.getElementById('countHyena').innerText = hyenaCount;
-      document.getElementById('countWolf').innerText = wolfCount; // NIEUW
+      document.getElementById('countWolf').innerText = wolfCount;
       
       document.getElementById('countAntelope').innerText = antelopeCount;
       document.getElementById('countJackal').innerText = jackalCount;
@@ -1263,7 +1343,7 @@
       updateBtnUnlock('cubs2', cubCount >= 2);
       updateBtnUnlock('cub3', cubCount >= 3);
       updateBtnUnlock('cub4', cubCount >= 4);
-      updateBtnUnlock('wolf', wolfCount >= 1); // NIEUW
+      updateBtnUnlock('wolf', wolfCount >= 1);
       updateBtnUnlock('jackal', jackalCount >= 1);
       updateBtnUnlock('lion', lionCount >= 1);
       updateBtnUnlock('two_lions', twoLionsCount >= 1);
@@ -1295,8 +1375,8 @@
     
     function showToast(text) { showToken(text); }
 
-    updateCaveDisplay();
-    updateLeaderboardUI();
+    // Initialisatie bij het laden
+    loadCloudData();
   </script>
 </body>
 </html>

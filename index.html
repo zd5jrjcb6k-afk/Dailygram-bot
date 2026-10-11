@@ -327,7 +327,7 @@
       animation: floatUp 0.8s ease-out forwards; z-index: 50;
     }
 
-    /* NIEUWE RPG AV STIJLEN */
+    /* RPG STIJLEN VOOR AV PAGINA */
     .rpg-hunt-wrapper {
       display: flex;
       flex-direction: column;
@@ -345,7 +345,7 @@
     }
 
     .rpg-player-card {
-      background: linear-gradient(135deg, rgba(30, 18, 8, 0.95), rgba(15, 8, 3, 0.95));
+      background: linear-gradient(135deg, rgba(30, 18, 8, 0.85), rgba(15, 8, 3, 0.85));
       border: 2px solid #ffb700;
       border-radius: 14px;
       padding: 6px 10px;
@@ -354,6 +354,7 @@
       gap: 8px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.8);
       max-width: 55%;
+      backdrop-filter: blur(4px);
     }
 
     .rpg-avatar-circle {
@@ -366,7 +367,6 @@
       align-items: center;
       justify-content: center;
       font-size: 1.5rem;
-      box-shadow: 0 0 8px rgba(255,215,0,0.5);
       flex-shrink: 0;
     }
 
@@ -384,52 +384,34 @@
       border: 1px solid #444;
       border-radius: 4px;
       overflow: hidden;
-      position: relative;
     }
 
-    .rpg-hp-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #e74c3c, #c0392b);
-      width: 100%;
-      transition: width 0.3s;
-    }
-
-    .rpg-energy-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #3498db, #2980b9);
-      width: 100%;
-      transition: width 0.3s;
-    }
+    .rpg-hp-fill { height: 100%; background: linear-gradient(90deg, #e74c3c, #c0392b); width: 100%; }
+    .rpg-energy-fill { height: 100%; background: linear-gradient(90deg, #3498db, #2980b9); width: 100%; }
 
     .rpg-quest-card {
-      background: linear-gradient(135deg, rgba(30, 18, 8, 0.95), rgba(15, 8, 3, 0.95));
+      background: linear-gradient(135deg, rgba(30, 18, 8, 0.85), rgba(15, 8, 3, 0.85));
       border: 2px solid #ffb700;
       border-radius: 14px;
       padding: 6px 10px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.8);
       text-align: right;
+      backdrop-filter: blur(4px);
     }
 
     .rpg-arena-box {
       width: 100%;
-      height: 200px;
-      background: rgba(0, 0, 0, 0.5);
-      border: 2px dashed #ffb700;
+      height: 220px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 2px dashed rgba(255, 183, 0, 0.6);
       border-radius: 18px;
       position: relative;
       overflow: hidden;
       display: flex;
-      align-items: center;
-      justify-content: space-around;
+      align-items: flex-end;
+      justify-content: center;
       cursor: pointer;
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.9);
       margin: 10px 0;
-    }
-
-    .rpg-fighter {
-      font-size: 3rem;
-      transition: transform 0.15s ease;
-      filter: drop-shadow(0 5px 8px rgba(0,0,0,0.8));
     }
 
     .rpg-controls-row {
@@ -437,39 +419,6 @@
       justify-content: space-between;
       align-items: center;
       padding: 0 10px;
-    }
-
-    .rpg-dpad {
-      width: 90px;
-      height: 90px;
-      background: rgba(0,0,0,0.6);
-      border: 2px solid #704b2e;
-      border-radius: 50%;
-      position: relative;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
-    }
-
-    .dpad-btn {
-      position: absolute;
-      background: #c28e46;
-      border: 1px solid #ffde6b;
-      color: #fff;
-      font-size: 0.6rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    .dpad-up { top: 4px; left: 35px; width: 20px; height: 20px; }
-    .dpad-down { bottom: 4px; left: 35px; width: 20px; height: 20px; }
-    .dpad-left { top: 35px; left: 4px; width: 20px; height: 20px; }
-    .dpad-right { top: 35px; right: 4px; width: 20px; height: 20px; }
-    .dpad-center { top: 32px; left: 32px; width: 26px; height: 26px; border-radius: 50%; background: #5c3a21; border: 1px solid #ffd700; position: absolute; }
-
-    .rpg-action-buttons {
-      display: flex;
-      gap: 12px;
     }
 
     .rpg-action-btn {
@@ -669,7 +618,7 @@
         </div>
       </div>
 
-      <!-- RPG AV SEKMESİ (NIEUW GEÜPDATE NAAR CONCEPT!) -->
+      <!-- RPG AV SEKMESİ (MET JACHT VIDEO ACHTERGROND!) -->
       <div id="tab-hunt" class="tab-content">
         <div class="rpg-hunt-wrapper">
           
@@ -679,8 +628,8 @@
               <div class="rpg-avatar-circle" id="huntAnimalAvatar">🦁</div>
               <div class="rpg-bars">
                 <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;" id="huntAnimalName">Aslan Yavrusu</div>
-                <div class="rpg-bar-container"><div class="rpg-hp-fill" id="hpBar"></div></div>
-                <div class="rpg-bar-container"><div class="rpg-energy-fill" id="energyBar"></div></div>
+                <div class="rpg-bar-container"><div class="rpg-hp-fill"></div></div>
+                <div class="rpg-bar-container"><div class="rpg-energy-fill"></div></div>
               </div>
             </div>
 
@@ -691,36 +640,27 @@
             </div>
           </div>
 
-          <!-- JACHT ARENA (INTERACTIEF) -->
-          <div class="rpg-arena-box" onclick="playSound('hunt'); tapHuntPrey(event)">
-            <div class="rpg-fighter" id="playerFighter" style="transform: translateX(0px);">🦁</div>
-            <div class="rpg-fighter" id="preyFighter">🦌</div>
+          <!-- ARENA ZONE (KLIK OM TE JAGEN) -->
+          <div class="rpg-arena-box" onclick="playSound('hunt'); triggerHuntAction(event)">
+            <div style="position: absolute; bottom: 10px; background: rgba(0,0,0,0.7); border: 1px solid #ffb700; padding: 4px 12px; border-radius: 12px; font-size: 0.72rem; color: #ffd700; font-weight: bold;">
+              🐾 Jagen / Saldırmak için Tıkla!
+            </div>
           </div>
 
-          <!-- CONTROLS & JOYSICK -->
+          <!-- CONTROLS & ATTACK BUTTON -->
           <div class="rpg-controls-row">
-            <div class="rpg-dpad">
-              <div class="dpad-btn dpad-up" onclick="moveFighter('up')">▲</div>
-              <div class="dpad-btn dpad-down" onclick="moveFighter('down')">▼</div>
-              <div class="dpad-btn dpad-left" onclick="moveFighter('left')">◀</div>
-              <div class="dpad-btn dpad-right" onclick="moveFighter('right')">▶</div>
-              <div class="dpad-center"></div>
+            <div style="text-align: left;">
+              <div style="font-size: 0.78rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
+              <div style="font-size: 0.62rem; color: #aaa;">3 saatte bir yenilenir</div>
             </div>
 
-            <div style="text-align: center;">
-              <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
-              <div style="font-size: 0.62rem; color: #aaa;">Salırmak için klübe dokun</div>
-            </div>
-
-            <div class="rpg-action-buttons">
-              <div class="rpg-action-btn" onclick="playSound('hunt'); tapHuntPrey(event)" title="Saldır">
-                🐾
-              </div>
+            <div class="rpg-action-btn" onclick="playSound('hunt'); triggerHuntAction(event)" title="Avlan">
+              🐾
             </div>
           </div>
 
           <!-- TAKAS BLOK -->
-          <div style="background: rgba(0,0,0,0.6); border: 1px solid #704b2e; border-radius: 12px; padding: 8px; text-align: center;">
+          <div style="background: rgba(0,0,0,0.7); border: 1px solid #704b2e; border-radius: 12px; padding: 8px; text-align: center; backdrop-filter: blur(4px);">
             <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold;">🔄 Biftek → GRAM Takası (100k = 0.01 GRAM)</div>
             <button class="btn-claim" onclick="playSound('success'); exchangeSteakToGram()" style="padding: 6px; font-size: 0.75rem; margin-top: 4px; background: #2ecc71; color: #000;">GRAM ile Değiştir</button>
           </div>
@@ -981,7 +921,6 @@
     let lastWheelSpin = 0;
     let currentCustomBg = './background_empty.MP4';
     let channelTaskCompleted = false;
-    let fighterX = 0; // Voor joystick beweging
 
     function loadCloudData() {
       if (tg && tg.CloudStorage) {
@@ -1104,8 +1043,6 @@
       }
     }
 
-    const preyList = ['🦌', '🐗', '🦊', '🦃', '🐇'];
-    let currentPreyIndex = 0;
     let currentRotation = 0;
 
     function getSteakPerHour() {
@@ -1127,7 +1064,6 @@
         (elephantCount * 102000);
     }
 
-    // Bepaal welic ke dier icoon getoond wordt in de RPG hunt op basis van wat de speler heeft gekocht
     function getActiveHunterInfo() {
       if (elephantCount > 0) return { name: "Afrika Fili", icon: "🐘" };
       if (whiteRhinoCount > 0) return { name: "Beyaz Gergedan", icon: "🦏" };
@@ -1198,20 +1134,8 @@
       setTimeout(() => { el.remove(); }, 800);
     }
 
-    // Joystick beweging van de jager
-    function moveFighter(direction) {
-      playSound('click');
-      let fighter = document.getElementById('playerFighter');
-      if (direction === 'right' && fighterX < 80) {
-        fighterX += 20;
-      } else if (direction === 'left' && fighterX > -20) {
-        fighterX -= 20;
-      }
-      fighter.style.transform = `translateX(${fighterX}px) scale(1.1)`;
-      setTimeout(() => { fighter.style.transform = `translateX(${fighterX}px) scale(1)`; }, 150);
-    }
-
-    function tapHuntPrey(event) {
+    // JACHT ACTIE: Speelt de jachtvideo af en geeft biftek beloning!
+    function triggerHuntAction(event) {
       checkHuntEnergyReset();
       if (huntEnergy <= 0) {
         showToast("⏳ Av hakkınız bitti! 3 saat sonra yenilenir.");
@@ -1224,11 +1148,12 @@
       
       showFloatingReward(event, `+${reward} 🥩`);
 
-      currentPreyIndex = (currentPreyIndex + 1) % preyList.length;
-      let preyElem = document.getElementById('preyFighter');
-      preyElem.innerText = preyList[currentPreyIndex];
-      preyElem.style.transform = "scale(1.35)";
-      setTimeout(() => { preyElem.style.transform = "scale(1)"; }, 150);
+      // Speel de jachtvideo tijdelijk af als animatie op het scherm
+      let videoElem = document.getElementById('bgVideo');
+      let videoSource = document.getElementById('bgVideoSource');
+      videoSource.src = './background_hunt.MP4';
+      videoElem.load();
+      videoElem.play();
 
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('huntEnergyText').innerText = `Av Hakkı: ${huntEnergy} / 10`;
@@ -1367,7 +1292,6 @@
       if (activeBtn) activeBtn.classList.add('active');
 
       saveData();
-      showToast("🎬 Arka plan güncellendi!");
     }
 
     function copyRefLink() {
@@ -1492,6 +1416,18 @@
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
       if(element) element.classList.add('active');
+
+      // Als de speler naar de av-tab gaat, laad direct de jachtvideo als achtergrond!
+      let videoElem = document.getElementById('bgVideo');
+      let videoSource = document.getElementById('bgVideoSource');
+      if (tabName === 'hunt') {
+        videoSource.src = './background_hunt.MP4';
+      } else {
+        videoSource.src = currentCustomBg;
+      }
+      videoElem.load();
+      videoElem.play();
+
       if(tabName === 'leaderboard') {
         updateLeaderboardUI();
       }
@@ -1561,11 +1497,9 @@
       document.getElementById('totalSpeedInfo').innerText = `Toplam Üretim Hızı: ${steakPerHour} 🥩 / sa`;
       document.getElementById('huntEnergyText').innerText = `Av Hakkı: ${huntEnergy} / 10`;
 
-      // Update RPG Hunt UI with active hunter
       let hunter = getActiveHunterInfo();
       document.getElementById('huntAnimalAvatar').innerText = hunter.icon;
       document.getElementById('huntAnimalName').innerText = hunter.name;
-      document.getElementById('playerFighter').innerText = hunter.icon;
 
       const updateBtnUnlock = (key, condition) => {
         let b = document.getElementById('bgBtn-' + key);
@@ -1589,15 +1523,6 @@
       updateBtnUnlock('black_rhino', blackRhinoCount >= 1);
       updateBtnUnlock('white_rhino', whiteRhinoCount >= 1);
       updateBtnUnlock('elephant', elephantCount >= 1);
-
-      let videoElem = document.getElementById('bgVideo');
-      let videoSource = document.getElementById('bgVideoSource');
-
-      if (!videoSource.src.includes(currentCustomBg.replace('./', ''))) {
-        videoSource.src = currentCustomBg;
-        videoElem.load();
-        videoElem.play();
-      }
 
       document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
     }

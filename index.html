@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -322,6 +322,7 @@
       animation: floatUp 0.8s ease-out forwards; z-index: 50;
     }
 
+    /* RPG STIJLEN VOOR AV PAGINA */
     .rpg-hunt-wrapper {
       display: flex;
       flex-direction: column;
@@ -477,8 +478,7 @@
 </head>
 <body>
 
-  <!-- Achtergrondvideo met preload zodat hij pas beweegt bij actie -->
-  <video id="bgVideo" class="bg-video" muted playsinline preload="auto">
+  <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
 
@@ -492,8 +492,8 @@
         <div class="wood-panel">
           <div class="hud-avatar" id="hudAvatarLetter">A</div>
           <div>
-            <div style="font-size: 0.72rem; font-weight: 900; color: #fff;" id="hudUsername">Speler</div>
-            <div style="font-size: 0.62rem; color: #ffd700;" id="hudLevelBadge">⭐ Level 1</div>
+            <div style="font-size: 0.72rem; font-weight: 900; color: #fff;" id="hudUsername">Oyuncu</div>
+            <div style="font-size: 0.62rem; color: #ffd700;" id="hudLevelBadge">⭐ Seviye 1</div>
           </div>
         </div>
 
@@ -506,132 +506,131 @@
       <!-- ASLAN TAB -->
       <div id="tab-yavru" class="tab-content active">
         <div class="center-action-box">
-          <div style="font-size: 0.65rem; color: #aaa; text-transform: uppercase;">Toplanbaar Vlees (Max 3 Uur):</div>
+          <div style="font-size: 0.65rem; color: #aaa; text-transform: uppercase;">Toplanabilir Biftek (Max 3 Saat):</div>
           <div style="font-size: 1.25rem; font-weight: 900; color: #ffd700; margin: 2px 0;" id="huntSteakDisplay">0 🥩</div>
-          <div style="font-size: 0.62rem; color: #f1c40f; margin-bottom: 4px;" id="claimTimerDisplay">Volgende volle capaciteit over: 03:00:00</div>
-          <button class="btn-claim" onclick="haptic('success'); playSound('success'); claimEarnings()">📥 Vlees Ophalen</button>
+          <button class="btn-claim" onclick="haptic('success'); playSound('success'); claimEarnings()">📥 Biftekleri Topla</button>
         </div>
       </div>
 
       <!-- MAĞRA TAB -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
-          <div class="page-title">🏕️ Grot & Campagne</div>
+          <div class="page-title">🏕️ Mağra & Kampanya</div>
 
           <div class="campaign-box">
-            <div style="font-size: 0.8rem; font-weight: 900; color: #ffd700;">🚀 Speciaal Vlees Pakket</div>
-            <div style="font-size: 0.72rem; color: #ccc; margin-top: 2px;">Selecteer USD Bedrag:</div>
+            <div style="font-size: 0.8rem; font-weight: 900; color: #ffd700;">🚀 Özel Biftek Kampanyası</div>
+            <div style="font-size: 0.72rem; color: #ccc; margin-top: 2px;">USD Miktarını Seç:</div>
             <div style="font-size: 1.05rem; font-weight: 900; color: #fff; margin: 3px 0;" id="sliderUsdVal">$10 USD</div>
             <input type="range" min="1" max="500" value="10" class="campaign-slider" id="usdSlider" oninput="updateCampaignSlider(this.value)">
-            <div style="font-size: 0.75rem; color: #2ecc71; font-weight: bold; margin-bottom: 6px;" id="sliderRewardVal">Je ontvangt: 25,000 🥩</div>
-            <button class="btn-claim" style="padding: 7px; font-size: 0.82rem; margin-top: 2px;" onclick="haptic('light'); playSound('click'); buyCampaignSteak()">Pakket Kopen</button>
+            <div style="font-size: 0.75rem; color: #2ecc71; font-weight: bold; margin-bottom: 6px;" id="sliderRewardVal">Alacağın: 25,000 🥩</div>
+            <button class="btn-claim" style="padding: 7px; font-size: 0.82rem; margin-top: 2px;" onclick="haptic('light'); playSound('click'); buyCampaignSteak()">Paketi Satın Al</button>
           </div>
 
-          <div style="font-size: 0.78rem; color: #ffd700; font-weight: 900; margin-bottom: 6px; text-align: center;">🐾 3D Dieren Collectie & Productiesnelheid</div>
-          <div style="font-size: 0.7rem; color: #aaa; margin-bottom: 8px; text-align: center;" id="totalSpeedInfo">Totale Productiesnelheid: 5 🥩 / uur</div>
+          <div style="font-size: 0.78rem; color: #ffd700; font-weight: 900; margin-bottom: 6px; text-align: center;">🐾 3D Hayvan Koleksiyonu & Üretim Hızı</div>
+          <div style="font-size: 0.7rem; color: #aaa; margin-bottom: 8px; text-align: center;" id="totalSpeedInfo">Toplam Üretim Hızı: 5 🥩 / sa</div>
           
           <div class="task-list">
             <div class="task-card">
               <div class="animal-icon-box">🦁</div>
-              <div class="task-info"><strong>Leeuwenwelp (<span id="countCub">0</span>)</strong><br><small>+2 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(200, 'buyCub', 'Leeuwenwelp')">200 🥩</button>
+              <div class="task-info"><strong>Aslan Yavrusu (<span id="countCub">0</span>)</strong><br><small>+2 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦅</div>
-              <div class="task-info"><strong>Afrikaanse Gier (<span id="countVulture">0</span>)</strong><br><small>+5 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(600, 'buyVulture', 'Afrikaanse Gier')">600 🥩</button>
+              <div class="task-info"><strong>Afrika Akbabası (<span id="countVulture">0</span>)</strong><br><small>+5 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦌</div>
-              <div class="task-info"><strong>Antilope (<span id="countAntelope">0</span>)</strong><br><small>+12 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1500, 'buyAntelope', 'Antilope')">1500 🥩</button>
+              <div class="task-info"><strong>Antilop (<span id="countAntelope">0</span>)</strong><br><small>+12 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐆</div>
-              <div class="task-info"><strong>Jaguar (<span id="countJaguar">0</span>)</strong><br><small>+30 🥩 / uur</small></div>
+              <div class="task-info"><strong>Jaguar (<span id="countJaguar">0</span>)</strong><br><small>+30 🥩 / sa</small></div>
               <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐺</div>
-              <div class="task-info"><strong>Hyenabende (<span id="countHyena">0</span>)</strong><br><small>+70 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(10000, 'buyHyena', 'Hyenabende')">10000 🥩</button>
+              <div class="task-info"><strong>Sırtlan Sürüsü (<span id="countHyena">0</span>)</strong><br><small>+70 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦊</div>
-              <div class="task-info"><strong>Jakhals (<span id="countJackal">0</span>)</strong><br><small>+160 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(25000, 'buyJackal', 'Jakhals')">25000 🥩</button>
+              <div class="task-info"><strong>Çakal (<span id="countJackal">0</span>)</strong><br><small>+160 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐺</div>
-              <div class="task-info"><strong>Wolf (<span id="countWolf">0</span>)</strong><br><small>+260 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(42000, 'buyWolf', 'Wolf')">42000 🥩</button>
+              <div class="task-info"><strong>Kurt (<span id="countWolf">0</span>)</strong><br><small>+260 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(42000, 'buyWolf', 'Kurt')">42000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦁</div>
-              <div class="task-info"><strong>Koning Leeuw (<span id="countLion">0</span>)</strong><br><small>+370 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(60000, 'buyLion', 'Koning Leeuw')">60000 🥩</button>
+              <div class="task-info"><strong>Kral Aslan (<span id="countLion">0</span>)</strong><br><small>+370 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐅</div>
-              <div class="task-info"><strong>Jachtluipaard (<span id="countCheetah">0</span>)</strong><br><small>+850 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(150000, 'buyCheetah', 'Jachtluipaard')">150000 🥩</button>
+              <div class="task-info"><strong>Çita (<span id="countCheetah">0</span>)</strong><br><small>+850 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦁</div>
-              <div class="task-info"><strong>2 Mannelijke Leeuwen (<span id="countTwoLions">0</span>)</strong><br><small>+1,950 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(350000, 'buyTwoLions', '2 Mannelijke Leeuwen')">350000 🥩</button>
+              <div class="task-info"><strong>2 Erkek Aslan (<span id="countTwoLions">0</span>)</strong><br><small>+1,950 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐍</div>
-              <div class="task-info"><strong>Python Slang (<span id="countPython">0</span>)</strong><br><small>+4,400 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(800000, 'buyPython', 'Python Slang')">800000 🥩</button>
+              <div class="task-info"><strong>Python Yılanı (<span id="countPython">0</span>)</strong><br><small>+4,400 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(800000, 'buyPython', 'Python Yılanı')">800000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐊</div>
-              <div class="task-info"><strong>Krokodil (<span id="countCrocodile">0</span>)</strong><br><small>+9,800 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1800000, 'buyCrocodile', 'Krokodil')">1800000 🥩</button>
+              <div class="task-info"><strong>Timsah (<span id="countCrocodile">0</span>)</strong><br><small>+9,800 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦏</div>
-              <div class="task-info"><strong>Zwarte Neushoorn (<span id="countBlackRhino">0</span>)</strong><br><small>+21,500 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(4000000, 'buyBlackRhino', 'Zwarte Neushoorn')">4000000 🥩</button>
+              <div class="task-info"><strong>Siyah Gergedan (<span id="countBlackRhino">0</span>)</strong><br><small>+21,500 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4000000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦏</div>
-              <div class="task-info"><strong>Witte Neushoorn (<span id="countWhiteRhino">0</span>)</strong><br><small>+47,000 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(9000000, 'buyWhiteRhino', 'Witte Neushoorn')">9000000 🥩</button>
+              <div class="task-info"><strong>Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</strong><br><small>+47,000 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9000000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐘</div>
-              <div class="task-info"><strong>Afrikaanse Olifant (<span id="countElephant">0</span>)</strong><br><small>+102,000 🥩 / uur</small></div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(20000000, 'buyElephant', 'Afrikaanse Olifant')">20000000 🥩</button>
+              <div class="task-info"><strong>Afrika Fili (<span id="countElephant">0</span>)</strong><br><small>+102,000 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20000000 🥩</button>
             </div>
           </div>
 
           <div style="margin-top: 12px; border-top: 1px solid rgba(255,215,0,0.3); padding-top: 10px;">
-            <div style="font-size: 0.78rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Kies je Achtergrond (Eerst Kopen)</div>
+            <div style="font-size: 0.78rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Önce Satın Almalısın)</div>
             <div class="bg-switcher-grid">
-              <button class="bg-option-btn unlocked active" id="bgBtn-empty" onclick="haptic('light'); playSound('click'); changeBackground('./background_empty.MP4', 'empty')">🪨 Standaard Grot</button>
-              <button class="bg-option-btn" id="bgBtn-cub1" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub1', './background_cub1.MP4')">🐾 1 Leeuwenwelp</button>
-              <button class="bg-option-btn" id="bgBtn-cubs2" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cubs2', './background_cubs2.MP4')">🐾🐾 2 Welpjes</button>
-              <button class="bg-option-btn" id="bgBtn-cub3" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub3', './background_cub3.MP4')">🐾 3 Welpjes</button>
-              <button class="bg-option-btn" id="bgBtn-cub4" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub4', './background_cub4.MP4')">🐾 4+ Welpjes</button>
-              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="haptic('light'); playSound('click'); checkAndChangeBg('jaguar', './background_jaguar.MP4')">🐆 Jaguar Grot</button>
-              <button class="bg-option-btn" id="bgBtn-vulture" onclick="haptic('light'); playSound('click'); checkAndChangeBg('vulture', './background_vulture.MP4')">🦅 Gier Grot</button>
-              <button class="bg-option-btn" id="bgBtn-hyena" onclick="haptic('light'); playSound('click'); checkAndChangeBg('hyena', './background_hyena.MP4')">🐺 Hyenabende</button>
-              <button class="bg-option-btn" id="bgBtn-jackal" onclick="haptic('light'); playSound('click'); checkAndChangeBg('jackal', './background_jackal.MP4')">🦊 Jakhals Grot</button>
-              <button class="bg-option-btn" id="bgBtn-wolf" onclick="haptic('light'); playSound('click'); checkAndChangeBg('wolf', './background_wolf.MP4')">🐺 Wolf Grot</button>
-              <button class="bg-option-btn" id="bgBtn-lion" onclick="haptic('light'); playSound('click'); checkAndChangeBg('lion', './background_lion.MP4')">🦁 Koning Leeuw</button>
-              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="haptic('light'); playSound('click'); checkAndChangeBg('two_lions', './background_two_lions.MP4')">🦁🦁 2 Leeuwen</button>
-              <button class="bg-option-btn" id="bgBtn-black_rhino" onclick="haptic('light'); playSound('click'); checkAndChangeBg('black_rhino', './BACKGROUND_BLACK_RHINO.MP4')">🦏 Zwarte Neushoorn</button>
-              <button class="bg-option-btn" id="bgBtn-elephant" onclick="haptic('light'); playSound('click'); checkAndChangeBg('elephant', './background_elephant.MP4')">🐘 Afrikaanse Olifant</button>
-              <button class="bg-option-btn" id="bgBtn-white_rhino" onclick="haptic('light'); playSound('click'); checkAndChangeBg('white_rhino', './background_white_rhino.MP4')">🦏 Witte Neushoorn</button>
+              <button class="bg-option-btn unlocked active" id="bgBtn-empty" onclick="haptic('light'); playSound('click'); changeBackground('./background_empty.MP4', 'empty')">🪨 Standart Mağra</button>
+              <button class="bg-option-btn" id="bgBtn-cub1" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub1', './background_cub1.MP4')">🐾 1 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cubs2" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cubs2', './background_cubs2.MP4')">🐾🐾 2 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cub3" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub3', './background_cub3.MP4')">🐾 3 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cub4" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub4', './background_cub4.MP4')">🐾 4+ Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="haptic('light'); playSound('click'); checkAndChangeBg('jaguar', './background_jaguar.MP4')">🐆 Jaguar Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-vulture" onclick="haptic('light'); playSound('click'); checkAndChangeBg('vulture', './background_vulture.MP4')">🦅 Akbaba Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-hyena" onclick="haptic('light'); playSound('click'); checkAndChangeBg('hyena', './background_hyena.MP4')">🐺 Sırtlan Sürüsü</button>
+              <button class="bg-option-btn" id="bgBtn-jackal" onclick="haptic('light'); playSound('click'); checkAndChangeBg('jackal', './background_jackal.MP4')">🦊 Çakal Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-wolf" onclick="haptic('light'); playSound('click'); checkAndChangeBg('wolf', './background_wolf.MP4')">🐺 Kurt Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-lion" onclick="haptic('light'); playSound('click'); checkAndChangeBg('lion', './background_lion.MP4')">🦁 Kral Aslan</button>
+              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="haptic('light'); playSound('click'); checkAndChangeBg('two_lions', './background_two_lions.MP4')">🦁🦁 2 Erkek Aslan</button>
+              <button class="bg-option-btn" id="bgBtn-black_rhino" onclick="haptic('light'); playSound('click'); checkAndChangeBg('black_rhino', './BACKGROUND_BLACK_RHINO.MP4')">🦏 Siyah Gergedan</button>
+              <button class="bg-option-btn" id="bgBtn-elephant" onclick="haptic('light'); playSound('click'); checkAndChangeBg('elephant', './background_elephant.MP4')">🐘 Afrika Fili</button>
+              <button class="bg-option-btn" id="bgBtn-white_rhino" onclick="haptic('light'); playSound('click'); checkAndChangeBg('white_rhino', './background_white_rhino.MP4')">🦏 Beyaz Gergedan</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- RPG AV SEKMESİ (AV PAGINA) -->
+      <!-- RPG AV SEKMESİ (MET TIMER) -->
       <div id="tab-hunt" class="tab-content">
         <div class="rpg-hunt-wrapper">
           
@@ -639,37 +638,39 @@
             <div class="rpg-player-card">
               <div class="rpg-avatar-circle" id="huntAnimalAvatar">🦁</div>
               <div class="rpg-bars">
-                <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;" id="huntAnimalName">Leeuwenwelp</div>
+                <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;" id="huntAnimalName">Aslan Yavrusu</div>
                 <div class="rpg-bar-container"><div class="rpg-hp-fill"></div></div>
                 <div class="rpg-bar-container"><div class="rpg-energy-fill"></div></div>
               </div>
             </div>
 
             <div class="rpg-quest-card">
-              <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">❗ Voedsel Jacht</div>
-              <div style="font-size: 0.65rem; color: #ccc;">Vang een antilope</div>
+              <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">❗ Hunt for Food</div>
+              <div style="font-size: 0.65rem; color: #ccc;">Catch an antelope</div>
               <div style="font-size: 0.68rem; font-weight: bold; color: #2ecc71;" id="questProgress">0/1</div>
             </div>
           </div>
 
-          <!-- Arena box zonder drukke tekst in het midden -->
           <div class="rpg-arena-box" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)">
+            <div style="position: absolute; bottom: 10px; background: rgba(0,0,0,0.7); border: 1px solid #ffb700; padding: 4px 12px; border-radius: 12px; font-size: 0.72rem; color: #ffd700; font-weight: bold;">
+              🐾 Jagen / Saldırmak için Tıkla!
+            </div>
           </div>
 
           <div class="rpg-controls-row">
             <div style="text-align: left;">
-              <div style="font-size: 0.78rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Avontuur Kansen: 10 / 10</div>
-              <div style="font-size: 0.62rem; color: #aaa;" id="huntTimerText">Herlaadt over: 03:00:00</div>
+              <div style="font-size: 0.78rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
+              <div style="font-size: 0.62rem; color: #aaa;" id="huntTimerText">Yenilenme: 03:00:00</div>
             </div>
 
-            <div class="rpg-action-btn" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)" title="Jagen">
+            <div class="rpg-action-btn" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)" title="Avlan">
               🐾
             </div>
           </div>
 
           <div style="background: rgba(0,0,0,0.7); border: 1px solid #704b2e; border-radius: 12px; padding: 8px; text-align: center; backdrop-filter: blur(4px);">
-            <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold;">🔄 Vlees → GRAM Wisselen (100k = 0.01 GRAM)</div>
-            <button class="btn-claim" onclick="haptic('success'); playSound('success'); exchangeSteakToGram()" style="padding: 6px; font-size: 0.75rem; margin-top: 4px; background: #2ecc71; color: #000;">Inwisselen voor GRAM</button>
+            <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold;">🔄 Biftek → GRAM Takası (100k = 0.01 GRAM)</div>
+            <button class="btn-claim" onclick="haptic('success'); playSound('success'); exchangeSteakToGram()" style="padding: 6px; font-size: 0.75rem; margin-top: 4px; background: #2ecc71; color: #000;">GRAM ile Değiştir</button>
           </div>
 
         </div>
@@ -678,88 +679,88 @@
       <!-- REFERRAL TAB -->
       <div id="tab-referral" class="tab-content">
         <div class="page-box" style="text-align: center;">
-          <div class="page-title">👥 Vrienden Uitnodigen</div>
+          <div class="page-title">👥 Arkadaş Davet Et</div>
           <p style="font-size: 0.72rem; color: #ccc; margin-bottom: 12px;">
-            Ontvang voor elke vriend <strong>+500 Vlees</strong> en <strong>0.01 GRAM</strong>! 🎁
+            Her arkadaşın için <strong>+500 Biftek</strong> ve <strong>0.01 GRAM</strong> kazan! 🎁
           </p>
 
           <div class="wallet-box-manual">
-            <label>Jouw Uitnodigingslink:</label>
+            <label>Senin Davet Linkin:</label>
             <div class="wallet-input-row">
               <input type="text" id="refLinkInput" readonly>
-              <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyRefLink()">Kopiëren</button>
+              <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyRefLink()">Kopyala</button>
             </div>
           </div>
 
           <div style="margin-top: 15px; background: rgba(0,0,0,0.5); border: 1px solid #704b2e; border-radius: 12px; padding: 12px;">
-            <div style="font-size: 0.8rem; color: #ffd700; font-weight: bold; margin-bottom: 6px;">📊 Uitnodiging Statistieken</div>
-            <div style="font-size: 0.85rem; color: #fff;">Uitgenode Vrienden: <strong id="refCountDisplay" style="color: #2ecc71;">0</strong></div>
-            <div style="font-size: 0.75rem; color: #aaa; margin-top: 4px;">Totale Beloning: <span id="refEarnedDisplay" style="color: #ffd700;">0 🥩</span></div>
+            <div style="font-size: 0.8rem; color: #ffd700; font-weight: bold; margin-bottom: 6px;">📊 Davet İstatistiklerin</div>
+            <div style="font-size: 0.85rem; color: #fff;">Davet Edilen Arkadaş: <strong id="refCountDisplay" style="color: #2ecc71;">0</strong></div>
+            <div style="font-size: 0.75rem; color: #aaa; margin-top: 4px;">Kazanılan Toplam Ödül: <span id="refEarnedDisplay" style="color: #ffd700;">0 🥩</span></div>
           </div>
 
-          <button class="btn-claim" style="margin-top: 15px; background: linear-gradient(135deg, #3498db, #2980b9); color: #fff;" onclick="haptic('light'); playSound('click'); shareRefLink()">🚀 Delen via Telegram</button>
+          <button class="btn-claim" style="margin-top: 15px; background: linear-gradient(135deg, #3498db, #2980b9); color: #fff;" onclick="haptic('light'); playSound('click'); shareRefLink()">🚀 Telegram'da Paylaş</button>
         </div>
       </div>
 
       <!-- MENU POPUP -->
       <div class="menu-popup" id="menuPopup">
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('gorevler')">📋 Taken</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('streak')">🔥 7 Dagen Streak</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('achievements')">🏆 Prestaties</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('referral')">👥 Vrienden</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('spin')">🎡 Rad van Avontuur</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('leaderboard')">🏆 Leaderboard</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('withdraw')">💸 Opnemen</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('cuzdan')">👛 Portemonnee</div>
-        <a href="https://t.me/DailygramMinerOfficial" target="_blank" class="menu-popup-btn" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">📢 Officieel Kanaal</a>
+        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('gorevler')">📋 Görevler</div>
+        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('streak')">🔥 7 Günlük Streak</div>
+        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('achievements')">🏆 Başarılar (Badge)</div>
+        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('referral')">👥 Arkadaş Davet</div>
+        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('spin')">🎡 Şans Çarkı</div>
+        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('leaderboard')">🏆 Liderlik</div>
+        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('withdraw')">💸 Para Çek</div>
+        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('cuzdan')">👛 Cüzdan</div>
+        <a href="https://t.me/DailygramMinerOfficial" target="_blank" class="menu-popup-btn" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">📢 Resmi Kanal</a>
       </div>
 
-      <!-- TAKEN -->
+      <!-- GÖREVLER -->
       <div id="tab-gorevler" class="tab-content">
         <div class="page-box">
-          <div class="page-title">📋 Taken & Beloningen</div>
+          <div class="page-title">📋 Görevler & Ödüller</div>
           <div class="task-list">
             <div class="task-card">
               <div class="animal-icon-box">📢</div>
-              <div class="task-info"><strong>Volg het Telegram Kanaal</strong><br><small>+100 🥩</small></div>
-              <button class="btn-buy" onclick="haptic('success'); playSound('success'); completeChannelTask()">Volgen</button>
+              <div class="task-info"><strong>Telegram Kanalını Takip Et</strong><br><small>+100 🥩</small></div>
+              <button class="btn-buy" onclick="haptic('success'); playSound('success'); completeChannelTask()">Takip Et</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">👥</div>
-              <div class="task-info"><strong>Nodig Vrienden Uit</strong><br><small>+500 🥩 + 0.01 GRAM</small></div>
-              <button class="btn-buy" onclick="haptic('light'); playSound('click'); openModalTab('referral')">Gaan</button>
+              <div class="task-info"><strong>Arkadaş Davet Et</strong><br><small>+500 🥩 + 0.01 GRAM</small></div>
+              <button class="btn-buy" onclick="haptic('light'); playSound('click'); openModalTab('referral')">Git</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🔥</div>
-              <div class="task-info"><strong>7 Dagen Streak Bonus</strong><br><small>Kom elke dag terug!</small></div>
-              <button class="btn-buy" onclick="haptic('light'); playSound('click'); openModalTab('streak')">Openen</button>
+              <div class="task-info"><strong>7 Günlük Streak Ödülleri</strong><br><small>Her gün gel bonus kap!</small></div>
+              <button class="btn-buy" onclick="haptic('light'); playSound('click'); openModalTab('streak')">Aç</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- STREAK SEKMESİ -->
+      <!-- 7 GÜNLÜK STREAK SEKMESİ -->
       <div id="tab-streak" class="tab-content">
         <div class="page-box">
-          <div class="page-title">🔥 7 Dagen Inlogreeks</div>
-          <p style="font-size: 0.72rem; color: #ccc; text-align: center; margin-bottom: 10px;">Bezoek de app elke dag om je serie vol te houden!</p>
+          <div class="page-title">🔥 7 Günlük Giriş Reçetesi</div>
+          <p style="font-size: 0.72rem; color: #ccc; text-align: center; margin-bottom: 10px;">Her gün oyuna girerek ödüllerini topla ve seriyi bozma!</p>
           <div class="streak-grid" id="streakGridContainer"></div>
-          <button class="btn-claim" style="margin-top: 15px; background: #2ecc71; color: #000;" onclick="haptic('success'); playSound('success'); claimStreakDaily()">📥 Claim Vandaag</button>
+          <button class="btn-claim" style="margin-top: 15px; background: #2ecc71; color: #000;" onclick="haptic('success'); playSound('success'); claimStreakDaily()">📥 Bugünün Ödülünü Al</button>
         </div>
       </div>
 
-      <!-- ACHIEVEMENTS -->
+      <!-- ACHIEVEMENTS (BAŞARILAR) SEKMESİ -->
       <div id="tab-achievements" class="tab-content">
         <div class="page-box">
-          <div class="page-title">🏆 Prestaties & Badges</div>
+          <div class="page-title">🏆 Başarılar & Rozetler</div>
           <div class="task-list" id="achievementsListContainer"></div>
         </div>
       </div>
 
-      <!-- RAD VAN AVONTUUR -->
+      <!-- ŞANS ÇARKI -->
       <div id="tab-spin" class="tab-content">
         <div class="page-box" style="text-align: center;">
-          <div class="page-title">🎡 Rad van Avontuur</div>
+          <div class="page-title">🎡 Şans Çarkı</div>
           <div class="wheel-tree-container">
             <div class="wheel-pointer-top"></div>
             <div class="wheel-wooden-frame">
@@ -776,49 +777,49 @@
               <div class="wheel-center-hub">🎁</div>
             </div>
           </div>
-          <button class="wheel-btn-wood" id="spinBtn" onclick="haptic('success'); playSound('success'); spinWheel()">DRAAIEN</button>
+          <button class="wheel-btn-wood" id="spinBtn" onclick="haptic('success'); playSound('success'); spinWheel()">ÇEVİR</button>
         </div>
       </div>
 
-      <!-- LEADERBOARD -->
+      <!-- LİDERLİK TABLOSU -->
       <div id="tab-leaderboard" class="tab-content">
         <div class="page-box">
-          <div class="page-title">🏆 Ranglijst</div>
+          <div class="page-title">🏆 Liderlik Tablosu</div>
           <div class="task-list" id="leaderboardListContainer"></div>
         </div>
       </div>
 
-      <!-- OPNEMEN -->
+      <!-- PARA ÇEK -->
       <div id="tab-withdraw" class="tab-content">
         <div class="page-box">
-          <div class="page-title">💸 Saldo Opnemen</div>
+          <div class="page-title">💸 Bakiye Çek</div>
           <div class="wallet-box-manual">
-            <label>Op te nemen bedrag (GRAM):</label>
+            <label>Çekilecek Tutar (GRAM):</label>
             <div class="wallet-input-row">
               <input type="text" id="withdrawAmount" placeholder="0.0000">
               <button class="btn-max" onclick="haptic('light'); playSound('click'); setMaxWithdraw()">MAX</button>
             </div>
-            <label>Jouw Portemonnee Adres:</label>
+            <label>Cüzdan Adresiniz:</label>
             <div class="wallet-input-row">
               <input type="text" id="withdrawAddress" placeholder="UQ...">
             </div>
-            <button class="btn-claim" onclick="haptic('success'); playSound('success'); requestWithdraw()">Verzoek Indienen</button>
+            <button class="btn-claim" onclick="haptic('success'); playSound('success'); requestWithdraw()">Talep Oluştur</button>
           </div>
         </div>
       </div>
 
-      <!-- PORTEMONNEE -->
+      <!-- CÜZDAN -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box" style="text-align: center;">
-          <div class="page-title">👛 Toncoin (TON) & GRAM Portemonnee</div>
+          <div class="page-title">👛 Toncoin (TON) & GRAM Cüzdan</div>
           <p style="font-size: 0.72rem; color: #ccc; margin-bottom: 8px;">
-            💎 Stuur uitsluitend <strong>Toncoin (TON)</strong> of <strong>GRAM</strong> naar ditadres.
+            💎 Lütfen cüzdanımıza yalnızca <strong>Toncoin (TON)</strong> veya <strong>GRAM</strong> gönderin.
           </p>
           <div class="wallet-box-manual">
-            <label>Stortingsadres Toncoin (TON):</label>
+            <label>Yatırım Yapılacak Toncoin (TON) Adresi:</label>
             <div class="wallet-input-row">
               <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
-              <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyMyWallet()">Kopiëren</button>
+              <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyMyWallet()">Kopya</button>
             </div>
           </div>
         </div>
@@ -826,12 +827,12 @@
 
     </div>
 
-    <!-- ONDERSTE NAVIGATIE -->
+    <!-- ALT NAVIGATIE -->
     <div class="bottom-nav">
-      <div class="nav-item active" onclick="haptic('light'); playSound('click'); switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Leeuw</div></div>
-      <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Grot</div></div>
-      <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Avontuur</div></div>
-      <div class="nav-item" onclick="haptic('medium'); toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menu</div></div>
+      <div class="nav-item active" onclick="haptic('light'); playSound('click'); switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Aslan</div></div>
+      <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
+      <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
+      <div class="nav-item" onclick="haptic('medium'); toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menü</div></div>
     </div>
 
   </div>
@@ -839,19 +840,20 @@
   <!-- PAYMENT MODAL -->
   <div class="modal-overlay" id="paymentModal">
     <div class="modal-box">
-      <div class="modal-title" id="payModalTitle" style="color: #ffd700; font-weight: 900; margin-bottom: 10px;">Betaling Voltooien</div>
+      <div class="modal-title" id="payModalTitle" style="color: #ffd700; font-weight: 900; margin-bottom: 10px;">Ödemeyi Tamamla</div>
       <div class="wallet-box-manual" style="margin-top:0;">
-        <label>Te betalen bedrag (USD):</label>
-        <div class="wallet-input-row"><input type="text" id="payModalAmount" readonly><button class="btn-copy" onclick="haptic('light'); playSound('click'); copyPayAmount()">Kopiëren</button></div>
-        <label>Toncoin (TON) Adres:</label>
-        <div class="wallet-input-row"><input type="text" id="payModalAddress" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly><button class="btn-copy" onclick="haptic('light'); playSound('click'); copyPayAddress()">Kopiëren</button></div>
+        <label>Ödenecek Tutar (USD):</label>
+        <div class="wallet-input-row"><input type="text" id="payModalAmount" readonly><button class="btn-copy" onclick="haptic('light'); playSound('click'); copyPayAmount()">Kopya</button></div>
+        <label>Toncoin (TON) Cüzdan:</label>
+        <div class="wallet-input-row"><input type="text" id="payModalAddress" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly><button class="btn-copy" onclick="haptic('light'); playSound('click'); copyPayAddress()">Kopya</button></div>
       </div>
-      <button class="btn-claim" onclick="haptic('success'); playSound('success'); confirmManualPayment()">✅ Betaling Uitgevoerd</button>
-      <button class="btn-buy" style="background:#444; color:#fff; width:100%; margin-top:8px; padding: 8px; border-radius: 10px; border: none; font-weight: bold;" onclick="haptic('light'); playSound('click'); closePaymentModal()">Annuleren</button>
+      <button class="btn-claim" onclick="haptic('success'); playSound('success'); confirmManualPayment()">✅ Ödemeyi Yaptım</button>
+      <button class="btn-buy" style="background:#444; color:#fff; width:100%; margin-top:8px; padding: 8px; border-radius: 10px; border: none; font-weight: bold;" onclick="haptic('light'); playSound('click'); closePaymentModal()">İptal</button>
     </div>
   </div>
 
   <script>
+    // TELEGRAM HAPTIC FEEDBACK (Trilfunctie)
     const tg = window.Telegram?.WebApp;
     function haptic(style) {
       try {
@@ -859,7 +861,7 @@
           if (style === 'success' || style === 'warning' || style === 'error') {
             tg.HapticFeedback.notificationOccurred(style);
           } else {
-            tg.HapticFeedback.impactOccurred(style);
+            tg.HapticFeedback.impactOccurred(style); // light, medium, heavy, rigid, soft
           }
         }
       } catch(e) {}
@@ -922,13 +924,13 @@
       } catch(e) {}
     }
 
-    let username = "Speler";
+    let username = "Oyuncu";
     let userId = "12345678";
     let startParam = "";
 
     if (tg && tg.initDataUnsafe?.user) {
       tg.expand();
-      username = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name || "Speler";
+      username = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name || "Oyuncu";
       userId = tg.initDataUnsafe.user.id || "12345678";
       if (tg.initDataUnsafe.start_param) {
         startParam = tg.initDataUnsafe.start_param;
@@ -958,6 +960,7 @@
     let currentCustomBg = './background_empty.MP4';
     let channelTaskCompleted = false;
 
+    // Streak & Achievements state
     let streakDays = 0;
     let lastStreakClaimDate = 0;
     let totalHunts = 0;
@@ -1095,7 +1098,7 @@
           inviteCount++;
           localStorage.setItem('claimed_ref_' + refBy, 'true');
           haptic('success');
-          showToast("🎁 Vriendenuitnodiging bonus toegevoegd! (+500 🥩 + 0.01 GRAM)");
+          showToast("🎁 Arkadaş daveti bonusu eklendi! (+500 🥩 + 0.01 GRAM)");
           saveData();
         }
       }
@@ -1128,22 +1131,22 @@
     }
 
     function getActiveHunterInfo() {
-      if (elephantCount > 0) return { name: "Afrikaanse Olifant", icon: "🐘" };
-      if (whiteRhinoCount > 0) return { name: "Witte Neushoorn", icon: "🦏" };
-      if (blackRhinoCount > 0) return { name: "Zwarte Neushoorn", icon: "🦏" };
-      if (crocodileCount > 0) return { name: "Krokodil", icon: "🐊" };
-      if (pythonCount > 0) return { name: "Python Slang", icon: "🐍" };
-      if (twoLionsCount > 0) return { name: "2 Leeuwen", icon: "🦁" };
-      if (cheetahCount > 0) return { name: "Jachtluipaard", icon: "🐅" };
-      if (lionCount > 0) return { name: "Koning Leeuw", icon: "🦁" };
-      if (wolfCount > 0) return { name: "Wolf", icon: "🐺" };
-      if (jackalCount > 0) return { name: "Jakhals", icon: "🦊" };
-      if (hyenaCount > 0) return { name: "Hyenabende", icon: "🐺" };
+      if (elephantCount > 0) return { name: "Afrika Fili", icon: "🐘" };
+      if (whiteRhinoCount > 0) return { name: "Beyaz Gergedan", icon: "🦏" };
+      if (blackRhinoCount > 0) return { name: "Siyah Gergedan", icon: "🦏" };
+      if (crocodileCount > 0) return { name: "Timsah", icon: "🐊" };
+      if (pythonCount > 0) return { name: "Python Yılanı", icon: "🐍" };
+      if (twoLionsCount > 0) return { name: "2 Erkek Aslan", icon: "🦁" };
+      if (cheetahCount > 0) return { name: "Çita", icon: "🐅" };
+      if (lionCount > 0) return { name: "Kral Aslan", icon: "🦁" };
+      if (wolfCount > 0) return { name: "Kurt", icon: "🐺" };
+      if (jackalCount > 0) return { name: "Çakal", icon: "🦊" };
+      if (hyenaCount > 0) return { name: "Sırtlan Sürüsü", icon: "🐺" };
       if (jaguarCount > 0) return { name: "Jaguar", icon: "🐆" };
-      if (antelopeCount > 0) return { name: "Antilope", icon: "🦌" };
-      if (vultureCount > 0) return { name: "Afrikaanse Gier", icon: "🦅" };
-      if (cubCount > 0) return { name: "Leeuwenwelp", icon: "🦁" };
-      return { name: "Leeuwenwelp", icon: "🦁" };
+      if (antelopeCount > 0) return { name: "Antilop", icon: "🦌" };
+      if (vultureCount > 0) return { name: "Afrika Akbabası", icon: "🦅" };
+      if (cubCount > 0) return { name: "Aslan Yavrusu", icon: "🦁" };
+      return { name: "Aslan Yavrusu", icon: "🦁" };
     }
 
     function calculateEarnings() {
@@ -1168,9 +1171,9 @@
         level++;
         balance += level * 100;
         haptic('success');
-        showToast(`🎉 GEFELICITEERD! Level ${level} Bereikt! +${level * 100} 🥩 Bonus!`);
+        showToast(`🎉 TEBRİKLER! Seviye ${level} Oldun! +${level * 100} 🥩 Bonus!`);
       }
-      document.getElementById('hudLevelBadge').innerText = `⭐ Level ${level}`;
+      document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
     }
 
     function checkHuntEnergyReset() {
@@ -1183,51 +1186,26 @@
       }
     }
 
-    // Gecombineerde realtime klok voor zowel Jacht energie als de 3-uurs vlees cap timer
+    // Live Av Energy Timer
     setInterval(() => {
       let now = Date.now();
       let threeHours = 3 * 3600 * 1000;
-
-      // 1. Jacht energie timer
-      let diffHunt = threeHours - (now - lastHuntReset);
-      if (diffHunt <= 0) {
+      let diff = threeHours - (now - lastHuntReset);
+      if (diff <= 0) {
         huntEnergy = 10;
         lastHuntReset = now;
         saveData();
-        diffHunt = threeHours;
+        diff = threeHours;
       }
-      let remHuntSec = Math.floor(diffHunt / 1000);
-      let h1 = Math.floor(remHuntSec / 3600);
-      let m1 = Math.floor((remHuntSec % 3600) / 60);
-      let s1 = remHuntSec % 60;
-      let timerHuntStr = `${h1.toString().padStart(2,'0')}:${m1.toString().padStart(2,'0')}:${s1.toString().padStart(2,'0')}`;
+      let remSec = Math.floor(diff / 1000);
+      let hrs = Math.floor(remSec / 3600);
+      let mins = Math.floor((remSec % 3600) / 60);
+      let secs = remSec % 60;
+      let timeStr = `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
       let timerEl = document.getElementById('huntTimerText');
-      if(timerEl) timerEl.innerText = `Herlaadt over: ${timerHuntStr}`;
+      if(timerEl) timerEl.innerText = `Yenilenme: ${timeStr}`;
       let energyEl = document.getElementById('huntEnergyText');
-      if(energyEl) energyEl.innerText = `Avontuur Kansen: ${huntEnergy} / 10`;
-
-      // 2. Vlees / Steak productie weergave & 3 uur cap teller
-      let elapsedSeconds = (now - lastClaimTime) / 1000;
-      if (elapsedSeconds > maxSeconds = 3 * 3600) { elapsedSeconds = 3 * 3600; }
-      let steakPerHour = getSteakPerHour();
-      let currentDisplaySteak = unclaimedSteak + ((steakPerHour / 3600) * elapsedSeconds);
-      document.getElementById('huntSteakDisplay').innerText = Math.floor(currentDisplaySteak) + " 🥩";
-
-      // 3-uurs cap countdown klok
-      let capDiff = (3 * 3600 * 1000) - (elapsedSeconds * 1000);
-      if (capDiff < 0) capDiff = 0;
-      let capSec = Math.floor(capDiff / 1000);
-      let ch = Math.floor(capSec / 3600);
-      let cm = Math.floor((capSec % 3600) / 60);
-      let cs = capSec % 60;
-      let claimTimerEl = document.getElementById('claimTimerDisplay');
-      if (claimTimerEl) {
-        if (capSec <= 0) {
-          claimTimerEl.innerText = "Cap bereikt! (Max 3 uur)";
-        } else {
-          claimTimerEl.innerText = `Volle capaciteit over: ${ch.toString().padStart(2,'0')}:${cm.toString().padStart(2,'0')}:${cs.toString().padStart(2,'0')}`;
-        }
-      }
+      if(energyEl) energyEl.innerText = `Av Hakkı: ${huntEnergy} / 10`;
     }, 1000);
 
     function showFloatingReward(event, text) {
@@ -1246,12 +1224,12 @@
       setTimeout(() => { el.remove(); }, 800);
     }
 
-    // JACHT ACTIE: Speelt de video enkel af bij de klik op de knop!
+    // JACHT ACTIE
     function triggerHuntAction(event) {
       checkHuntEnergyReset();
       if (huntEnergy <= 0) {
         haptic('error');
-        showToast("⏳ Geen avontuur kansen meer! Wacht tot de timer gereset is.");
+        showToast("⏳ Av hakkınız bitti! Geri sayımı bekleyin.");
         return;
       }
 
@@ -1262,7 +1240,6 @@
       
       showFloatingReward(event, `+${reward} 🥩`);
 
-      // Laad en speel de jachtvideo af
       let videoElem = document.getElementById('bgVideo');
       let videoSource = document.getElementById('bgVideoSource');
       videoSource.src = './background_hunt.MP4';
@@ -1274,12 +1251,24 @@
       updateAchievementsUI();
     }
 
+    setInterval(() => {
+      let now = Date.now();
+      let elapsedSeconds = (now - lastClaimTime) / 1000;
+      let maxSeconds = 3 * 3600;
+      if (elapsedSeconds > maxSeconds) elapsedSeconds = maxSeconds;
+
+      let steakPerHour = getSteakPerHour();
+      let currentDisplaySteak = unclaimedSteak + ((steakPerHour / 3600) * elapsedSeconds);
+      
+      document.getElementById('huntSteakDisplay').innerText = Math.floor(currentDisplaySteak) + " 🥩";
+    }, 1000);
+
     function claimEarnings() {
       calculateEarnings();
       let earned = Math.floor(unclaimedSteak);
       if (earned <= 0) {
         haptic('warning');
-        showToast("Nog geen vlees verzameld om op te halen!");
+        showToast("Henüz toplanacak biftek birikmedi!");
         return;
       }
       balance += earned;
@@ -1292,13 +1281,13 @@
       saveData();
       updateLeaderboardUI();
       haptic('success');
-      showToast(`🎉 ${earned} 🥩 toegevoegd aan je portemonnee!`);
+      showToast(`🎉 ${earned} 🥩 cüzdana eklendi!`);
     }
 
     function exchangeSteakToGram() {
       if (balance < 100000) {
         haptic('error');
-        showToast("Je hebt minimaal 100.000 Vlees nodig!");
+        showToast("En az 100,000 Biftek olmalıdır!");
         return;
       }
       let gramEarned = (balance / 100000) * 0.0100;
@@ -1309,24 +1298,24 @@
       saveData();
       updateLeaderboardUI();
       haptic('success');
-      showToast("🎉 Wissel gelukt! GRAM toegevoegd aan portemonnee.");
+      showToast("🎉 Takas başarılı! GRAM cüzdana eklendi.");
     }
 
     function updateCampaignSlider(val) {
       document.getElementById('sliderUsdVal').innerText = "$" + val + " USD";
       let steakReward = val * 2500;
-      document.getElementById('sliderRewardVal').innerText = "Je ontvangt: " + steakReward.toLocaleString() + " 🥩";
+      document.getElementById('sliderRewardVal').innerText = "Alacağın: " + steakReward.toLocaleString() + " 🥩";
     }
 
     function buyCampaignSteak() {
       let val = document.getElementById('usdSlider').value;
-      openPaymentModal(val, 'buyCampaign', 'Speciaal Vlees Pakket');
+      openPaymentModal(val, 'buyCampaign', 'Özel Biftek Paketi');
     }
 
     function buyWithSteak(cost, type, name) {
       if (balance < cost) {
         haptic('error');
-        showToast("Onvoldoende Vlees saldo!");
+        showToast("Yetersiz Biftek bakiyesi!");
         return;
       }
       balance -= cost;
@@ -1359,7 +1348,7 @@
       updateLeaderboardUI();
       updateAchievementsUI();
       haptic('success');
-      showToast(`🎉 Succesvol ${name} gekocht!`);
+      showToast(`🎉 Başarıyla ${name} satın alındı!`);
     }
 
     function checkAndChangeBg(bgKey, videoSrc) {
@@ -1382,7 +1371,7 @@
 
       if (!unlocked) {
         haptic('warning');
-        showToast("🔒 Je moet dit dier eerst in de grot kopen!");
+        showToast("🔒 Önce bu hayvanı mağradan satın almalısın!");
         return;
       }
       changeBackground(videoSrc, bgKey);
@@ -1409,11 +1398,11 @@
       inputElem.select();
       navigator.clipboard.writeText(inputElem.value);
       haptic('success');
-      showToast("🔗 Uitnodigingslink gekopieerd!");
+      showToast("🔗 Davet linki kopyalandı!");
     }
 
     function shareRefLink() {
-      let text = encodeURIComponent("🦁 Doe mee met Dailygram Miner, verzorg de dieren en verdien GRAM! 🥩🚀\n\nMijn link: " + myRefLink);
+      let text = encodeURIComponent("🦁 Dailygram Miner oyununa katil, Aslanları besle ve GRAM kazan! 🥩🚀\n\nDavet Linkim: " + myRefLink);
       window.open(`https://t.me/share/url?url=${encodeURIComponent(myRefLink)}&text=${text}`, '_blank');
     }
 
@@ -1424,15 +1413,16 @@
         balance += 100;
         document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
         haptic('success');
-        showToast("🎉 Kanaal gevolgd! +100 🥩 verdiend");
+        showToast("🎉 Kanal takip edildi! +100 🥩 kazandın");
         saveData();
         updateLeaderboardUI();
       } else {
         haptic('warning');
-        showToast("✅ Je hebt deze beloning al geclaimd!");
+        showToast("✅ Bu ödülü zaten aldın!");
       }
     }
 
+    // 7 GÜNLÜK STREAK LOGICA
     function updateStreakUI() {
       let grid = document.getElementById('streakGridContainer');
       let streakRewards = [
@@ -1453,7 +1443,7 @@
         
         html += `
           <div class="${cardClass}">
-            <div style="font-weight:900; color:#ffd700;">Dag ${item.day}</div>
+            <div style="font-weight:900; color:#ffd700;">Gün ${item.day}</div>
             <div style="margin: 4px 0; font-size: 0.9rem;">🎁</div>
             <div style="font-size: 0.65rem; color:#fff;">+${item.steak} 🥩</div>
             ${item.gram ? `<div style="font-size: 0.58rem; color:#2ecc71;">+${item.gram} GRAM</div>` : ''}
@@ -1469,7 +1459,7 @@
       
       if (now - lastStreakClaimDate < oneDay && streakDays > 0 && lastStreakClaimDate !== 0) {
         haptic('error');
-        showToast("⏳ Je hebt je dagelijkse streak al geclaimd! Kom morgen terug.");
+        showToast("⏳ Bugünkü streak ödülünü zaten aldın! Yarın tekrar gel.");
         return;
       }
 
@@ -1491,21 +1481,22 @@
       updateStreakUI();
       updateLeaderboardUI();
       haptic('success');
-      showToast(`🔥 Dag ${streakDays} Streak Gelukt! +${currentReward} 🥩 toegevoegd!`);
+      showToast(`🔥 Gün ${streakDays} Serisi Başarılı! +${currentReward} 🥩 eklendi!`);
     }
 
+    // ACHIEVEMENTS LOGICA
     function updateAchievementsUI() {
       let container = document.getElementById('achievementsListContainer');
       
       let achs = [
-        { id: 'hunt10', title: 'Meester Jager (10 Jachten)', desc: 'Jacht 10 keer in totaal', reward: '+200 🥩', done: totalHunts >= 10, claimed: achievementClaimed.hunt10, steakVal: 200 },
-        { id: 'invite3', title: 'Sociaal Dier (3 Vrienden)', desc: 'Nodig 3 vrienden uit', reward: '+1500 🥩 + 0.03 GRAM', done: inviteCount >= 3, claimed: achievementClaimed.invite3, steakVal: 1500, gramVal: 0.03 },
-        { id: 'animal5', title: 'Verzamelaar (5 Dieren)', desc: 'Koop 5 dieren in de grot', reward: '+500 🥩', done: getTotalAnimalCount() >= 5, claimed: achievementClaimed.animal5, steakVal: 500 }
+        { id: 'hunt10', title: 'Usta Avcı (10 Av)', desc: 'Toplam 10 kez avlan', reward: '+200 🥩', done: totalHunts >= 10, claimed: achievementClaimed.hunt10, steakVal: 200 },
+        { id: 'invite3', title: 'Sosyal Kurt (3 Davet)', desc: '3 arkadaşını davet et', reward: '+1500 🥩 + 0.03 GRAM', done: inviteCount >= 3, claimed: achievementClaimed.invite3, steakVal: 1500, gramVal: 0.03 },
+        { id: 'animal5', title: 'Hayvan Sever (5 Hayvan)', desc: 'Mağrandan toplam 5 hayvan al', reward: '+500 🥩', done: getTotalAnimalCount() >= 5, claimed: achievementClaimed.animal5, steakVal: 500 }
       ];
 
       let html = "";
       achs.forEach(a => {
-        let btnText = a.claimed ? "Geclaimd ✅" : a.done ? "Claim 🎁" : "Vergrendeld 🔒";
+        let btnText = a.claimed ? "Alındı ✅" : a.done ? "Ödülü Al 🎁" : "Kilitli 🔒";
         let btnBg = a.claimed ? "#444" : a.done ? "#2ecc71" : "#704b2e";
         
         html += `
@@ -1525,7 +1516,7 @@
     function claimAchievement(id, steakReward, gramReward) {
       if (achievementClaimed[id]) {
         haptic('warning');
-        showToast("Je hebt deze beloning al geclaimd!");
+        showToast("Bu ödülü zaten aldın!");
         return;
       }
 
@@ -1536,7 +1527,7 @@
 
       if (!canClaim) {
         haptic('error');
-        showToast("🔒 Deze prestatie is nog niet voltooid!");
+        showToast("🔒 Bu başarım henüz tamamlanmadı!");
         return;
       }
 
@@ -1550,13 +1541,13 @@
       updateAchievementsUI();
       updateLeaderboardUI();
       haptic('success');
-      showToast(`🎉 Prestatie Beloning Geclaimd! (+${steakReward} 🥩)`);
+      showToast(`🎉 Başarım Ödülü Alındı! (+${steakReward} 🥩)`);
     }
 
     function setMaxWithdraw() {
       document.getElementById('withdrawAmount').value = gramBalance.toFixed(4);
       haptic('light');
-      showToast("Maximum GRAM ingevuld!");
+      showToast("Maksimum GRAM yazıldı!");
     }
 
     function requestWithdraw() {
@@ -1564,11 +1555,11 @@
       let addr = document.getElementById('withdrawAddress').value;
       if (!amount || !addr) {
         haptic('error');
-        showToast("Vul alstublieft het bedrag en de portemonnee in!");
+        showToast("Lütfen miktar ve cüzdan girin!");
         return;
       }
       haptic('success');
-      showToast("📤 Opnameverzoek ingediend!");
+      showToast("📤 Para çekme talebiniz alındı!");
       document.getElementById('withdrawAmount').value = "";
       document.getElementById('withdrawAddress').value = "";
     }
@@ -1578,7 +1569,7 @@
       let oneDay = 24 * 3600 * 1000;
       if (now - lastWheelSpin < oneDay && lastWheelSpin !== 0) {
         haptic('error');
-        showToast("Je hebt je draaibeurt al gehad! Kom morgen terug.");
+        showToast("Çark hakkınız bitti! Yarın tekrar gelin.");
         return;
       }
       let btn = document.getElementById('spinBtn');
@@ -1596,13 +1587,13 @@
         saveData();
         updateLeaderboardUI();
         haptic('success');
-        showToast(`🎉 Rad beloning: +${randomReward} 🥩! 🎁`);
-        btn.innerText = "Morgen Opnieuw";
+        showToast(`🎉 Çarktan +${randomReward} 🥩 Kazandın! 🎁`);
+        btn.innerText = "Yarın Tekrar Gel";
       }, 4000);
     }
 
     function openPaymentModal(usdAmount, actionType, itemName) {
-      document.getElementById('payModalTitle').innerText = itemName + " Kopen";
+      document.getElementById('payModalTitle').innerText = itemName + " Satın Al";
       document.getElementById('payModalAmount').value = "$" + usdAmount + " USD";
       document.getElementById('paymentModal').classList.add('active');
     }
@@ -1611,27 +1602,27 @@
     function copyMyWallet() {
       navigator.clipboard.writeText(MY_RECEIVING_WALLET);
       haptic('success');
-      showToast("Portemonnee adres gekopieerd! 📋");
+      showToast("Cüzdan adresi kopyalandı! 📋");
     }
     function copyPayAddress() { copyMyWallet(); }
     function copyPayAmount() {
       navigator.clipboard.writeText(document.getElementById('payModalAmount').value);
       haptic('success');
-      showToast("Bedrag gekopieerd! 📋");
+      showToast("Tutar kopyalandı! 📋");
     }
 
     function confirmManualPayment() {
       let amount = document.getElementById('payModalAmount').value;
       closePaymentModal();
       haptic('success');
-      showToast("⏳ Betaling ontvangen! Bezig met verzenden van melding...");
+      showToast("⏳ Ödemeniz alındı! Bildirim gönderiliyor...");
 
       let botToken = "8890432514:AAHNRHlv8gwHccqG7jr9x8o8IheSCyx9rEQ";
       let chatId = "7645167688";
-      let message = `🚨 NIEUWE BETALINGSMELDING!%0A👤 Speler: ${username}%0A💰 Bedrag: ${amount}`;
+      let message = `🚨 YENİ ÖDEME BİLDİRİMİ!%0A👤 Kullanıcı: ${username}%0A💰 Tutar: ${amount}`;
 
       fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`)
-        .catch(err => console.log("Bot meldingsfout:", err));
+        .catch(err => console.log("Bot bildirim hatası:", err));
     }
 
     function toggleMenuPopup() {
@@ -1647,17 +1638,13 @@
 
       let videoElem = document.getElementById('bgVideo');
       let videoSource = document.getElementById('bgVideoSource');
-      
-      // Laad standaard de gekozen grot achtergrond, en stop met afspelen totdat er gejaagd wordt
       if (tabName === 'hunt') {
         videoSource.src = './background_hunt.MP4';
-        videoElem.pause();
-        videoElem.currentTime = 0; // Zet klaar bij het begin
       } else {
         videoSource.src = currentCustomBg;
-        videoElem.load();
-        videoElem.play();
       }
+      videoElem.load();
+      videoElem.play();
 
       if(tabName === 'leaderboard') {
         updateLeaderboardUI();
@@ -1693,7 +1680,7 @@
           <div class="task-card" style="border-color: ${borderColor};">
             <div class="animal-icon-box">${rankEmoji}</div>
             <div class="task-info">
-              <strong>${p.name} ${p.isMe ? '(Jij)' : ''}</strong><br>
+              <strong>${p.name} ${p.isMe ? '(Sen)' : ''}</strong><br>
               <small>Level ${p.level} • ${Math.floor(p.steak).toLocaleString()} 🥩</small>
             </div>
             <span style="font-weight:900; color:${p.isMe ? '#2ecc71' : '#ffd700'}; font-size: 0.8rem;">${p.gram.toFixed(2)} GRAM</span>
@@ -1729,8 +1716,8 @@
       document.getElementById('refEarnedDisplay').innerText = (inviteCount * 500) + " 🥩";
 
       let steakPerHour = getSteakPerHour();
-      document.getElementById('totalSpeedInfo').innerText = `Totale Productiesnelheid: ${steakPerHour} 🥩 / uur`;
-      document.getElementById('huntEnergyText').innerText = `Avontuur Kansen: ${huntEnergy} / 10`;
+      document.getElementById('totalSpeedInfo').innerText = `Toplam Üretim Hızı: ${steakPerHour} 🥩 / sa`;
+      document.getElementById('huntEnergyText').innerText = `Av Hakkı: ${huntEnergy} / 10`;
 
       let hunter = getActiveHunterInfo();
       document.getElementById('huntAnimalAvatar').innerText = hunter.icon;
@@ -1759,7 +1746,7 @@
       updateBtnUnlock('white_rhino', whiteRhinoCount >= 1);
       updateBtnUnlock('elephant', elephantCount >= 1);
 
-      document.getElementById('hudLevelBadge').innerText = `⭐ Level ${level}`;
+      document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
     }
 
     function showToken(text) {

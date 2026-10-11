@@ -386,7 +386,7 @@
         <div class="center-action-box">
           <div style="font-size: 0.65rem; color: #aaa; text-transform: uppercase;">Toplanabilir Biftek (Max 3 Saat):</div>
           <div style="font-size: 1.25rem; font-weight: 900; color: #ffd700; margin: 2px 0;" id="huntSteakDisplay">0 🥩</div>
-          <button class="btn-claim" onclick="claimEarnings()">📥 Biftekleri Topla</button>
+          <button class="btn-claim" onclick="playSound('success'); claimEarnings()">📥 Biftekleri Topla</button>
         </div>
       </div>
 
@@ -401,7 +401,7 @@
             <div style="font-size: 1.05rem; font-weight: 900; color: #fff; margin: 3px 0;" id="sliderUsdVal">$10 USD</div>
             <input type="range" min="1" max="500" value="10" class="campaign-slider" id="usdSlider" oninput="updateCampaignSlider(this.value)">
             <div style="font-size: 0.75rem; color: #2ecc71; font-weight: bold; margin-bottom: 6px;" id="sliderRewardVal">Alacağın: 25,000 🥩</div>
-            <button class="btn-claim" style="padding: 7px; font-size: 0.82rem; margin-top: 2px;" onclick="buyCampaignSteak()">Paketi Satın Al</button>
+            <button class="btn-claim" style="padding: 7px; font-size: 0.82rem; margin-top: 2px;" onclick="playSound('click'); buyCampaignSteak()">Paketi Satın Al</button>
           </div>
 
           <div style="font-size: 0.78rem; color: #ffd700; font-weight: 900; margin-bottom: 6px; text-align: center;">🐾 3D Hayvan Koleksiyonu & Üretim Hızı</div>
@@ -411,91 +411,91 @@
             <div class="task-card">
               <div class="animal-icon-box">🦁</div>
               <div class="task-info"><strong>Aslan Yavrusu (<span id="countCub">0</span>)</strong><br><small>+2 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦅</div>
               <div class="task-info"><strong>Afrika Akbabası (<span id="countVulture">0</span>)</strong><br><small>+5 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦌</div>
               <div class="task-info"><strong>Antilop (<span id="countAntelope">0</span>)</strong><br><small>+12 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐆</div>
               <div class="task-info"><strong>Jaguar (<span id="countJaguar">0</span>)</strong><br><small>+30 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐺</div>
               <div class="task-info"><strong>Sırtlan Sürüsü (<span id="countHyena">0</span>)</strong><br><small>+70 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦊</div>
               <div class="task-info"><strong>Çakal (<span id="countJackal">0</span>)</strong><br><small>+160 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦁</div>
               <div class="task-info"><strong>Kral Aslan (<span id="countLion">0</span>)</strong><br><small>+370 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐅</div>
               <div class="task-info"><strong>Çita (<span id="countCheetah">0</span>)</strong><br><small>+850 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦁</div>
               <div class="task-info"><strong>2 Erkek Aslan (<span id="countTwoLions">0</span>)</strong><br><small>+1,950 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐍</div>
               <div class="task-info"><strong>Python Yılanı (<span id="countPython">0</span>)</strong><br><small>+4,400 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(800000, 'buyPython', 'Python Yılanı')">800000 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(800000, 'buyPython', 'Python Yılanı')">800000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐊</div>
               <div class="task-info"><strong>Timsah (<span id="countCrocodile">0</span>)</strong><br><small>+9,800 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦏</div>
               <div class="task-info"><strong>Siyah Gergedan (<span id="countBlackRhino">0</span>)</strong><br><small>+21,500 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4000000 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4000000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦏</div>
               <div class="task-info"><strong>Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</strong><br><small>+47,000 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9000000 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9000000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐘</div>
               <div class="task-info"><strong>Afrika Fili (<span id="countElephant">0</span>)</strong><br><small>+102,000 🥩 / sa</small></div>
-              <button class="btn-buy" onclick="buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20000000 🥩</button>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20000000 🥩</button>
             </div>
           </div>
 
           <div style="margin-top: 12px; border-top: 1px solid rgba(255,215,0,0.3); padding-top: 10px;">
             <div style="font-size: 0.78rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Önce Satın Almalısın)</div>
             <div class="bg-switcher-grid">
-              <button class="bg-option-btn unlocked active" id="bgBtn-empty" onclick="changeBackground('./background_empty.MP4', 'empty')">🪨 Standart Mağra</button>
-              <button class="bg-option-btn" id="bgBtn-cub1" onclick="checkAndChangeBg('cub1', './background_cub1.MP4')">🐾 1 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cubs2" onclick="checkAndChangeBg('cubs2', './background_cubs2.MP4')">🐾🐾 2 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cub3" onclick="checkAndChangeBg('cub3', './background_cub3.MP4')">🐾 3 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cub4" onclick="checkAndChangeBg('cub4', './background_cub4.MP4')">🐾 4+ Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="checkAndChangeBg('jaguar', './background_jaguar.MP4')">🐆 Jaguar Mağarası</button>
-              <button class="bg-option-btn" id="bgBtn-vulture" onclick="checkAndChangeBg('vulture', './background_vulture.MP4')">🦅 Akbaba Mağarası</button>
-              <button class="bg-option-btn" id="bgBtn-hyena" onclick="checkAndChangeBg('hyena', './background_hyena.MP4')">🐺 Sırtlan Sürüsü</button>
-              <button class="bg-option-btn" id="bgBtn-lion" onclick="checkAndChangeBg('lion', './background_lion.MP4')">🦁 Kral Aslan</button>
-              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="checkAndChangeBg('two_lions', './background_two_lions.MP4')">🦁🦁 2 Erkek Aslan</button>
-              <button class="bg-option-btn" id="bgBtn-black_rhino" onclick="checkAndChangeBg('black_rhino', './BACKGROUND_BLACK_RHINO.MP4')">🦏 Siyah Gergedan</button>
-              <button class="bg-option-btn" id="bgBtn-elephant" onclick="checkAndChangeBg('elephant', './background_elephant.MP4')">🐘 Afrika Fili</button>
-              <button class="bg-option-btn" id="bgBtn-white_rhino" onclick="checkAndChangeBg('white_rhino', './background_white_rhino.MP4')">🦏 Beyaz Gergedan</button>
+              <button class="bg-option-btn unlocked active" id="bgBtn-empty" onclick="playSound('click'); changeBackground('./background_empty.MP4', 'empty')">🪨 Standart Mağra</button>
+              <button class="bg-option-btn" id="bgBtn-cub1" onclick="playSound('click'); checkAndChangeBg('cub1', './background_cub1.MP4')">🐾 1 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cubs2" onclick="playSound('click'); checkAndChangeBg('cubs2', './background_cubs2.MP4')">🐾🐾 2 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cub3" onclick="playSound('click'); checkAndChangeBg('cub3', './background_cub3.MP4')">🐾 3 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-cub4" onclick="playSound('click'); checkAndChangeBg('cub4', './background_cub4.MP4')">🐾 4+ Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="playSound('click'); checkAndChangeBg('jaguar', './background_jaguar.MP4')">🐆 Jaguar Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-vulture" onclick="playSound('click'); checkAndChangeBg('vulture', './background_vulture.MP4')">🦅 Akbaba Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-hyena" onclick="playSound('click'); checkAndChangeBg('hyena', './background_hyena.MP4')">🐺 Sırtlan Sürüsü</button>
+              <button class="bg-option-btn" id="bgBtn-lion" onclick="playSound('click'); checkAndChangeBg('lion', './background_lion.MP4')">🦁 Kral Aslan</button>
+              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="playSound('click'); checkAndChangeBg('two_lions', './background_two_lions.MP4')">🦁🦁 2 Erkek Aslan</button>
+              <button class="bg-option-btn" id="bgBtn-black_rhino" onclick="playSound('click'); checkAndChangeBg('black_rhino', './BACKGROUND_BLACK_RHINO.MP4')">🦏 Siyah Gergedan</button>
+              <button class="bg-option-btn" id="bgBtn-elephant" onclick="playSound('click'); checkAndChangeBg('elephant', './background_elephant.MP4')">🐘 Afrika Fili</button>
+              <button class="bg-option-btn" id="bgBtn-white_rhino" onclick="playSound('click'); checkAndChangeBg('white_rhino', './background_white_rhino.MP4')">🦏 Beyaz Gergedan</button>
             </div>
           </div>
         </div>
@@ -509,7 +509,7 @@
             Avın üzerine tıkla, yakala ve biftek kazan! 🥩
           </p>
           
-          <div id="huntGameArea" style="width: 100%; height: 160px; background: rgba(0,0,0,0.7); border: 2px dashed #ffb700; border-radius: 14px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-bottom: 10px;" onclick="tapHuntPrey(event)">
+          <div id="huntGameArea" style="width: 100%; height: 160px; background: rgba(0,0,0,0.7); border: 2px dashed #ffb700; border-radius: 14px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-bottom: 10px;" onclick="playSound('hunt'); tapHuntPrey(event)">
             <div id="preyItem" style="font-size: 2.2rem; transition: transform 0.1s; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.8));">🦌</div>
             <div style="position: absolute; bottom: 6px; font-size: 0.65rem; color: #ffde6b; font-weight: bold;" id="huntStatusText">Tıkla ve Avla!</div>
           </div>
@@ -519,24 +519,24 @@
           <div style="border-top: 1px solid rgba(255,215,0,0.3); padding-top: 10px;">
             <div style="font-size: 0.78rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">🔄 Biftek → GRAM Takası</div>
             <p style="font-size: 0.68rem; color: #ccc; margin-bottom: 6px;">100,000 Biftek = 0.0100 GRAM</p>
-            <button class="btn-claim" onclick="exchangeSteakToGram()" style="background: #2ecc71; color: #000; padding: 7px; font-size: 0.8rem;">GRAM ile Değiştir</button>
+            <button class="btn-claim" onclick="playSound('success'); exchangeSteakToGram()" style="background: #2ecc71; color: #000; padding: 7px; font-size: 0.8rem;">GRAM ile Değiştir</button>
           </div>
         </div>
       </div>
 
-      <!-- REFERRAL & ARKADAŞLAR SEKMESİ (YENİ!) -->
+      <!-- REFERRAL & ARKADAŞLAR SEKMESİ -->
       <div id="tab-referral" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">👥 Arkadaş Davet Et</div>
           <p style="font-size: 0.72rem; color: #ccc; margin-bottom: 12px;">
-            Her arkadaşın için <strong>+500 Biftek</strong> ve <strong>0.01 GRAM</strong> kazan! Arkadaşın da bonus ile başlar. 🎁
+            Her arkadaşın için <strong>+500 Biftek</strong> ve <strong>0.01 GRAM</strong> kazan! 🎁
           </p>
 
           <div class="wallet-box-manual">
             <label>Senin Davet Linkin:</label>
             <div class="wallet-input-row">
               <input type="text" id="refLinkInput" readonly>
-              <button class="btn-copy" onclick="copyRefLink()">Kopyala</button>
+              <button class="btn-copy" onclick="playSound('click'); copyRefLink()">Kopyala</button>
             </div>
           </div>
 
@@ -546,18 +546,18 @@
             <div style="font-size: 0.75rem; color: #aaa; margin-top: 4px;">Kazanılan Toplam Ödül: <span id="refEarnedDisplay" style="color: #ffd700;">0 🥩</span></div>
           </div>
 
-          <button class="btn-claim" style="margin-top: 15px; background: linear-gradient(135deg, #3498db, #2980b9); color: #fff;" onclick="shareRefLink()">🚀 Telegram'da Paylaş</button>
+          <button class="btn-claim" style="margin-top: 15px; background: linear-gradient(135deg, #3498db, #2980b9); color: #fff;" onclick="playSound('click'); shareRefLink()">🚀 Telegram'da Paylaş</button>
         </div>
       </div>
 
       <!-- MENU POPUP -->
       <div class="menu-popup" id="menuPopup">
-        <div class="menu-popup-btn" onclick="openModalTab('gorevler')">📋 Görevler</div>
-        <div class="menu-popup-btn" onclick="openModalTab('referral')">👥 Arkadaş Davet</div>
-        <div class="menu-popup-btn" onclick="openModalTab('spin')">🎡 Şans Çarkı</div>
-        <div class="menu-popup-btn" onclick="openModalTab('leaderboard')">🏆 Liderlik</div>
-        <div class="menu-popup-btn" onclick="openModalTab('withdraw')">💸 Para Çek</div>
-        <div class="menu-popup-btn" onclick="openModalTab('cuzdan')">👛 Cüzdan</div>
+        <div class="menu-popup-btn" onclick="playSound('click'); openModalTab('gorevler')">📋 Görevler</div>
+        <div class="menu-popup-btn" onclick="playSound('click'); openModalTab('referral')">👥 Arkadaş Davet</div>
+        <div class="menu-popup-btn" onclick="playSound('click'); openModalTab('spin')">🎡 Şans Çarkı</div>
+        <div class="menu-popup-btn" onclick="playSound('click'); openModalTab('leaderboard')">🏆 Liderlik</div>
+        <div class="menu-popup-btn" onclick="playSound('click'); openModalTab('withdraw')">💸 Para Çek</div>
+        <div class="menu-popup-btn" onclick="playSound('click'); openModalTab('cuzdan')">👛 Cüzdan</div>
         <a href="https://t.me/DailygramMinerOfficial" target="_blank" class="menu-popup-btn" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">📢 Resmi Kanal</a>
       </div>
 
@@ -569,17 +569,17 @@
             <div class="task-card">
               <div class="animal-icon-box">📢</div>
               <div class="task-info"><strong>Telegram Kanalını Takip Et</strong><br><small>+100 🥩</small></div>
-              <button class="btn-buy" onclick="completeChannelTask()">Takip Et</button>
+              <button class="btn-buy" onclick="playSound('success'); completeChannelTask()">Takip Et</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">👥</div>
               <div class="task-info"><strong>Arkadaş Davet Et</strong><br><small>+500 🥩 + 0.01 GRAM</small></div>
-              <button class="btn-buy" onclick="openModalTab('referral')">Git</button>
+              <button class="btn-buy" onclick="playSound('click'); openModalTab('referral')">Git</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">📅</div>
               <div class="task-info"><strong>Günlük Giriş Bonusu</strong><br><small>+50 🥩</small></div>
-              <button class="btn-buy" onclick="claimDailyBonus()">Al</button>
+              <button class="btn-buy" onclick="playSound('success'); claimDailyBonus()">Al</button>
             </div>
           </div>
         </div>
@@ -605,25 +605,16 @@
               <div class="wheel-center-hub">🎁</div>
             </div>
           </div>
-          <button class="wheel-btn-wood" id="spinBtn" onclick="spinWheel()">ÇEVİR</button>
+          <button class="wheel-btn-wood" id="spinBtn" onclick="playSound('success'); spinWheel()">ÇEVİR</button>
         </div>
       </div>
 
-      <!-- LİDERLİK -->
+      <!-- DYNAMISCH LİDERLİK TABLOSU -->
       <div id="tab-leaderboard" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏆 Liderlik Tablosu</div>
-          <div class="task-list">
-            <div class="task-card" style="border-color: #ffd700;">
-              <div class="animal-icon-box">🥇</div>
-              <div class="task-info"><strong>CryptoKing_TR</strong><br><small>Level 15 • 42.5k 🥩</small></div>
-              <span style="font-weight:900; color:#ffd700;">0.85 GRAM</span>
-            </div>
-            <div class="task-card" id="myRankCard" style="border-color: #2ecc71;">
-              <div class="animal-icon-box">⭐</div>
-              <div class="task-info"><strong id="myRankName">Sen (Oyuncu)</strong><br><small id="myRankDetails">Level 1 • 0 🥩</small></div>
-              <span style="font-weight:900; color:#2ecc71;" id="myRankGram">0.00 GRAM</span>
-            </div>
+          <div class="task-list" id="leaderboardListContainer">
+            <!-- Wordt dynamisch gevuld -->
           </div>
         </div>
       </div>
@@ -636,13 +627,13 @@
             <label>Çekilecek Tutar (GRAM):</label>
             <div class="wallet-input-row">
               <input type="text" id="withdrawAmount" placeholder="0.0000">
-              <button class="btn-max" onclick="setMaxWithdraw()">MAX</button>
+              <button class="btn-max" onclick="playSound('click'); setMaxWithdraw()">MAX</button>
             </div>
             <label>Cüzdan Adresiniz:</label>
             <div class="wallet-input-row">
               <input type="text" id="withdrawAddress" placeholder="UQ...">
             </div>
-            <button class="btn-claim" onclick="requestWithdraw()">Talep Oluştur</button>
+            <button class="btn-claim" onclick="playSound('success'); requestWithdraw()">Talep Oluştur</button>
           </div>
         </div>
       </div>
@@ -658,7 +649,7 @@
             <label>Yatırım Yapılacak Toncoin (TON) Adresi:</label>
             <div class="wallet-input-row">
               <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
-              <button class="btn-copy" onclick="copyMyWallet()">Kopya</button>
+              <button class="btn-copy" onclick="playSound('click'); copyMyWallet()">Kopya</button>
             </div>
           </div>
         </div>
@@ -668,10 +659,10 @@
 
     <!-- ALT NAVIGATIE -->
     <div class="bottom-nav">
-      <div class="nav-item active" onclick="switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Aslan</div></div>
-      <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
-      <div class="nav-item" onclick="switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
-      <div class="nav-item" onclick="toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menü</div></div>
+      <div class="nav-item active" onclick="playSound('click'); switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Aslan</div></div>
+      <div class="nav-item" onclick="playSound('click'); switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
+      <div class="nav-item" onclick="playSound('click'); switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
+      <div class="nav-item" onclick="playSound('click'); toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menü</div></div>
     </div>
 
   </div>
@@ -682,16 +673,76 @@
       <div class="modal-title" id="payModalTitle" style="color: #ffd700; font-weight: 900; margin-bottom: 10px;">Ödemeyi Tamamla</div>
       <div class="wallet-box-manual" style="margin-top:0;">
         <label>Ödenecek Tutar (USD):</label>
-        <div class="wallet-input-row"><input type="text" id="payModalAmount" readonly><button class="btn-copy" onclick="copyPayAmount()">Kopya</button></div>
+        <div class="wallet-input-row"><input type="text" id="payModalAmount" readonly><button class="btn-copy" onclick="playSound('click'); copyPayAmount()">Kopya</button></div>
         <label>Toncoin (TON) Cüzdan:</label>
-        <div class="wallet-input-row"><input type="text" id="payModalAddress" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly><button class="btn-copy" onclick="copyPayAddress()">Kopya</button></div>
+        <div class="wallet-input-row"><input type="text" id="payModalAddress" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly><button class="btn-copy" onclick="playSound('click'); copyPayAddress()">Kopya</button></div>
       </div>
-      <button class="btn-claim" onclick="confirmManualPayment()">✅ Ödemeyi Yaptım</button>
-      <button class="btn-buy" style="background:#444; color:#fff; width:100%; margin-top:8px; padding: 8px; border-radius: 10px; border: none; font-weight: bold;" onclick="closePaymentModal()">İptal</button>
+      <button class="btn-claim" onclick="playSound('success'); confirmManualPayment()">✅ Ödemeyi Yaptım</button>
+      <button class="btn-buy" style="background:#444; color:#fff; width:100%; margin-top:8px; padding: 8px; border-radius: 10px; border: none; font-weight: bold;" onclick="playSound('click'); closePaymentModal()">İptal</button>
     </div>
   </div>
 
   <script>
+    // WEB AUDIO API VOOR INGEBOUWDE GELUIDSEFFECTEN
+    let audioCtx = null;
+    function playSound(type) {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        let osc = audioCtx.createOscillator();
+        let gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        let now = audioCtx.currentTime;
+
+        if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(400, now);
+          osc.frequency.exponentialRampToValueAtTime(200, now + 0.05);
+          gainNode.gain.setValueAtTime(0.15, now);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } 
+        else if (type === 'hunt') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(300, now);
+          osc.frequency.exponentialRampToValueAtTime(600, now + 0.08);
+          gainNode.gain.setValueAtTime(0.2, now);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        }
+        else if (type === 'success') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+          osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+          gainNode.gain.setValueAtTime(0.2, now);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        }
+        else if (type === 'buy') {
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.exponentialRampToValueAtTime(440, now + 0.15);
+          gainNode.gain.setValueAtTime(0.1, now);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+          osc.start(now);
+          osc.stop(now + 0.15);
+        }
+      } catch(e) {
+        console.log("Audio fout:", e);
+      }
+    }
+
     const tg = window.Telegram?.WebApp;
     let username = "Oyuncu";
     let userId = "12345678";
@@ -704,7 +755,6 @@
     document.getElementById('hudUsername').innerText = username;
     document.getElementById('hudAvatarLetter').innerText = username.charAt(0).toUpperCase();
 
-    // Genereer unieke ref link
     const myRefLink = `https://t.me/DailygramMinerBot?start=ref_${userId}`;
     document.getElementById('refLinkInput').value = myRefLink;
 
@@ -895,10 +945,9 @@
       
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('huntSteakDisplay').innerText = "0 🥩";
-      document.getElementById('myRankDetails').innerText = `Level ${level} • ${balance.toFixed(0)} 🥩`;
-      document.getElementById('myRankGram').innerText = gramBalance.toFixed(2) + " GRAM";
       checkLevelUp();
       saveData();
+      updateLeaderboardUI();
       showToast(`🎉 ${earned} 🥩 cüzdana eklendi!`);
     }
 
@@ -913,6 +962,7 @@
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
       saveData();
+      updateLeaderboardUI();
       showToast("🎉 Takas başarılı! GRAM cüzdana eklendi.");
     }
 
@@ -958,6 +1008,7 @@
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
       updateCaveDisplay();
+      updateLeaderboardUI();
       showToast(`🎉 Başarıyla ${name} satın alındı!`);
     }
 
@@ -1018,6 +1069,7 @@
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       showToast("🎉 Kanal takip edildi! +100 🥩 kazandın");
       saveData();
+      updateLeaderboardUI();
     }
 
     function setMaxWithdraw() {
@@ -1047,6 +1099,7 @@
       lastDailyClaim = now;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
+      updateLeaderboardUI();
       showToast("Günlük Bonus Alındı! (+50 🥩) 🎉");
     }
 
@@ -1070,6 +1123,7 @@
         showToast(`🎉 Çarktan +${randomReward} 🥩 Kazandın! 🎁`);
         lastWheelSpin = Date.now();
         saveData();
+        updateLeaderboardUI();
         btn.innerText = "Yarın Tekrar Gel";
       }, 4000);
     }
@@ -1114,10 +1168,45 @@
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
       if(element) element.classList.add('active');
+      if(tabName === 'leaderboard') {
+        updateLeaderboardUI();
+      }
     }
 
     function openModalTab(tabName) {
       switchTab(tabName, null);
+    }
+
+    function updateLeaderboardUI() {
+      const container = document.getElementById('leaderboardListContainer');
+      
+      let players = [
+        { name: "CryptoKing_TR", level: 15, steak: 42500, gram: 0.85 },
+        { name: "WildHunter99", level: 12, steak: 31000, gram: 0.62 },
+        { name: "AnatoliaLion", level: 9, steak: 18500, gram: 0.37 },
+        { name: username, level: level, steak: balance, gram: gramBalance, isMe: true }
+      ];
+
+      players.sort((a, b) => (b.gram * 100000 + b.steak) - (a.gram * 100000 + a.steak));
+
+      let html = "";
+      players.forEach((p, index) => {
+        let rankEmoji = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
+        let borderColor = p.isMe ? "#2ecc71" : "rgba(255, 215, 0, 0.35)";
+        
+        html += `
+          <div class="task-card" style="border-color: ${borderColor};">
+            <div class="animal-icon-box">${rankEmoji}</div>
+            <div class="task-info">
+              <strong>${p.name} ${p.isMe ? '(Sen)' : ''}</strong><br>
+              <small>Level ${p.level} • ${Math.floor(p.steak).toLocaleString()} 🥩</small>
+            </div>
+            <span style="font-weight:900; color:${p.isMe ? '#2ecc71' : '#ffd700'}; font-size: 0.8rem;">${p.gram.toFixed(2)} GRAM</span>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
     }
 
     function updateCaveDisplay() {
@@ -1140,7 +1229,6 @@
       document.getElementById('countWhiteRhino').innerText = whiteRhinoCount;
       document.getElementById('countElephant').innerText = elephantCount;
 
-      // Referral stats update
       document.getElementById('refCountDisplay').innerText = inviteCount;
       document.getElementById('refEarnedDisplay').innerText = (inviteCount * 500) + " 🥩";
 
@@ -1179,8 +1267,6 @@
       }
 
       document.getElementById('hudLevelBadge').innerText = `⭐ Seviye ${level}`;
-      document.getElementById('myRankDetails').innerText = `Level ${level} • ${balance.toFixed(0)} 🥩`;
-      document.getElementById('myRankGram').innerText = gramBalance.toFixed(2) + " GRAM";
     }
 
     function showToken(text) {
@@ -1193,6 +1279,7 @@
     function showToast(text) { showToken(text); }
 
     updateCaveDisplay();
+    updateLeaderboardUI();
   </script>
 </body>
 </html>

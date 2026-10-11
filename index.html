@@ -508,7 +508,7 @@
         </div>
       </div>
 
-      <!-- YENİ AV (HUNT) MİNİGAME SEKMESİ -->
+      <!-- AV SEKMESİ (DÜZELTİLDİ) -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 65vh;">
           <div class="page-title">🦁 Aslan Yavrusu Av Alanı</div>
@@ -523,7 +523,6 @@
 
           <div style="margin-top: 15px; font-size: 0.78rem; color: #ffd700;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
           
-          <!-- Takas Butonu da Altına Eklendi -->
           <div style="margin-top: 20px; width: 100%; border-top: 1px solid rgba(255,215,0,0.3); padding-top: 12px;">
             <div style="font-size: 0.8rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">🔄 Biftek → GRAM Takası</div>
             <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 8px;">100,000 Biftek = 0.0100 GRAM</p>
@@ -678,8 +677,9 @@
     let lastClaimTime = parseInt(localStorage.getItem('lastClaimTime')) || Date.now();
     let inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
     
-    // Hunt / Av değişkenleri
-    let huntEnergy = parseInt(localStorage.getItem('huntEnergy')) ?? 10;
+    // Hunt / Av değişkenleri (NaN önlemek için kesin parseInt kontrolü)
+    let storedHuntEnergy = parseInt(localStorage.getItem('huntEnergy'));
+    let huntEnergy = !isNaN(storedHuntEnergy) ? storedHuntEnergy : 10;
     let lastHuntReset = parseInt(localStorage.getItem('lastHuntReset')) || Date.now();
     const preyList = ['🐇', '🦌', '🐗', '🦊', '🦃'];
     let currentPreyIndex = 0;
@@ -786,7 +786,7 @@
     // Av enerjisi yenileme kontrolü (Her 3 saatte bir 10 hak)
     function checkHuntEnergyReset() {
       let now = Date.now();
-      if (now - lastHuntReset > 3 * 3600 * 1000) {
+      if (isNaN(lastHuntReset) || (now - lastHuntReset > 3 * 3600 * 1000)) {
         huntEnergy = 10;
         lastHuntReset = now;
         saveData();
@@ -801,15 +801,15 @@
       }
 
       huntEnergy--;
-      let reward = Math.floor(Math.random() * 40) + 20; // 20 - 60 biftek arası rastgele
+      let reward = Math.floor(Math.random() * 40) + 20; // 20 - 60 biftek arası
       balance += reward;
       
-      // Av animasyonu ve yeni hayvan seçimi
+      // Av animasyonu ve yeni hayvan
       currentPreyIndex = (currentPreyIndex + 1) % preyList.length;
       let preyElem = document.getElementById('preyItem');
       preyElem.innerText = preyList[currentPreyIndex];
       preyElem.style.transform = "scale(1.3)";
-      setTimeout(() => { preyElem.style.transform = "scale(1)"; }, 150);
+      setTimeout(() => { preyElem.style.transform = "scale(1);"; }, 150);
 
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('huntEnergyText').innerText = `Av Hakkı: ${huntEnergy} / 10`;

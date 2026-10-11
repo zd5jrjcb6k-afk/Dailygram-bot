@@ -438,6 +438,12 @@
               <div class="task-info"><strong>Çakal (<span id="countJackal">0</span>)</strong><br><small>+160 🥩 / sa</small></div>
               <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
             </div>
+            <!-- NIEUW: KURT (WOLF) -->
+            <div class="task-card">
+              <div class="animal-icon-box">🐺</div>
+              <div class="task-info"><strong>Kurt (<span id="countWolf">0</span>)</strong><br><small>+260 🥩 / sa</small></div>
+              <button class="btn-buy" onclick="playSound('buy'); buyWithSteak(42000, 'buyWolf', 'Kurt')">42000 🥩</button>
+            </div>
             <div class="task-card">
               <div class="animal-icon-box">🦁</div>
               <div class="task-info"><strong>Kral Aslan (<span id="countLion">0</span>)</strong><br><small>+370 🥩 / sa</small></div>
@@ -491,6 +497,9 @@
               <button class="bg-option-btn" id="bgBtn-jaguar" onclick="playSound('click'); checkAndChangeBg('jaguar', './background_jaguar.MP4')">🐆 Jaguar Mağarası</button>
               <button class="bg-option-btn" id="bgBtn-vulture" onclick="playSound('click'); checkAndChangeBg('vulture', './background_vulture.MP4')">🦅 Akbaba Mağarası</button>
               <button class="bg-option-btn" id="bgBtn-hyena" onclick="playSound('click'); checkAndChangeBg('hyena', './background_hyena.MP4')">🐺 Sırtlan Sürüsü</button>
+              <!-- NIEUWE ACHTERGROND KNOPPEN -->
+              <button class="bg-option-btn" id="bgBtn-jackal" onclick="playSound('click'); checkAndChangeBg('jackal', './background_jackal.MP4')">🦊 Çakal Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-wolf" onclick="playSound('click'); checkAndChangeBg('wolf', './background_wolf.MP4')">🐺 Kurt Mağarası</button>
               <button class="bg-option-btn" id="bgBtn-lion" onclick="playSound('click'); checkAndChangeBg('lion', './background_lion.MP4')">🦁 Kral Aslan</button>
               <button class="bg-option-btn" id="bgBtn-two_lions" onclick="playSound('click'); checkAndChangeBg('two_lions', './background_two_lions.MP4')">🦁🦁 2 Erkek Aslan</button>
               <button class="bg-option-btn" id="bgBtn-black_rhino" onclick="playSound('click'); checkAndChangeBg('black_rhino', './BACKGROUND_BLACK_RHINO.MP4')">🦏 Siyah Gergedan</button>
@@ -683,7 +692,6 @@
   </div>
 
   <script>
-    // WEB AUDIO API VOOR INGEBOUWDE GELUIDSEFFECTEN
     let audioCtx = null;
     function playSound(type) {
       try {
@@ -721,9 +729,9 @@
         }
         else if (type === 'success') {
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(523.25, now); // C5
-          osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
-          osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+          osc.frequency.setValueAtTime(523.25, now); 
+          osc.frequency.setValueAtTime(659.25, now + 0.08); 
+          osc.frequency.setValueAtTime(783.99, now + 0.16); 
           gainNode.gain.setValueAtTime(0.2, now);
           gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
           osc.start(now);
@@ -778,6 +786,7 @@
     let jaguarCount = parseInt(localStorage.getItem('jaguarCount')) || 0;
     let vultureCount = parseInt(localStorage.getItem('vultureCount')) || 0;
     let hyenaCount = parseInt(localStorage.getItem('hyenaCount')) || 0;
+    let wolfCount = parseInt(localStorage.getItem('wolfCount')) || 0; // NIEUW
     
     let antelopeCount = parseInt(localStorage.getItem('antelopeCount')) || 0;
     let jackalCount = parseInt(localStorage.getItem('jackalCount')) || 0;
@@ -803,6 +812,7 @@
         (jaguarCount * 30) + 
         (hyenaCount * 70) + 
         (jackalCount * 160) +
+        (wolfCount * 260) + // NIEUW
         (lionCount * 370) +
         (cheetahCount * 850) +
         (twoLionsCount * 1950) +
@@ -843,6 +853,7 @@
       localStorage.setItem('jaguarCount', jaguarCount);
       localStorage.setItem('vultureCount', vultureCount);
       localStorage.setItem('hyenaCount', hyenaCount);
+      localStorage.setItem('wolfCount', wolfCount); // NIEUW
       localStorage.setItem('antelopeCount', antelopeCount);
       localStorage.setItem('jackalCount', jackalCount);
       localStorage.setItem('cheetahCount', cheetahCount);
@@ -991,13 +1002,14 @@
         else if (cubCount === 3) currentCustomBg = './background_cub3.MP4';
         else if (cubCount >= 4) currentCustomBg = './background_cub4.MP4';
       }
+      else if (type === 'buyWolf') { wolfCount++; currentCustomBg = './background_wolf.MP4'; } // NIEUW
+      else if (type === 'buyJackal') { jackalCount++; currentCustomBg = './background_jackal.MP4'; }
       else if (type === 'buyLion') { lionCount++; currentCustomBg = './background_lion.MP4'; }
       else if (type === 'buyTwoLions') { twoLionsCount++; currentCustomBg = './background_two_lions.MP4'; }
       else if (type === 'buyJaguar') { jaguarCount++; currentCustomBg = './background_jaguar.MP4'; }
       else if (type === 'buyVulture') { vultureCount++; currentCustomBg = './background_vulture.MP4'; }
       else if (type === 'buyHyena') { hyenaCount++; currentCustomBg = './background_hyena.MP4'; }
       else if (type === 'buyAntelope') { antelopeCount++; }
-      else if (type === 'buyJackal') { jackalCount++; }
       else if (type === 'buyCheetah') { cheetahCount++; }
       else if (type === 'buyPython') { pythonCount++; }
       else if (type === 'buyCrocodile') { crocodileCount++; }
@@ -1019,6 +1031,8 @@
       if (bgKey === 'cubs2' && cubCount >= 2) unlocked = true;
       if (bgKey === 'cub3' && cubCount >= 3) unlocked = true;
       if (bgKey === 'cub4' && cubCount >= 4) unlocked = true;
+      if (bgKey === 'wolf' && wolfCount >= 1) unlocked = true; // NIEUW
+      if (bgKey === 'jackal' && jackalCount >= 1) unlocked = true;
       if (bgKey === 'lion' && lionCount >= 1) unlocked = true;
       if (bgKey === 'two_lions' && twoLionsCount >= 1) unlocked = true;
       if (bgKey === 'jaguar' && jaguarCount >= 1) unlocked = true;
@@ -1219,6 +1233,7 @@
       document.getElementById('countJaguar').innerText = jaguarCount;
       document.getElementById('countVulture').innerText = vultureCount;
       document.getElementById('countHyena').innerText = hyenaCount;
+      document.getElementById('countWolf').innerText = wolfCount; // NIEUW
       
       document.getElementById('countAntelope').innerText = antelopeCount;
       document.getElementById('countJackal').innerText = jackalCount;
@@ -1248,6 +1263,8 @@
       updateBtnUnlock('cubs2', cubCount >= 2);
       updateBtnUnlock('cub3', cubCount >= 3);
       updateBtnUnlock('cub4', cubCount >= 4);
+      updateBtnUnlock('wolf', wolfCount >= 1); // NIEUW
+      updateBtnUnlock('jackal', jackalCount >= 1);
       updateBtnUnlock('lion', lionCount >= 1);
       updateBtnUnlock('two_lions', twoLionsCount >= 1);
       updateBtnUnlock('jaguar', jaguarCount >= 1);

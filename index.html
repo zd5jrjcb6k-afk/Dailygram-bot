@@ -322,7 +322,6 @@
       animation: floatUp 0.8s ease-out forwards; z-index: 50;
     }
 
-    /* RPG STIJLEN VOOR AV PAGINA */
     .rpg-hunt-wrapper {
       display: flex;
       flex-direction: column;
@@ -478,8 +477,8 @@
 </head>
 <body>
 
-  <!-- Video start niet automatisch, pas bij jachtactie of cave load -->
-  <video id="bgVideo" class="bg-video" muted playsinline preload="auto">
+  <!-- Video laad direct bij opstarten -->
+  <video id="bgVideo" class="bg-video" autoplay loop muted playsinline preload="auto">
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
 
@@ -652,7 +651,6 @@
             </div>
           </div>
 
-          <!-- Arena box zonder tekst erin -->
           <div class="rpg-arena-box" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)">
           </div>
 
@@ -1009,6 +1007,9 @@
           updateLeaderboardUI();
           updateStreakUI();
           updateAchievementsUI();
+          
+          // Start direct met de correcte achtergrond video
+          changeBackground(currentCustomBg, 'empty');
         });
       } else {
         loadLocalFallback();
@@ -1019,6 +1020,8 @@
         updateLeaderboardUI();
         updateStreakUI();
         updateAchievementsUI();
+        
+        changeBackground(currentCustomBg, 'empty');
       }
     }
 
@@ -1128,7 +1131,6 @@
     }
 
     function getActiveHunterInfo() {
-      // Standaard begint het met Aslan Yavrusu i.p.v. Jaguar
       if (elephantCount > 0) return { name: "Afrika Fili", icon: "🐘" };
       if (whiteRhinoCount > 0) return { name: "Beyaz Gergedan", icon: "🦏" };
       if (blackRhinoCount > 0) return { name: "Siyah Gergedan", icon: "🦏" };
@@ -1220,7 +1222,6 @@
       setTimeout(() => { el.remove(); }, 800);
     }
 
-    // JACHT ACTIE: Speelt de jachtvideo pas af wanneer er op de knop wordt geklikt
     function triggerHuntAction(event) {
       checkHuntEnergyReset();
       if (huntEnergy <= 0) {
@@ -1521,7 +1522,7 @@
 
       if (!canClaim) {
         haptic('error');
-        showToast("🔒 Bu başarım henüz tamamlanmadı!");
+        showToast("🔒 **Bu başarım henüz tamamlanmadı!**");
         return;
       }
 

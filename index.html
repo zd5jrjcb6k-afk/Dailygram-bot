@@ -478,7 +478,8 @@
 </head>
 <body>
 
-  <video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
+  <!-- Video start niet automatisch, pas bij jachtactie of cave load -->
+  <video id="bgVideo" class="bg-video" muted playsinline preload="auto">
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
 
@@ -630,7 +631,7 @@
         </div>
       </div>
 
-      <!-- RPG AV SEKMESİ (MET TIMER) -->
+      <!-- RPG AV SEKMESİ -->
       <div id="tab-hunt" class="tab-content">
         <div class="rpg-hunt-wrapper">
           
@@ -651,10 +652,8 @@
             </div>
           </div>
 
+          <!-- Arena box zonder tekst erin -->
           <div class="rpg-arena-box" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)">
-            <div style="position: absolute; bottom: 10px; background: rgba(0,0,0,0.7); border: 1px solid #ffb700; padding: 4px 12px; border-radius: 12px; font-size: 0.72rem; color: #ffd700; font-weight: bold;">
-              🐾 Jagen / Saldırmak için Tıkla!
-            </div>
           </div>
 
           <div class="rpg-controls-row">
@@ -749,7 +748,7 @@
         </div>
       </div>
 
-      <!-- ACHIEVEMENTS (BAŞARILAR) SEKMESİ -->
+      <!-- ACHIEVEMENTS SEKMESİ -->
       <div id="tab-achievements" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏆 Başarılar & Rozetler</div>
@@ -853,7 +852,6 @@
   </div>
 
   <script>
-    // TELEGRAM HAPTIC FEEDBACK (Trilfunctie)
     const tg = window.Telegram?.WebApp;
     function haptic(style) {
       try {
@@ -861,7 +859,7 @@
           if (style === 'success' || style === 'warning' || style === 'error') {
             tg.HapticFeedback.notificationOccurred(style);
           } else {
-            tg.HapticFeedback.impactOccurred(style); // light, medium, heavy, rigid, soft
+            tg.HapticFeedback.impactOccurred(style);
           }
         }
       } catch(e) {}
@@ -960,7 +958,6 @@
     let currentCustomBg = './background_empty.MP4';
     let channelTaskCompleted = false;
 
-    // Streak & Achievements state
     let streakDays = 0;
     let lastStreakClaimDate = 0;
     let totalHunts = 0;
@@ -1131,6 +1128,7 @@
     }
 
     function getActiveHunterInfo() {
+      // Standaard begint het met Aslan Yavrusu i.p.v. Jaguar
       if (elephantCount > 0) return { name: "Afrika Fili", icon: "🐘" };
       if (whiteRhinoCount > 0) return { name: "Beyaz Gergedan", icon: "🦏" };
       if (blackRhinoCount > 0) return { name: "Siyah Gergedan", icon: "🦏" };
@@ -1145,7 +1143,6 @@
       if (jaguarCount > 0) return { name: "Jaguar", icon: "🐆" };
       if (antelopeCount > 0) return { name: "Antilop", icon: "🦌" };
       if (vultureCount > 0) return { name: "Afrika Akbabası", icon: "🦅" };
-      if (cubCount > 0) return { name: "Aslan Yavrusu", icon: "🦁" };
       return { name: "Aslan Yavrusu", icon: "🦁" };
     }
 
@@ -1186,7 +1183,6 @@
       }
     }
 
-    // Live Av Energy Timer
     setInterval(() => {
       let now = Date.now();
       let threeHours = 3 * 3600 * 1000;
@@ -1224,7 +1220,7 @@
       setTimeout(() => { el.remove(); }, 800);
     }
 
-    // JACHT ACTIE
+    // JACHT ACTIE: Speelt de jachtvideo pas af wanneer er op de knop wordt geklikt
     function triggerHuntAction(event) {
       checkHuntEnergyReset();
       if (huntEnergy <= 0) {
@@ -1422,7 +1418,6 @@
       }
     }
 
-    // 7 GÜNLÜK STREAK LOGICA
     function updateStreakUI() {
       let grid = document.getElementById('streakGridContainer');
       let streakRewards = [
@@ -1484,7 +1479,6 @@
       showToast(`🔥 Gün ${streakDays} Serisi Başarılı! +${currentReward} 🥩 eklendi!`);
     }
 
-    // ACHIEVEMENTS LOGICA
     function updateAchievementsUI() {
       let container = document.getElementById('achievementsListContainer');
       
@@ -1638,13 +1632,16 @@
 
       let videoElem = document.getElementById('bgVideo');
       let videoSource = document.getElementById('bgVideoSource');
+      
       if (tabName === 'hunt') {
         videoSource.src = './background_hunt.MP4';
+        videoElem.pause();
+        videoElem.currentTime = 0;
       } else {
         videoSource.src = currentCustomBg;
+        videoElem.load();
+        videoElem.play();
       }
-      videoElem.load();
-      videoElem.play();
 
       if(tabName === 'leaderboard') {
         updateLeaderboardUI();

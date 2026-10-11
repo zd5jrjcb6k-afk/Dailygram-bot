@@ -94,7 +94,7 @@
       box-shadow: 0 0 8px rgba(255,215,0,0.6);
     }
 
-    /* MENU POP-UP */
+    /* MENU POP-UP MET ANIMATIE */
     .menu-popup {
       position: absolute;
       bottom: 75px;
@@ -103,15 +103,26 @@
       border: 2px solid #ffb700;
       border-radius: 16px;
       padding: 10px;
-      display: none;
+      display: flex;
       flex-direction: column;
       gap: 6px;
       z-index: 150;
       box-shadow: 0 10px 25px rgba(0,0,0,0.85);
       width: 160px;
       backdrop-filter: blur(8px);
+      
+      /* Animatiefuncties */
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
     }
-    .menu-popup.active { display: flex; }
+    .menu-popup.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
     .menu-popup-btn {
       background: linear-gradient(135deg, #c28e46, #8a5a22);
       border: 1px solid #ffde6b;
@@ -209,14 +220,7 @@
       box-shadow: inset 0 2px 5px rgba(255,255,255,0.2);
     }
 
-    .task-info-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex: 1;
-      margin-left: 10px;
-    }
-
+    .task-info { flex: 1; margin-left: 10px; }
     .task-info strong { color: #fff; font-size: 0.85rem; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
     .task-info small { color: #ffb700; font-size: 0.72rem; font-weight: bold; }
 
@@ -498,7 +502,7 @@
         </div>
       </div>
 
-      <!-- AV SEKMESİ (VERBETERDE LAY-OUT) -->
+      <!-- AV SEKMESİ -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🦁 Aslan Yavrusu Av Alanı</div>
@@ -1054,7 +1058,7 @@
     function copyPayAddress() { copyMyWallet(); }
     function copyPayAmount() {
       navigator.clipboard.writeText(document.getElementById('payModalAmount').value);
-      showToast("Tutar kopyalandi! 📋");
+      showToast("Tutar kopyalandı! 📋");
     }
 
     function confirmManualPayment() {

@@ -331,73 +331,11 @@
       padding-bottom: 20px;
     }
 
-    .rpg-top-hud {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 6px;
-    }
-
-    .rpg-player-card {
-      background: linear-gradient(135deg, rgba(30, 18, 8, 0.85), rgba(15, 8, 3, 0.85));
-      border: 2px solid #ffb700;
-      border-radius: 14px;
-      padding: 6px 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.8);
-      max-width: 55%;
-      backdrop-filter: blur(4px);
-    }
-
-    .rpg-avatar-circle {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid #ffd700;
-      background: #111;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      flex-shrink: 0;
-    }
-
-    .rpg-bars {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .rpg-bar-container {
-      width: 100%;
-      height: 8px;
-      background: #111;
-      border: 1px solid #444;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .rpg-hp-fill { height: 100%; background: linear-gradient(90deg, #e74c3c, #c0392b); width: 100%; }
-    .rpg-energy-fill { height: 100%; background: linear-gradient(90deg, #3498db, #2980b9); width: 100%; }
-
-    .rpg-quest-card {
-      background: linear-gradient(135deg, rgba(30, 18, 8, 0.85), rgba(15, 8, 3, 0.85));
-      border: 2px solid #ffb700;
-      border-radius: 14px;
-      padding: 6px 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.8);
-      text-align: right;
-      backdrop-filter: blur(4px);
-    }
-
     .rpg-arena-box {
       width: 100%;
-      height: 220px;
+      height: 260px;
       background: rgba(0, 0, 0, 0.2);
-      border: 2px dashed rgba(255, 183, 0, 0.6);
+      border: 2px dashed rgba(255, 183, 0, 0.4);
       border-radius: 18px;
       position: relative;
       overflow: hidden;
@@ -477,7 +415,6 @@
 </head>
 <body>
 
-  <!-- Video laad direct bij opstarten -->
   <video id="bgVideo" class="bg-video" autoplay loop muted playsinline preload="auto">
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
@@ -630,26 +567,11 @@
         </div>
       </div>
 
-      <!-- RPG AV SEKMESİ -->
+      <!-- RPG AV SEKMESİ (ZONDER OONNODIGE KARTEN) -->
       <div id="tab-hunt" class="tab-content">
         <div class="rpg-hunt-wrapper">
           
-          <div class="rpg-top-hud">
-            <div class="rpg-player-card">
-              <div class="rpg-avatar-circle" id="huntAnimalAvatar">🦁</div>
-              <div class="rpg-bars">
-                <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;" id="huntAnimalName">Aslan Yavrusu</div>
-                <div class="rpg-bar-container"><div class="rpg-hp-fill"></div></div>
-                <div class="rpg-bar-container"><div class="rpg-energy-fill"></div></div>
-              </div>
-            </div>
-
-            <div class="rpg-quest-card">
-              <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">❗ Hunt for Food</div>
-              <div style="font-size: 0.65rem; color: #ccc;">Catch an antelope</div>
-              <div style="font-size: 0.68rem; font-weight: bold; color: #2ecc71;" id="questProgress">0/1</div>
-            </div>
-          </div>
+          <div style="height: 10px;"></div>
 
           <div class="rpg-arena-box" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)">
           </div>
@@ -1008,7 +930,6 @@
           updateStreakUI();
           updateAchievementsUI();
           
-          // Start direct met de correcte achtergrond video
           changeBackground(currentCustomBg, 'empty');
         });
       } else {
@@ -1128,24 +1049,6 @@
     function getTotalAnimalCount() {
       return cubCount + lionCount + twoLionsCount + jaguarCount + vultureCount + hyenaCount + wolfCount +
              antelopeCount + jackalCount + cheetahCount + pythonCount + crocodileCount + blackRhinoCount + whiteRhinoCount + elephantCount;
-    }
-
-    function getActiveHunterInfo() {
-      if (elephantCount > 0) return { name: "Afrika Fili", icon: "🐘" };
-      if (whiteRhinoCount > 0) return { name: "Beyaz Gergedan", icon: "🦏" };
-      if (blackRhinoCount > 0) return { name: "Siyah Gergedan", icon: "🦏" };
-      if (crocodileCount > 0) return { name: "Timsah", icon: "🐊" };
-      if (pythonCount > 0) return { name: "Python Yılanı", icon: "🐍" };
-      if (twoLionsCount > 0) return { name: "2 Erkek Aslan", icon: "🦁" };
-      if (cheetahCount > 0) return { name: "Çita", icon: "🐅" };
-      if (lionCount > 0) return { name: "Kral Aslan", icon: "🦁" };
-      if (wolfCount > 0) return { name: "Kurt", icon: "🐺" };
-      if (jackalCount > 0) return { name: "Çakal", icon: "🦊" };
-      if (hyenaCount > 0) return { name: "Sırtlan Sürüsü", icon: "🐺" };
-      if (jaguarCount > 0) return { name: "Jaguar", icon: "🐆" };
-      if (antelopeCount > 0) return { name: "Antilop", icon: "🦌" };
-      if (vultureCount > 0) return { name: "Afrika Akbabası", icon: "🦅" };
-      return { name: "Aslan Yavrusu", icon: "🦁" };
     }
 
     function calculateEarnings() {
@@ -1522,7 +1425,7 @@
 
       if (!canClaim) {
         haptic('error');
-        showToast("🔒 **Bu başarım henüz tamamlanmadı!**");
+        showToast("🔒 Bu başarım henüz tamamlanmadı!");
         return;
       }
 
@@ -1716,10 +1619,6 @@
       let steakPerHour = getSteakPerHour();
       document.getElementById('totalSpeedInfo').innerText = `Toplam Üretim Hızı: ${steakPerHour} 🥩 / sa`;
       document.getElementById('huntEnergyText').innerText = `Av Hakkı: ${huntEnergy} / 10`;
-
-      let hunter = getActiveHunterInfo();
-      document.getElementById('huntAnimalAvatar').innerText = hunter.icon;
-      document.getElementById('huntAnimalName').innerText = hunter.name;
 
       const updateBtnUnlock = (key, condition) => {
         let b = document.getElementById('bgBtn-' + key);

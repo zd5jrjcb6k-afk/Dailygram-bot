@@ -127,18 +127,18 @@
       box-shadow: 0 3px 6px rgba(0,0,0,0.4);
     }
 
-    /* CENTRAAL CLAIM BLOK */
+    /* KORRIGEERDE HOOFDPAGINA CLAIM BLOK (KLEINER & MEER NAAR BENEDEN) */
     .center-action-box {
-      background: rgba(22, 14, 8, 0.9);
-      backdrop-filter: blur(8px);
-      border: 2px solid #ffb700;
-      border-radius: 20px;
-      padding: 16px;
+      background: rgba(22, 14, 8, 0.85);
+      backdrop-filter: blur(6px);
+      border: 1.5px solid #ffb700;
+      border-radius: 14px;
+      padding: 10px;
       text-align: center;
       margin-top: auto;
-      margin-bottom: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.85), inset 0 0 15px rgba(255,183,0,0.15);
-      max-width: 92%;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.8);
+      max-width: 82%;
       margin-left: auto;
       margin-right: auto;
     }
@@ -147,16 +147,15 @@
       width: 100%;
       background: linear-gradient(135deg, #ffb700, #ff7700);
       border: 1px solid #fff;
-      padding: 11px;
-      border-radius: 14px;
+      padding: 8px;
+      border-radius: 10px;
       color: #1a0f05;
       font-weight: 900;
-      font-size: 1rem;
+      font-size: 0.85rem;
       cursor: pointer;
-      box-shadow: 0 5px 20px rgba(255, 136, 0, 0.6);
-      margin-top: 8px;
+      box-shadow: 0 4px 15px rgba(255, 136, 0, 0.5);
+      margin-top: 5px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
     .page-box {
@@ -186,7 +185,6 @@
       gap: 8px;
     }
 
-    /* PROFESSIONELE 3D STIJL KAARTEN VOOR DIEREN */
     .task-card {
       background: linear-gradient(135deg, rgba(40, 24, 12, 0.85), rgba(20, 12, 6, 0.95));
       border: 1.5px solid rgba(255, 215, 0, 0.35);
@@ -196,9 +194,7 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      transition: transform 0.1s ease;
     }
-    .task-card:active { transform: scale(0.98); }
 
     .animal-icon-box {
       width: 42px;
@@ -265,7 +261,6 @@
     }
     .campaign-slider { width: 100%; margin: 8px 0; accent-color: #f39c12; height: 6px; border-radius: 3px; }
 
-    /* ACHTERGROND KIEZER GRID */
     .bg-switcher-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -283,19 +278,10 @@
       cursor: pointer;
       text-align: center;
       opacity: 0.5;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
     }
-    .bg-option-btn.unlocked {
-      opacity: 1;
-      border-color: #ffd700;
-    }
-    .bg-option-btn.active {
-      border-color: #00ffcc;
-      background: linear-gradient(135deg, #5c3a21, #3c2414);
-      box-shadow: 0 0 10px rgba(0,255,204,0.4);
-    }
+    .bg-option-btn.unlocked { opacity: 1; border-color: #ffd700; }
+    .bg-option-btn.active { border-color: #00ffcc; background: linear-gradient(135deg, #5c3a21, #3c2414); }
 
-    /* ŞANS ÇARKI */
     .wheel-tree-container {
       position: relative; width: 240px; height: 240px; margin: 10px auto; display: flex; justify-content: center; align-items: center;
     }
@@ -325,48 +311,27 @@
       width: 42px; height: 42px; background: #ffffff; border-radius: 50%; border: 3px solid #000; z-index: 30; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #000;
     }
     .wheel-btn-wood {
-      background: linear-gradient(135deg, #ffffff, #cccccc); color: #000; border: 2px solid #fff; padding: 9px 28px; font-weight: 900; border-radius: 20px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 15px rgba(255,255,255,0.4);
+      background: linear-gradient(135deg, #ffffff, #cccccc); color: #000; border: 2px solid #fff; padding: 9px 28px; font-weight: 900; border-radius: 20px; cursor: pointer; margin-top: 10px;
     }
 
-    /* ZWEVENDE ANIMATIE VOOR AV PUNTEN (FLOATING TEXT) */
     @keyframes floatUp {
       0% { opacity: 1; transform: translateY(0) scale(1); }
       100% { opacity: 0; transform: translateY(-50px) scale(1.3); }
     }
     .floating-reward {
-      position: absolute;
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: #ffd700;
-      text-shadow: 0 0 8px rgba(0,0,0,0.9), 0 0 15px #ff8800;
-      pointer-events: none;
-      animation: floatUp 0.8s ease-out forwards;
-      z-index: 50;
+      position: absolute; font-size: 1.4rem; font-weight: 900; color: #ffd700;
+      text-shadow: 0 0 8px rgba(0,0,0,0.9), 0 0 15px #ff8800; pointer-events: none;
+      animation: floatUp 0.8s ease-out forwards; z-index: 50;
     }
 
-    /* ALT MENÜ */
     .bottom-nav {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
+      position: absolute; bottom: 0; left: 0; width: 100%;
       background: linear-gradient(180deg, rgba(18,10,5,0.95), rgba(8,4,1,0.99));
-      border-top: 2px solid #704b2e;
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 0 12px 0;
-      z-index: 100;
+      border-top: 2px solid #704b2e; display: flex; justify-content: space-around; padding: 8px 0 12px 0; z-index: 100;
       box-shadow: 0 -5px 20px rgba(0,0,0,0.8);
     }
     .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #bfa38a;
-      font-size: 0.65rem;
-      text-decoration: none;
-      cursor: pointer;
-      gap: 3px;
+      display: flex; flex-direction: column; align-items: center; color: #bfa38a; font-size: 0.65rem; text-decoration: none; cursor: pointer; gap: 3px;
     }
     .nav-item.active { color: #ffd700; font-weight: bold; text-shadow: 0 0 8px rgba(255,215,0,0.6); }
     .nav-icon { font-size: 1.25rem; }
@@ -374,7 +339,6 @@
     .toast-notification {
       position: absolute; top: 45px; left: 50%; transform: translateX(-50%);
       background: rgba(18, 10, 5, 0.95); border: 2px solid #ffd700; color: #ffd700; padding: 8px 18px; border-radius: 20px; font-size: 0.78rem; font-weight: bold; z-index: 300; display: none; text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.8);
     }
 
     .modal-overlay {
@@ -384,7 +348,6 @@
     .modal-overlay.active { display: flex; }
     .modal-box {
       background: linear-gradient(135deg, #24140b, #120a05); border: 2px solid #ffb700; border-radius: 20px; padding: 18px; width: 90%; max-width: 360px; text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.9);
     }
   </style>
 </head>
@@ -415,16 +378,16 @@
         </div>
       </div>
 
-      <!-- ASLAN TAB -->
+      <!-- ASLAN TAB (VERKLEIND & NAAR BENEDEN GEZET) -->
       <div id="tab-yavru" class="tab-content active">
         <div class="center-action-box">
-          <div style="font-size: 0.72rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px;">Toplanabilir Biftek (Max 3 Saat):</div>
-          <div style="font-size: 1.5rem; font-weight: 900; color: #ffd700; margin: 4px 0; text-shadow: 0 0 10px rgba(255,215,0,0.4);" id="huntSteakDisplay">0 🥩</div>
+          <div style="font-size: 0.65rem; color: #aaa; text-transform: uppercase;">Toplanabilir Biftek (Max 3 Saat):</div>
+          <div style="font-size: 1.25rem; font-weight: 900; color: #ffd700; margin: 2px 0;" id="huntSteakDisplay">0 🥩</div>
           <button class="btn-claim" onclick="claimEarnings()">📥 Biftekleri Topla</button>
         </div>
       </div>
 
-      <!-- MAĞRA & 3D DIER KARTLARI TAB -->
+      <!-- MAĞRA TAB -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏕️ Mağra & Kampanya</div>
@@ -444,100 +407,72 @@
           <div class="task-list">
             <div class="task-card">
               <div class="animal-icon-box">🦁</div>
-              <div class="task-info">
-                <strong>Aslan Yavrusu (<span id="countCub">0</span>)</strong><br><small>+2 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Aslan Yavrusu (<span id="countCub">0</span>)</strong><br><small>+2 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦅</div>
-              <div class="task-info">
-                <strong>Afrika Akbabası (<span id="countVulture">0</span>)</strong><br><small>+5 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Afrika Akbabası (<span id="countVulture">0</span>)</strong><br><small>+5 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦌</div>
-              <div class="task-info">
-                <strong>Antilop (<span id="countAntelope">0</span>)</strong><br><small>+12 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Antilop (<span id="countAntelope">0</span>)</strong><br><small>+12 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐆</div>
-              <div class="task-info">
-                <strong>Jaguar (<span id="countJaguar">0</span>)</strong><br><small>+30 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Jaguar (<span id="countJaguar">0</span>)</strong><br><small>+30 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐺</div>
-              <div class="task-info">
-                <strong>Sırtlan Sürüsü (<span id="countHyena">0</span>)</strong><br><small>+70 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Sırtlan Sürüsü (<span id="countHyena">0</span>)</strong><br><small>+70 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦊</div>
-              <div class="task-info">
-                <strong>Çakal (<span id="countJackal">0</span>)</strong><br><small>+160 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Çakal (<span id="countJackal">0</span>)</strong><br><small>+160 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦁</div>
-              <div class="task-info">
-                <strong>Kral Aslan (<span id="countLion">0</span>)</strong><br><small>+370 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Kral Aslan (<span id="countLion">0</span>)</strong><br><small>+370 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐅</div>
-              <div class="task-info">
-                <strong>Çita (<span id="countCheetah">0</span>)</strong><br><small>+850 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Çita (<span id="countCheetah">0</span>)</strong><br><small>+850 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦁</div>
-              <div class="task-info">
-                <strong>2 Erkek Aslan (<span id="countTwoLions">0</span>)</strong><br><small>+1,950 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>2 Erkek Aslan (<span id="countTwoLions">0</span>)</strong><br><small>+1,950 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐍</div>
-              <div class="task-info">
-                <strong>Python Yılanı (<span id="countPython">0</span>)</strong><br><small>+4,400 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Python Yılanı (<span id="countPython">0</span>)</strong><br><small>+4,400 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(800000, 'buyPython', 'Python Yılanı')">800000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐊</div>
-              <div class="task-info">
-                <strong>Timsah (<span id="countCrocodile">0</span>)</strong><br><small>+9,800 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Timsah (<span id="countCrocodile">0</span>)</strong><br><small>+9,800 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦏</div>
-              <div class="task-info">
-                <strong>Siyah Gergedan (<span id="countBlackRhino">0</span>)</strong><br><small>+21,500 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Siyah Gergedan (<span id="countBlackRhino">0</span>)</strong><br><small>+21,500 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4000000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🦏</div>
-              <div class="task-info">
-                <strong>Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</strong><br><small>+47,000 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</strong><br><small>+47,000 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9000000 🥩</button>
             </div>
             <div class="task-card">
               <div class="animal-icon-box">🐘</div>
-              <div class="task-info">
-                <strong>Afrika Fili (<span id="countElephant">0</span>)</strong><br><small>+102,000 🥩 / sa</small>
-              </div>
+              <div class="task-info"><strong>Afrika Fili (<span id="countElephant">0</span>)</strong><br><small>+102,000 🥩 / sa</small></div>
               <button class="btn-buy" onclick="buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20000000 🥩</button>
             </div>
           </div>
@@ -560,34 +495,33 @@
               <button class="bg-option-btn" id="bgBtn-white_rhino" onclick="checkAndChangeBg('white_rhino', './background_white_rhino.MP4')">🦏 Beyaz Gergedan</button>
             </div>
           </div>
-
         </div>
       </div>
 
-      <!-- AV SEKMESİ (ZWEEVENDE ANIMATIE) -->
+      <!-- AV SEKMESİ (VERBETERDE LAY-OUT) -->
       <div id="tab-hunt" class="tab-content">
-        <div class="page-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 65vh;">
+        <div class="page-box" style="text-align: center;">
           <div class="page-title">🦁 Aslan Yavrusu Av Alanı</div>
-          <p style="font-size: 0.75rem; color: #ccc; margin-bottom: 12px;">
-            Küçük avların üzerine tıkla, avı yakala ve ekstra biftek kazan! 🥩
+          <p style="font-size: 0.72rem; color: #ccc; margin-bottom: 8px;">
+            Avın üzerine tıkla, yakala ve biftek kazan! 🥩
           </p>
           
-          <div id="huntGameArea" style="width: 100%; height: 180px; background: rgba(0,0,0,0.65); border: 2px dashed #ffb700; border-radius: 16px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: inset 0 0 15px rgba(255,183,0,0.2);" onclick="tapHuntPrey(event)">
-            <div id="preyItem" style="font-size: 2.5rem; transition: transform 0.1s; filter: drop-shadow(0 5px 8px rgba(0,0,0,0.8));">🦌</div>
-            <div style="position: absolute; bottom: 8px; font-size: 0.7rem; color: #ffde6b; font-weight: bold;" id="huntStatusText">Av Bekleniyor... Tıkla!</div>
+          <div id="huntGameArea" style="width: 100%; height: 160px; background: rgba(0,0,0,0.7); border: 2px dashed #ffb700; border-radius: 14px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-bottom: 10px;" onclick="tapHuntPrey(event)">
+            <div id="preyItem" style="font-size: 2.2rem; transition: transform 0.1s; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.8));">🦌</div>
+            <div style="position: absolute; bottom: 6px; font-size: 0.65rem; color: #ffde6b; font-weight: bold;" id="huntStatusText">Tıkla ve Avla!</div>
           </div>
 
-          <div style="margin-top: 15px; font-size: 0.8rem; font-weight: bold; color: #ffd700;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
+          <div style="font-size: 0.78rem; font-weight: bold; color: #ffd700; margin-bottom: 12px;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
           
-          <div style="margin-top: 18px; width: 100%; border-top: 1px solid rgba(255,215,0,0.3); padding-top: 12px;">
-            <div style="font-size: 0.8rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">🔄 Biftek → GRAM Takası</div>
-            <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 8px;">100,000 Biftek = 0.0100 GRAM</p>
-            <button class="btn-claim" onclick="exchangeSteakToGram()" style="background: #2ecc71; color: #000; padding: 8px;">GRAM ile Değiştir</button>
+          <div style="border-top: 1px solid rgba(255,215,0,0.3); padding-top: 10px;">
+            <div style="font-size: 0.78rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">🔄 Biftek → GRAM Takası</div>
+            <p style="font-size: 0.68rem; color: #ccc; margin-bottom: 6px;">100,000 Biftek = 0.0100 GRAM</p>
+            <button class="btn-claim" onclick="exchangeSteakToGram()" style="background: #2ecc71; color: #000; padding: 7px; font-size: 0.8rem;">GRAM ile Değiştir</button>
           </div>
         </div>
       </div>
 
-      <!-- MENÜ POPUP -->
+      <!-- MENU POPUP -->
       <div class="menu-popup" id="menuPopup">
         <div class="menu-popup-btn" onclick="openModalTab('gorevler')">📋 Görevler</div>
         <div class="menu-popup-btn" onclick="openModalTab('spin')">🎡 Şans Çarkı</div>
@@ -857,7 +791,6 @@
       }
     }
 
-    /* ZWEVENDE PUNATEN ANIMATIE BIJ KLIK */
     function showFloatingReward(event, text) {
       let area = document.getElementById('huntGameArea');
       let rect = area.getBoundingClientRect();
@@ -1121,7 +1054,7 @@
     function copyPayAddress() { copyMyWallet(); }
     function copyPayAmount() {
       navigator.clipboard.writeText(document.getElementById('payModalAmount').value);
-      showToast("Tutar kopyalandı! 📋");
+      showToast("Tutar kopyalandi! 📋");
     }
 
     function confirmManualPayment() {

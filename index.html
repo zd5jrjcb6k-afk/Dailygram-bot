@@ -50,8 +50,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 10px;
-      padding-bottom: 75px;
+      padding: 12px;
+      padding-bottom: 80px;
       overflow-y: auto;
     }
 
@@ -94,9 +94,9 @@
 
     .menu-popup {
       position: absolute;
-      bottom: 75px;
-      right: 10px;
-      background: rgba(24, 15, 8, 0.96);
+      bottom: 80px;
+      right: 12px;
+      background: rgba(20, 12, 6, 0.98);
       border: 2px solid #ffb700;
       border-radius: 16px;
       padding: 10px;
@@ -104,9 +104,9 @@
       flex-direction: column;
       gap: 6px;
       z-index: 150;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.85);
-      width: 160px;
-      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.9);
+      width: 170px;
+      backdrop-filter: blur(10px);
       opacity: 0;
       transform: translateY(20px) scale(0.95);
       pointer-events: none;
@@ -134,16 +134,16 @@
     }
 
     .center-action-box {
-      background: rgba(22, 14, 8, 0.85);
-      backdrop-filter: blur(6px);
-      border: 1.5px solid #ffb700;
-      border-radius: 14px;
-      padding: 10px;
+      background: rgba(22, 14, 8, 0.88);
+      backdrop-filter: blur(8px);
+      border: 2px solid #ffb700;
+      border-radius: 16px;
+      padding: 14px;
       text-align: center;
       margin-top: auto;
       margin-bottom: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.8);
-      max-width: 82%;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.85);
+      max-width: 88%;
       margin-left: auto;
       margin-right: auto;
     }
@@ -152,39 +152,40 @@
       width: 100%;
       background: linear-gradient(135deg, #ffb700, #ff7700);
       border: 1px solid #fff;
-      padding: 8px;
-      border-radius: 10px;
+      padding: 10px;
+      border-radius: 12px;
       color: #1a0f05;
       font-weight: 900;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       cursor: pointer;
       box-shadow: 0 4px 15px rgba(255, 136, 0, 0.5);
-      margin-top: 5px;
+      margin-top: 8px;
       text-transform: uppercase;
     }
 
     .page-box {
-      background: rgba(20, 12, 6, 0.94);
+      background: rgba(18, 10, 5, 0.95);
       border: 2px solid #8a5a22;
       border-radius: 20px;
       padding: 14px;
-      max-height: 78vh;
+      max-height: 76vh;
       overflow-y: auto;
       margin-top: 6px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.8);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
     }
 
     .page-title {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       color: #ffd700;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       font-weight: 900;
       text-align: center;
       text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+      letter-spacing: 0.5px;
     }
 
-    /* CLASH ROYALE STYLE MARKET GRID */
+    /* CLASH ROYALE MARKET GRID */
     .cr-banner-box {
       background: linear-gradient(135deg, #1b4d3e, #0f2d24);
       border: 2.5px solid #2ecc71;
@@ -213,7 +214,6 @@
       align-items: center;
       text-align: center;
       box-shadow: 0 6px 15px rgba(0,0,0,0.8), inset 0 2px 5px rgba(255,255,255,0.2);
-      position: relative;
     }
 
     .cr-card-icon {
@@ -225,7 +225,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2rem;
+      font-size: 1.8rem;
       box-shadow: 0 4px 10px rgba(0,0,0,0.6);
       margin-bottom: 6px;
     }
@@ -247,20 +247,62 @@
       text-transform: uppercase;
     }
 
-    .wallet-box-manual {
-      background: rgba(0, 0, 0, 0.65);
-      border: 1px solid #ffb700;
-      border-radius: 14px;
-      padding: 12px;
-      margin-top: 6px;
-      text-align: left;
+    /* PREMIUM TASK CARDS */
+    .task-list { display: flex; flex-direction: column; gap: 10px; }
+    .task-card {
+      background: linear-gradient(135deg, rgba(40, 24, 12, 0.9), rgba(20, 12, 6, 0.95));
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.6);
     }
-    .wallet-box-manual label { font-size: 0.75rem; color: #ffd700; font-weight: bold; }
-    .wallet-input-row { display: flex; gap: 6px; margin-top: 4px; margin-bottom: 8px; align-items: center; }
-    .wallet-input-row input { flex: 1; background: #111; border: 1px solid #704b2e; color: #fff; padding: 8px; border-radius: 8px; font-size: 0.75rem; }
+    .animal-icon-box {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, rgba(255,183,0,0.25), rgba(138,90,34,0.5));
+      border: 1.5px solid #ffd700;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: inset 0 2px 5px rgba(255,255,255,0.2);
+    }
+    .task-info { flex: 1; margin-left: 12px; }
+    .task-info strong { color: #fff; font-size: 0.9rem; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+    .task-info small { color: #ffb700; font-size: 0.75rem; font-weight: bold; }
+
+    .btn-buy {
+      background: linear-gradient(135deg, #ffb700, #ff8800);
+      border: 1px solid #ffe885;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 900;
+      color: #1a0f05;
+      font-size: 0.78rem;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 3px 10px rgba(255,136,0,0.4);
+    }
+
+    .wallet-box-manual {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1.5px solid #ffb700;
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 10px;
+      text-align: left;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
+    }
+    .wallet-box-manual label { font-size: 0.78rem; color: #ffd700; font-weight: bold; }
+    .wallet-input-row { display: flex; gap: 6px; margin-top: 6px; margin-bottom: 10px; align-items: center; }
+    .wallet-input-row input { flex: 1; background: #111; border: 1px solid #704b2e; color: #fff; padding: 10px; border-radius: 10px; font-size: 0.78rem; }
 
     .btn-max, .btn-copy {
-      background: #27ae60; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 0.75rem; cursor: pointer;
+      background: #27ae60; color: #fff; border: none; padding: 10px 14px; border-radius: 10px; font-weight: bold; font-size: 0.75rem; cursor: pointer;
     }
     .btn-copy { background: #3498db; }
 
@@ -391,17 +433,18 @@
     .streak-card.claimed { border-color: #2ecc71; opacity: 0.6; }
     .streak-card.active-day { border-color: #ffd700; background: rgba(255,215,0,0.15); }
 
+    /* 4 TABBOTOM NAVIGATIE */
     .bottom-nav {
       position: absolute; bottom: 0; left: 0; width: 100%;
-      background: linear-gradient(180deg, rgba(18,10,5,0.95), rgba(8,4,1,0.99));
+      background: linear-gradient(180deg, rgba(18,10,5,0.96), rgba(8,4,1,0.99));
       border-top: 2px solid #704b2e; display: flex; justify-content: space-around; padding: 8px 0 12px 0; z-index: 100;
-      box-shadow: 0 -5px 20px rgba(0,0,0,0.8);
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.85);
     }
     .nav-item {
-      display: flex; flex-direction: column; align-items: center; color: #bfa38a; font-size: 0.65rem; text-decoration: none; cursor: pointer; gap: 3px;
+      display: flex; flex-direction: column; align-items: center; color: #bfa38a; font-size: 0.7rem; text-decoration: none; cursor: pointer; gap: 3px;
     }
     .nav-item.active { color: #ffd700; font-weight: bold; text-shadow: 0 0 8px rgba(255,215,0,0.6); }
-    .nav-icon { font-size: 1.25rem; }
+    .nav-icon { font-size: 1.35rem; }
 
     .toast-notification {
       position: absolute; top: 45px; left: 50%; transform: translateX(-50%);
@@ -445,11 +488,11 @@
         </div>
       </div>
 
-      <!-- ASLAN TAB -->
-      <div id="tab-yavru" class="tab-content active">
+      <!-- ANA SAYFA (ALGEMEEN / HOOFDPAGINA) -->
+      <div id="tab-ana" class="tab-content active">
         <div class="center-action-box">
           <div style="font-size: 0.65rem; color: #aaa; text-transform: uppercase;">Toplanabilir Biftek (Max 3 Saat):</div>
-          <div style="font-size: 1.25rem; font-weight: 900; color: #ffd700; margin: 2px 0;" id="huntSteakDisplay">0 🥩</div>
+          <div style="font-size: 1.35rem; font-weight: 900; color: #ffd700; margin: 4px 0;" id="huntSteakDisplay">0 🥩</div>
           <button class="btn-claim" onclick="haptic('success'); playSound('success'); claimEarnings()">📥 Biftekleri Topla</button>
         </div>
       </div>
@@ -590,54 +633,48 @@
       <!-- RPG AV SEKMESİ -->
       <div id="tab-hunt" class="tab-content">
         <div class="rpg-hunt-wrapper">
-          
           <div style="height: 10px;"></div>
-
-          <div class="rpg-arena-box" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)">
-          </div>
-
+          <div class="rpg-arena-box" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)"></div>
           <div class="rpg-controls-row">
             <div style="text-align: left;">
               <div style="font-size: 0.78rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
               <div style="font-size: 0.62rem; color: #aaa;" id="huntTimerText">Yenilenme: 03:00:00</div>
             </div>
-
-            <div class="rpg-action-btn" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)" title="Avlan">
-              🐾
-            </div>
+            <div class="rpg-action-btn" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)" title="Avlan">🐾</div>
           </div>
-
           <div style="background: rgba(0,0,0,0.7); border: 1px solid #704b2e; border-radius: 12px; padding: 8px; text-align: center; backdrop-filter: blur(4px);">
             <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold;">🔄 Biftek → GRAM Takası (100k = 0.01 GRAM)</div>
             <button class="btn-claim" onclick="haptic('success'); playSound('success'); exchangeSteakToGram()" style="padding: 6px; font-size: 0.75rem; margin-top: 4px; background: #2ecc71; color: #000;">GRAM ile Değiştir</button>
           </div>
-
         </div>
       </div>
 
-      <!-- REFERRAL TAB -->
-      <div id="tab-referral" class="tab-content">
-        <div class="page-box" style="text-align: center;">
-          <div class="page-title">👥 Arkadaş Davet Et</div>
-          <p style="font-size: 0.72rem; color: #ccc; margin-bottom: 12px;">
-            Her arkadaşın için <strong>+500 Biftek</strong> ve <strong>0.01 GRAM</strong> kazan! 🎁
+      <!-- CÜZDAN & PARA ÇEK (GECOMBINEERD) -->
+      <div id="tab-cuzdan" class="tab-content">
+        <div class="page-box">
+          <div class="page-title">👛 Cüzdan & Para Çek</div>
+          <p style="font-size: 0.72rem; color: #ccc; margin-bottom: 8px; text-align: center;">
+            💎 Cüzdanımıza yalnızca <strong>Toncoin (TON)</strong> veya <strong>GRAM</strong> yatırın veya bakiye çekin.
           </p>
-
           <div class="wallet-box-manual">
-            <label>Senin Davet Linkin:</label>
+            <label>Yatırım Adresi (TON):</label>
             <div class="wallet-input-row">
-              <input type="text" id="refLinkInput" readonly>
-              <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyRefLink()">Kopyala</button>
+              <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
+              <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyMyWallet()">Kopya</button>
             </div>
           </div>
-
-          <div style="margin-top: 15px; background: rgba(0,0,0,0.5); border: 1px solid #704b2e; border-radius: 12px; padding: 12px;">
-            <div style="font-size: 0.8rem; color: #ffd700; font-weight: bold; margin-bottom: 6px;">📊 Davet İstatistiklerin</div>
-            <div style="font-size: 0.85rem; color: #fff;">Davet Edilen Arkadaş: <strong id="refCountDisplay" style="color: #2ecc71;">0</strong></div>
-            <div style="font-size: 0.75rem; color: #aaa; margin-top: 4px;">Kazanılan Toplam Ödül: <span id="refEarnedDisplay" style="color: #ffd700;">0 🥩</span></div>
+          <div class="wallet-box-manual" style="margin-top: 12px;">
+            <label>Çekilecek Tutar (GRAM):</label>
+            <div class="wallet-input-row">
+              <input type="text" id="withdrawAmount" placeholder="0.0000">
+              <button class="btn-max" onclick="haptic('light'); playSound('click'); setMaxWithdraw()">MAX</button>
+            </div>
+            <label>Cüzdan Adresiniz:</label>
+            <div class="wallet-input-row">
+              <input type="text" id="withdrawAddress" placeholder="UQ...">
+            </div>
+            <button class="btn-claim" onclick="haptic('success'); playSound('success'); requestWithdraw()" style="margin-top: 4px;">Talep Oluştur</button>
           </div>
-
-          <button class="btn-claim" style="margin-top: 15px; background: linear-gradient(135deg, #3498db, #2980b9); color: #fff;" onclick="haptic('light'); playSound('click'); shareRefLink()">🚀 Telegram'da Paylaş</button>
         </div>
       </div>
 
@@ -649,12 +686,10 @@
         <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('referral')">👥 Arkadaş Davet</div>
         <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('spin')">🎡 Şans Çarkı</div>
         <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('leaderboard')">🏆 Liderlik</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('withdraw')">💸 Para Çek</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('cuzdan')">👛 Cüzdan</div>
         <a href="https://t.me/DailygramMinerOfficial" target="_blank" class="menu-popup-btn" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">📢 Resmi Kanal</a>
       </div>
 
-      <!-- GÖREVLER -->
+      <!-- GÖREVLER (STRAK & PREMIUM) -->
       <div id="tab-gorevler" class="tab-content">
         <div class="page-box">
           <div class="page-title">📋 Görevler & Ödüller</div>
@@ -678,21 +713,42 @@
         </div>
       </div>
 
-      <!-- 7 GÜNLÜK STREAK SEKMESİ -->
+      <!-- 7 GÜNLÜK STREAK -->
       <div id="tab-streak" class="tab-content">
         <div class="page-box">
-          <div class="page-title">🔥 7 Günlük Giriş Reçetesi</div>
+          <div class="page-title">🔥 7 Günlük Giriş Serisi</div>
           <p style="font-size: 0.72rem; color: #ccc; text-align: center; margin-bottom: 10px;">Her gün oyuna girerek ödüllerini topla ve seriyi bozma!</p>
           <div class="streak-grid" id="streakGridContainer"></div>
           <button class="btn-claim" style="margin-top: 15px; background: #2ecc71; color: #000;" onclick="haptic('success'); playSound('success'); claimStreakDaily()">📥 Bugünün Ödülünü Al</button>
         </div>
       </div>
 
-      <!-- ACHIEVEMENTS SEKMESİ -->
+      <!-- ACHIEVEMENTS (ROZETLER) -->
       <div id="tab-achievements" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏆 Başarılar & Rozetler</div>
           <div class="task-list" id="achievementsListContainer"></div>
+        </div>
+      </div>
+
+      <!-- REFERRAL -->
+      <div id="tab-referral" class="tab-content">
+        <div class="page-box" style="text-align: center;">
+          <div class="page-title">👥 Arkadaş Davet Et</div>
+          <p style="font-size: 0.72rem; color: #ccc; margin-bottom: 12px;">Her arkadaşın için <strong>+500 Biftek</strong> ve <strong>0.01 GRAM</strong> kazan! 🎁</p>
+          <div class="wallet-box-manual">
+            <label>Senin Davet Linkin:</label>
+            <div class="wallet-input-row">
+              <input type="text" id="refLinkInput" readonly>
+              <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyRefLink()">Kopyala</button>
+            </div>
+          </div>
+          <div style="margin-top: 15px; background: rgba(0,0,0,0.5); border: 1px solid #704b2e; border-radius: 12px; padding: 12px;">
+            <div style="font-size: 0.8rem; color: #ffd700; font-weight: bold; margin-bottom: 6px;">📊 Davet İstatistiklerin</div>
+            <div style="font-size: 0.85rem; color: #fff;">Davet Edilen Arkadaş: <strong id="refCountDisplay" style="color: #2ecc71;">0</strong></div>
+            <div style="font-size: 0.75rem; color: #aaa; margin-top: 4px;">Kazanılan Toplam Ödül: <span id="refEarnedDisplay" style="color: #ffd700;">0 🥩</span></div>
+          </div>
+          <button class="btn-claim" style="margin-top: 15px; background: linear-gradient(135deg, #3498db, #2980b9); color: #fff;" onclick="haptic('light'); playSound('click'); shareRefLink()">🚀 Telegram'da Paylaş</button>
         </div>
       </div>
 
@@ -720,7 +776,7 @@
         </div>
       </div>
 
-      <!-- LİDERLİK TABLOSU -->
+      <!-- LİDERLİK TABLOSU (STRAK & PREMIUM) -->
       <div id="tab-leaderboard" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏆 Liderlik Tablosu</div>
@@ -728,49 +784,14 @@
         </div>
       </div>
 
-      <!-- PARA ÇEK -->
-      <div id="tab-withdraw" class="tab-content">
-        <div class="page-box">
-          <div class="page-title">💸 Bakiye Çek</div>
-          <div class="wallet-box-manual">
-            <label>Çekilecek Tutar (GRAM):</label>
-            <div class="wallet-input-row">
-              <input type="text" id="withdrawAmount" placeholder="0.0000">
-              <button class="btn-max" onclick="haptic('light'); playSound('click'); setMaxWithdraw()">MAX</button>
-            </div>
-            <label>Cüzdan Adresiniz:</label>
-            <div class="wallet-input-row">
-              <input type="text" id="withdrawAddress" placeholder="UQ...">
-            </div>
-            <button class="btn-claim" onclick="haptic('success'); playSound('success'); requestWithdraw()">Talep Oluştur</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- CÜZDAN -->
-      <div id="tab-cuzdan" class="tab-content">
-        <div class="page-box" style="text-align: center;">
-          <div class="page-title">👛 Toncoin (TON) & GRAM Cüzdan</div>
-          <p style="font-size: 0.72rem; color: #ccc; margin-bottom: 8px;">
-            💎 Lütfen cüzdanımıza yalnızca <strong>Toncoin (TON)</strong> veya <strong>GRAM</strong> gönderin.
-          </p>
-          <div class="wallet-box-manual">
-            <label>Yatırım Yapılacak Toncoin (TON) Adresi:</label>
-            <div class="wallet-input-row">
-              <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
-              <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyMyWallet()">Kopya</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
 
-    <!-- ALT NAVIGATIE -->
+    <!-- 4 TABLI ALT NAVIGATIE (HOOFDPAGINA IN HET MIDDEN) -->
     <div class="bottom-nav">
-      <div class="nav-item active" onclick="haptic('light'); playSound('click'); switchTab('yavru', this)"><div class="nav-icon">🦁</div><div>Aslan</div></div>
       <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
+      <div class="nav-item active" onclick="haptic('light'); playSound('click'); switchTab('ana', this)"><div class="nav-icon">🦁</div><div>Genel</div></div>
       <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
+      <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div>Cüzdan</div></div>
       <div class="nav-item" onclick="haptic('medium'); toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menü</div></div>
     </div>
 

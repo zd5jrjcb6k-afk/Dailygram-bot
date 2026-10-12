@@ -246,6 +246,98 @@
       text-transform: uppercase;
     }
 
+    /* CLASH MINI STYLE BATTLE ARENA */
+    .battle-arena-container {
+      background: linear-gradient(180deg, #162414 0%, #0a1108 100%);
+      border: 3px solid #2ecc71;
+      border-radius: 20px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      margin-top: 4px;
+    }
+
+    .battle-board {
+      width: 100%;
+      height: 210px;
+      background: radial-gradient(circle, #27ae60 0%, #145a32 100%);
+      border: 2px solid #f1c40f;
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    .enemy-side {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .player-side {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .battle-unit {
+      width: 48px;
+      height: 48px;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid #ffd700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+    }
+
+    @keyframes runToEnemy {
+      0% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-70px) scale(1.2) rotate(10deg); filter: drop-shadow(0 0 10px #ff0); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    .battle-unit.attacking {
+      animation: runToEnemy 0.6s ease-in-out infinite alternate;
+    }
+
+    .unit-selector-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      width: 100%;
+      padding: 6px 0;
+      margin-top: 8px;
+    }
+
+    .unit-select-chip {
+      background: rgba(40, 24, 12, 0.9);
+      border: 1.5px solid #704b2e;
+      border-radius: 12px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 0.72rem;
+      color: #fff;
+    }
+    .unit-select-chip.selected {
+      border-color: #2ecc71;
+      background: rgba(46, 204, 113, 0.2);
+    }
+
     .task-list { display: flex; flex-direction: column; gap: 10px; }
     .task-card {
       background: linear-gradient(135deg, rgba(40, 24, 12, 0.9), rgba(20, 12, 6, 0.95));
@@ -367,70 +459,6 @@
       animation: floatUp 0.8s ease-out forwards; z-index: 50;
     }
 
-    .rpg-hunt-wrapper {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      justify-content: space-between;
-      position: relative;
-      padding-bottom: 20px;
-    }
-
-    .rpg-arena-box {
-      width: 100%;
-      height: 260px;
-      background: rgba(0, 0, 0, 0.2);
-      border: 2px dashed rgba(255, 183, 0, 0.4);
-      border-radius: 18px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      cursor: pointer;
-      margin: 10px 0;
-    }
-
-    .rpg-controls-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px;
-    }
-
-    .rpg-action-btn {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #ffb700, #ff7700);
-      border: 3px solid #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(255,136,0,0.6);
-      transition: transform 0.1s;
-    }
-    .rpg-action-btn:active { transform: scale(0.92); }
-
-    .streak-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-      margin-top: 8px;
-    }
-    .streak-card {
-      background: rgba(0,0,0,0.6);
-      border: 1px solid #704b2e;
-      border-radius: 10px;
-      padding: 8px 4px;
-      text-align: center;
-      font-size: 0.7rem;
-    }
-    .streak-card.claimed { border-color: #2ecc71; opacity: 0.6; }
-    .streak-card.active-day { border-color: #ffd700; background: rgba(255,215,0,0.15); }
-
     .bottom-nav {
       position: absolute; bottom: 0; left: 0; width: 100%;
       background: linear-gradient(180deg, rgba(18,10,5,0.96), rgba(8,4,1,0.99));
@@ -494,7 +522,7 @@
         </div>
       </div>
 
-      <!-- MAĞRA TAB (CLASH ROYALE STYLE) -->
+      <!-- MAĞRA TAB -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title">⚔️ Mağra & Özel Fırsatlar</div>
@@ -627,21 +655,52 @@
         </div>
       </div>
 
-      <!-- RPG AV SEKMESİ -->
+      <!-- AV SEKMESİ (CLASH MINI STYLE BATTLE ARENA) -->
       <div id="tab-hunt" class="tab-content">
-        <div class="rpg-hunt-wrapper">
-          <div style="height: 10px;"></div>
-          <div class="rpg-arena-box" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)"></div>
-          <div class="rpg-controls-row">
-            <div style="text-align: left;">
-              <div style="font-size: 0.78rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
+        <div class="page-box" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+          <div class="page-title">🏹 Av & Savaş Arenası</div>
+
+          <!-- Clash Mini Style Arena Board -->
+          <div class="battle-arena-container">
+            <div style="font-size: 0.72rem; color: #ffd700; font-weight: bold; margin-bottom: 6px;" id="battleStatusText">Savaş Alanı Hazır! Avcını Seç ve Saldır!</div>
+            
+            <div class="battle-board" id="battleBoard">
+              <!-- Enemy / Prey Side -->
+              <div class="enemy-side">
+                <div class="battle-unit" title="Prooijager">🦌</div>
+                <div class="battle-unit" title="Wildebeest">🐃</div>
+                <div class="battle-unit" title="Zebra">🦓</div>
+              </div>
+
+              <div style="text-align: center; font-size: 0.65rem; color: #fff; background: rgba(0,0,0,0.4); padding: 2px 8px; border-radius: 8px;">VS</div>
+
+              <!-- Player Side -->
+              <div class="player-side">
+                <div class="battle-unit" id="playerActiveUnit" title="Seçilen Savaşçı">🦁</div>
+              </div>
+            </div>
+
+            <!-- Animal Selector for Battle -->
+            <div class="unit-selector-row" id="unitSelectorRow">
+              <div class="unit-select-chip selected" onclick="selectBattleUnit('🦁', 'Aslan')">🦁 Aslan</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('🐆', 'Jaguar')">🐆 Jaguar</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('🐺', 'Kurt')">🐺 Kurt</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('🐅', 'Çita')">🐅 Çita</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('🐊', 'Timsah')">🐊 Timsah</div>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
               <div style="font-size: 0.62rem; color: #aaa;" id="huntTimerText">Yenilenme: 03:00:00</div>
             </div>
-            <div class="rpg-action-btn" onclick="haptic('heavy'); playSound('hunt'); triggerHuntAction(event)" title="Avlan">🐾</div>
+            <button class="btn-claim" onclick="haptic('heavy'); playSound('hunt'); triggerClashHunt(event)" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; font-size: 0.9rem;">⚔️ SALDIR VE AVLAN!</button>
           </div>
-          <div style="background: rgba(0,0,0,0.7); border: 1px solid #704b2e; border-radius: 12px; padding: 8px; text-align: center; backdrop-filter: blur(4px);">
-            <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold;">🔄 Biftek → GRAM Takası (100k = 0.01 GRAM)</div>
-            <button class="btn-claim" onclick="haptic('success'); playSound('success'); exchangeSteakToGram()" style="padding: 6px; font-size: 0.75rem; margin-top: 4px; background: #2ecc71; color: #000;">GRAM ile Değiştir</button>
+
+          <div style="background: rgba(0,0,0,0.7); border: 1px solid #704b2e; border-radius: 12px; padding: 8px; text-align: center; backdrop-filter: blur(4px); margin-top: 8px;">
+            <div style="font-size: 0.72rem; color: #ffd700; font-weight: bold;">🔄 Biftek → GRAM Takası (100k = 0.01 GRAM)</div>
+            <button class="btn-claim" onclick="haptic('success'); playSound('success'); exchangeSteakToGram()" style="padding: 5px; font-size: 0.72rem; margin-top: 4px; background: #3498db; color: #fff;">GRAM ile Değiştir</button>
           </div>
         </div>
       </div>
@@ -783,7 +842,7 @@
 
     </div>
 
-    <!-- 4 TABLI ALT NAVIGATIE (ANA SAYFA IN HET MIDDEN) -->
+    <!-- 4 TABLI ALT NAVIGATIE -->
     <div class="bottom-nav">
       <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
       <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
@@ -920,6 +979,7 @@
     let lastStreakClaimDate = 0;
     let totalHunts = 0;
     let achievementClaimed = { hunt10: false, invite3: false, animal5: false };
+    let selectedBattleEmoji = '🦁';
 
     function loadCloudData() {
       if (tg && tg.CloudStorage) {
@@ -1147,23 +1207,16 @@
       if(energyEl) energyEl.innerText = `Av Hakkı: ${huntEnergy} / 10`;
     }, 1000);
 
-    function showFloatingReward(event, text) {
-      let area = document.querySelector('.rpg-arena-box');
-      let rect = area.getBoundingClientRect();
-      let x = event ? event.clientX - rect.left : rect.width / 2;
-      let y = event ? event.clientY - rect.top : rect.height / 2;
-
-      let el = document.createElement('div');
-      el.className = 'floating-reward';
-      el.innerText = text;
-      el.style.left = `${x}px`;
-      el.style.top = `${y}px`;
-      area.appendChild(el);
-
-      setTimeout(() => { el.remove(); }, 800);
+    function selectBattleUnit(emoji, name) {
+      selectedBattleEmoji = emoji;
+      document.getElementById('playerActiveUnit').innerText = emoji;
+      document.querySelectorAll('.unit-select-chip').forEach(chip => chip.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      haptic('light');
+      showToast(`${name} savaşa hazır! ⚔️`);
     }
 
-    function triggerHuntAction(event) {
+    function triggerClashHunt(event) {
       checkHuntEnergyReset();
       if (huntEnergy <= 0) {
         haptic('error');
@@ -1173,16 +1226,17 @@
 
       huntEnergy--;
       totalHunts++;
-      let reward = Math.floor(Math.random() * 40) + 20; 
+      let reward = Math.floor(Math.random() * 50) + 30; 
       balance += reward;
-      
-      showFloatingReward(event, `+${reward} 🥩`);
 
-      let videoElem = document.getElementById('bgVideo');
-      let videoSource = document.getElementById('bgVideoSource');
-      videoSource.src = './background_hunt.MP4';
-      videoElem.load();
-      videoElem.play();
+      let unitElem = document.getElementById('playerActiveUnit');
+      unitElem.classList.add('attacking');
+      document.getElementById('battleStatusText').innerText = "⚔️ Savaş Başladı! Hayvanınız avına saldırdı!";
+
+      setTimeout(() => {
+        unitElem.classList.remove('attacking');
+        document.getElementById('battleStatusText').innerText = `🎉 Zafer! +${reward} 🥩 Kazanıldı!`;
+      }, 1500);
 
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();

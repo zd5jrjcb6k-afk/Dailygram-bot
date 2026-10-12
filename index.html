@@ -229,6 +229,16 @@
       text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
 
+    .promo-wolf-box {
+      background: linear-gradient(135deg, #1b365d, #0d1b2a);
+      border: 2px solid #00ffcc;
+      border-radius: 14px;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+    }
+
     .cr-banner-box {
       background: linear-gradient(135deg, #1b4d3e, #0f2d24);
       border: 2px solid #2ecc71;
@@ -553,10 +563,17 @@
         </div>
       </div>
 
-      <!-- MAĞRA TAB (GEBASEERD OP JOUW EXACTE FOTO'S) -->
+      <!-- MAĞRA TAB (MET GRATIS WOLF CLAIM & GECORRIGEERDE DIEREN FOTO'S) -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title">⚔️ Mağra & Özel Fırsatlar</div>
+
+          <!-- GRATIS WOLF CLAIM BANNER (1 t/m 50 spelers) -->
+          <div class="promo-wolf-box" id="promoWolfBanner">
+            <div style="font-size: 0.82rem; font-weight: 900; color: #00ffcc;">🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!</div>
+            <div style="font-size: 0.65rem; color: #ccc; margin: 2px 0;" id="wolfPromoCounter">Kalan Hak: 50 / 50</div>
+            <button class="cr-buy-btn" id="claimWolfPromoBtn" onclick="haptic('success'); playSound('success'); claimFreePromoWolf()" style="background: linear-gradient(135deg, #00ffcc, #0088cc); color: #000; font-size: 0.75rem; margin-top: 4px;">🎁 ÜCRETSİZ KURTU CLAIM ET!</button>
+          </div>
 
           <div class="cr-banner-box">
             <div style="font-size: 0.8rem; font-weight: 900; color: #ffd700;">🚀 Özel Biftek Kampanyası</div>
@@ -571,90 +588,105 @@
           <div style="font-size: 0.65rem; color: #aaa; margin-bottom: 6px; text-align: center;" id="totalSpeedInfo">Toplam Üretim Hızı: 5 🥩 / sa</div>
           
           <div class="cr-cards-grid">
+            <!-- 1. Aslan Yavrusu -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=150" class="cr-card-img" alt="Aslan Yavrusu">
               <div class="cr-card-title">Aslan Yavrusu (<span id="countCub">0</span>)</div>
               <div class="cr-card-sub">+2 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
             </div>
+            <!-- 2. Afrika Akbabası -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=150" class="cr-card-img" alt="Afrika Akbabası">
               <div class="cr-card-title">Afrika Akbabası (<span id="countVulture">0</span>)</div>
               <div class="cr-card-sub">+5 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button>
             </div>
+            <!-- 3. Antilop -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150" class="cr-card-img" alt="Antilop">
               <div class="cr-card-title">Antilop (<span id="countAntelope">0</span>)</div>
               <div class="cr-card-sub">+12 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button>
             </div>
+            <!-- 4. Jaguar -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1575550959106-5a7defe28b56?w=150" class="cr-card-img" alt="Jaguar">
               <div class="cr-card-title">Jaguar (<span id="countJaguar">0</span>)</div>
               <div class="cr-card-sub">+30 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button>
             </div>
+            <!-- 5. Sırtlan Sürüsü -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1564760055775-d63b19a55388?w=150" class="cr-card-img" alt="Sırtlan Sürüsü">
               <div class="cr-card-title">Sırtlan Sürüsü (<span id="countHyena">0</span>)</div>
               <div class="cr-card-sub">+70 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button>
             </div>
+            <!-- 6. Çakal -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1516934024831-f9335ef7a047?w=150" class="cr-card-img" alt="Çakal">
               <div class="cr-card-title">Çakal (<span id="countJackal">0</span>)</div>
               <div class="cr-card-sub">+160 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
             </div>
+            <!-- 7. Kurt -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=150" class="cr-card-img" alt="Kurt">
               <div class="cr-card-title">Kurt (<span id="countWolf">0</span>)</div>
               <div class="cr-card-sub">+260 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(42000, 'buyWolf', 'Kurt')">42000 🥩</button>
             </div>
+            <!-- 8. Kral Aslan -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=150" class="cr-card-img" alt="Kral Aslan">
               <div class="cr-card-title">Kral Aslan (<span id="countLion">0</span>)</div>
               <div class="cr-card-sub">+370 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
             </div>
+            <!-- 9. Çita -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=150" class="cr-card-img" alt="Çita">
               <div class="cr-card-title">Çita (<span id="countCheetah">0</span>)</div>
               <div class="cr-card-sub">+850 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button>
             </div>
+            <!-- 10. 2 Erkek Aslan -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=150" class="cr-card-img" alt="2 Erkek Aslan">
               <div class="cr-card-title">2 Erkek Aslan (<span id="countTwoLions">0</span>)</div>
               <div class="cr-card-sub">+1,950 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
             </div>
+            <!-- 11. Python (Gecorrigeerd naar echte slang/python foto) -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?w=150" class="cr-card-img" alt="Python">
               <div class="cr-card-title">Python (<span id="countPython">0</span>)</div>
               <div class="cr-card-sub">+4,400 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(800000, 'buyPython', 'Python Yılanı')">800000 🥩</button>
             </div>
+            <!-- 12. Timsah (Gecorrigeerd naar echte krokodil/timsah foto) -->
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150" class="cr-card-img" alt="Timsah">
+              <img src="https://images.unsplash.com/photo-1552410229-6a0b94323547?w=150" class="cr-card-img" alt="Timsah">
               <div class="cr-card-title">Timsah (<span id="countCrocodile">0</span>)</div>
               <div class="cr-card-sub">+9,800 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button>
             </div>
+            <!-- 13. Siyah Gergedan (Gecorrigeerd naar echte neushoorn foto) -->
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=150" class="cr-card-img" alt="Siyah Gergedan">
+              <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150" class="cr-card-img" alt="Siyah Gergedan">
               <div class="cr-card-title">Siyah Gergedan (<span id="countBlackRhino">0</span>)</div>
               <div class="cr-card-sub">+21,500 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4000000 🥩</button>
             </div>
+            <!-- 14. Beyaz Gergedan (Gecorrigeerd naar echte witte neushoorn foto) -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1563911302283-d2bc129e7570?w=150" class="cr-card-img" alt="Beyaz Gergedan">
               <div class="cr-card-title">Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</div>
               <div class="cr-card-sub">+47,000 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9000000 🥩</button>
             </div>
+            <!-- 15. Afrika Fili -->
             <div class="cr-card" style="grid-column: span 2;">
               <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=150" class="cr-card-img" alt="Afrika Fili">
               <div class="cr-card-title">Afrika Fili (<span id="countElephant">0</span>)</div>
@@ -860,7 +892,7 @@
               <div class="wheel" id="wheel">
                 <div class="wheel-label" style="transform: rotate(22.5deg);">50 🥩</div>
                 <div class="wheel-label" style="transform: rotate(67.5deg);">100 🥩</div>
-                <div class="wheel-label" style="transform: rotate(112.5deg);">250 🥩</div>
+                <div class="wheel-label" style="transform: rotate(112.5deg);">100 🥩</div>
                 <div class="wheel-label" style="transform: rotate(157.5deg);">500 🥩</div>
                 <div class="wheel-label" style="transform: rotate(202.5deg);">75 🥩</div>
                 <div class="wheel-label" style="transform: rotate(247.5deg);">150 🥩</div>
@@ -1025,6 +1057,10 @@
     let achievementClaimed = { hunt10: false, invite3: false, animal5: false };
     let levelRewardsClaimed = {};
 
+    // PROMO WOLF COUNTER (Max 50 spelers)
+    let promoWolfClaimedCount = 0;
+    let userClaimedPromoWolf = false;
+
     const translations = {
       tr: { collect: "Toplanabilir Biftek (Max 3 Saat):", btnCollect: "📥 Biftekleri Topla", level: "Level" },
       nl: { collect: "Verzamelbare Biefstuk (Max 3 Uur):", btnCollect: "📥 Biefstuk Claimen", level: "Level" },
@@ -1062,7 +1098,7 @@
               jaguarCount = data.jaguarCount !== undefined ? data.jaguarCount : 2;
               vultureCount = data.vultureCount !== undefined ? data.vultureCount : 5;
               hyenaCount = data.hyenaCount || 0;
-              wolfCount = data.wolfCount || 0;
+              wolfCount = data.wolfCount !== undefined ? data.wolfCount : 0;
               antelopeCount = data.antelopeCount !== undefined ? data.antelopeCount : 1;
               jackalCount = data.jackalCount || 0;
               cheetahCount = data.cheetahCount || 0;
@@ -1082,6 +1118,8 @@
               totalHunts = data.totalHunts || 0;
               achievementClaimed = data.achievementClaimed || { hunt10: false, invite3: false, animal5: false };
               levelRewardsClaimed = data.levelRewardsClaimed || {};
+              promoWolfClaimedCount = data.promoWolfClaimedCount || 0;
+              userClaimedPromoWolf = data.userClaimedPromoWolf || false;
             } catch(e) {}
           }
           checkReferralParam();
@@ -1092,6 +1130,7 @@
           updateStreakUI();
           updateAchievementsUI();
           updateXpBar();
+          updatePromoWolfUI();
           changeBackground(currentCustomBg, 'empty');
         });
       } else {
@@ -1103,6 +1142,7 @@
         updateStreakUI();
         updateAchievementsUI();
         updateXpBar();
+        updatePromoWolfUI();
         changeBackground(currentCustomBg, 'empty');
       }
     }
@@ -1113,7 +1153,8 @@
         cubCount, lionCount, twoLionsCount, jaguarCount, vultureCount, hyenaCount, wolfCount,
         antelopeCount, jackalCount, cheetahCount, pythonCount, crocodileCount, blackRhinoCount, whiteRhinoCount, elephantCount,
         totalEarnedSteak, level, xp, lastWheelSpin, currentCustomBg, channelTaskCompleted,
-        streakDays, lastStreakClaimDate, totalHunts, achievementClaimed, levelRewardsClaimed
+        streakDays, lastStreakClaimDate, totalHunts, achievementClaimed, levelRewardsClaimed,
+        promoWolfClaimedCount, userClaimedPromoWolf
       };
 
       if (tg && tg.CloudStorage) {
@@ -1222,6 +1263,53 @@
         huntEnergy = 10;
         lastHuntReset = now;
         saveData();
+      }
+    }
+
+    // CLAIM FREE PROMO WOLF LOGIC
+    function claimFreePromoWolf() {
+      if (userClaimedPromoWolf) {
+        haptic('warning');
+        showToast("⚠️ Bu promosyonu zaten kullandın!");
+        return;
+      }
+      if (promoWolfClaimedCount >= 50) {
+        haptic('error');
+        showToast("❌ Üzgünüm, ilk 50 kurt bitti!");
+        return;
+      }
+
+      promoWolfClaimedCount++;
+      userClaimedPromoWolf = true;
+      wolfCount++; // Voeg 1 gratis kurt toe aan de productie!
+
+      saveData();
+      updatePromoWolfUI();
+      updateCaveDisplay();
+      haptic('success');
+      showToast("🐺 TEBRİKLER! Ücretsiz Kurt başarıyla eklendi!");
+    }
+
+    function updatePromoWolfUI() {
+      let counterText = document.getElementById('wolfPromoCounter');
+      let claimBtn = document.getElementById('claimWolfPromoBtn');
+      let promoBox = document.getElementById('promoWolfBanner');
+
+      let remaining = 50 - promoWolfClaimedCount;
+      if (remaining < 0) remaining = 0;
+
+      if (counterText) counterText.innerText = `Kalan Hak: ${remaining} / 50`;
+
+      if (userClaimedPromoWolf) {
+        if (claimBtn) {
+          claimBtn.innerText = "ALINDI ✅";
+          claimBtn.disabled = true;
+          claimBtn.style.opacity = "0.6";
+        }
+      } else if (promoWolfClaimedCount >= 50) {
+        if (promoBox) {
+          promoBox.style.display = "none"; // Verdwijnt volledig als de 50 op zijn!
+        }
       }
     }
 
@@ -1780,6 +1868,7 @@
       updateBtnUnlock('elephant', elephantCount >= 1);
 
       updateXpBar();
+      updatePromoWolfUI();
     }
 
     function showToken(text) {

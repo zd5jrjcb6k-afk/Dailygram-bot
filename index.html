@@ -185,7 +185,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* CLASH ROYALE MARKET GRID */
     .cr-banner-box {
       background: linear-gradient(135deg, #1b4d3e, #0f2d24);
       border: 2.5px solid #2ecc71;
@@ -247,7 +246,6 @@
       text-transform: uppercase;
     }
 
-    /* PREMIUM TASK CARDS */
     .task-list { display: flex; flex-direction: column; gap: 10px; }
     .task-card {
       background: linear-gradient(135deg, rgba(40, 24, 12, 0.9), rgba(20, 12, 6, 0.95));
@@ -433,7 +431,6 @@
     .streak-card.claimed { border-color: #2ecc71; opacity: 0.6; }
     .streak-card.active-day { border-color: #ffd700; background: rgba(255,215,0,0.15); }
 
-    /* 4 TABBOTOM NAVIGATIE */
     .bottom-nav {
       position: absolute; bottom: 0; left: 0; width: 100%;
       background: linear-gradient(180deg, rgba(18,10,5,0.96), rgba(8,4,1,0.99));
@@ -488,7 +485,7 @@
         </div>
       </div>
 
-      <!-- ANA SAYFA (ALGEMEEN / HOOFDPAGINA) -->
+      <!-- ANA SAYFA -->
       <div id="tab-ana" class="tab-content active">
         <div class="center-action-box">
           <div style="font-size: 0.65rem; color: #aaa; text-transform: uppercase;">Toplanabilir Biftek (Max 3 Saat):</div>
@@ -649,7 +646,7 @@
         </div>
       </div>
 
-      <!-- CÜZDAN & PARA ÇEK (GECOMBINEERD) -->
+      <!-- CÜZDAN & PARA ÇEK -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
           <div class="page-title">👛 Cüzdan & Para Çek</div>
@@ -689,7 +686,7 @@
         <a href="https://t.me/DailygramMinerOfficial" target="_blank" class="menu-popup-btn" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">📢 Resmi Kanal</a>
       </div>
 
-      <!-- GÖREVLER (STRAK & PREMIUM) -->
+      <!-- GÖREVLER -->
       <div id="tab-gorevler" class="tab-content">
         <div class="page-box">
           <div class="page-title">📋 Görevler & Ödüller</div>
@@ -723,7 +720,7 @@
         </div>
       </div>
 
-      <!-- ACHIEVEMENTS (ROZETLER) -->
+      <!-- ACHIEVEMENTS -->
       <div id="tab-achievements" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏆 Başarılar & Rozetler</div>
@@ -776,7 +773,7 @@
         </div>
       </div>
 
-      <!-- LİDERLİK TABLOSU (STRAK & PREMIUM) -->
+      <!-- LİDERLİK TABLOSU -->
       <div id="tab-leaderboard" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏆 Liderlik Tablosu</div>
@@ -786,11 +783,11 @@
 
     </div>
 
-    <!-- 4 TABLI ALT NAVIGATIE (HOOFDPAGINA IN HET MIDDEN) -->
+    <!-- 4 TABLI ALT NAVIGATIE (ANA SAYFA IN HET MIDDEN) -->
     <div class="bottom-nav">
       <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
-      <div class="nav-item active" onclick="haptic('light'); playSound('click'); switchTab('ana', this)"><div class="nav-icon">🦁</div><div>Genel</div></div>
       <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
+      <div class="nav-item active" onclick="haptic('light'); playSound('click'); switchTab('ana', this)"><div class="nav-icon">🦁</div><div>Ana Sayfa</div></div>
       <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div>Cüzdan</div></div>
       <div class="nav-item" onclick="haptic('medium'); toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menü</div></div>
     </div>

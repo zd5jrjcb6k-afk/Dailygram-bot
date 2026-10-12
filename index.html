@@ -99,19 +99,6 @@
       position: relative;
     }
 
-    .hud-level-tag {
-      position: absolute;
-      bottom: -4px;
-      right: -4px;
-      background: #27ae60;
-      border: 1px solid #fff;
-      color: #fff;
-      font-size: 0.55rem;
-      font-weight: 900;
-      padding: 1px 4px;
-      border-radius: 6px;
-    }
-
     .hud-right-balances {
       display: flex;
       flex-direction: column;
@@ -193,7 +180,7 @@
 
     /* KLEINER EN OMLAAG GEPLAATST */
     .center-action-box {
-      background: rgba(22, 14, 8, 0.88);
+      background: rgba(22, 14, 8, 0.9);
       backdrop-filter: blur(8px);
       border: 2px solid #ffb700;
       border-radius: 14px;
@@ -261,6 +248,7 @@
       margin-top: 8px;
     }
 
+    /* REALISTISCHE RONDE DIEREN FOTO KAARTEN (GEBASEERD OP JOUW SCREEN) */
     .cr-card {
       background: linear-gradient(180deg, #3d2612 0%, #1a0f05 100%);
       border: 2px solid #ffd700;
@@ -273,17 +261,14 @@
       box-shadow: 0 5px 12px rgba(0,0,0,0.8);
     }
 
-    .cr-card-icon {
-      width: 48px;
-      height: 48px;
-      background: radial-gradient(circle, #ffb700 0%, #b36b00 100%);
-      border: 2px solid #fff;
+    .cr-card-img {
+      width: 55px;
+      height: 55px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      margin-bottom: 4px;
+      border: 2.5px solid #ffd700;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+      margin-bottom: 6px;
     }
 
     .cr-card-title { font-size: 0.75rem; font-weight: 900; color: #fff; }
@@ -302,9 +287,9 @@
       text-transform: uppercase;
     }
 
-    /* BATTLE ARENA */
+    /* PROFESSIONELE VERBETERDE JACHT ARENA */
     .battle-arena-container {
-      background: linear-gradient(180deg, #162414 0%, #0a1108 100%);
+      background: linear-gradient(180deg, #1b2e18 0%, #0d170b 100%);
       border: 2.5px solid #2ecc71;
       border-radius: 16px;
       padding: 10px;
@@ -318,7 +303,7 @@
     .battle-board {
       width: 100%;
       height: 180px;
-      background: radial-gradient(circle, #27ae60 0%, #145a32 100%);
+      background: radial-gradient(circle, #27ae60 0%, #0e3b1f 100%);
       border: 2px solid #f1c40f;
       border-radius: 12px;
       position: relative;
@@ -327,7 +312,7 @@
       flex-direction: column;
       justify-content: space-between;
       padding: 8px;
-      box-shadow: inset 0 0 12px rgba(0,0,0,0.6);
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
     }
 
     .enemy-side, .player-side {
@@ -336,24 +321,21 @@
       gap: 12px;
     }
 
-    .battle-unit {
-      width: 42px;
-      height: 42px;
-      background: rgba(0,0,0,0.6);
-      border: 2px solid #ffd700;
+    .battle-unit-img {
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
+      border: 2px solid #ffd700;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
     }
 
-    @keyframes runToEnemy {
-      0% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-55px) scale(1.2) rotate(10deg); filter: drop-shadow(0 0 8px #ff0); }
+    @keyframes realisticHunt {
+      0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 2px #fff); }
+      50% { transform: translateY(-50px) scale(1.25) rotate(6deg); filter: drop-shadow(0 0 12px #ffcc00); }
       100% { transform: translateY(0) scale(1); }
     }
-    .battle-unit.attacking { animation: runToEnemy 0.6s ease-in-out infinite alternate; }
+    .battle-unit-img.attacking { animation: realisticHunt 0.6s ease-in-out infinite alternate; }
 
     .unit-selector-row {
       display: flex;
@@ -371,15 +353,15 @@
       padding: 5px 8px;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       cursor: pointer;
       white-space: nowrap;
       font-size: 0.7rem;
       color: #fff;
     }
-    .unit-select-chip.selected { border-color: #2ecc71; background: rgba(46, 204, 113, 0.2); }
+    .unit-select-chip.selected { border-color: #2ecc71; background: rgba(46, 204, 113, 0.25); }
 
-    /* VERBETERDE 7 GÜNLÜK STREAK STIJL */
+    /* STREAK GRID */
     .streak-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -394,12 +376,10 @@
       padding: 10px;
       text-align: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-      position: relative;
     }
     .streak-card.claimed { border-color: #555; opacity: 0.6; background: #15110c; }
     .streak-card.active-day { border-color: #ffd700; background: linear-gradient(135deg, #61411f, #3b2311); box-shadow: 0 0 12px rgba(255,215,0,0.5); }
 
-    /* TASK LIST & CARDS */
     .task-list { display: flex; flex-direction: column; gap: 8px; }
     .task-card {
       background: linear-gradient(135deg, rgba(40, 24, 12, 0.9), rgba(20, 12, 6, 0.95));
@@ -576,7 +556,7 @@
         </div>
       </div>
 
-      <!-- MAĞRA TAB -->
+      <!-- MAĞRA TAB (MET REALISTISCHE DIEREN FOTO'S) -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title">⚔️ Mağra & Özel Fırsatlar</div>
@@ -595,91 +575,91 @@
           
           <div class="cr-cards-grid">
             <div class="cr-card">
-              <div class="cr-card-icon">🦁</div>
+              <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=150" class="cr-card-img" alt="Welpje">
               <div class="cr-card-title">Aslan Yavrusu (<span id="countCub">0</span>)</div>
               <div class="cr-card-sub">+2 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🦅</div>
+              <img src="https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=150" class="cr-card-img" alt="Akbaba">
               <div class="cr-card-title">Afrika Akbabası (<span id="countVulture">0</span>)</div>
               <div class="cr-card-sub">+5 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🦌</div>
+              <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150" class="cr-card-img" alt="Antilop">
               <div class="cr-card-title">Antilop (<span id="countAntelope">0</span>)</div>
               <div class="cr-card-sub">+12 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🐆</div>
+              <img src="https://images.unsplash.com/photo-1575550959106-5a7defe28b56?w=150" class="cr-card-img" alt="Jaguar">
               <div class="cr-card-title">Jaguar (<span id="countJaguar">0</span>)</div>
               <div class="cr-card-sub">+30 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🐺</div>
+              <img src="https://images.unsplash.com/photo-1564760055775-d63b19a55388?w=150" class="cr-card-img" alt="Hyena">
               <div class="cr-card-title">Sırtlan Sürüsü (<span id="countHyena">0</span>)</div>
               <div class="cr-card-sub">+70 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🦊</div>
+              <img src="https://images.unsplash.com/photo-1516934024831-f9335ef7a047?w=150" class="cr-card-img" alt="Jackal">
               <div class="cr-card-title">Çakal (<span id="countJackal">0</span>)</div>
               <div class="cr-card-sub">+160 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🐺</div>
+              <img src="https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=150" class="cr-card-img" alt="Wolf">
               <div class="cr-card-title">Kurt (<span id="countWolf">0</span>)</div>
               <div class="cr-card-sub">+260 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(42000, 'buyWolf', 'Kurt')">42000 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🦁</div>
+              <img src="https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=150" class="cr-card-img" alt="Lion">
               <div class="cr-card-title">Kral Aslan (<span id="countLion">0</span>)</div>
               <div class="cr-card-sub">+370 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🐅</div>
+              <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=150" class="cr-card-img" alt="Cheetah">
               <div class="cr-card-title">Çita (<span id="countCheetah">0</span>)</div>
               <div class="cr-card-sub">+850 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🦁</div>
+              <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=150" class="cr-card-img" alt="Two Lions">
               <div class="cr-card-title">2 Erkek Aslan (<span id="countTwoLions">0</span>)</div>
               <div class="cr-card-sub">+1,950 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🐍</div>
+              <img src="https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?w=150" class="cr-card-img" alt="Python">
               <div class="cr-card-title">Python (<span id="countPython">0</span>)</div>
               <div class="cr-card-sub">+4,400 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(800000, 'buyPython', 'Python Yılanı')">800000 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🐊</div>
+              <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150" class="cr-card-img" alt="Crocodile">
               <div class="cr-card-title">Timsah (<span id="countCrocodile">0</span>)</div>
               <div class="cr-card-sub">+9,800 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🦏</div>
+              <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=150" class="cr-card-img" alt="Black Rhino">
               <div class="cr-card-title">Siyah Gergedan (<span id="countBlackRhino">0</span>)</div>
               <div class="cr-card-sub">+21,500 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4000000 🥩</button>
             </div>
             <div class="cr-card">
-              <div class="cr-card-icon">🦏</div>
+              <img src="https://images.unsplash.com/photo-1563911302283-d2bc129e7570?w=150" class="cr-card-img" alt="White Rhino">
               <div class="cr-card-title">Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</div>
               <div class="cr-card-sub">+47,000 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9000000 🥩</button>
             </div>
             <div class="cr-card" style="grid-column: span 2;">
-              <div class="cr-card-icon">🐘</div>
+              <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=150" class="cr-card-img" alt="Elephant">
               <div class="cr-card-title">Afrika Fili (<span id="countElephant">0</span>)</div>
               <div class="cr-card-sub">+102,000 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20000000 🥩</button>
@@ -709,7 +689,7 @@
         </div>
       </div>
 
-      <!-- AV SEKMESİ -->
+      <!-- AV SEKMESİ (PROFESSIONEEL EN REALISTISCH) -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
           <div class="page-title">🏹 Av & Savaş Arenası</div>
@@ -719,24 +699,23 @@
             
             <div class="battle-board" id="battleBoard">
               <div class="enemy-side">
-                <div class="battle-unit" title="Prooijager">🦌</div>
-                <div class="battle-unit" title="Wildebeest">🐃</div>
-                <div class="battle-unit" title="Zebra">🦓</div>
+                <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150" class="battle-unit-img" title="Antilop">
+                <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=150" class="battle-unit-img" title="Zebra">
               </div>
 
-              <div style="text-align: center; font-size: 0.6rem; color: #fff; background: rgba(0,0,0,0.4); padding: 1px 6px; border-radius: 6px;">VS</div>
+              <div style="text-align: center; font-size: 0.6rem; color: #fff; background: rgba(0,0,0,0.5); padding: 1px 8px; border-radius: 6px;">VS</div>
 
               <div class="player-side">
-                <div class="battle-unit" id="playerActiveUnit" title="Seçilen Savaşçı">🦁</div>
+                <img id="playerActiveUnitImg" src="https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=150" class="battle-unit-img" title="Seçilen Savaşçı">
               </div>
             </div>
 
             <div class="unit-selector-row" id="unitSelectorRow">
-              <div class="unit-select-chip selected" onclick="selectBattleUnit('🦁', 'Aslan')">🦁 Aslan</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('🐆', 'Jaguar')">🐆 Jaguar</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('🐺', 'Kurt')">🐺 Kurt</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('🐅', 'Çita')">🐅 Çita</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('🐊', 'Timsah')">🐊 Timsah</div>
+              <div class="unit-select-chip selected" onclick="selectBattleUnit('https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=150', 'Aslan')">🦁 Aslan</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1575550959106-5a7defe28b56?w=150', 'Jaguar')">🐆 Jaguar</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=150', 'Kurt')">🐺 Kurt</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1517849845537-4d257902454a?w=150', 'Çita')">🐅 Çita</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150', 'Timsah')">🐊 Timsah</div>
             </div>
           </div>
 
@@ -820,7 +799,7 @@
         </div>
       </div>
 
-      <!-- VERNIEUWDE 7 GÜNLÜK STREAK SAYFASI -->
+      <!-- 7 GÜNLÜK STREAK -->
       <div id="tab-streak" class="tab-content">
         <div class="page-box">
           <div class="page-title">🔥 7 Günlük Giriş Serisi</div>
@@ -859,7 +838,7 @@
         </div>
       </div>
 
-      <!-- DİL SEÇİMİ (LANGUAGE) -->
+      <!-- DİL SEÇİMİ -->
       <div id="tab-language" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🌍 Dil Seçimi / Language</div>
@@ -1048,7 +1027,6 @@
     let totalHunts = 0;
     let achievementClaimed = { hunt10: false, invite3: false, animal5: false };
     let levelRewardsClaimed = {};
-    let selectedBattleEmoji = '🦁';
 
     const translations = {
       tr: { collect: "Toplanabilir Biftek (Max 3 Saat):", btnCollect: "📥 Biftekleri Topla", level: "Level" },
@@ -1239,7 +1217,6 @@
         (whiteRhinoCount * 47000) +
         (elephantCount * 102000);
       
-      // Her level başına +%10 ekstra biftek üretim bonusu
       let bonusMultiplier = 1 + ((level - 1) * 0.1);
       return Math.floor(base * bonusMultiplier);
     }
@@ -1329,9 +1306,8 @@
       if(energyEl) energyEl.innerText = `Av Hakkı: ${huntEnergy} / 10`;
     }, 1000);
 
-    function selectBattleUnit(emoji, name) {
-      selectedBattleEmoji = emoji;
-      document.getElementById('playerActiveUnit').innerText = emoji;
+    function selectBattleUnit(imgSrc, name) {
+      document.getElementById('playerActiveUnitImg').src = imgSrc;
       document.querySelectorAll('.unit-select-chip').forEach(chip => chip.classList.remove('selected'));
       event.currentTarget.classList.add('selected');
       haptic('light');
@@ -1352,7 +1328,7 @@
       balance += reward;
       addXp(35);
 
-      let unitElem = document.getElementById('playerActiveUnit');
+      let unitElem = document.getElementById('playerActiveUnitImg');
       unitElem.classList.add('attacking');
       document.getElementById('battleStatusText').innerText = "⚔️ Savaş Başladı! Hayvanınız avına saldırdı!";
 

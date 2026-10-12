@@ -246,96 +246,122 @@
       text-transform: uppercase;
     }
 
-    /* CLASH MINI STYLE BATTLE ARENA */
-    .battle-arena-container {
-      background: linear-gradient(180deg, #162414 0%, #0a1108 100%);
-      border: 3px solid #2ecc71;
-      border-radius: 20px;
+    /* 3D SAVANNAH JACHT ARENA STIJL */
+    .savannah-arena {
+      background: linear-gradient(180deg, rgba(30, 20, 10, 0.95), rgba(15, 10, 5, 0.98));
+      border: 2.5px solid #ffd700;
+      border-radius: 18px;
       padding: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      margin-top: 4px;
-    }
-
-    .battle-board {
-      width: 100%;
-      height: 210px;
-      background: radial-gradient(circle, #27ae60 0%, #145a32 100%);
-      border: 2px solid #f1c40f;
-      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.9);
       position: relative;
       overflow: hidden;
+    }
+
+    .savannah-board {
+      width: 100%;
+      height: 180px;
+      background: radial-gradient(circle, #c27803 0%, #5e3501 100%);
+      border: 2px solid #ffde6b;
+      border-radius: 14px;
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      align-items: center;
       padding: 10px;
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
     }
 
-    .enemy-side {
+    .prey-display-row {
       display: flex;
+      gap: 12px;
       justify-content: center;
-      gap: 15px;
     }
 
-    .player-side {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .battle-unit {
-      width: 48px;
-      height: 48px;
-      background: rgba(0,0,0,0.6);
-      border: 2px solid #ffd700;
+    .prey-item-box {
+      width: 50px;
+      height: 50px;
+      background: rgba(0,0,0,0.65);
+      border: 2px solid #ffde6b;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      transition: transform 0.3s ease;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
     }
 
-    @keyframes runToEnemy {
-      0% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-70px) scale(1.2) rotate(10deg); filter: drop-shadow(0 0 10px #ff0); }
+    .hunter-display-box {
+      width: 65px;
+      height: 65px;
+      background: radial-gradient(circle, #ffb700 0%, #b36b00 100%);
+      border: 3px solid #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: 0 6px 20px rgba(255,183,0,0.6);
+      transition: transform 0.4s ease;
+    }
+
+    @keyframes savannahDash {
+      0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 5px #ffd700); }
+      50% { transform: translateY(-55px) scale(1.3) rotate(8deg); filter: drop-shadow(0 0 20px #ff7700); }
       100% { transform: translateY(0) scale(1); }
     }
 
-    .battle-unit.attacking {
-      animation: runToEnemy 0.6s ease-in-out infinite alternate;
+    .hunter-display-box.hunting {
+      animation: savannahDash 0.7s ease-in-out infinite alternate;
     }
 
-    .unit-selector-row {
-      display: flex;
+    .hunter-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 6px;
-      overflow-x: auto;
       width: 100%;
-      padding: 6px 0;
-      margin-top: 8px;
+      margin-top: 10px;
+      max-height: 130px;
+      overflow-y: auto;
+      padding-right: 2px;
     }
 
-    .unit-select-chip {
-      background: rgba(40, 24, 12, 0.9);
+    .hunter-chip {
+      background: linear-gradient(135deg, #2b1a0f, #1a0f05);
       border: 1.5px solid #704b2e;
-      border-radius: 12px;
-      padding: 6px 10px;
+      border-radius: 10px;
+      padding: 6px;
       display: flex;
       align-items: center;
       gap: 6px;
       cursor: pointer;
-      white-space: nowrap;
       font-size: 0.72rem;
       color: #fff;
+      font-weight: bold;
     }
-    .unit-select-chip.selected {
-      border-color: #2ecc71;
-      background: rgba(46, 204, 113, 0.2);
+    .hunter-chip.selected {
+      border-color: #ffd700;
+      background: linear-gradient(135deg, #5c3a21, #3c2414);
+      box-shadow: 0 0 10px rgba(255,215,0,0.4);
+    }
+
+    .btn-savannah-hunt {
+      width: 100%;
+      background: linear-gradient(135deg, #d35400, #b9770e, #f1c40f);
+      border: 2px solid #fff;
+      padding: 12px;
+      border-radius: 14px;
+      color: #1a0f05;
+      font-weight: 900;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(211, 84, 0, 0.6);
+      text-transform: uppercase;
+      margin-top: 10px;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.4);
     }
 
     .task-list { display: flex; flex-direction: column; gap: 10px; }
@@ -655,50 +681,48 @@
         </div>
       </div>
 
-      <!-- AV SEKMESİ (CLASH MINI STYLE BATTLE ARENA) -->
+      <!-- AV SEKMESİ (3D SAVANNAH JACHT ARENA) -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-          <div class="page-title">🏹 Av & Savaş Arenası</div>
+          <div class="page-title">🦁 Savannah Jacht Arena</div>
 
-          <!-- Clash Mini Style Arena Board -->
-          <div class="battle-arena-container">
-            <div style="font-size: 0.72rem; color: #ffd700; font-weight: bold; margin-bottom: 6px;" id="battleStatusText">Savaş Alanı Hazır! Avcını Seç ve Saldır!</div>
-            
-            <div class="battle-board" id="battleBoard">
-              <!-- Enemy / Prey Side -->
-              <div class="enemy-side">
-                <div class="battle-unit" title="Prooijager">🦌</div>
-                <div class="battle-unit" title="Wildebeest">🐃</div>
-                <div class="battle-unit" title="Zebra">🦓</div>
+          <div class="savannah-arena">
+            <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold; margin-bottom: 6px;" id="savannahStatusText">Avcını seç ve vahşi doğada avlanmaya başla!</div>
+
+            <div class="savannah-board">
+              <!-- Prooiler (Büyüklük/Güç oranına göre) -->
+              <div class="prey-display-row">
+                <div class="prey-item-box" title="Antilop">🦌</div>
+                <div class="prey-item-box" title="Wildebeest">🐃</div>
+                <div class="prey-item-box" title="Zebra">🦓</div>
               </div>
 
-              <div style="text-align: center; font-size: 0.65rem; color: #fff; background: rgba(0,0,0,0.4); padding: 2px 8px; border-radius: 8px;">VS</div>
+              <div style="background: rgba(0,0,0,0.6); padding: 2px 12px; border-radius: 8px; font-size: 0.7rem; color: #ffd700; border: 1px solid #704b2e;">VERESYE HEDEF</div>
 
-              <!-- Player Side -->
-              <div class="player-side">
-                <div class="battle-unit" id="playerActiveUnit" title="Seçilen Savaşçı">🦁</div>
-              </div>
+              <!-- Seçilen Avcı Hayvan (Animasyonlu) -->
+              <div class="hunter-display-box" id="savannahHunterBox">🦁</div>
             </div>
 
-            <!-- Animal Selector for Battle -->
-            <div class="unit-selector-row" id="unitSelectorRow">
-              <div class="unit-select-chip selected" onclick="selectBattleUnit('🦁', 'Aslan')">🦁 Aslan</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('🐆', 'Jaguar')">🐆 Jaguar</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('🐺', 'Kurt')">🐺 Kurt</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('🐅', 'Çita')">🐅 Çita</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('🐊', 'Timsah')">🐊 Timsah</div>
+            <!-- Hayvan Seçim Kutuları -->
+            <div class="hunter-selector-grid" id="hunterSelectorGrid">
+              <div class="hunter-chip selected" onclick="selectSavannahHunter('🦁', 'Aslan')">🦁 Aslan</div>
+              <div class="hunter-chip" onclick="selectSavannahHunter('🐆', 'Jaguar')">🐆 Jaguar</div>
+              <div class="hunter-chip" onclick="selectSavannahHunter('🐺', 'Kurt')">🐺 Kurt</div>
+              <div class="hunter-chip" onclick="selectSavannahHunter('🐅', 'Çita')">🐅 Çita</div>
+              <div class="hunter-chip" onclick="selectSavannahHunter('🐊', 'Timsah')">🐊 Timsah</div>
+              <div class="hunter-chip" onclick="selectSavannahHunter('🐘', 'Fil')">🐘 Fil</div>
             </div>
           </div>
 
-          <div style="margin-top: 10px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
+          <div style="margin-top: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <div style="font-size: 0.78rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
               <div style="font-size: 0.62rem; color: #aaa;" id="huntTimerText">Yenilenme: 03:00:00</div>
             </div>
-            <button class="btn-claim" onclick="haptic('heavy'); playSound('hunt'); triggerClashHunt(event)" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; font-size: 0.9rem;">⚔️ SALDIR VE AVLAN!</button>
+            <button class="btn-savannah-hunt" onclick="haptic('heavy'); playSound('hunt'); triggerSavannahHunt(event)">⚔️ SALDIR VE AVLAN!</button>
           </div>
 
-          <div style="background: rgba(0,0,0,0.7); border: 1px solid #704b2e; border-radius: 12px; padding: 8px; text-align: center; backdrop-filter: blur(4px); margin-top: 8px;">
+          <div style="background: rgba(0,0,0,0.7); border: 1px solid #704b2e; border-radius: 12px; padding: 6px; text-align: center; backdrop-filter: blur(4px); margin-top: 6px;">
             <div style="font-size: 0.72rem; color: #ffd700; font-weight: bold;">🔄 Biftek → GRAM Takası (100k = 0.01 GRAM)</div>
             <button class="btn-claim" onclick="haptic('success'); playSound('success'); exchangeSteakToGram()" style="padding: 5px; font-size: 0.72rem; margin-top: 4px; background: #3498db; color: #fff;">GRAM ile Değiştir</button>
           </div>
@@ -979,7 +1003,7 @@
     let lastStreakClaimDate = 0;
     let totalHunts = 0;
     let achievementClaimed = { hunt10: false, invite3: false, animal5: false };
-    let selectedBattleEmoji = '🦁';
+    let selectedSavannahEmoji = '🦁';
 
     function loadCloudData() {
       if (tg && tg.CloudStorage) {
@@ -1072,7 +1096,7 @@
       level = parseInt(localStorage.getItem('level')) || 1;
       lastWheelSpin = parseInt(localStorage.getItem('lastWheelSpin')) || 0;
       currentCustomBg = localStorage.getItem('currentCustomBg') || './background_empty.MP4';
-      channelTaskCompleted = localStorage.getItem('channelTaskCompleted') === 'true';
+      channelTaskCompleted = localStorage.getItem('channelTaskCompleted'] === 'true';
       streakDays = parseInt(localStorage.getItem('streakDays')) || 0;
       lastStreakClaimDate = parseInt(localStorage.getItem('lastStreakClaimDate')) || 0;
       totalHunts = parseInt(localStorage.getItem('totalHunts')) || 0;
@@ -1207,16 +1231,16 @@
       if(energyEl) energyEl.innerText = `Av Hakkı: ${huntEnergy} / 10`;
     }, 1000);
 
-    function selectBattleUnit(emoji, name) {
-      selectedBattleEmoji = emoji;
-      document.getElementById('playerActiveUnit').innerText = emoji;
-      document.querySelectorAll('.unit-select-chip').forEach(chip => chip.classList.remove('selected'));
+    function selectSavannahHunter(emoji, name) {
+      selectedSavannahEmoji = emoji;
+      document.getElementById('savannahHunterBox').innerText = emoji;
+      document.querySelectorAll('.hunter-chip').forEach(chip => chip.classList.remove('selected'));
       event.currentTarget.classList.add('selected');
       haptic('light');
-      showToast(`${name} savaşa hazır! ⚔️`);
+      showToast(`${name} av için hazır! 🎯`);
     }
 
-    function triggerClashHunt(event) {
+    function triggerSavannahHunt(event) {
       checkHuntEnergyReset();
       if (huntEnergy <= 0) {
         haptic('error');
@@ -1226,17 +1250,17 @@
 
       huntEnergy--;
       totalHunts++;
-      let reward = Math.floor(Math.random() * 50) + 30; 
+      let reward = Math.floor(Math.random() * 60) + 35; 
       balance += reward;
 
-      let unitElem = document.getElementById('playerActiveUnit');
-      unitElem.classList.add('attacking');
-      document.getElementById('battleStatusText').innerText = "⚔️ Savaş Başladı! Hayvanınız avına saldırdı!";
+      let hunterElem = document.getElementById('savannahHunterBox');
+      hunterElem.classList.add('hunting');
+      document.getElementById('savannahStatusText').innerText = "⚡ Av başladı! Hayvanın hedefe koşuyor!";
 
       setTimeout(() => {
-        unitElem.classList.remove('attacking');
-        document.getElementById('battleStatusText').innerText = `🎉 Zafer! +${reward} 🥩 Kazanıldı!`;
-      }, 1500);
+        hunterElem.classList.remove('hunting');
+        document.getElementById('savannahStatusText').innerText = `🏆 Başarılı Av! +${reward} 🥩 Kazandın!`;
+      }, 1400);
 
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();

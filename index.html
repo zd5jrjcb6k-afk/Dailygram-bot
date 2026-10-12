@@ -58,7 +58,7 @@
     .tab-content { display: none; height: 100%; flex-direction: column; justify-content: space-between; }
     .tab-content.active { display: flex; }
 
-    /* HONEY FARM STYLING TOP HUD */
+    /* TOP HUD */
     .top-hud-container {
       display: flex;
       flex-direction: column;
@@ -178,7 +178,6 @@
       box-shadow: 0 3px 6px rgba(0,0,0,0.4);
     }
 
-    /* KLEINER EN OMLAAG GEPLAATST */
     .center-action-box {
       background: rgba(22, 14, 8, 0.9);
       backdrop-filter: blur(8px);
@@ -248,12 +247,11 @@
       margin-top: 8px;
     }
 
-    /* REALISTISCHE RONDE DIEREN FOTO KAARTEN (GEBASEERD OP JOUW SCREEN) */
     .cr-card {
       background: linear-gradient(180deg, #3d2612 0%, #1a0f05 100%);
       border: 2px solid #ffd700;
       border-radius: 14px;
-      padding: 8px;
+      padding: 10px 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -261,14 +259,18 @@
       box-shadow: 0 5px 12px rgba(0,0,0,0.8);
     }
 
-    .cr-card-img {
-      width: 55px;
-      height: 55px;
+    .cr-card-icon {
+      width: 52px;
+      height: 52px;
+      background: radial-gradient(circle, #ffb700 0%, #b36b00 100%);
+      border: 2.5px solid #fff;
       border-radius: 50%;
-      border: 2.5px solid #ffd700;
-      object-fit: cover;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
       margin-bottom: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
     }
 
     .cr-card-title { font-size: 0.75rem; font-weight: 900; color: #fff; }
@@ -287,7 +289,7 @@
       text-transform: uppercase;
     }
 
-    /* PROFESSIONELE VERBETERDE JACHT ARENA */
+    /* BATTLE ARENA */
     .battle-arena-container {
       background: linear-gradient(180deg, #1b2e18 0%, #0d170b 100%);
       border: 2.5px solid #2ecc71;
@@ -321,12 +323,16 @@
       gap: 12px;
     }
 
-    .battle-unit-img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
+    .battle-unit {
+      width: 46px;
+      height: 46px;
+      background: radial-gradient(circle, #ffb700 0%, #b36b00 100%);
       border: 2px solid #ffd700;
-      object-fit: cover;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
       box-shadow: 0 4px 10px rgba(0,0,0,0.7);
     }
 
@@ -335,7 +341,7 @@
       50% { transform: translateY(-50px) scale(1.25) rotate(6deg); filter: drop-shadow(0 0 12px #ffcc00); }
       100% { transform: translateY(0) scale(1); }
     }
-    .battle-unit-img.attacking { animation: realisticHunt 0.6s ease-in-out infinite alternate; }
+    .battle-unit.attacking { animation: realisticHunt 0.6s ease-in-out infinite alternate; }
 
     .unit-selector-row {
       display: flex;
@@ -361,7 +367,6 @@
     }
     .unit-select-chip.selected { border-color: #2ecc71; background: rgba(46, 204, 113, 0.25); }
 
-    /* STREAK GRID */
     .streak-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -525,7 +530,7 @@
 
     <div class="overlay-content">
 
-      <!-- HONEY FARM STYLING TOP HUD & XP BAR -->
+      <!-- TOP HUD & XP BAR -->
       <div class="top-hud-container">
         <div class="wood-hud-panel">
           <div class="hud-left-side">
@@ -540,7 +545,7 @@
             <div style="font-size: 0.6rem; color: #ccc;" id="gramBalance">0.0000 GRAM</div>
           </div>
         </div>
-        <!-- XP / VOORTGANGSBALK -->
+        <!-- XP BAR -->
         <div class="xp-bar-container">
           <div class="xp-bar-fill" id="xpBarFill"></div>
           <div class="xp-text-overlay" id="xpTextOverlay">XP: 0 / 1500 (Level 1)</div>
@@ -556,7 +561,7 @@
         </div>
       </div>
 
-      <!-- MAĞRA TAB (MET REALISTISCHE DIEREN FOTO'S) -->
+      <!-- MAĞRA TAB (GELİŞTİRİLMİŞ STİLDEKİ LÜX ROZET DİRLER) -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title">⚔️ Mağra & Özel Fırsatlar</div>
@@ -575,91 +580,91 @@
           
           <div class="cr-cards-grid">
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=150" class="cr-card-img" alt="Welpje">
+              <div class="cr-card-icon">🦁</div>
               <div class="cr-card-title">Aslan Yavrusu (<span id="countCub">0</span>)</div>
               <div class="cr-card-sub">+2 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=150" class="cr-card-img" alt="Akbaba">
+              <div class="cr-card-icon">🦅</div>
               <div class="cr-card-title">Afrika Akbabası (<span id="countVulture">0</span>)</div>
               <div class="cr-card-sub">+5 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150" class="cr-card-img" alt="Antilop">
+              <div class="cr-card-icon">🦌</div>
               <div class="cr-card-title">Antilop (<span id="countAntelope">0</span>)</div>
               <div class="cr-card-sub">+12 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1575550959106-5a7defe28b56?w=150" class="cr-card-img" alt="Jaguar">
+              <div class="cr-card-icon">🐆</div>
               <div class="cr-card-title">Jaguar (<span id="countJaguar">0</span>)</div>
               <div class="cr-card-sub">+30 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1564760055775-d63b19a55388?w=150" class="cr-card-img" alt="Hyena">
+              <div class="cr-card-icon">🐺</div>
               <div class="cr-card-title">Sırtlan Sürüsü (<span id="countHyena">0</span>)</div>
               <div class="cr-card-sub">+70 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1516934024831-f9335ef7a047?w=150" class="cr-card-img" alt="Jackal">
+              <div class="cr-card-icon">🦊</div>
               <div class="cr-card-title">Çakal (<span id="countJackal">0</span>)</div>
               <div class="cr-card-sub">+160 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=150" class="cr-card-img" alt="Wolf">
+              <div class="cr-card-icon">🐺</div>
               <div class="cr-card-title">Kurt (<span id="countWolf">0</span>)</div>
               <div class="cr-card-sub">+260 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(42000, 'buyWolf', 'Kurt')">42000 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=150" class="cr-card-img" alt="Lion">
+              <div class="cr-card-icon">🦁</div>
               <div class="cr-card-title">Kral Aslan (<span id="countLion">0</span>)</div>
               <div class="cr-card-sub">+370 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=150" class="cr-card-img" alt="Cheetah">
+              <div class="cr-card-icon">🐅</div>
               <div class="cr-card-title">Çita (<span id="countCheetah">0</span>)</div>
               <div class="cr-card-sub">+850 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=150" class="cr-card-img" alt="Two Lions">
+              <div class="cr-card-icon">🦁</div>
               <div class="cr-card-title">2 Erkek Aslan (<span id="countTwoLions">0</span>)</div>
               <div class="cr-card-sub">+1,950 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?w=150" class="cr-card-img" alt="Python">
+              <div class="cr-card-icon">🐍</div>
               <div class="cr-card-title">Python (<span id="countPython">0</span>)</div>
               <div class="cr-card-sub">+4,400 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(800000, 'buyPython', 'Python Yılanı')">800000 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150" class="cr-card-img" alt="Crocodile">
+              <div class="cr-card-icon">🐊</div>
               <div class="cr-card-title">Timsah (<span id="countCrocodile">0</span>)</div>
               <div class="cr-card-sub">+9,800 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=150" class="cr-card-img" alt="Black Rhino">
+              <div class="cr-card-icon">🦏</div>
               <div class="cr-card-title">Siyah Gergedan (<span id="countBlackRhino">0</span>)</div>
               <div class="cr-card-sub">+21,500 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4000000 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1563911302283-d2bc129e7570?w=150" class="cr-card-img" alt="White Rhino">
+              <div class="cr-card-icon">🦏</div>
               <div class="cr-card-title">Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</div>
               <div class="cr-card-sub">+47,000 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9000000 🥩</button>
             </div>
             <div class="cr-card" style="grid-column: span 2;">
-              <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=150" class="cr-card-img" alt="Elephant">
+              <div class="cr-card-icon">🐘</div>
               <div class="cr-card-title">Afrika Fili (<span id="countElephant">0</span>)</div>
               <div class="cr-card-sub">+102,000 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20000000 🥩</button>
@@ -689,7 +694,7 @@
         </div>
       </div>
 
-      <!-- AV SEKMESİ (PROFESSIONEEL EN REALISTISCH) -->
+      <!-- AV SEKMESİ -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
           <div class="page-title">🏹 Av & Savaş Arenası</div>
@@ -699,23 +704,24 @@
             
             <div class="battle-board" id="battleBoard">
               <div class="enemy-side">
-                <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150" class="battle-unit-img" title="Antilop">
-                <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=150" class="battle-unit-img" title="Zebra">
+                <div class="battle-unit" title="Antilop">🦌</div>
+                <div class="battle-unit" title="Wildebeest">🐃</div>
+                <div class="battle-unit" title="Zebra">🦓</div>
               </div>
 
               <div style="text-align: center; font-size: 0.6rem; color: #fff; background: rgba(0,0,0,0.5); padding: 1px 8px; border-radius: 6px;">VS</div>
 
               <div class="player-side">
-                <img id="playerActiveUnitImg" src="https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=150" class="battle-unit-img" title="Seçilen Savaşçı">
+                <div class="battle-unit" id="playerActiveUnit" title="Seçilen Savaşçı">🦁</div>
               </div>
             </div>
 
             <div class="unit-selector-row" id="unitSelectorRow">
-              <div class="unit-select-chip selected" onclick="selectBattleUnit('https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=150', 'Aslan')">🦁 Aslan</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1575550959106-5a7defe28b56?w=150', 'Jaguar')">🐆 Jaguar</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=150', 'Kurt')">🐺 Kurt</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1517849845537-4d257902454a?w=150', 'Çita')">🐅 Çita</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150', 'Timsah')">🐊 Timsah</div>
+              <div class="unit-select-chip selected" onclick="selectBattleUnit('🦁', 'Aslan')">🦁 Aslan</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('🐆', 'Jaguar')">🐆 Jaguar</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('🐺', 'Kurt')">🐺 Kurt</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('🐅', 'Çita')">🐅 Çita</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('🐊', 'Timsah')">🐊 Timsah</div>
             </div>
           </div>
 
@@ -1005,18 +1011,18 @@
 
     const MY_RECEIVING_WALLET = "UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH";
 
-    let balance = 0.0;
-    let gramBalance = 0.0000;
+    let balance = 4153.0;
+    let gramBalance = 0.0257;
     let unclaimedSteak = 0.0;
     let lastClaimTime = Date.now();
     let inviteCount = 0;
-    let huntEnergy = 10;
+    let huntEnergy = 9;
     let lastHuntReset = Date.now();
-    let cubCount = 0, lionCount = 0, twoLionsCount = 0, jaguarCount = 0, vultureCount = 0, hyenaCount = 0, wolfCount = 0;
-    let antelopeCount = 0, jackalCount = 0, cheetahCount = 0, pythonCount = 0, crocodileCount = 0, blackRhinoCount = 0, whiteRhinoCount = 0, elephantCount = 0;
+    let cubCount = 0, lionCount = 0, twoLionsCount = 0, jaguarCount = 2, vultureCount = 0, hyenaCount = 0, wolfCount = 0;
+    let antelopeCount = 1, jackalCount = 0, cheetahCount = 0, pythonCount = 0, crocodileCount = 0, blackRhinoCount = 0, whiteRhinoCount = 0, elephantCount = 0;
     let totalEarnedSteak = 0.0;
-    let level = 1;
-    let xp = 0;
+    let level = 7;
+    let xp = 41;
     let lastWheelSpin = 0;
     let currentCustomBg = './background_empty.MP4';
     let channelTaskCompleted = false;
@@ -1027,6 +1033,7 @@
     let totalHunts = 0;
     let achievementClaimed = { hunt10: false, invite3: false, animal5: false };
     let levelRewardsClaimed = {};
+    let selectedBattleEmoji = '🦁';
 
     const translations = {
       tr: { collect: "Toplanabilir Biftek (Max 3 Saat):", btnCollect: "📥 Biftekleri Topla", level: "Level" },
@@ -1052,21 +1059,21 @@
           if (!err && val) {
             try {
               let data = JSON.parse(val);
-              balance = data.balance || 0.0;
-              gramBalance = data.gramBalance || 0.0000;
+              balance = data.balance !== undefined ? data.balance : 4153.0;
+              gramBalance = data.gramBalance !== undefined ? data.gramBalance : 0.0257;
               unclaimedSteak = data.unclaimedSteak || 0.0;
               lastClaimTime = data.lastClaimTime || Date.now();
               inviteCount = data.inviteCount || 0;
-              huntEnergy = data.huntEnergy !== undefined ? data.huntEnergy : 10;
+              huntEnergy = data.huntEnergy !== undefined ? data.huntEnergy : 9;
               lastHuntReset = data.lastHuntReset || Date.now();
               cubCount = data.cubCount || 0;
               lionCount = data.lionCount || 0;
               twoLionsCount = data.twoLionsCount || 0;
-              jaguarCount = data.jaguarCount || 0;
+              jaguarCount = data.jaguarCount !== undefined ? data.jaguarCount : 2;
               vultureCount = data.vultureCount || 0;
               hyenaCount = data.hyenaCount || 0;
               wolfCount = data.wolfCount || 0;
-              antelopeCount = data.antelopeCount || 0;
+              antelopeCount = data.antelopeCount !== undefined ? data.antelopeCount : 1;
               jackalCount = data.jackalCount || 0;
               cheetahCount = data.cheetahCount || 0;
               pythonCount = data.pythonCount || 0;
@@ -1075,8 +1082,8 @@
               whiteRhinoCount = data.whiteRhinoCount || 0;
               elephantCount = data.elephantCount || 0;
               totalEarnedSteak = data.totalEarnedSteak || 0.0;
-              level = data.level || 1;
-              xp = data.xp || 0;
+              level = data.level || 7;
+              xp = data.xp !== undefined ? data.xp : 41;
               lastWheelSpin = data.lastWheelSpin || 0;
               currentCustomBg = data.currentCustomBg || './background_empty.MP4';
               channelTaskCompleted = data.channelTaskCompleted || false;
@@ -1085,8 +1092,8 @@
               totalHunts = data.totalHunts || 0;
               achievementClaimed = data.achievementClaimed || { hunt10: false, invite3: false, animal5: false };
               levelRewardsClaimed = data.levelRewardsClaimed || {};
-            } catch(e) { loadLocalFallback(); }
-          } else { loadLocalFallback(); }
+            } catch(e) {}
+          }
           checkReferralParam();
           calculateEarnings();
           checkHuntEnergyReset();
@@ -1095,11 +1102,9 @@
           updateStreakUI();
           updateAchievementsUI();
           updateXpBar();
-          
           changeBackground(currentCustomBg, 'empty');
         });
       } else {
-        loadLocalFallback();
         checkReferralParam();
         calculateEarnings();
         checkHuntEnergyReset();
@@ -1108,46 +1113,8 @@
         updateStreakUI();
         updateAchievementsUI();
         updateXpBar();
-        
         changeBackground(currentCustomBg, 'empty');
       }
-    }
-
-    function loadLocalFallback() {
-      balance = parseFloat(localStorage.getItem('balance')) || 0.0; 
-      gramBalance = parseFloat(localStorage.getItem('gramBalance')) || 0.0000;
-      unclaimedSteak = parseFloat(localStorage.getItem('unclaimedSteak')) || 0.0;
-      lastClaimTime = parseInt(localStorage.getItem('lastClaimTime')) || Date.now();
-      inviteCount = parseInt(localStorage.getItem('inviteCount')) || 0;
-      let storedHuntEnergy = parseInt(localStorage.getItem('huntEnergy'));
-      huntEnergy = !isNaN(storedHuntEnergy) ? storedHuntEnergy : 10;
-      lastHuntReset = parseInt(localStorage.getItem('lastHuntReset')) || Date.now();
-      cubCount = parseInt(localStorage.getItem('cubCount')) || 0;
-      lionCount = parseInt(localStorage.getItem('lionCount')) || 0;
-      twoLionsCount = parseInt(localStorage.getItem('twoLionsCount')) || 0;
-      jaguarCount = parseInt(localStorage.getItem('jaguarCount')) || 0;
-      vultureCount = parseInt(localStorage.getItem('vultureCount')) || 0;
-      hyenaCount = parseInt(localStorage.getItem('hyenaCount')) || 0;
-      wolfCount = parseInt(localStorage.getItem('wolfCount')) || 0;
-      antelopeCount = parseInt(localStorage.getItem('antelopeCount')) || 0;
-      jackalCount = parseInt(localStorage.getItem('jackalCount')) || 0;
-      cheetahCount = parseInt(localStorage.getItem('cheetahCount')) || 0;
-      pythonCount = parseInt(localStorage.getItem('pythonCount')) || 0;
-      crocodileCount = parseInt(localStorage.getItem('crocodileCount')) || 0;
-      blackRhinoCount = parseInt(localStorage.getItem('blackRhinoCount')) || 0;
-      whiteRhinoCount = parseInt(localStorage.getItem('whiteRhinoCount')) || 0;
-      elephantCount = parseInt(localStorage.getItem('elephantCount')) || 0;
-      totalEarnedSteak = parseFloat(localStorage.getItem('totalEarnedSteak')) || 0.0;
-      level = parseInt(localStorage.getItem('level')) || 1;
-      xp = parseInt(localStorage.getItem('xp')) || 0;
-      lastWheelSpin = parseInt(localStorage.getItem('lastWheelSpin')) || 0;
-      currentCustomBg = localStorage.getItem('currentCustomBg') || './background_empty.MP4';
-      channelTaskCompleted = localStorage.getItem('channelTaskCompleted') === 'true';
-      streakDays = parseInt(localStorage.getItem('streakDays')) || 0;
-      lastStreakClaimDate = parseInt(localStorage.getItem('lastStreakClaimDate')) || 0;
-      totalHunts = parseInt(localStorage.getItem('totalHunts')) || 0;
-      try { achievementClaimed = JSON.parse(localStorage.getItem('achievementClaimed')) || { hunt10: false, invite3: false, animal5: false }; } catch(e){}
-      try { levelRewardsClaimed = JSON.parse(localStorage.getItem('levelRewardsClaimed')) || {}; } catch(e){}
     }
 
     function saveData() {
@@ -1158,23 +1125,6 @@
         totalEarnedSteak, level, xp, lastWheelSpin, currentCustomBg, channelTaskCompleted,
         streakDays, lastStreakClaimDate, totalHunts, achievementClaimed, levelRewardsClaimed
       };
-
-      localStorage.setItem('balance', balance);
-      localStorage.setItem('gramBalance', gramBalance);
-      localStorage.setItem('unclaimedSteak', unclaimedSteak);
-      localStorage.setItem('lastClaimTime', lastClaimTime);
-      localStorage.setItem('inviteCount', inviteCount);
-      localStorage.setItem('huntEnergy', huntEnergy);
-      localStorage.setItem('lastHuntReset', lastHuntReset);
-      localStorage.setItem('cubCount', cubCount);
-      localStorage.setItem('level', level);
-      localStorage.setItem('xp', xp);
-      localStorage.setItem('channelTaskCompleted', channelTaskCompleted);
-      localStorage.setItem('streakDays', streakDays);
-      localStorage.setItem('lastStreakClaimDate', lastStreakClaimDate);
-      localStorage.setItem('totalHunts', totalHunts);
-      localStorage.setItem('achievementClaimed', JSON.stringify(achievementClaimed));
-      localStorage.setItem('levelRewardsClaimed', JSON.stringify(levelRewardsClaimed));
 
       if (tg && tg.CloudStorage) {
         tg.CloudStorage.setItem('game_data', JSON.stringify(data));
@@ -1306,8 +1256,9 @@
       if(energyEl) energyEl.innerText = `Av Hakkı: ${huntEnergy} / 10`;
     }, 1000);
 
-    function selectBattleUnit(imgSrc, name) {
-      document.getElementById('playerActiveUnitImg').src = imgSrc;
+    function selectBattleUnit(emoji, name) {
+      selectedBattleEmoji = emoji;
+      document.getElementById('playerActiveUnit').innerText = emoji;
       document.querySelectorAll('.unit-select-chip').forEach(chip => chip.classList.remove('selected'));
       event.currentTarget.classList.add('selected');
       haptic('light');
@@ -1328,7 +1279,7 @@
       balance += reward;
       addXp(35);
 
-      let unitElem = document.getElementById('playerActiveUnitImg');
+      let unitElem = document.getElementById('playerActiveUnit');
       unitElem.classList.add('attacking');
       document.getElementById('battleStatusText').innerText = "⚔️ Savaş Başladı! Hayvanınız avına saldırdı!";
 

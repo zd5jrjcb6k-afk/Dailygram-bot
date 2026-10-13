@@ -184,7 +184,7 @@
       backdrop-filter: blur(8px);
       border: 2px solid #ffb700;
       border-radius: 16px;
-      padding: 12px 16px;
+      padding: 14px 16px;
       text-align: center;
       margin-top: auto;
       margin-bottom: 25px;
@@ -637,14 +637,14 @@
             </div>
             <!-- 5. Sırtlan Sürüsü -->
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1564760055775-d63b19a55388?w=150" class="cr-card-img" alt="Sırtlan Sürüsü">
+              <img src="https://images.unsplash.com/photo-1548658141-212f5f56978f?w=150" class="cr-card-img" alt="Sırtlan Sürüsü">
               <div class="cr-card-title">Sırtlan Sürüsü (<span id="countHyena">0</span>)</div>
               <div class="cr-card-sub">+70 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button>
             </div>
             <!-- 6. Çakal -->
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1598755727127-eb55274d4be4?w=150" class="cr-card-img" alt="Çakal">
+              <img src="https://images.unsplash.com/photo-1543946207-391914b1a3d9?w=150" class="cr-card-img" alt="Çakal">
               <div class="cr-card-title">Çakal (<span id="countJackal">0</span>)</div>
               <div class="cr-card-sub">+160 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
@@ -663,7 +663,7 @@
               <div class="cr-card-sub">+370 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
             </div>
-            <!-- 9. Çita (Gecorrigeerd) -->
+            <!-- 9. Çita -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1508873696983-2df5c920ac1c?w=150" class="cr-card-img" alt="Çita">
               <div class="cr-card-title">Çita (<span id="countCheetah">0</span>)</div>
@@ -677,14 +677,14 @@
               <div class="cr-card-sub">+1,950 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
             </div>
-            <!-- 11. Python (Gecorrigeerd) -->
+            <!-- 11. Python -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?w=150" class="cr-card-img" alt="Python">
               <div class="cr-card-title">Python (<span id="countPython">0</span>)</div>
               <div class="cr-card-sub">+4,400 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(800000, 'buyPython', 'Python Yılanı')">800000 🥩</button>
             </div>
-            <!-- 12. Timsah (Gecorrigeerd) -->
+            <!-- 12. Timsah -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1552410229-6a0b94323547?w=150" class="cr-card-img" alt="Timsah">
               <div class="cr-card-title">Timsah (<span id="countCrocodile">0</span>)</div>
@@ -706,11 +706,18 @@
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9000000 🥩</button>
             </div>
             <!-- 15. Afrika Fili -->
-            <div class="cr-card" style="grid-column: span 2;">
+            <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=150" class="cr-card-img" alt="Afrika Fili">
               <div class="cr-card-title">Afrika Fili (<span id="countElephant">0</span>)</div>
               <div class="cr-card-sub">+102,000 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20000000 🥩</button>
+            </div>
+            <!-- 16. Zwarte Panter -->
+            <div class="cr-card">
+              <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=150" class="cr-card-img" alt="Zwarte Panter">
+              <div class="cr-card-title">Zwarte Panter (<span id="countPanther">0</span>)</div>
+              <div class="cr-card-sub">+220,000 🥩 / sa</div>
+              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(45000000, 'buyPanther', 'Zwarte Panter')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">45M 🥩</button>
             </div>
           </div>
 
@@ -733,6 +740,7 @@
               <button class="bg-option-btn" id="bgBtn-black_rhino" onclick="haptic('light'); playSound('click'); checkAndChangeBg('black_rhino', './BACKGROUND_BLACK_RHINO.MP4')">🦏 Siyah Gergedan</button>
               <button class="bg-option-btn" id="bgBtn-elephant" onclick="haptic('light'); playSound('click'); checkAndChangeBg('elephant', './background_elephant.MP4')">🐘 Afrika Fili</button>
               <button class="bg-option-btn" id="bgBtn-white_rhino" onclick="haptic('light'); playSound('click'); checkAndChangeBg('white_rhino', './background_white_rhino.MP4')">🦏 Beyaz Gergedan</button>
+              <button class="bg-option-btn" id="bgBtn-panther" onclick="haptic('light'); playSound('click'); checkAndChangeBg('panther', './background_panther.MP4')">🐈‍⬛ Zwarte Panter</button>
             </div>
           </div>
         </div>
@@ -1062,7 +1070,7 @@
     let huntEnergy = 9;
     let lastHuntReset = Date.now();
     let cubCount = 24, lionCount = 0, twoLionsCount = 0, jaguarCount = 2, vultureCount = 6, hyenaCount = 0, wolfCount = 1;
-    let antelopeCount = 1, jackalCount = 0, cheetahCount = 0, pythonCount = 0, crocodileCount = 0, blackRhinoCount = 0, whiteRhinoCount = 0, elephantCount = 0;
+    let antelopeCount = 1, jackalCount = 0, cheetahCount = 0, pythonCount = 0, crocodileCount = 0, blackRhinoCount = 0, whiteRhinoCount = 0, elephantCount = 0, pantherCount = 0;
     let totalEarnedSteak = 0.0;
     let level = 7;
     let xp = 1697;
@@ -1147,6 +1155,7 @@
               blackRhinoCount = data.blackRhinoCount || 0;
               whiteRhinoCount = data.whiteRhinoCount || 0;
               elephantCount = data.elephantCount || 0;
+              pantherCount = data.pantherCount || 0;
               totalEarnedSteak = data.totalEarnedSteak || 0.0;
               level = data.level || 7;
               xp = data.xp !== undefined ? data.xp : 1697;
@@ -1191,7 +1200,7 @@
       let data = {
         balance, gramBalance, unclaimedSteak, lastClaimTime, inviteCount, huntEnergy, lastHuntReset,
         cubCount, lionCount, twoLionsCount, jaguarCount, vultureCount, hyenaCount, wolfCount,
-        antelopeCount, jackalCount, cheetahCount, pythonCount, crocodileCount, blackRhinoCount, whiteRhinoCount, elephantCount,
+        antelopeCount, jackalCount, cheetahCount, pythonCount, crocodileCount, blackRhinoCount, whiteRhinoCount, elephantCount, pantherCount,
         totalEarnedSteak, level, xp, lastWheelSpin, currentCustomBg, channelTaskCompleted,
         streakDays, lastStreakClaimDate, totalHunts, achievementClaimed, levelRewardsClaimed,
         promoWolfClaimedCount, userClaimedPromoWolf
@@ -1236,7 +1245,8 @@
         (crocodileCount * 9800) +
         (blackRhinoCount * 21500) +
         (whiteRhinoCount * 47000) +
-        (elephantCount * 102000);
+        (elephantCount * 102000) +
+        (pantherCount * 220000);
       
       let bonusMultiplier = 1 + ((level - 1) * 0.1);
       return Math.floor(base * bonusMultiplier);
@@ -1244,7 +1254,7 @@
 
     function getTotalAnimalCount() {
       return cubCount + lionCount + twoLionsCount + jaguarCount + vultureCount + hyenaCount + wolfCount +
-             antelopeCount + jackalCount + cheetahCount + pythonCount + crocodileCount + blackRhinoCount + whiteRhinoCount + elephantCount;
+             antelopeCount + jackalCount + cheetahCount + pythonCount + crocodileCount + blackRhinoCount + whiteRhinoCount + elephantCount + pantherCount;
     }
 
     function calculateEarnings() {
@@ -1503,6 +1513,7 @@
       else if (type === 'buyBlackRhino') { blackRhinoCount++; currentCustomBg = './BACKGROUND_BLACK_RHINO.MP4'; }
       else if (type === 'buyWhiteRhino') { whiteRhinoCount++; currentCustomBg = './background_white_rhino.MP4'; }
       else if (type === 'buyElephant') { elephantCount++; currentCustomBg = './background_elephant.MP4'; }
+      else if (type === 'buyPanther') { pantherCount++; currentCustomBg = './background_panther.MP4'; }
 
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
@@ -1531,6 +1542,7 @@
       if (bgKey === 'black_rhino' && blackRhinoCount >= 1) unlocked = true;
       if (bgKey === 'white_rhino' && whiteRhinoCount >= 1) unlocked = true;
       if (bgKey === 'elephant' && elephantCount >= 1) unlocked = true;
+      if (bgKey === 'panther' && pantherCount >= 1) unlocked = true;
 
       if (!unlocked) {
         haptic('warning');
@@ -1837,7 +1849,7 @@
         { name: username, level: level, steak: balance, gram: gramBalance, isMe: true }
       ];
 
-      players.sort((a, b) => (b.gram * 100000 + b.steak) - (a.gram * 100000 + a.steak));
+      players.sort((a, b) => (b.gram * 100000 + b.steak) - (a.gram * 100000 + b.steak));
 
       let html = "";
       players.forEach((p, index) => {
@@ -1879,6 +1891,7 @@
       document.getElementById('countBlackRhino').innerText = blackRhinoCount;
       document.getElementById('countWhiteRhino').innerText = whiteRhinoCount;
       document.getElementById('countElephant').innerText = elephantCount;
+      document.getElementById('countPanther').innerText = pantherCount;
 
       document.getElementById('refCountDisplay').innerText = inviteCount;
       document.getElementById('refEarnedDisplay').innerText = (inviteCount * 500) + " 🥩";
@@ -1910,6 +1923,7 @@
       updateBtnUnlock('black_rhino', blackRhinoCount >= 1);
       updateBtnUnlock('white_rhino', whiteRhinoCount >= 1);
       updateBtnUnlock('elephant', elephantCount >= 1);
+      updateBtnUnlock('panther', pantherCount >= 1);
 
       updateXpBar();
       updatePromoWolfUI();

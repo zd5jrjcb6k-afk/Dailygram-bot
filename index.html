@@ -257,43 +257,6 @@
     }
     .campaign-slider { width: 100%; margin: 6px 0; accent-color: #2ecc71; height: 5px; border-radius: 3px; }
 
-    /* EPIC CLASH STYLE BANNER FOR PANTHER */
-    .clash-epic-offer {
-      background: linear-gradient(180deg, #1f1105 0%, #0d0602 100%);
-      border: 3px solid #ffb700;
-      border-radius: 18px;
-      padding: 14px;
-      margin-bottom: 12px;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(255,183,0,0.4);
-    }
-    .clash-epic-img {
-      width: 100%;
-      max-height: 160px;
-      object-fit: cover;
-      border-radius: 12px;
-      border: 2px solid #ffd700;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.8);
-      margin-bottom: 8px;
-    }
-    .clash-epic-title {
-      font-size: 1rem;
-      font-weight: 900;
-      color: #ffd700;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.9);
-      margin-bottom: 4px;
-    }
-    .clash-epic-price {
-      font-size: 1.25rem;
-      font-weight: 900;
-      color: #fff;
-      background: rgba(0,0,0,0.6);
-      padding: 6px;
-      border-radius: 10px;
-      border: 1px solid #ffb700;
-      margin: 8px 0;
-    }
-
     .cr-cards-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -339,7 +302,7 @@
       text-transform: uppercase;
     }
 
-    /* VLEES KLIK ANIMATIE EFFECT (Zwevend omhoog) */
+    /* VLEES KLIK ANIMATIE EFFECT */
     @keyframes floatUpFade {
       0% { transform: translateY(0) scale(0.8); opacity: 1; }
       100% { transform: translateY(-80px) scale(1.3); opacity: 0; }
@@ -628,15 +591,6 @@
         <div class="page-box">
           <div class="page-title">⚔️ Mağra & Özel Fırsatlar</div>
 
-          <!-- EPIC CLASH STYLE BANNER FOR PANTHER (panter.PNG) -->
-          <div class="clash-epic-offer">
-            <img src="./panter.PNG" class="clash-epic-img" alt="Zwarte Panter">
-            <div class="clash-epic-title">Kahraman Zwarte Panter'i Aç!</div>
-            <div style="font-size: 0.7rem; color: #2ecc71; font-weight: bold;">+220,000 🥩 / sa Üretim Hızı</div>
-            <div class="clash-epic-price">45,000,000 🥩</div>
-            <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(45000000, 'buyPanther', 'Zwarte Panter')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad); padding: 10px; font-size: 0.8rem;">🔥 ÖZEL TEKLİFİ SATIN AL</button>
-          </div>
-
           <!-- GRATIS WOLF CLAIM BANNER -->
           <div class="promo-wolf-box" id="promoWolfBanner">
             <div style="font-size: 0.82rem; font-weight: 900; color: #00ffcc;">🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!</div>
@@ -720,19 +674,19 @@
               <div class="cr-card-sub">+850 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button>
             </div>
-            <!-- 10. 2 Erkek Aslan -->
+            <!-- 10. İki Erkek Aslan -->
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=150" class="cr-card-img" alt="2 Erkek Aslan">
-              <div class="cr-card-title">2 Erkek Aslan (<span id="countTwoLions">0</span>)</div>
+              <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=150" class="cr-card-img" alt="İki Erkek Aslan">
+              <div class="cr-card-title">İki Erkek Aslan (<span id="countTwoLions">0</span>)</div>
               <div class="cr-card-sub">+1,950 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
+              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(350000, 'buyTwoLions', 'İki Erkek Aslan')">350000 🥩</button>
             </div>
             <!-- 11. Python -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?w=150" class="cr-card-img" alt="Python">
               <div class="cr-card-title">Python (<span id="countPython">0</span>)</div>
               <div class="cr-card-sub">+4,400 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(800000, 'buyPython', 'Python Yılanı')">800000 🥩</button>
+              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(800000, 'buyPython', 'Python')">800000 🥩</button>
             </div>
             <!-- 12. Timsah -->
             <div class="cr-card">
@@ -755,19 +709,19 @@
               <div class="cr-card-sub">+47,000 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9000000 🥩</button>
             </div>
-            <!-- 15. Afrika Fili -->
+            <!-- 15. Fil -->
             <div class="cr-card">
-              <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=150" class="cr-card-img" alt="Afrika Fili">
-              <div class="cr-card-title">Afrika Fili (<span id="countElephant">0</span>)</div>
+              <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=150" class="cr-card-img" alt="Fil">
+              <div class="cr-card-title">Fil (<span id="countElephant">0</span>)</div>
               <div class="cr-card-sub">+102,000 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20000000 🥩</button>
+              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(20000000, 'buyElephant', 'Fil')">20000000 🥩</button>
             </div>
-            <!-- 16. Zwarte Panter -->
+            <!-- 16. Kara Panter -->
             <div class="cr-card">
-              <img src="./panter.PNG" class="cr-card-img" alt="Zwarte Panter">
-              <div class="cr-card-title">Zwarte Panter (<span id="countPanther">0</span>)</div>
+              <img src="./panter.PNG" class="cr-card-img" alt="Kara Panter">
+              <div class="cr-card-title">Kara Panter (<span id="countPanther">0</span>)</div>
               <div class="cr-card-sub">+220,000 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(45000000, 'buyPanther', 'Zwarte Panter')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">45M 🥩</button>
+              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(45000000, 'buyPanther', 'Kara Panter')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">45M 🥩</button>
             </div>
           </div>
 
@@ -775,22 +729,19 @@
             <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Önce Satın Almalısın)</div>
             <div class="bg-switcher-grid">
               <button class="bg-option-btn unlocked active" id="bgBtn-empty" onclick="haptic('light'); playSound('click'); changeBackground('./background_empty.MP4', 'empty')">🪨 Standart Mağra</button>
-              <button class="bg-option-btn" id="bgBtn-cub1" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub1', './background_cub1.MP4')">🐾 1 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cubs2" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cubs2', './background_cubs2.MP4')">🐾🐾 2 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cub3" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub3', './background_cub3.MP4')">🐾 3 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cub4" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub4', './background_cub4.MP4')">🐾 4+ Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="haptic('light'); playSound('click'); checkAndChangeBg('jaguar', './background_jaguar.MP4')">🐆 Jaguar Mağarası</button>
-              <button class="bg-option-btn" id="bgBtn-vulture" onclick="haptic('light'); playSound('click'); checkAndChangeBg('vulture', './background_vulture.MP4')">🦅 Akbaba Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-cub1" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub1', './background_cub1.MP4')">🐾 Aslan Yavrusu</button>
+              <button class="bg-option-btn" id="bgBtn-vulture" onclick="haptic('light'); playSound('click'); checkAndChangeBg('vulture', './background_vulture.MP4')">🦅 Afrika Akbabası</button>
+              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="haptic('light'); playSound('click'); checkAndChangeBg('jaguar', './background_jaguar.MP4')">🐆 Jaguar</button>
               <button class="bg-option-btn" id="bgBtn-hyena" onclick="haptic('light'); playSound('click'); checkAndChangeBg('hyena', './background_hyena.MP4')">🐺 Sırtlan Sürüsü</button>
-              <button class="bg-option-btn" id="bgBtn-jackal" onclick="haptic('light'); playSound('click'); checkAndChangeBg('jackal', './background_jackal.MP4')">🦊 Çakal Mağarası</button>
-              <button class="bg-option-btn" id="bgBtn-wolf" onclick="haptic('light'); playSound('click'); checkAndChangeBg('wolf', './background_wolf.MP4')">🐺 Kurt Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-jackal" onclick="haptic('light'); playSound('click'); checkAndChangeBg('jackal', './background_jackal.MP4')">🦊 Çakal</button>
+              <button class="bg-option-btn" id="bgBtn-wolf" onclick="haptic('light'); playSound('click'); checkAndChangeBg('wolf', './background_wolf.MP4')">🐺 Kurt</button>
               <button class="bg-option-btn" id="bgBtn-lion" onclick="haptic('light'); playSound('click'); checkAndChangeBg('lion', './background_lion.MP4')">🦁 Kral Aslan</button>
-              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="haptic('light'); playSound('click'); checkAndChangeBg('two_lions', './background_two_lions.MP4')">🦁🦁 2 Erkek Aslan</button>
-              <button class="bg-option-btn" id="bgBtn-cheetah" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cheetah', './background_cheetah.MP4')">🐅 Çita Mağarası</button>
+              <button class="bg-option-btn" id="bgBtn-cheetah" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cheetah', './background_cheetah.MP4')">🐅 Çita</button>
+              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="haptic('light'); playSound('click'); checkAndChangeBg('two_lions', './background_two_lions.MP4')">🦁🦁 İki Erkek Aslan</button>
               <button class="bg-option-btn" id="bgBtn-black_rhino" onclick="haptic('light'); playSound('click'); checkAndChangeBg('black_rhino', './BACKGROUND_BLACK_RHINO.MP4')">🦏 Siyah Gergedan</button>
-              <button class="bg-option-btn" id="bgBtn-elephant" onclick="haptic('light'); playSound('click'); checkAndChangeBg('elephant', './background_elephant.MP4')">🐘 Afrika Fili</button>
               <button class="bg-option-btn" id="bgBtn-white_rhino" onclick="haptic('light'); playSound('click'); checkAndChangeBg('white_rhino', './background_white_rhino.MP4')">🦏 Beyaz Gergedan</button>
-              <button class="bg-option-btn" id="bgBtn-panther" onclick="haptic('light'); playSound('click'); checkAndChangeBg('panther', './background_panther.MP4')">🐈‍⬛ Zwarte Panter</button>
+              <button class="bg-option-btn" id="bgBtn-elephant" onclick="haptic('light'); playSound('click'); checkAndChangeBg('elephant', './background_elephant.MP4')">🐘 Fil</button>
+              <button class="bg-option-btn" id="bgBtn-panther" onclick="haptic('light'); playSound('click'); checkAndChangeBg('panther', './background_panther.MP4')">🐈‍⬛ Kara Panter</button>
             </div>
           </div>
         </div>
@@ -806,20 +757,20 @@
             
             <div class="battle-board" id="battleBoard">
               <div class="enemy-side">
-                <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150" class="battle-unit-img" title="Antilop">
+                <img src="https://images.unsplash.com/photo-1547721064-da6cfb341d50?w=150" class="battle-unit-img" title="Antilop">
                 <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=150" class="battle-unit-img" title="Zebra">
               </div>
 
               <div style="text-align: center; font-size: 0.6rem; color: #fff; background: rgba(0,0,0,0.5); padding: 1px 8px; border-radius: 6px;">VS</div>
 
               <div class="player-side">
-                <img id="playerActiveUnitImg" src="./panter.PNG" class="battle-unit-img" title="Zwarte Panter">
+                <img id="playerActiveUnitImg" src="./panter.PNG" class="battle-unit-img" title="Kara Panter">
               </div>
             </div>
 
             <div class="unit-selector-row" id="unitSelectorRow">
-              <div class="unit-select-chip selected" onclick="selectBattleUnit('./panter.PNG', 'Zwarte Panter')">🐈‍⬛ Zwarte Panter</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=150', 'Aslan')">🦁 Aslan</div>
+              <div class="unit-select-chip selected" onclick="selectBattleUnit('./panter.PNG', 'Kara Panter')">🐈‍⬛ Kara Panter</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=150', 'Kral Aslan')">🦁 Kral Aslan</div>
               <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1575550959106-5a7defe28b56?w=150', 'Jaguar')">🐆 Jaguar</div>
               <div class="unit-select-chip" onclick="selectBattleUnit('https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=150', 'Kurt')">🐺 Kurt</div>
             </div>
@@ -1958,17 +1909,14 @@
       };
 
       updateBtnUnlock('cub1', cubCount >= 1);
-      updateBtnUnlock('cubs2', cubCount >= 2);
-      updateBtnUnlock('cub3', cubCount >= 3);
-      updateBtnUnlock('cub4', cubCount >= 4);
-      updateBtnUnlock('wolf', wolfCount >= 1);
-      updateBtnUnlock('jackal', jackalCount >= 1);
-      updateBtnUnlock('lion', lionCount >= 1);
-      updateBtnUnlock('two_lions', twoLionsCount >= 1);
-      updateBtnUnlock('jaguar', jaguarCount >= 1);
       updateBtnUnlock('vulture', vultureCount >= 1);
+      updateBtnUnlock('jaguar', jaguarCount >= 1);
       updateBtnUnlock('hyena', hyenaCount >= 1);
+      updateBtnUnlock('jackal', jackalCount >= 1);
+      updateBtnUnlock('wolf', wolfCount >= 1);
+      updateBtnUnlock('lion', lionCount >= 1);
       updateBtnUnlock('cheetah', cheetahCount >= 1);
+      updateBtnUnlock('two_lions', twoLionsCount >= 1);
       updateBtnUnlock('black_rhino', blackRhinoCount >= 1);
       updateBtnUnlock('white_rhino', whiteRhinoCount >= 1);
       updateBtnUnlock('elephant', elephantCount >= 1);

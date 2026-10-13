@@ -339,7 +339,7 @@
       text-transform: uppercase;
     }
 
-    /* VLEES KLIK ANIMATIE EFFECT */
+    /* VLEES KLIK ANIMATIE EFFECT (Zwevend omhoog) */
     @keyframes floatUpFade {
       0% { transform: translateY(0) scale(0.8); opacity: 1; }
       100% { transform: translateY(-80px) scale(1.3); opacity: 0; }
@@ -628,7 +628,7 @@
         <div class="page-box">
           <div class="page-title">⚔️ Mağra & Özel Fırsatlar</div>
 
-          <!-- CLASH STYLE EPIC BANNER FOR PANTHER (panter.PNG gekoppeld) -->
+          <!-- EPIC CLASH STYLE BANNER FOR PANTHER (panter.PNG) -->
           <div class="clash-epic-offer">
             <img src="./panter.PNG" class="clash-epic-img" alt="Zwarte Panter">
             <div class="clash-epic-title">Kahraman Zwarte Panter'i Aç!</div>
@@ -844,6 +844,9 @@
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
           <div class="page-title">👛 Cüzdan & Para Çek</div>
+          <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 6px; text-align: center;">
+            💎 Cüzdanımıza yalnızca <strong>Toncoin (TON)</strong> veya <strong>GRAM</strong> yatırın veya bakiye çekin.
+          </p>
           <div class="wallet-box-manual">
             <label>Yatırım Adresi (TON):</label>
             <div class="wallet-input-row">
@@ -875,6 +878,7 @@
         <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('spin')">🎡 Şans Çarkı</div>
         <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('leaderboard')">🏆 Liderlik</div>
         <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('language')">🌍 Dil / Language</div>
+        <a href="https://t.me/DailygramMinerOfficial" target="_blank" class="menu-popup-btn" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">📢 Resmi Kanal</a>
       </div>
 
       <!-- GÖREVLER -->
@@ -887,6 +891,16 @@
               <div class="task-info"><strong>Telegram Kanalını Takip Et</strong><br><small>+100 🥩</small></div>
               <button class="btn-buy" onclick="haptic('success'); playSound('success'); completeChannelTask()">Takip Et</button>
             </div>
+            <div class="task-card">
+              <div class="animal-icon-box">👥</div>
+              <div class="task-info"><strong>Arkadaş Davet Et</strong><br><small>+500 🥩 + 0.01 GRAM</small></div>
+              <button class="btn-buy" onclick="haptic('light'); playSound('click'); openModalTab('referral')">Git</button>
+            </div>
+            <div class="task-card">
+              <div class="animal-icon-box">🔥</div>
+              <div class="task-info"><strong>7 Günlük Streak Ödülleri</strong><br><small>Her gün gel bonus kap!</small></div>
+              <button class="btn-buy" onclick="haptic('light'); playSound('click'); openModalTab('streak')">Aç</button>
+            </div>
           </div>
         </div>
       </div>
@@ -895,6 +909,7 @@
       <div id="tab-streak" class="tab-content">
         <div class="page-box">
           <div class="page-title">🔥 7 Günlük Giriş Serisi</div>
+          <p style="font-size: 0.7rem; color: #ccc; text-align: center; margin-bottom: 8px;">Her gün oyuna girerek ödüllerini topla ve seriyi bozma!</p>
           <div class="streak-grid" id="streakGridContainer"></div>
           <button class="btn-claim" style="margin-top: 10px; background: #2ecc71; color: #000;" onclick="haptic('success'); playSound('success'); claimStreakDaily()">📥 Bugünün Ödülünü Al</button>
         </div>
@@ -912,6 +927,7 @@
       <div id="tab-referral" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">👥 Arkadaş Davet Et</div>
+          <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 10px;">Her arkadaşın için <strong>+500 Biftek</strong> ve <strong>0.01 GRAM</strong> kazan! 🎁</p>
           <div class="wallet-box-manual">
             <label>Senin Davet Linkin:</label>
             <div class="wallet-input-row">
@@ -919,6 +935,12 @@
               <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyRefLink()">Kopyala</button>
             </div>
           </div>
+          <div style="margin-top: 12px; background: rgba(0,0,0,0.5); border: 1px solid #704b2e; border-radius: 10px; padding: 10px;">
+            <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">📊 Davet İstatistiklerin</div>
+            <div style="font-size: 0.8rem; color: #fff;">Davet Edilen Arkadaş: <strong id="refCountDisplay" style="color: #2ecc71;">0</strong></div>
+            <div style="font-size: 0.7rem; color: #aaa; margin-top: 2px;">Kazanılan Toplam Ödül: <span id="refEarnedDisplay" style="color: #ffd700;">0 🥩</span></div>
+          </div>
+          <button class="btn-claim" style="margin-top: 12px; background: linear-gradient(135deg, #3498db, #2980b9); color: #fff;" onclick="haptic('light'); playSound('click'); shareRefLink()">🚀 Telegram'da Paylaş</button>
         </div>
       </div>
 
@@ -926,9 +948,13 @@
       <div id="tab-language" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🌍 Dil Seçimi / Language</div>
+          <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 12px;">Uygulama dilini seçin:</p>
           <div style="display: flex; flex-direction: column; gap: 8px;">
             <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('tr')">🇹🇷 Türkçe</button>
             <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('nl')">🇳🇱 Nederlands</button>
+            <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('en')">🇬🇧 English</button>
+            <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('de')">🇩🇪 Deutsch</button>
+            <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('es')">🇪🇸 Español</button>
           </div>
         </div>
       </div>
@@ -942,6 +968,13 @@
             <div class="wheel-wooden-frame">
               <div class="wheel" id="wheel">
                 <div class="wheel-label" style="transform: rotate(22.5deg);">50 🥩</div>
+                <div class="wheel-label" style="transform: rotate(67.5deg);">100 🥩</div>
+                <div class="wheel-label" style="transform: rotate(112.5deg);">250 🥩</div>
+                <div class="wheel-label" style="transform: rotate(157.5deg);">500 🥩</div>
+                <div class="wheel-label" style="transform: rotate(202.5deg);">75 🥩</div>
+                <div class="wheel-label" style="transform: rotate(247.5deg);">150 🥩</div>
+                <div class="wheel-label" style="transform: rotate(292.5deg);">300 🥩</div>
+                <div class="wheel-label" style="transform: rotate(337.5deg);">1000 🥩</div>
               </div>
               <div class="wheel-center-hub">🎁</div>
             </div>
@@ -968,6 +1001,7 @@
       <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div>Cüzdan</div></div>
       <div class="nav-item" onclick="haptic('medium'); toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menü</div></div>
     </div>
+
   </div>
 
   <!-- PAYMENT MODAL -->
@@ -1002,19 +1036,56 @@
     let audioCtx = null;
     function playSound(type) {
       try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
         let osc = audioCtx.createOscillator();
         let gainNode = audioCtx.createGain();
         osc.connect(gainNode);
         gainNode.connect(audioCtx.destination);
+
         let now = audioCtx.currentTime;
+
         if (type === 'click') {
+          osc.type = 'sine';
           osc.frequency.setValueAtTime(400, now);
           osc.frequency.exponentialRampToValueAtTime(200, now + 0.05);
           gainNode.gain.setValueAtTime(0.15, now);
           gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-          osc.start(now); osc.stop(now + 0.05);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } 
+        else if (type === 'hunt') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(300, now);
+          osc.frequency.exponentialRampToValueAtTime(600, now + 0.08);
+          gainNode.gain.setValueAtTime(0.2, now);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        }
+        else if (type === 'success') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523.25, now); 
+          osc.frequency.setValueAtTime(659.25, now + 0.08); 
+          osc.frequency.setValueAtTime(783.99, now + 0.16); 
+          gainNode.gain.setValueAtTime(0.2, now);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        }
+        else if (type === 'buy') {
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.exponentialRampToValueAtTime(440, now + 0.15);
+          gainNode.gain.setValueAtTime(0.1, now);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+          osc.start(now);
+          osc.stop(now + 0.15);
         }
       } catch(e) {}
     }
@@ -1038,6 +1109,8 @@
     const myRefLink = `https://t.me/DailygramMinerBot?start=ref_${userId}`;
     document.getElementById('refLinkInput').value = myRefLink;
 
+    const MY_RECEIVING_WALLET = "UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH";
+
     let balance = 446.0;
     let gramBalance = 0.0257;
     let unclaimedSteak = 0.0;
@@ -1047,21 +1120,24 @@
     let lastHuntReset = Date.now();
     let cubCount = 24, lionCount = 0, twoLionsCount = 0, jaguarCount = 2, vultureCount = 6, hyenaCount = 0, wolfCount = 1;
     let antelopeCount = 1, jackalCount = 0, cheetahCount = 0, pythonCount = 0, crocodileCount = 0, blackRhinoCount = 0, whiteRhinoCount = 0, elephantCount = 0, pantherCount = 0;
+    let totalEarnedSteak = 0.0;
     let level = 7;
     let xp = 1697;
+    let lastWheelSpin = 0;
     let currentCustomBg = './background_empty.MP4';
     let channelTaskCompleted = false;
+    let currentLang = 'tr';
+
     let streakDays = 0;
     let lastStreakClaimDate = 0;
     let totalHunts = 0;
     let achievementClaimed = { hunt10: false, invite3: false, animal5: false };
     let levelRewardsClaimed = {};
+
     let promoWolfClaimedCount = 1;
     let userClaimedPromoWolf = true;
-    let currentRotation = 0;
-    let lastWheelSpin = 0;
 
-    // VLEES KLIK ANIMATIE
+    // PERFECTE VLEES KLIK ANIMATIE (Zwevend omhoog vanuit de muis/klikpositie)
     function handleMainActionTap(event) {
       let clickReward = 1;
       balance += clickReward;
@@ -1082,13 +1158,145 @@
       saveData();
     }
 
+    const translations = {
+      tr: { collect: "Toplanabilir Biftek (Max 3 Saat):", btnCollect: "📥 Biftekleri Topla", level: "Level" },
+      nl: { collect: "Verzamelbare Biefstuk (Max 3 Uur):", btnCollect: "📥 Biefstuk Claimen", level: "Level" },
+      en: { collect: "Claimable Steak (Max 3 Hours):", btnCollect: "📥 Claim Steak", level: "Level" },
+      de: { collect: "Sammelbares Steak (Max. 3 Std.):", btnCollect: "📥 Steak abholen", level: "Stufe" },
+      es: { collect: "Carne recolectable (Max 3 Horas):", btnCollect: "📥 Reclamar carne", level: "Nivel" }
+    };
+
+    function setAppLanguage(lang) {
+      currentLang = lang;
+      let t = translations[lang] || translations['tr'];
+      document.getElementById('txtCollectTitle').innerText = t.collect;
+      document.getElementById('btnCollectText').innerText = t.btnCollect;
+      document.getElementById('hudLevelText').innerText = `${t.level} ${level}`;
+      haptic('success');
+      showToast("🌍 Dil güncellendi / Language updated!");
+    }
+
+    function loadCloudData() {
+      if (tg && tg.CloudStorage) {
+        tg.CloudStorage.getItem('game_data', (err, val) => {
+          if (!err && val) {
+            try {
+              let data = JSON.parse(val);
+              balance = data.balance !== undefined ? data.balance : 446.0;
+              gramBalance = data.gramBalance !== undefined ? data.gramBalance : 0.0257;
+              unclaimedSteak = data.unclaimedSteak || 0.0;
+              lastClaimTime = data.lastClaimTime || Date.now();
+              inviteCount = data.inviteCount || 0;
+              huntEnergy = data.huntEnergy !== undefined ? data.huntEnergy : 9;
+              lastHuntReset = data.lastHuntReset || Date.now();
+              cubCount = data.cubCount !== undefined ? data.cubCount : 24;
+              lionCount = data.lionCount || 0;
+              twoLionsCount = data.twoLionsCount || 0;
+              jaguarCount = data.jaguarCount !== undefined ? data.jaguarCount : 2;
+              vultureCount = data.vultureCount !== undefined ? data.vultureCount : 6;
+              hyenaCount = data.hyenaCount || 0;
+              wolfCount = data.wolfCount !== undefined ? data.wolfCount : 1;
+              antelopeCount = data.antelopeCount !== undefined ? data.antelopeCount : 1;
+              jackalCount = data.jackalCount || 0;
+              cheetahCount = data.cheetahCount || 0;
+              pythonCount = data.pythonCount || 0;
+              crocodileCount = data.crocodileCount || 0;
+              blackRhinoCount = data.blackRhinoCount || 0;
+              whiteRhinoCount = data.whiteRhinoCount || 0;
+              elephantCount = data.elephantCount || 0;
+              pantherCount = data.pantherCount || 0;
+              totalEarnedSteak = data.totalEarnedSteak || 0.0;
+              level = data.level || 7;
+              xp = data.xp !== undefined ? data.xp : 1697;
+              lastWheelSpin = data.lastWheelSpin || 0;
+              currentCustomBg = data.currentCustomBg || './background_empty.MP4';
+              channelTaskCompleted = data.channelTaskCompleted || false;
+              streakDays = data.streakDays || 0;
+              lastStreakClaimDate = data.lastStreakClaimDate || 0;
+              totalHunts = data.totalHunts || 0;
+              achievementClaimed = data.achievementClaimed || { hunt10: false, invite3: false, animal5: false };
+              levelRewardsClaimed = data.levelRewardsClaimed || {};
+              promoWolfClaimedCount = data.promoWolfClaimedCount !== undefined ? data.promoWolfClaimedCount : 1;
+              userClaimedPromoWolf = data.userClaimedPromoWolf !== undefined ? data.userClaimedPromoWolf : true;
+            } catch(e) {}
+          }
+          checkReferralParam();
+          calculateEarnings();
+          checkHuntEnergyReset();
+          updateCaveDisplay();
+          updateLeaderboardUI();
+          updateStreakUI();
+          updateAchievementsUI();
+          updateXpBar();
+          updatePromoWolfUI();
+          changeBackground(currentCustomBg, 'empty');
+        });
+      } else {
+        checkReferralParam();
+        calculateEarnings();
+        checkHuntEnergyReset();
+        updateCaveDisplay();
+        updateLeaderboardUI();
+        updateStreakUI();
+        updateAchievementsUI();
+        updateXpBar();
+        updatePromoWolfUI();
+        changeBackground(currentCustomBg, 'empty');
+      }
+    }
+
+    function saveData() {
+      let data = {
+        balance, gramBalance, unclaimedSteak, lastClaimTime, inviteCount, huntEnergy, lastHuntReset,
+        cubCount, lionCount, twoLionsCount, jaguarCount, vultureCount, hyenaCount, wolfCount,
+        antelopeCount, jackalCount, cheetahCount, pythonCount, crocodileCount, blackRhinoCount, whiteRhinoCount, elephantCount, pantherCount,
+        totalEarnedSteak, level, xp, lastWheelSpin, currentCustomBg, channelTaskCompleted,
+        streakDays, lastStreakClaimDate, totalHunts, achievementClaimed, levelRewardsClaimed,
+        promoWolfClaimedCount, userClaimedPromoWolf
+      };
+
+      if (tg && tg.CloudStorage) {
+        tg.CloudStorage.setItem('game_data', JSON.stringify(data));
+      }
+    }
+
+    function checkReferralParam() {
+      if (startParam && startParam.startsWith('ref_')) {
+        let refBy = startParam.replace('ref_', '');
+        let claimedRefs = localStorage.getItem('claimed_ref_' + refBy);
+        if (!claimedRefs && refBy !== userId) {
+          balance += 500;
+          gramBalance += 0.0100;
+          inviteCount++;
+          localStorage.setItem('claimed_ref_' + refBy, 'true');
+          haptic('success');
+          showToast("🎁 Arkadaş daveti bonusu eklendi! (+500 🥩 + 0.01 GRAM)");
+          saveData();
+        }
+      }
+    }
+
+    let currentRotation = 0;
+
     function getSteakPerHour() {
       let base = 5 + 
-        (cubCount * 2) + (vultureCount * 5) + (antelopeCount * 12) + (jaguarCount * 30) + 
-        (hyenaCount * 70) + (jackalCount * 160) + (wolfCount * 260) + (lionCount * 370) +
-        (cheetahCount * 850) + (twoLionsCount * 1950) + (pythonCount * 4400) +
-        (crocodileCount * 9800) + (blackRhinoCount * 21500) + (whiteRhinoCount * 47000) +
-        (elephantCount * 102000) + (pantherCount * 220000);
+        (cubCount * 2) + 
+        (vultureCount * 5) + 
+        (antelopeCount * 12) + 
+        (jaguarCount * 30) + 
+        (hyenaCount * 70) + 
+        (jackalCount * 160) +
+        (wolfCount * 260) +
+        (lionCount * 370) +
+        (cheetahCount * 850) +
+        (twoLionsCount * 1950) +
+        (pythonCount * 4400) +
+        (crocodileCount * 9800) +
+        (blackRhinoCount * 21500) +
+        (whiteRhinoCount * 47000) +
+        (elephantCount * 102000) +
+        (pantherCount * 220000);
+      
       let bonusMultiplier = 1 + ((level - 1) * 0.1);
       return Math.floor(base * bonusMultiplier);
     }
@@ -1103,14 +1311,177 @@
       let elapsedSeconds = (now - lastClaimTime) / 1000;
       let maxSeconds = 3 * 3600;
       if (elapsedSeconds > maxSeconds) elapsedSeconds = maxSeconds;
+
       if (elapsedSeconds > 0) {
         let steakPerHour = getSteakPerHour();
         let earned = (steakPerHour / 3600) * elapsedSeconds;
         unclaimedSteak += earned;
+        totalEarnedSteak += earned;
+        addXp(Math.floor(earned / 10));
       }
       lastClaimTime = now;
       saveData();
     }
+
+    function addXp(amount) {
+      xp += amount;
+      let xpNeeded = level * 1000;
+      if (xp >= xpNeeded) {
+        xp -= xpNeeded;
+        level++;
+        haptic('success');
+        showToast(`🎉 TEBRİKLER! Level ${level} Oldun!`);
+        checkLevelMilestoneRewards();
+      }
+      updateXpBar();
+    }
+
+    function updateXpBar() {
+      let xpNeeded = level * 1000;
+      let percent = Math.min(100, (xp / xpNeeded) * 100);
+      document.getElementById('xpBarFill').style.width = percent + '%';
+      document.getElementById('xpTextOverlay').innerText = `Level ${level} (XP: ${xp} / ${xpNeeded})`;
+      document.getElementById('hudLevelText').innerText = `Level ${level}`;
+    }
+
+    function checkLevelMilestoneRewards() {
+      let milestoneBonuses = { 3: 500, 5: 1500, 10: 5000, 12: 8000, 15: 15000, 20: 30000 };
+      if (milestoneBonuses[level] && !levelRewardsClaimed[level]) {
+        levelRewardsClaimed[level] = true;
+        let bonus = milestoneBonuses[level];
+        balance += bonus;
+        showToast(`🎁 Level ${level} Ödülü: +${bonus} 🥩 Kazandın!`);
+        saveData();
+      }
+    }
+
+    function checkHuntEnergyReset() {
+      let now = Date.now();
+      let threeHours = 3 * 3600 * 1000;
+      if (isNaN(lastHuntReset) || (now - lastHuntReset > threeHours)) {
+        huntEnergy = 10;
+        lastHuntReset = now;
+        saveData();
+      }
+    }
+
+    function claimFreePromoWolf() {
+      if (userClaimedPromoWolf) {
+        haptic('warning');
+        showToast("⚠️ Bu promosyonu zaten kullandın!");
+        return;
+      }
+      if (promoWolfClaimedCount >= 50) {
+        haptic('error');
+        showToast("❌ Üzgünüm, ilk 50 kurt bitti!");
+        return;
+      }
+
+      promoWolfClaimedCount++;
+      userClaimedPromoWolf = true;
+      wolfCount++;
+
+      saveData();
+      updatePromoWolfUI();
+      updateCaveDisplay();
+      haptic('success');
+      showToast("🐺 TEBRİKLER! Ücretsiz Kurt başarıyla eklendi!");
+    }
+
+    function updatePromoWolfUI() {
+      let counterText = document.getElementById('wolfPromoCounter');
+      let claimBtn = document.getElementById('claimWolfPromoBtn');
+      let promoBox = document.getElementById('promoWolfBanner');
+
+      let remaining = 50 - promoWolfClaimedCount;
+      if (remaining < 0) remaining = 0;
+
+      if (counterText) counterText.innerText = `Kalan Hak: ${remaining} / 50`;
+
+      if (userClaimedPromoWolf) {
+        if (claimBtn) {
+          claimBtn.innerText = "ALINDI ✅";
+          claimBtn.disabled = true;
+          claimBtn.style.opacity = "0.6";
+        }
+      } else if (promoWolfClaimedCount >= 50) {
+        if (promoBox) {
+          promoBox.style.display = "none";
+        }
+      }
+    }
+
+    setInterval(() => {
+      let now = Date.now();
+      let threeHours = 3 * 3600 * 1000;
+      let diff = threeHours - (now - lastHuntReset);
+      if (diff <= 0) {
+        huntEnergy = 10;
+        lastHuntReset = now;
+        saveData();
+        diff = threeHours;
+      }
+      let remSec = Math.floor(diff / 1000);
+      let hrs = Math.floor(remSec / 3600);
+      let mins = Math.floor((remSec % 3600) / 60);
+      let secs = remSec % 60;
+      let timeStr = `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+      let timerEl = document.getElementById('huntTimerText');
+      if(timerEl) timerEl.innerText = `Yenilenme: ${timeStr}`;
+      let energyEl = document.getElementById('huntEnergyText');
+      if(energyEl) energyEl.innerText = `Av Hakkı: ${huntEnergy} / 10`;
+    }, 1000);
+
+    function selectBattleUnit(imgSrc, name) {
+      document.getElementById('playerActiveUnitImg').src = imgSrc;
+      document.querySelectorAll('.unit-select-chip').forEach(chip => chip.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      haptic('light');
+      showToast(`${name} savaşa hazır! ⚔️`);
+    }
+
+    function triggerClashHunt(event) {
+      checkHuntEnergyReset();
+      if (huntEnergy <= 0) {
+        haptic('error');
+        showToast("⏳ Av hakkınız bitti! Geri sayımı bekleyin.");
+        return;
+      }
+
+      huntEnergy--;
+      totalHunts++;
+      let reward = Math.floor(Math.random() * 50) + 30; 
+      balance += reward;
+      addXp(35);
+
+      let unitElem = document.getElementById('playerActiveUnitImg');
+      unitElem.classList.add('attacking');
+      document.getElementById('battleStatusText').innerText = "⚔️ Savaş Başladı! Hayvanınız avına saldırdı!";
+
+      setTimeout(() => {
+        unitElem.classList.remove('attacking');
+        document.getElementById('battleStatusText').innerText = `🎉 Zafer! +${reward} 🥩 Kazanıldı!`;
+      }, 1500);
+
+      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
+      saveData();
+      updateAchievementsUI();
+    }
+
+    setInterval(() => {
+      let now = Date.now();
+      let elapsedSeconds = (now - lastClaimTime) / 1000;
+      let maxSeconds = 3 * 3600;
+      if (elapsedSeconds > maxSeconds) elapsedSeconds = maxSeconds;
+
+      let steakPerHour = getSteakPerHour();
+      let currentDisplaySteak = unclaimedSteak + ((steakPerHour / 3600) * elapsedSeconds);
+      
+      let maxCapSteak = (steakPerHour / 3600) * maxSeconds;
+      if (currentDisplaySteak > maxCapSteak) currentDisplaySteak = maxCapSteak;
+
+      document.getElementById('huntSteakDisplay').innerText = Math.floor(currentDisplaySteak) + " 🥩";
+    }, 1000);
 
     function claimEarnings() {
       calculateEarnings();
@@ -1123,9 +1494,12 @@
       balance += earned;
       unclaimedSteak = 0;
       lastClaimTime = Date.now();
+      addXp(50);
+      
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('huntSteakDisplay').innerText = "0 🥩";
       saveData();
+      updateLeaderboardUI();
       haptic('success');
       showToast(`🎉 ${earned} 🥩 cüzdana eklendi!`);
     }
@@ -1142,8 +1516,9 @@
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
       saveData();
+      updateLeaderboardUI();
       haptic('success');
-      showToast("🎉 Takas başarılı!");
+      showToast("🎉 Takas başarılı! GRAM cüzdana eklendi.");
     }
 
     function updateCampaignSlider(val) {
@@ -1164,30 +1539,36 @@
         return;
       }
       balance -= cost;
+      addXp(120);
 
-      if (type === 'buyCub') cubCount++;
-      else if (type === 'buyWolf') wolfCount++;
-      else if (type === 'buyJackal') jackalCount++;
-      else if (type === 'buyLion') lionCount++;
-      else if (type === 'buyTwoLions') twoLionsCount++;
-      else if (type === 'buyJaguar') jaguarCount++;
-      else if (type === 'buyVulture') vultureCount++;
-      else if (type === 'buyHyena') hyenaCount++;
-      else if (type === 'buyAntelope') antelopeCount++;
-      else if (type === 'buyCheetah') cheetahCount++;
-      else if (type === 'buyPython') pythonCount++;
-      else if (type === 'buyCrocodile') crocodileCount++;
-      else if (type === 'buyBlackRhino') blackRhinoCount++;
-      else if (type === 'buyWhiteRhino') whiteRhinoCount++;
-      else if (type === 'buyElephant') elephantCount++;
-      else if (type === 'buyPanther') {
-        pantherCount++;
-        currentCustomBg = './background_panther.MP4';
+      if (type === 'buyCub') {
+        cubCount++;
+        if (cubCount === 1) currentCustomBg = './background_cub1.MP4';
+        else if (cubCount === 2) currentCustomBg = './background_cubs2.MP4';
+        else if (cubCount === 3) currentCustomBg = './background_cub3.MP4';
+        else if (cubCount >= 4) currentCustomBg = './background_cub4.MP4';
       }
+      else if (type === 'buyWolf') { wolfCount++; currentCustomBg = './background_wolf.MP4'; }
+      else if (type === 'buyJackal') { jackalCount++; currentCustomBg = './background_jackal.MP4'; }
+      else if (type === 'buyLion') { lionCount++; currentCustomBg = './background_lion.MP4'; }
+      else if (type === 'buyTwoLions') { twoLionsCount++; currentCustomBg = './background_two_lions.MP4'; }
+      else if (type === 'buyJaguar') { jaguarCount++; currentCustomBg = './background_jaguar.MP4'; }
+      else if (type === 'buyVulture') { vultureCount++; currentCustomBg = './background_vulture.MP4'; }
+      else if (type === 'buyHyena') { hyenaCount++; currentCustomBg = './background_hyena.MP4'; }
+      else if (type === 'buyAntelope') { antelopeCount++; }
+      else if (type === 'buyCheetah') { cheetahCount++; currentCustomBg = './background_cheetah.MP4'; }
+      else if (type === 'buyPython') { pythonCount++; }
+      else if (type === 'buyCrocodile') { crocodileCount++; }
+      else if (type === 'buyBlackRhino') { blackRhinoCount++; currentCustomBg = './BACKGROUND_BLACK_RHINO.MP4'; }
+      else if (type === 'buyWhiteRhino') { whiteRhinoCount++; currentCustomBg = './background_white_rhino.MP4'; }
+      else if (type === 'buyElephant') { elephantCount++; currentCustomBg = './background_elephant.MP4'; }
+      else if (type === 'buyPanther') { pantherCount++; currentCustomBg = './background_panther.MP4'; }
 
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
       updateCaveDisplay();
+      updateLeaderboardUI();
+      updateAchievementsUI();
       haptic('success');
       showToast(`🎉 Başarıyla ${name} satın alındı!`);
     }
@@ -1195,10 +1576,22 @@
     function checkAndChangeBg(bgKey, videoSrc) {
       let unlocked = false;
       if (bgKey === 'empty') unlocked = true;
-      if (bgKey === 'panther' && pantherCount >= 1) unlocked = true;
+      if (bgKey === 'cub1' && cubCount >= 1) unlocked = true;
+      if (bgKey === 'cubs2' && cubCount >= 2) unlocked = true;
+      if (bgKey === 'cub3' && cubCount >= 3) unlocked = true;
+      if (bgKey === 'cub4' && cubCount >= 4) unlocked = true;
       if (bgKey === 'wolf' && wolfCount >= 1) unlocked = true;
+      if (bgKey === 'jackal' && jackalCount >= 1) unlocked = true;
       if (bgKey === 'lion' && lionCount >= 1) unlocked = true;
+      if (bgKey === 'two_lions' && twoLionsCount >= 1) unlocked = true;
       if (bgKey === 'jaguar' && jaguarCount >= 1) unlocked = true;
+      if (bgKey === 'vulture' && vultureCount >= 1) unlocked = true;
+      if (bgKey === 'hyena' && hyenaCount >= 1) unlocked = true;
+      if (bgKey === 'cheetah' && cheetahCount >= 1) unlocked = true;
+      if (bgKey === 'black_rhino' && blackRhinoCount >= 1) unlocked = true;
+      if (bgKey === 'white_rhino' && whiteRhinoCount >= 1) unlocked = true;
+      if (bgKey === 'elephant' && elephantCount >= 1) unlocked = true;
+      if (bgKey === 'panther' && pantherCount >= 1) unlocked = true;
 
       if (!unlocked) {
         haptic('warning');
@@ -1212,6 +1605,7 @@
       currentCustomBg = videoSrc;
       let videoElem = document.getElementById('bgVideo');
       let videoSource = document.getElementById('bgVideoSource');
+      
       videoSource.src = videoSrc;
       videoElem.load();
       videoElem.play();
@@ -1219,38 +1613,7 @@
       document.querySelectorAll('.bg-option-btn').forEach(btn => btn.classList.remove('active'));
       let activeBtn = document.getElementById('bgBtn-' + btnKey);
       if (activeBtn) activeBtn.classList.add('active');
-      saveData();
-    }
 
-    function selectBattleUnit(imgSrc, name) {
-      document.getElementById('playerActiveUnitImg').src = imgSrc;
-      document.querySelectorAll('.unit-select-chip').forEach(chip => chip.classList.remove('selected'));
-      event.currentTarget.classList.add('selected');
-      haptic('light');
-      showToast(`${name} savaşa hazır! ⚔️`);
-    }
-
-    function triggerClashHunt(event) {
-      if (huntEnergy <= 0) {
-        haptic('error');
-        showToast("⏳ Av hakkınız bitti!");
-        return;
-      }
-      huntEnergy--;
-      totalHunts++;
-      let reward = Math.floor(Math.random() * 50) + 30;
-      balance += reward;
-
-      let unitElem = document.getElementById('playerActiveUnitImg');
-      unitElem.classList.add('attacking');
-      document.getElementById('battleStatusText').innerText = "⚔️ Savaş Başladı!";
-
-      setTimeout(() => {
-        unitElem.classList.remove('attacking');
-        document.getElementById('battleStatusText').innerText = `🎉 Zafer! +${reward} 🥩 Kazanıldı!`;
-      }, 1500);
-
-      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       saveData();
     }
 
@@ -1262,21 +1625,154 @@
       showToast("🔗 Davet linki kopyalandı!");
     }
 
+    function shareRefLink() {
+      let text = encodeURIComponent("🦁 Dailygram Miner oyununa katil, Aslanları besle ve GRAM kazan! 🥩🚀\n\nDavet Linkim: " + myRefLink);
+      window.open(`https://t.me/share/url?url=${encodeURIComponent(myRefLink)}&text=${text}`, '_blank');
+    }
+
     function completeChannelTask() {
       window.open("https://t.me/DailygramMinerOfficial", "_blank");
       if (!channelTaskCompleted) {
         channelTaskCompleted = true;
         balance += 100;
+        addXp(50);
         document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
         haptic('success');
         showToast("🎉 Kanal takip edildi! +100 🥩 kazandın");
         saveData();
+        updateLeaderboardUI();
+      } else {
+        haptic('warning');
+        showToast("✅ Bu ödülü zaten aldın!");
       }
+    }
+
+    function updateStreakUI() {
+      let grid = document.getElementById('streakGridContainer');
+      let streakRewards = [
+        { day: 1, steak: 50 },
+        { day: 2, steak: 100 },
+        { day: 3, steak: 200 },
+        { day: 4, steak: 350 },
+        { day: 5, steak: 500 },
+        { day: 6, steak: 750 },
+        { day: 7, steak: 1000, gram: 0.05 }
+      ];
+
+      let html = "";
+      streakRewards.forEach((item, idx) => {
+        let isClaimed = idx < streakDays;
+        let isActive = idx === streakDays;
+        let cardClass = isClaimed ? "streak-card claimed" : isActive ? "streak-card active-day" : "streak-card";
+        
+        html += `
+          <div class="${cardClass}">
+            <div style="font-size:0.7rem; font-weight:900; color:#ffd700;">Gün ${item.day}</div>
+            <div style="margin: 2px 0; font-size: 0.8rem;">🎁</div>
+            <div style="font-size: 0.62rem; color:#fff;">+${item.steak} 🥩</div>
+            ${item.gram ? `<div style="font-size: 0.55rem; color:#2ecc71;">+${item.gram} GRAM</div>` : ''}
+          </div>
+        `;
+      });
+      grid.innerHTML = html;
+    }
+
+    function claimStreakDaily() {
+      let now = Date.now();
+      let oneDay = 24 * 3600 * 1000;
+      
+      if (now - lastStreakClaimDate < oneDay && streakDays > 0 && lastStreakClaimDate !== 0) {
+        haptic('error');
+        showToast("⏳ Bugünkü streak ödülünü zaten aldın! Yarın tekrar gel.");
+        return;
+      }
+
+      let streakRewards = [50, 100, 200, 350, 500, 750, 1000];
+      let gramRewards = [0, 0, 0, 0, 0, 0, 0.05];
+
+      let currentReward = streakRewards[streakDays % 7];
+      let currentGram = gramRewards[streakDays % 7];
+
+      balance += currentReward;
+      if (currentGram > 0) gramBalance += currentGram;
+      addXp(100);
+
+      streakDays++;
+      lastStreakClaimDate = now;
+      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
+      document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
+      
+      saveData();
+      updateStreakUI();
+      updateLeaderboardUI();
+      haptic('success');
+      showToast(`🔥 Gün ${streakDays} Serisi Başarılı! +${currentReward} 🥩 eklendi!`);
+    }
+
+    function updateAchievementsUI() {
+      let container = document.getElementById('achievementsListContainer');
+      
+      let achs = [
+        { id: 'hunt10', title: 'Usta Avcı (10 Av)', desc: 'Toplam 10 kez avlan', reward: '+200 🥩', done: totalHunts >= 10, claimed: achievementClaimed.hunt10, steakVal: 200 },
+        { id: 'invite3', title: 'Sosyal Kurt (3 Davet)', desc: '3 arkadaşını davet et', reward: '+1500 🥩 + 0.03 GRAM', done: inviteCount >= 3, claimed: achievementClaimed.invite3, steakVal: 1500, gramVal: 0.03 },
+        { id: 'animal5', title: 'Hayvan Sever (5 Hayvan)', desc: 'Mağrandan toplam 5 hayvan al', reward: '+500 🥩', done: getTotalAnimalCount() >= 5, claimed: achievementClaimed.animal5, steakVal: 500 }
+      ];
+
+      let html = "";
+      achs.forEach(a => {
+        let btnText = a.claimed ? "Alındı ✅" : a.done ? "Ödülü Al 🎁" : "Kilitli 🔒";
+        let btnBg = a.claimed ? "#444" : a.done ? "#2ecc71" : "#704b2e";
+        
+        html += `
+          <div class="task-card">
+            <div class="animal-icon-box">🏆</div>
+            <div class="task-info">
+              <strong>${a.title}</strong><br>
+              <small>${a.desc} (${a.reward})</small>
+            </div>
+            <button class="btn-buy" style="background:${btnBg}; color:${a.done && !a.claimed ? '#000' : '#fff'};" onclick="claimAchievement('${a.id}', ${a.steakVal}, ${a.gramVal || 0})">${btnText}</button>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function claimAchievement(id, steakReward, gramReward) {
+      if (achievementClaimed[id]) {
+        haptic('warning');
+        showToast("Bu ödülü zaten aldın!");
+        return;
+      }
+
+      let canClaim = false;
+      if (id === 'hunt10' && totalHunts >= 10) canClaim = true;
+      if (id === 'invite3' && inviteCount >= 3) canClaim = true;
+      if (id === 'animal5' && getTotalAnimalCount() >= 5) canClaim = true;
+
+      if (!canClaim) {
+        haptic('error');
+        showToast("🔒 Bu başarım henüz tamamlanmadı!");
+        return;
+      }
+
+      achievementClaimed[id] = true;
+      balance += steakReward;
+      if (gramReward > 0) gramBalance += gramReward;
+      addXp(150);
+
+      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
+      document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
+      saveData();
+      updateAchievementsUI();
+      updateLeaderboardUI();
+      haptic('success');
+      showToast(`🎉 Başarım Ödülü Alındı! (+${steakReward} 🥩)`);
     }
 
     function setMaxWithdraw() {
       document.getElementById('withdrawAmount').value = gramBalance.toFixed(4);
       haptic('light');
+      showToast("Maksimum GRAM yazıldı!");
     }
 
     function requestWithdraw() {
@@ -1289,6 +1785,8 @@
       }
       haptic('success');
       showToast("📤 Para çekme talebiniz alındı!");
+      document.getElementById('withdrawAmount').value = "";
+      document.getElementById('withdrawAddress').value = "";
     }
 
     function spinWheel() {
@@ -1301,18 +1799,22 @@
       }
       let btn = document.getElementById('spinBtn');
       btn.disabled = true;
-      currentRotation += 1800 + Math.floor(Math.random() * 360);
+      let extraDegrees = Math.floor(Math.random() * 360) + 1800;
+      currentRotation += extraDegrees;
       document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
-        let randomReward = 100;
+        let rewards = [50, 100, 250, 500, 75, 150, 300, 1000];
+        let randomReward = rewards[Math.floor(Math.random() * rewards.length)];
         balance += randomReward;
+        addXp(80);
         document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
         lastWheelSpin = Date.now();
         saveData();
+        updateLeaderboardUI();
         haptic('success');
-        showToast(`🎉 Çarktan +${randomReward} 🥩 Kazandın!`);
-        btn.disabled = false;
+        showToast(`🎉 Çarktan +${randomReward} 🥩 Kazandın! 🎁`);
+        btn.innerText = "Yarın Tekrar Gel";
       }, 4000);
     }
 
@@ -1324,7 +1826,7 @@
 
     function closePaymentModal() { document.getElementById('paymentModal').classList.remove('active'); }
     function copyMyWallet() {
-      navigator.clipboard.writeText("UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH");
+      navigator.clipboard.writeText(MY_RECEIVING_WALLET);
       haptic('success');
       showToast("Cüzdan adresi kopyalandı! 📋");
     }
@@ -1332,12 +1834,21 @@
     function copyPayAmount() {
       navigator.clipboard.writeText(document.getElementById('payModalAmount').value);
       haptic('success');
+      showToast("Tutar kopyalandı! 📋");
     }
 
     function confirmManualPayment() {
+      let amount = document.getElementById('payModalAmount').value;
       closePaymentModal();
       haptic('success');
-      showToast("⏳ Ödemeniz alındı!");
+      showToast("⏳ Ödemeniz alındı! Bildirim gönderiliyor...");
+
+      let botToken = "8890432514:AAHNRHlv8gwHccqG7jr9x8o8IheSCyx9rEQ";
+      let chatId = "7645167688";
+      let message = `🚨 YENİ ÖDEME BİLDİRİMİ!%0A👤 Kullanıcı: ${username}%0A💰 Tutar: ${amount}`;
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`)
+        .catch(err => console.log("Bot bildirim hatası:", err));
     }
 
     function toggleMenuPopup() {
@@ -1350,13 +1861,69 @@
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
       if(element) element.classList.add('active');
+
+      let videoElem = document.getElementById('bgVideo');
+      let videoSource = document.getElementById('bgVideoSource');
+      
+      if (tabName === 'hunt') {
+        videoSource.src = './background_hunt.MP4';
+        videoElem.pause();
+        videoElem.currentTime = 0;
+      } else {
+        videoSource.src = currentCustomBg;
+        videoElem.load();
+        videoElem.play();
+      }
+
+      if(tabName === 'leaderboard') {
+        updateLeaderboardUI();
+      } else if(tabName === 'streak') {
+        updateStreakUI();
+      } else if(tabName === 'achievements') {
+        updateAchievementsUI();
+      }
     }
 
-    function openModalTab(tabName) { switchTab(tabName, null); }
+    function openModalTab(tabName) {
+      switchTab(tabName, null);
+    }
+
+    function updateLeaderboardUI() {
+      const container = document.getElementById('leaderboardListContainer');
+      
+      let players = [
+        { name: "CryptoKing_TR", level: 15, steak: 42500, gram: 0.85 },
+        { name: "WildHunter99", level: 12, steak: 31000, gram: 0.62 },
+        { name: "AnatoliaLion", level: 9, steak: 18500, gram: 0.37 },
+        { name: username, level: level, steak: balance, gram: gramBalance, isMe: true }
+      ];
+
+      players.sort((a, b) => (b.gram * 100000 + b.steak) - (a.gram * 100000 + b.steak));
+
+      let html = "";
+      players.forEach((p, index) => {
+        let rankEmoji = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
+        let borderColor = p.isMe ? "#2ecc71" : "rgba(255, 215, 0, 0.35)";
+        
+        html += `
+          <div class="task-card" style="border-color: ${borderColor};">
+            <div class="animal-icon-box">${rankEmoji}</div>
+            <div class="task-info">
+              <strong>${p.name} ${p.isMe ? '(Sen)' : ''}</strong><br>
+              <small>Level ${p.level} • ${Math.floor(p.steak).toLocaleString()} 🥩</small>
+            </div>
+            <span style="font-weight:900; color:${p.isMe ? '#2ecc71' : '#ffd700'}; font-size: 0.75rem;">${p.gram.toFixed(2)} GRAM</span>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
 
     function updateCaveDisplay() {
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
+      
       document.getElementById('countCub').innerText = cubCount;
       document.getElementById('countLion').innerText = lionCount;
       document.getElementById('countTwoLions').innerText = twoLionsCount;
@@ -1364,6 +1931,7 @@
       document.getElementById('countVulture').innerText = vultureCount;
       document.getElementById('countHyena').innerText = hyenaCount;
       document.getElementById('countWolf').innerText = wolfCount;
+      
       document.getElementById('countAntelope').innerText = antelopeCount;
       document.getElementById('countJackal').innerText = jackalCount;
       document.getElementById('countCheetah').innerText = cheetahCount;
@@ -1374,49 +1942,50 @@
       document.getElementById('countElephant').innerText = elephantCount;
       document.getElementById('countPanther').innerText = pantherCount;
 
+      document.getElementById('refCountDisplay').innerText = inviteCount;
+      document.getElementById('refEarnedDisplay').innerText = (inviteCount * 500) + " 🥩";
+
       let steakPerHour = getSteakPerHour();
       document.getElementById('totalSpeedInfo').innerText = `Toplam Üretim Hızı: ${steakPerHour} 🥩 / sa`;
+      document.getElementById('huntEnergyText').innerText = `Av Hakkı: ${huntEnergy} / 10`;
+
+      const updateBtnUnlock = (key, condition) => {
+        let b = document.getElementById('bgBtn-' + key);
+        if (b) {
+          if (condition) b.classList.add('unlocked');
+          else b.classList.remove('unlocked');
+        }
+      };
+
+      updateBtnUnlock('cub1', cubCount >= 1);
+      updateBtnUnlock('cubs2', cubCount >= 2);
+      updateBtnUnlock('cub3', cubCount >= 3);
+      updateBtnUnlock('cub4', cubCount >= 4);
+      updateBtnUnlock('wolf', wolfCount >= 1);
+      updateBtnUnlock('jackal', jackalCount >= 1);
+      updateBtnUnlock('lion', lionCount >= 1);
+      updateBtnUnlock('two_lions', twoLionsCount >= 1);
+      updateBtnUnlock('jaguar', jaguarCount >= 1);
+      updateBtnUnlock('vulture', vultureCount >= 1);
+      updateBtnUnlock('hyena', hyenaCount >= 1);
+      updateBtnUnlock('cheetah', cheetahCount >= 1);
+      updateBtnUnlock('black_rhino', blackRhinoCount >= 1);
+      updateBtnUnlock('white_rhino', whiteRhinoCount >= 1);
+      updateBtnUnlock('elephant', elephantCount >= 1);
+      updateBtnUnlock('panther', pantherCount >= 1);
+
+      updateXpBar();
+      updatePromoWolfUI();
     }
 
-    function showToast(text) {
+    function showToken(text) {
       let t = document.getElementById('toast');
       t.innerText = text;
       t.style.display = 'block';
       setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
-
-    function saveData() {
-      let data = {
-        balance, gramBalance, unclaimedSteak, lastClaimTime, inviteCount, huntEnergy,
-        cubCount, lionCount, twoLionsCount, jaguarCount, vultureCount, hyenaCount, wolfCount,
-        antelopeCount, jackalCount, cheetahCount, pythonCount, crocodileCount, blackRhinoCount, whiteRhinoCount, elephantCount, pantherCount,
-        level, xp, currentCustomBg
-      };
-      if (tg && tg.CloudStorage) {
-        tg.CloudStorage.setItem('game_data', JSON.stringify(data));
-      }
-    }
-
-    function loadCloudData() {
-      if (tg && tg.CloudStorage) {
-        tg.CloudStorage.getItem('game_data', (err, val) => {
-          if (!err && val) {
-            try {
-              let data = JSON.parse(val);
-              balance = data.balance !== undefined ? data.balance : balance;
-              gramBalance = data.gramBalance !== undefined ? data.gramBalance : gramBalance;
-              pantherCount = data.pantherCount || 0;
-              currentCustomBg = data.currentCustomBg || './background_empty.MP4';
-            } catch(e) {}
-          }
-          updateCaveDisplay();
-          changeBackground(currentCustomBg, 'empty');
-        });
-      } else {
-        updateCaveDisplay();
-        changeBackground(currentCustomBg, 'empty');
-      }
-    }
+    
+    function showToast(text) { showToken(text); }
 
     loadCloudData();
   </script>

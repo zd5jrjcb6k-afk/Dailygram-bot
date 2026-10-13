@@ -193,6 +193,7 @@
       margin-left: auto;
       margin-right: auto;
       position: relative;
+      cursor: pointer;
     }
 
     .btn-claim {
@@ -252,7 +253,6 @@
     }
     .campaign-slider { width: 100%; margin: 6px 0; accent-color: #2ecc71; height: 5px; border-radius: 3px; }
 
-    /* VERNIEUWDE WINKEL: Strakke donkere kaarten met vierkante stijlvolle look */
     .cr-cards-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -275,7 +275,7 @@
     .cr-card-img {
       width: 55px;
       height: 55px;
-      border-radius: 10px; /* Vierkante look met afgeronde hoeken */
+      border-radius: 10px;
       border: 2px solid #ffd700;
       object-fit: cover;
       box-shadow: 0 4px 10px rgba(0,0,0,0.7);
@@ -546,7 +546,7 @@
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
 
-  <div class="app-container" id="appContainer" onclick="handleScreenTap(event)">
+  <div class="app-container" id="appContainer">
     <div id="toast" class="toast-notification"></div>
 
     <div class="overlay-content">
@@ -575,7 +575,7 @@
 
       <!-- ANA SAYFA -->
       <div id="tab-ana" class="tab-content active">
-        <div class="center-action-box">
+        <div class="center-action-box" id="centerActionBox" onclick="handleMainActionTap(event)">
           <div style="font-size: 0.62rem; color: #aaa; text-transform: uppercase;" id="txtCollectTitle">Toplanabilir Biftek (Max 3 Saat):</div>
           <div style="font-size: 1.25rem; font-weight: 900; color: #ffd700; margin: 3px 0;" id="huntSteakDisplay">0 🥩</div>
           <button class="btn-claim" onclick="event.stopPropagation(); haptic('success'); playSound('success'); claimEarnings()" id="btnCollectText">📥 Biftekleri Topla</button>
@@ -584,7 +584,7 @@
 
       <!-- MAĞRA TAB -->
       <div id="tab-market" class="tab-content">
-        <div class="page-box" onclick="event.stopPropagation()">
+        <div class="page-box">
           <div class="page-title">⚔️ Mağra & Özel Fırsatlar</div>
 
           <!-- GRATIS WOLF CLAIM BANNER -->
@@ -663,7 +663,7 @@
               <div class="cr-card-sub">+370 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
             </div>
-            <!-- 9. Çita -->
+            <!-- 9. Çita (Gecorrigeerd) -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1508873696983-2df5c920ac1c?w=150" class="cr-card-img" alt="Çita">
               <div class="cr-card-title">Çita (<span id="countCheetah">0</span>)</div>
@@ -677,14 +677,14 @@
               <div class="cr-card-sub">+1,950 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
             </div>
-            <!-- 11. Python -->
+            <!-- 11. Python (Gecorrigeerd) -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?w=150" class="cr-card-img" alt="Python">
               <div class="cr-card-title">Python (<span id="countPython">0</span>)</div>
               <div class="cr-card-sub">+4,400 🥩 / sa</div>
               <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(800000, 'buyPython', 'Python Yılanı')">800000 🥩</button>
             </div>
-            <!-- 12. Timsah -->
+            <!-- 12. Timsah (Gecorrigeerd) -->
             <div class="cr-card">
               <img src="https://images.unsplash.com/photo-1552410229-6a0b94323547?w=150" class="cr-card-img" alt="Timsah">
               <div class="cr-card-title">Timsah (<span id="countCrocodile">0</span>)</div>
@@ -740,7 +740,7 @@
 
       <!-- AV SEKMESİ -->
       <div id="tab-hunt" class="tab-content">
-        <div class="page-box" onclick="event.stopPropagation()" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div class="page-box" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
           <div class="page-title">🏹 Av & Savaş Arenası</div>
 
           <div class="battle-arena-container">
@@ -785,7 +785,7 @@
 
       <!-- CÜZDAN & PARA ÇEK -->
       <div id="tab-cuzdan" class="tab-content">
-        <div class="page-box" onclick="event.stopPropagation()">
+        <div class="page-box">
           <div class="page-title">👛 Cüzdan & Para Çek</div>
           <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 6px; text-align: center;">
             💎 Cüzdanımıza yalnızca <strong>Toncoin (TON)</strong> veya <strong>GRAM</strong> yatırın veya bakiye çekin.
@@ -813,7 +813,7 @@
       </div>
 
       <!-- MENU POPUP -->
-      <div class="menu-popup" id="menuPopup" onclick="event.stopPropagation()">
+      <div class="menu-popup" id="menuPopup">
         <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('gorevler')">📋 Görevler</div>
         <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('streak')">🔥 7 Günlük Streak</div>
         <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('achievements')">🏆 Başarılar (Badge)</div>
@@ -826,7 +826,7 @@
 
       <!-- GÖREVLER -->
       <div id="tab-gorevler" class="tab-content">
-        <div class="page-box" onclick="event.stopPropagation()">
+        <div class="page-box">
           <div class="page-title">📋 Görevler & Ödüller</div>
           <div class="task-list">
             <div class="task-card">
@@ -850,7 +850,7 @@
 
       <!-- 7 GÜNLÜK STREAK -->
       <div id="tab-streak" class="tab-content">
-        <div class="page-box" onclick="event.stopPropagation()">
+        <div class="page-box">
           <div class="page-title">🔥 7 Günlük Giriş Serisi</div>
           <p style="font-size: 0.7rem; color: #ccc; text-align: center; margin-bottom: 8px;">Her gün oyuna girerek ödüllerini topla ve seriyi bozma!</p>
           <div class="streak-grid" id="streakGridContainer"></div>
@@ -860,7 +860,7 @@
 
       <!-- ACHIEVEMENTS -->
       <div id="tab-achievements" class="tab-content">
-        <div class="page-box" onclick="event.stopPropagation()">
+        <div class="page-box">
           <div class="page-title">🏆 Başarılar & Rozetler</div>
           <div class="task-list" id="achievementsListContainer"></div>
         </div>
@@ -868,7 +868,7 @@
 
       <!-- REFERRAL -->
       <div id="tab-referral" class="tab-content">
-        <div class="page-box" onclick="event.stopPropagation()" style="text-align: center;">
+        <div class="page-box" style="text-align: center;">
           <div class="page-title">👥 Arkadaş Davet Et</div>
           <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 10px;">Her arkadaşın için <strong>+500 Biftek</strong> ve <strong>0.01 GRAM</strong> kazan! 🎁</p>
           <div class="wallet-box-manual">
@@ -889,7 +889,7 @@
 
       <!-- DİL SEÇİMİ -->
       <div id="tab-language" class="tab-content">
-        <div class="page-box" onclick="event.stopPropagation()" style="text-align: center;">
+        <div class="page-box" style="text-align: center;">
           <div class="page-title">🌍 Dil Seçimi / Language</div>
           <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 12px;">Uygulama dilini seçin:</p>
           <div style="display: flex; flex-direction: column; gap: 8px;">
@@ -904,7 +904,7 @@
 
       <!-- ŞANS ÇARKI -->
       <div id="tab-spin" class="tab-content">
-        <div class="page-box" onclick="event.stopPropagation()" style="text-align: center;">
+        <div class="page-box" style="text-align: center;">
           <div class="page-title">🎡 Şans Çarkı</div>
           <div class="wheel-tree-container">
             <div class="wheel-pointer-top"></div>
@@ -928,7 +928,7 @@
 
       <!-- LİDERLİK TABLOSU -->
       <div id="tab-leaderboard" class="tab-content">
-        <div class="page-box" onclick="event.stopPropagation()">
+        <div class="page-box">
           <div class="page-title">🏆 Liderlik Tablosu</div>
           <div class="task-list" id="leaderboardListContainer"></div>
         </div>
@@ -1054,7 +1054,7 @@
 
     const MY_RECEIVING_WALLET = "UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH";
 
-    let balance = 196.0;
+    let balance = 446.0;
     let gramBalance = 0.0257;
     let unclaimedSteak = 0.0;
     let lastClaimTime = Date.now();
@@ -1065,7 +1065,7 @@
     let antelopeCount = 1, jackalCount = 0, cheetahCount = 0, pythonCount = 0, crocodileCount = 0, blackRhinoCount = 0, whiteRhinoCount = 0, elephantCount = 0;
     let totalEarnedSteak = 0.0;
     let level = 7;
-    let xp = 1581;
+    let xp = 1697;
     let lastWheelSpin = 0;
     let currentCustomBg = './background_empty.MP4';
     let channelTaskCompleted = false;
@@ -1080,18 +1080,13 @@
     let promoWolfClaimedCount = 1;
     let userClaimedPromoWolf = true;
 
-    // VLEES KLIK ANIMATIE OP HOOFDPAGINA
-    function handleScreenTap(event) {
-      let anaTab = document.getElementById('tab-ana');
-      if (!anaTab.classList.contains('active')) return;
-
-      // Geef extra biftek bij elke tap op het scherm (bijv. +1 biftek)
+    // VLEES KLIK ANIMATIE ALLEEN OP DE HOOFDPAGINA KNOP
+    function handleMainActionTap(event) {
       let clickReward = 1;
       balance += clickReward;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       haptic('light');
 
-      // Maak zwevend vlees-effect op de klik-locatie
       let x = event.clientX;
       let y = event.clientY;
 
@@ -1130,7 +1125,7 @@
           if (!err && val) {
             try {
               let data = JSON.parse(val);
-              balance = data.balance !== undefined ? data.balance : 196.0;
+              balance = data.balance !== undefined ? data.balance : 446.0;
               gramBalance = data.gramBalance !== undefined ? data.gramBalance : 0.0257;
               unclaimedSteak = data.unclaimedSteak || 0.0;
               lastClaimTime = data.lastClaimTime || Date.now();
@@ -1154,7 +1149,7 @@
               elephantCount = data.elephantCount || 0;
               totalEarnedSteak = data.totalEarnedSteak || 0.0;
               level = data.level || 7;
-              xp = data.xp !== undefined ? data.xp : 1581;
+              xp = data.xp !== undefined ? data.xp : 1697;
               lastWheelSpin = data.lastWheelSpin || 0;
               currentCustomBg = data.currentCustomBg || './background_empty.MP4';
               channelTaskCompleted = data.channelTaskCompleted || false;

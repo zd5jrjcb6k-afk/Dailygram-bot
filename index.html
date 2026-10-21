@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Dailygram Miner - Ultimate 3D Savanna</title>
+  <title>Dailygram Miner - Professional Savanna</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <!-- Three.js Import Map -->
@@ -20,7 +20,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #000;
+      background: #0b0b0b;
       color: #ffffff;
       display: flex;
       justify-content: center;
@@ -30,14 +30,13 @@
       -webkit-user-select: none;
     }
 
-    /* 3D SAVANNE ACHTERGROND CONTAINER */
+    /* 3D / DYNAMISCHE ACHTERGROND CONTAINER */
     #savanna3d {
       position: fixed;
       inset: 0;
       overflow: hidden;
-      background: linear-gradient(#f3b66b, #d9a85f 48%, #48552b);
+      background: linear-gradient(135deg, #1e1208, #2a180c 50%, #0d0804);
       z-index: 1;
-      transition: filter 0.5s ease;
     }
     #savanna3d canvas {
       display: block;
@@ -73,80 +72,79 @@
     .tab-content { display: none; height: 100%; flex-direction: column; justify-content: space-between; }
     .tab-content.active { display: flex; }
 
-    /* TOP HUD */
-    .top-hud-container { display: flex; flex-direction: column; width: 100%; gap: 5px; }
+    /* PROFESSIONELE TOP HUD */
+    .top-hud-container { display: flex; flex-direction: column; width: 100%; gap: 6px; }
     .wood-hud-panel {
-      background: linear-gradient(135deg, rgba(139,90,43,0.92), rgba(92,58,33,0.92));
-      border: 2px solid #ffde6b;
-      border-radius: 14px;
-      padding: 6px 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+      background: linear-gradient(135deg, rgba(20, 14, 8, 0.92), rgba(10, 7, 4, 0.95));
+      border: 2px solid #e6af2e;
+      border-radius: 16px;
+      padding: 8px 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.8);
       display: flex; justify-content: space-between; align-items: center;
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(10px);
     }
-    .hud-left-side { display: flex; align-items: center; gap: 8px; }
+    .hud-left-side { display: flex; align-items: center; gap: 10px; }
     .hud-avatar {
-      width: 32px; height: 32px;
+      width: 36px; height: 36px;
       background: linear-gradient(135deg, #ffd700, #ff8800);
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-weight: 900; color: #1a0f05; font-size: 0.9rem; border: 2px solid #fff;
+      font-weight: 900; color: #1a0f05; font-size: 1rem; border: 2px solid #fff;
     }
     .hud-right-balances { display: flex; flex-direction: column; align-items: flex-end; }
 
     /* XP PROGRESS BAR */
     .xp-bar-container {
-      width: 100%; background: rgba(0,0,0,0.6);
-      border: 1.5px solid #ffde6b; border-radius: 8px; height: 12px;
+      width: 100%; background: rgba(0,0,0,0.7);
+      border: 1.5px solid #e6af2e; border-radius: 8px; height: 12px;
       position: relative; overflow: hidden; display: flex; align-items: center; padding: 1px;
     }
-    .xp-bar-fill { background: linear-gradient(90deg, #2ecc71, #27ae60); height: 100%; width: 0%; border-radius: 6px; transition: width 0.3s ease; }
+    .xp-bar-fill { background: linear-gradient(90deg, #2ecc71, #27ae60); height: 100%; width: 45%; border-radius: 6px; transition: width 0.3s ease; }
     .xp-text-overlay { position: absolute; width: 100%; text-align: center; font-size: 0.55rem; font-weight: 900; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.9); }
 
+    /* MENU POPUP */
     .menu-popup {
       position: absolute; bottom: 75px; right: 12px;
-      background: rgba(20, 12, 6, 0.98); border: 2px solid #ffb700; border-radius: 16px;
+      background: rgba(15, 10, 5, 0.98); border: 2px solid #e6af2e; border-radius: 18px;
       padding: 10px; display: flex; flex-direction: column; gap: 6px; z-index: 150;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.9); width: 180px; backdrop-filter: blur(10px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.95); width: 190px; backdrop-filter: blur(12px);
       opacity: 0; transform: translateY(20px) scale(0.95); pointer-events: none;
       transition: opacity 0.25s ease, transform 0.25s ease;
     }
     .menu-popup.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
     .menu-popup-btn {
-      background: linear-gradient(135deg, #c28e46, #8a5a22); border: 1px solid #ffde6b;
-      color: #fff; padding: 7px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: bold;
-      text-align: center; cursor: pointer; text-decoration: none; display: block;
+      background: linear-gradient(135deg, #2b1a0f, #1a0f05); border: 1px solid #e6af2e;
+      color: #fff; padding: 8px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: bold;
+      text-align: center; cursor: pointer; display: block;
     }
 
-    .center-action-box {
-      background: rgba(22, 14, 8, 0.88); backdrop-filter: blur(8px);
-      border: 2px solid #ffb700; border-radius: 16px; padding: 16px; text-align: center;
-      margin-top: auto; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(0,0,0,0.85);
-      max-width: 85%; margin-left: auto; margin-right: auto; position: relative; cursor: pointer;
+    /* HOME / ANA SAYFA STYLING */
+    .hero-card {
+      background: linear-gradient(135deg, rgba(25, 15, 8, 0.9), rgba(12, 7, 3, 0.95));
+      border: 2px solid #e6af2e; border-radius: 18px; padding: 14px; text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.85); margin-top: auto; margin-bottom: 20px;
     }
-    .center-action-box:active { transform: scale(0.97); }
+    .hero-image-container {
+      width: 100%; height: 180px; border-radius: 12px; overflow: hidden; position: relative; border: 2px solid #ffd700; margin-bottom: 10px;
+    }
+    .hero-image-container img { width: 100%; height: 100%; object-fit: cover; }
+    .story-tag {
+      position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.7); border: 1px solid #ffd700;
+      padding: 2px 8px; border-radius: 6px; font-size: 0.65rem; font-weight: bold; color: #ffd700;
+    }
 
     .btn-claim {
-      width: 100%; background: linear-gradient(135deg, #ffb700, #ff7700);
-      border: 1px solid #fff; padding: 9px; border-radius: 10px; color: #1a0f05;
-      font-weight: 900; font-size: 0.82rem; cursor: pointer; margin-top: 6px; text-transform: uppercase;
+      width: 100%; background: linear-gradient(135deg, #2ecc71, #27ae60);
+      border: 1px solid #fff; padding: 10px; border-radius: 10px; color: #fff;
+      font-weight: 900; font-size: 0.85rem; cursor: pointer; text-transform: uppercase; margin-top: 8px;
     }
 
     .page-box {
-      background: rgba(18, 10, 5, 0.94); border: 2px solid #8a5a22; border-radius: 20px;
+      background: rgba(14, 8, 4, 0.95); border: 2px solid #8a5a22; border-radius: 20px;
       padding: 12px; max-height: 76vh; overflow-y: auto; margin-top: 4px; backdrop-filter: blur(12px);
     }
     .page-title { font-size: 1.1rem; color: #ffd700; margin-bottom: 10px; font-weight: 900; text-align: center; }
 
-    .promo-wolf-box {
-      background: linear-gradient(135deg, #1b365d, #0d1b2a); border: 2px solid #00ffcc;
-      border-radius: 14px; padding: 10px; margin-bottom: 10px; text-align: center;
-    }
-    .cr-banner-box {
-      background: linear-gradient(135deg, #1b4d3e, #0f2d24); border: 2px solid #2ecc71;
-      border-radius: 14px; padding: 10px; margin-bottom: 10px; text-align: center;
-    }
-    .campaign-slider { width: 100%; margin: 6px 0; accent-color: #2ecc71; height: 5px; border-radius: 3px; }
-
+    /* WINKEL / MAĞRA */
     .cr-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
     .cr-card {
       background: linear-gradient(180deg, #1f140a 0%, #0d0804 100%);
@@ -161,6 +159,7 @@
       border: 1px solid #fff; padding: 6px; border-radius: 8px; color: #fff; font-weight: 900; font-size: 0.7rem; cursor: pointer; text-transform: uppercase;
     }
 
+    /* ZWEMMEN / ANIMATIE EFFECTS */
     @keyframes floatUpFade {
       0% { transform: translateY(0) scale(0.8); opacity: 1; }
       100% { transform: translateY(-80px) scale(1.3); opacity: 0; }
@@ -170,19 +169,17 @@
       animation: floatUpFade 0.7s ease-out forwards; z-index: 100;
     }
 
+    /* BATTLE / AV */
     .battle-arena-container {
       background: linear-gradient(180deg, #1b2e18 0%, #0d170b 100%);
-      border: 2.5px solid #2ecc71; border-radius: 16px; padding: 10px;
-      display: flex; flex-direction: column; align-items: center; margin-top: 2px;
+      border: 2.5px solid #2ecc71; border-radius: 16px; padding: 10px; display: flex; flex-direction: column; align-items: center;
     }
     .battle-board {
-      width: 100%; height: 180px; background: radial-gradient(circle, #27ae60 0%, #0e3b1f 100%);
-      border: 2px solid #f1c40f; border-radius: 12px; position: relative; overflow: hidden;
-      display: flex; flex-direction: column; justify-content: space-between; padding: 8px;
+      width: 100%; height: 160px; background: radial-gradient(circle, #27ae60 0%, #0e3b1f 100%);
+      border: 2px solid #f1c40f; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between; padding: 8px; position: relative;
     }
     .enemy-side, .player-side { display: flex; justify-content: center; gap: 12px; }
     .battle-unit-img { width: 45px; height: 45px; border-radius: 10px; border: 2px solid #ffd700; object-fit: cover; }
-
     .unit-selector-row { display: flex; gap: 6px; overflow-x: auto; width: 100%; padding: 4px 0; margin-top: 6px; }
     .unit-select-chip {
       background: rgba(40, 24, 12, 0.9); border: 1.5px solid #704b2e; border-radius: 10px;
@@ -190,11 +187,11 @@
     }
     .unit-select-chip.selected { border-color: #2ecc71; background: rgba(46, 204, 113, 0.25); }
 
+    /* STREAK & TASKS */
     .streak-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px; }
     .streak-card {
       background: linear-gradient(135deg, #3d2612, #1a0f05); border: 2px solid #704b2e; border-radius: 14px; padding: 10px; text-align: center;
     }
-    .streak-card.claimed { border-color: #555; opacity: 0.6; }
     .streak-card.active-day { border-color: #ffd700; background: linear-gradient(135deg, #61411f, #3b2311); }
 
     .task-list { display: flex; flex-direction: column; gap: 8px; }
@@ -211,11 +208,6 @@
     .task-info strong { color: #fff; font-size: 0.85rem; }
     .task-info small { color: #ffb700; font-size: 0.7rem; font-weight: bold; }
 
-    .btn-buy {
-      background: linear-gradient(135deg, #ffb700, #ff8800); border: 1px solid #ffe885;
-      padding: 6px 12px; border-radius: 8px; font-weight: 900; color: #1a0f05; font-size: 0.75rem; cursor: pointer;
-    }
-
     .wallet-box-manual {
       background: rgba(0, 0, 0, 0.7); border: 1.5px solid #ffb700; border-radius: 12px; padding: 12px; margin-top: 8px; text-align: left;
     }
@@ -225,23 +217,16 @@
     .btn-max, .btn-copy { background: #27ae60; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
     .btn-copy { background: #3498db; }
 
-    .bg-switcher-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
-    .bg-option-btn {
-      background: linear-gradient(135deg, #2b1a0f, #1a0f05); border: 1px solid #704b2e;
-      padding: 6px; border-radius: 8px; color: #fff; font-size: 0.65rem; font-weight: bold; cursor: pointer; text-align: center; opacity: 0.5;
-    }
-    .bg-option-btn.unlocked { opacity: 1; border-color: #ffd700; }
-    .bg-option-btn.active { border-color: #00ffcc; background: linear-gradient(135deg, #5c3a21, #3c2414); }
-
+    /* SCHANS / ÇARK */
     .wheel-tree-container {
-      position: relative; width: 200px; height: 200px; margin: 10px auto; display: flex; justify-content: center; align-items: center;
+      position: relative; width: 180px; height: 180px; margin: 10px auto; display: flex; justify-content: center; align-items: center;
     }
     .wheel-pointer-top {
       position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
       width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 16px solid #fff; z-index: 40;
     }
     .wheel-wooden-frame {
-      width: 180px; height: 180px; border-radius: 50%; border: 5px solid #ffb700; position: relative; overflow: hidden; background: #111;
+      width: 170px; height: 170px; border-radius: 50%; border: 5px solid #ffb700; position: relative; overflow: hidden; background: #111;
     }
     .wheel {
       width: 100%; height: 100%; border-radius: 50%;
@@ -250,17 +235,18 @@
     }
     .wheel-label {
       position: absolute; width: 50%; height: 20px; top: 50%; left: 50%;
-      transform-origin: left center; font-size: 0.6rem; font-weight: 900; color: #fff; display: flex; align-items: center; padding-left: 35px;
+      transform-origin: left center; font-size: 0.6rem; font-weight: 900; color: #fff; display: flex; align-items: center; padding-left: 30px;
     }
     .wheel-center-hub {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 30px; height: 30px; background: #fff; border-radius: 50%; border: 2px solid #000; z-index: 30; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
+      width: 28px; height: 28px; background: #fff; border-radius: 50%; border: 2px solid #000; z-index: 30; display: flex; align-items: center; justify-content: center; font-size: 0.75rem;
     }
 
+    /* ONDERSTE NAVIGATIE */
     .bottom-nav {
       position: absolute; bottom: 0; left: 0; width: 100%;
-      background: linear-gradient(180deg, rgba(18,10,5,0.96), rgba(8,4,1,0.99));
-      border-top: 2px solid #704b2e; display: flex; justify-content: space-around; padding: 6px 0 10px 0; z-index: 100;
+      background: linear-gradient(180deg, rgba(15,9,4,0.96), rgba(5,3,1,0.99));
+      border-top: 2px solid #8a5a22; display: flex; justify-content: space-around; padding: 6px 0 10px 0; z-index: 100;
     }
     .nav-item { display: flex; flex-direction: column; align-items: center; color: #bfa38a; font-size: 0.68rem; text-decoration: none; cursor: pointer; gap: 2px; }
     .nav-item.active { color: #ffd700; font-weight: bold; }
@@ -274,7 +260,7 @@
 </head>
 <body>
 
-  <!-- 3D SAVANNE ACHTERGROND CONTAINER -->
+  <!-- DYNAMISCHE ACHTERGROND CONTAINER -->
   <div id="savanna3d"></div>
 
   <div class="app-container" id="appContainer">
@@ -282,85 +268,77 @@
 
     <div class="overlay-content">
 
-      <!-- TOP HUD & XP BAR -->
+      <!-- PROFESSIONELE TOP HUD -->
       <div class="top-hud-container">
         <div class="wood-hud-panel">
           <div class="hud-left-side">
-            <div class="hud-avatar" id="hudAvatarLetter">A</div>
+            <div class="hud-avatar" id="hudAvatarLetter">B</div>
             <div>
-              <div style="font-size: 0.75rem; font-weight: 900; color: #fff;" id="hudUsername">Oyuncu</div>
-              <div style="font-size: 0.6rem; color: #ffd700;" id="hudLevelText">Level 7</div>
+              <div style="font-size: 0.75rem; font-weight: 900; color: #fff;" id="hudUsername">blueymons</div>
+              <div style="font-size: 0.6rem; color: #ffd700;" id="hudLevelText">AFRICAN SAVANNA • LEVEL 7</div>
             </div>
           </div>
           <div class="hud-right-balances">
-            <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700;" id="balance">446.0 🥩</div>
+            <div style="font-size: 0.85rem; font-weight: 900; color: #ffd700;" id="balance">13,769.0 🥩</div>
             <div style="font-size: 0.6rem; color: #ccc;" id="gramBalance">0.0257 GRAM</div>
           </div>
         </div>
         <div class="xp-bar-container">
-          <div class="xp-bar-fill" id="xpBarFill" style="width: 25%;"></div>
-          <div class="xp-text-overlay" id="xpTextOverlay">Level 7 (XP: 1697 / 7000)</div>
+          <div class="xp-bar-fill" id="xpBarFill" style="width: 47%;"></div>
+          <div class="xp-text-overlay" id="xpTextOverlay">Level 7 (XP: 3298 / 7000)</div>
         </div>
       </div>
 
-      <!-- ANA SAYFA -->
+      <!-- ANA SAYFA (PROFESSIONEEL HOME SCHERM) -->
       <div id="tab-ana" class="tab-content active">
-        <div class="center-action-box" id="centerActionBox" onclick="handleMainActionTap(event)">
-          <div style="font-size: 0.62rem; color: #aaa; text-transform: uppercase;" id="txtCollectTitle">Toplanabilir Biftek (Max 3 Saat):</div>
-          <div style="font-size: 1.25rem; font-weight: 900; color: #ffd700; margin: 3px 0;" id="huntSteakDisplay">0.0 🥩</div>
-          <button class="btn-claim" onclick="event.stopPropagation(); claimEarnings()" id="btnCollectText">📥 Biftekleri Topla</button>
+        <div class="hero-card">
+          <div class="hero-image-container">
+            <img src="kral_aslan.PNG" alt="Koning van de Savanne">
+            <div class="story-tag">story</div>
+          </div>
+          <div style="font-size: 1rem; font-weight: 900; color: #ffd700; margin-bottom: 4px;">DE KONING VAN DE SAVANNE</div>
+          <div style="font-size: 0.68rem; color: #ccc; margin-bottom: 10px;">Je leeuw verzamelt automatisch steaks terwijl jij speelt én wanneer je offline bent.</div>
+          
+          <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #e6af2e; border-radius: 12px; padding: 8px; margin-bottom: 8px;">
+            <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700;" id="huntSteakDisplay">+100 STEAKS / UUR</div>
+            <div style="font-size: 0.6rem; color: #aaa;">Volgende upgrade: 2.500 steaks</div>
+          </div>
+
+          <button class="btn-claim" onclick="claimEarnings()" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">⬆️ UPGRADE LEEUW</button>
+          <button class="btn-claim" onclick="switchTab('market', null)" style="background: linear-gradient(135deg, #2b1a0f, #1a0f05); border: 1px solid #e6af2e; margin-top: 6px;">🌍 ONTDEK DE SAVANNE</button>
         </div>
       </div>
 
-      <!-- MAĞRA TAB -->
+      <!-- MAĞRA / WINKEL TAB -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
-          <div class="page-title">⚔️ Mağra & Özel Fırsatlar</div>
+          <div class="page-title">⚔️ Mağra & Dierenwereld</div>
 
-          <div class="promo-wolf-box" id="promoWolfBanner">
-            <div style="font-size: 0.82rem; font-weight: 900; color: #00ffcc;">🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!</div>
-            <div style="font-size: 0.65rem; color: #ccc; margin: 2px 0;" id="wolfPromoCounter">Kalan Hak: 49 / 50</div>
-            <button class="cr-buy-btn" id="claimWolfPromoBtn" onclick="claimFreePromoWolf()" style="background: linear-gradient(135deg, #00ffcc, #0088cc); color: #000; font-size: 0.75rem; margin-top: 4px;">🎁 ÜCRETSİZ KURTU CLAIM ET!</button>
+          <div class="promo-wolf-box" id="promoWolfBanner" style="background: linear-gradient(135deg, #1b365d, #0d1b2a); border: 2px solid #00ffcc; border-radius: 14px; padding: 10px; margin-bottom: 10px; text-align: center;">
+            <div style="font-size: 0.8rem; font-weight: 900; color: #00ffcc;">🐺 PROMO: Eerste 50 Spelers Gratis Kurt!</div>
+            <div style="font-size: 0.65rem; color: #ccc; margin: 2px 0;">Kalan Hak: 49 / 50</div>
+            <button class="cr-buy-btn" onclick="claimFreePromoWolf()" style="background: linear-gradient(135deg, #00ffcc, #0088cc); color: #000; font-size: 0.7rem; margin-top: 4px;">ALINDI ✔️</button>
           </div>
 
-          <div class="cr-banner-box">
-            <div style="font-size: 0.8rem; font-weight: 900; color: #ffd700;">🚀 Özel Biftek Kampanyası</div>
-            <div style="font-size: 0.68rem; color: #ccc; margin-top: 2px;">USD Miktarını Seç:</div>
-            <div style="font-size: 1rem; font-weight: 900; color: #fff; margin: 3px 0;" id="sliderUsdVal">$10 USD</div>
-            <input type="range" min="1" max="500" value="10" class="campaign-slider" id="usdSlider" oninput="updateCampaignSlider(this.value)">
-            <div style="font-size: 0.72rem; color: #2ecc71; font-weight: bold; margin-bottom: 6px;" id="sliderRewardVal">Alacağın: 25,000 🥩</div>
-            <button class="cr-buy-btn" onclick="buyCampaignSteak()">Paketi Satın Al</button>
-          </div>
-
-          <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700; text-align: center; margin-top: 8px;">🛡️ Kart Koleksiyonu & Üretim Hızı</div>
-          <div style="font-size: 0.65rem; color: #aaa; margin-bottom: 6px; text-align: center;" id="totalSpeedInfo">Toplam Üretim Hızı: 664 🥩 / sa</div>
+          <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700; text-align: center; margin-top: 8px;">🛡️ Alle 16 Dieren & Productie</div>
           
-          <!-- MAĞRA / ARKA PLAN SEÇİCİ -->
-          <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700; text-align: center; margin-top: 10px;">🎬 Arka Planını Seç (Mağra Atmosferi)</div>
-          <div class="bg-switcher-grid">
-            <button class="bg-option-btn active" id="bgOpt-standard" onclick="setSavannaTheme('standard')">🗿 Standart Mağra</button>
-            <button class="bg-option-btn unlocked" id="bgOpt-sunset" onclick="setSavannaTheme('sunset')">🌅 Gün Batımı</button>
-            <button class="bg-option-btn unlocked" id="bgOpt-night" onclick="setSavannaTheme('night')">🌙 Gece Avı</button>
-            <button class="bg-option-btn unlocked" id="bgOpt-jungle" onclick="setSavannaTheme('jungle')">🌿 Orman / Vahşi</button>
-          </div>
-
-          <div class="cr-cards-grid" style="margin-top: 10px;">
-            <div class="cr-card"><img src="aslan_yavrusu.PNG" class="cr-card-img"><div class="cr-card-title">Aslan Yavrusu (<span id="countCub">24</span>)</div><div class="cr-card-sub">+2 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button></div>
-            <div class="cr-card"><img src="afrika_akbabasi.PNG" class="cr-card-img"><div class="cr-card-title">Afrika Akbabası (<span id="countVulture">6</span>)</div><div class="cr-card-sub">+5 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button></div>
-            <div class="cr-card"><img src="antilop.PNG" class="cr-card-img"><div class="cr-card-title">Antilop (<span id="countAntelope">1</span>)</div><div class="cr-card-sub">+12 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button></div>
-            <div class="cr-card"><img src="jaguar.PNG" class="cr-card-img"><div class="cr-card-title">Jaguar (<span id="countJaguar">2</span>)</div><div class="cr-card-sub">+30 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button></div>
-            <div class="cr-card"><img src="sirtlan_surusu.PNG" class="cr-card-img"><div class="cr-card-title">Sırtlan Sürüsü (<span id="countHyena">0</span>)</div><div class="cr-card-sub">+70 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button></div>
-            <div class="cr-card"><img src="cakal.PNG" class="cr-card-img"><div class="cr-card-title">Çakal (<span id="countJackal">0</span>)</div><div class="cr-card-sub">+160 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button></div>
-            <div class="cr-card"><img src="kurt.PNG" class="cr-card-img"><div class="cr-card-title">Kurt (<span id="countWolf">1</span>)</div><div class="cr-card-sub">+260 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(42000, 'buyWolf', 'Kurt')">42000 🥩</button></div>
-            <div class="cr-card"><img src="kral_aslan.PNG" class="cr-card-img"><div class="cr-card-title">Kral Aslan (<span id="countLion">0</span>)</div><div class="cr-card-sub">+370 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button></div>
-            <div class="cr-card"><img src="cita.PNG" class="cr-card-img"><div class="cr-card-title">Çita (<span id="countCheetah">0</span>)</div><div class="cr-card-sub">+850 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button></div>
-            <div class="cr-card"><img src="iki_erkek_aslan.PNG" class="cr-card-img"><div class="cr-card-title">2 Erkek Aslan (<span id="countTwoLions">0</span>)</div><div class="cr-card-sub">+1,950 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button></div>
-            <div class="cr-card"><img src="python.PNG" class="cr-card-img"><div class="cr-card-title">Python (<span id="countPython">0</span>)</div><div class="cr-card-sub">+4,400 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(800000, 'buyPython', 'Python')">800000 🥩</button></div>
-            <div class="cr-card"><img src="timsah.PNG" class="cr-card-img"><div class="cr-card-title">Timsah (<span id="countCrocodile">0</span>)</div><div class="cr-card-sub">+9,800 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button></div>
-            <div class="cr-card"><img src="siyah_gergedan.PNG" class="cr-card-img"><div class="cr-card-title">Siyah Gergedan (<span id="countBlackRhino">0</span>)</div><div class="cr-card-sub">+21,500 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4M 🥩</button></div>
-            <div class="cr-card"><img src="beyaz_gergedan.PNG" class="cr-card-img"><div class="cr-card-title">Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</div><div class="cr-card-sub">+47,000 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9M 🥩</button></div>
-            <div class="cr-card"><img src="fil.PNG" class="cr-card-img"><div class="cr-card-title">Afrika Fili (<span id="countElephant">0</span>)</div><div class="cr-card-sub">+102,000 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20M 🥩</button></div>
-            <div class="cr-card"><img src="kara_panter.PNG" class="cr-card-img"><div class="cr-card-title">Kara Panter (<span id="countPanther">0</span>)</div><div class="cr-card-sub">+220,000 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(45000000, 'buyPanther', 'Kara Panter')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">45M 🥩</button></div>
+          <div class="cr-cards-grid">
+            <div class="cr-card"><img src="aslan_yavrusu.PNG" class="cr-card-img"><div class="cr-card-title">Aslan Yavrusu (<span id="countCub">24</span>)</div><div class="cr-card-sub">+2 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(200, 'Aslan Yavrusu')">200 🥩</button></div>
+            <div class="cr-card"><img src="afrika_akbabasi.PNG" class="cr-card-img"><div class="cr-card-title">Afrika Akbabası (<span id="countVulture">6</span>)</div><div class="cr-card-sub">+5 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(600, 'Afrika Akbabası')">600 🥩</button></div>
+            <div class="cr-card"><img src="antilop.PNG" class="cr-card-img"><div class="cr-card-title">Antilop (<span id="countAntelope">1</span>)</div><div class="cr-card-sub">+12 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(1500, 'Antilop')">1500 🥩</button></div>
+            <div class="cr-card"><img src="jaguar.PNG" class="cr-card-img"><div class="cr-card-title">Jaguar (<span id="countJaguar">2</span>)</div><div class="cr-card-sub">+30 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(4000, 'Jaguar')">4000 🥩</button></div>
+            <div class="cr-card"><img src="sirtlan_surusu.PNG" class="cr-card-img"><div class="cr-card-title">Sırtlan Sürüsü (<span id="countHyena">0</span>)</div><div class="cr-card-sub">+70 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(10000, 'Sırtlan Sürüsü')">10000 🥩</button></div>
+            <div class="cr-card"><img src="cakal.PNG" class="cr-card-img"><div class="cr-card-title">Çakal (<span id="countJackal">0</span>)</div><div class="cr-card-sub">+160 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(25000, 'Çakal')">25000 🥩</button></div>
+            <div class="cr-card"><img src="kurt.PNG" class="cr-card-img"><div class="cr-card-title">Kurt (<span id="countWolf">1</span>)</div><div class="cr-card-sub">+260 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(42000, 'Kurt')">42000 🥩</button></div>
+            <div class="cr-card"><img src="kral_aslan.PNG" class="cr-card-img"><div class="cr-card-title">Kral Aslan (<span id="countLion">0</span>)</div><div class="cr-card-sub">+370 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(60000, 'Kral Aslan')">60000 🥩</button></div>
+            <div class="cr-card"><img src="cita.PNG" class="cr-card-img"><div class="cr-card-title">Çita (<span id="countCheetah">0</span>)</div><div class="cr-card-sub">+850 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(150000, 'Çita')">150000 🥩</button></div>
+            <div class="cr-card"><img src="iki_erkek_aslan.PNG" class="cr-card-img"><div class="cr-card-title">2 Erkek Aslan (<span id="countTwoLions">0</span>)</div><div class="cr-card-sub">+1,950 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(350000, '2 Erkek Aslan')">350000 🥩</button></div>
+            <div class="cr-card"><img src="python.PNG" class="cr-card-img"><div class="cr-card-title">Python (<span id="countPython">0</span>)</div><div class="cr-card-sub">+4,400 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(800000, 'Python')">800000 🥩</button></div>
+            <div class="cr-card"><img src="timsah.PNG" class="cr-card-img"><div class="cr-card-title">Timsah (<span id="countCrocodile">0</span>)</div><div class="cr-card-sub">+9,800 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(1800000, 'Timsah')">1800000 🥩</button></div>
+            <div class="cr-card"><img src="siyah_gergedan.PNG" class="cr-card-img"><div class="cr-card-title">Siyah Gergedan (<span id="countBlackRhino">0</span>)</div><div class="cr-card-sub">+21,500 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(4000000, 'Siyah Gergedan')">4M 🥩</button></div>
+            <div class="cr-card"><img src="beyaz_gergedan.PNG" class="cr-card-img"><div class="cr-card-title">Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</div><div class="cr-card-sub">+47,000 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(9000000, 'Beyaz Gergedan')">9M 🥩</button></div>
+            <div class="cr-card"><img src="fil.PNG" class="cr-card-img"><div class="cr-card-title">Afrika Fili (<span id="countElephant">0</span>)</div><div class="cr-card-sub">+102,000 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(20000000, 'Afrika Fili')">20M 🥩</button></div>
+            <div class="cr-card"><img src="kara_panter.PNG" class="cr-card-img"><div class="cr-card-title">Kara Panter (<span id="countPanther">0</span>)</div><div class="cr-card-sub">+220,000 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(45000000, 'Kara Panter')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">45M 🥩</button></div>
           </div>
         </div>
       </div>
@@ -370,27 +348,19 @@
         <div class="page-box" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
           <div class="page-title">🏹 Av & Savaş Arenası</div>
           <div class="battle-arena-container">
-            <div style="font-size: 0.7rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;" id="battleStatusText">Savaş Alanı Hazır! Avcını Seç ve Saldır!</div>
-            <div class="battle-board" id="battleBoard">
+            <div style="font-size: 0.7rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">Savaş Alanı Hazır! Avcını Seç en Saldır!</div>
+            <div class="battle-board">
               <div class="enemy-side"><img src="antilop.PNG" class="battle-unit-img"><img src="aslan_yavrusu.PNG" class="battle-unit-img"></div>
               <div style="text-align: center; font-size: 0.6rem; color: #fff; background: rgba(0,0,0,0.5); padding: 1px 8px; border-radius: 6px;">VS</div>
               <div class="player-side"><img id="playerActiveUnitImg" src="kral_aslan.PNG" class="battle-unit-img"></div>
             </div>
             <div class="unit-selector-row">
-              <div class="unit-select-chip selected" onclick="selectBattleUnit('kral_aslan.PNG', 'Kral Aslan')">🦁 Aslan</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('jaguar.PNG', 'Jaguar')">🐆 Jaguar</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('kurt.PNG', 'Kurt')">🐺 Kurt</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('cita.PNG', 'Çita')">🐅 Çita</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('timsah.PNG', 'Timsah')">🐊 Timsah</div>
+              <div class="unit-select-chip selected" onclick="selectBattleUnit('kral_aslan.PNG')">🦁 Aslan</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('jaguar.PNG')">🐆 Jaguar</div>
+              <div class="unit-select-chip" onclick="selectBattleUnit('kurt.PNG')">🐺 Kurt</div>
             </div>
           </div>
-          <div style="margin-top: 8px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-size: 0.72rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
-              <div style="font-size: 0.6rem; color: #aaa;" id="huntTimerText">Yenilenme: 03:00:00</div>
-            </div>
-            <button class="btn-claim" onclick="triggerClashHunt(event)" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; font-size: 0.85rem;">⚔️ SALDIR VE AVLAN!</button>
-          </div>
+          <button class="btn-claim" onclick="triggerClashHunt(event)" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">⚔️ SALDIR VE AVLAN!</button>
         </div>
       </div>
 
@@ -410,9 +380,7 @@
               <button class="btn-max" onclick="setWdMax()">MAX</button>
             </div>
             <label>Cüzdan Adresiniz:</label>
-            <div class="wallet-input-row">
-              <input type="text" id="userWdAddr" placeholder="UQ...">
-            </div>
+            <div class="wallet-input-row"><input type="text" placeholder="UQ..."></div>
             <button class="btn-claim" onclick="submitWithdraw()">TALEP OLUŞTUR</button>
           </div>
         </div>
@@ -436,11 +404,9 @@
       <div id="tab-streak" class="tab-content">
         <div class="page-box">
           <div class="page-title">🔥 7 Günlük Streak</div>
-          <div class="streak-grid" id="streakGridContainer">
+          <div class="streak-grid">
             <div class="streak-card active-day"><div>Gün 1</div><div style="font-size:0.7rem; color:#ffd700;">50 🥩</div></div>
             <div class="streak-card"><div>Gün 2</div><div style="font-size:0.7rem; color:#ffd700;">100 🥩</div></div>
-            <div class="streak-card"><div>Gün 3</div><div style="font-size:0.7rem; color:#ffd700;">200 🥩</div></div>
-            <div class="streak-card"><div>Gün 4</div><div style="font-size:0.7rem; color:#ffd700;">400 🥩</div></div>
           </div>
           <button class="btn-claim" onclick="claimStreakDaily()" style="background: #2ecc71; color: #000;">📥 Ödülü Al</button>
         </div>
@@ -454,12 +420,7 @@
             <div class="task-card">
               <div class="animal-icon-box">🎖️</div>
               <div class="task-info"><strong>İlk Avcı</strong><br><small>10 Av Tamamla (+500 🥩)</small></div>
-              <button class="btn-buy" onclick="claimAch(1)">Al</button>
-            </div>
-            <div class="task-card">
-              <div class="animal-icon-box">👑</div>
-              <div class="task-info"><strong>Sürü Lideri</strong><br><small>10 Hayvan Satın Al (+2000 🥩)</small></div>
-              <button class="btn-buy" onclick="claimAch(2)">Al</button>
+              <button class="btn-buy" onclick="claimAch()">Al</button>
             </div>
           </div>
         </div>
@@ -488,7 +449,7 @@
         </div>
       </div>
 
-      <!-- ŞANS ÇARKI -->
+      <!-- ŞANS ÇARKI (SCHANS) -->
       <div id="tab-spin" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🎡 Şans Çarkı</div>
@@ -538,7 +499,7 @@
 
     </div>
 
-    <!-- ALT NAVIGATIE -->
+    <!-- ONDERSTE NAVIGATIE -->
     <div class="bottom-nav">
       <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
       <div class="nav-item" onclick="switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
@@ -549,89 +510,44 @@
 
   </div>
 
-  <!-- THREE.JS 3D SAVANNE ACHTERGROND SCRIPT -->
+  <!-- THREE.JS 3D / DYNAMISCHE ACHTERGROND SCRIPT -->
   <script type="module">
     import * as THREE from 'three';
 
     const container = document.getElementById("savanna3d");
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf3bb78);
-    scene.fog = new THREE.Fog(0xf3bb78, 22, 85);
+    scene.background = new THREE.Color(0x1a0f05);
+    scene.fog = new THREE.Fog(0x1a0f05, 20, 80);
 
-    const camera = new THREE.PerspectiveCamera(48, container.clientWidth / container.clientHeight, 0.1, 150);
-    camera.position.set(0, 5, 15);
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(0, 4, 12);
     camera.lookAt(0, 1, 0);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     renderer.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer.domElement);
 
-    scene.add(new THREE.HemisphereLight(0xffe4b0, 0x45512b, 2));
-    const sunlight = new THREE.DirectionalLight(0xffd18a, 3);
-    sunlight.position.set(-8, 14, 6);
-    scene.add(sunlight);
+    scene.add(new THREE.AmbientLight(0xffd700, 1.5));
+    const dirLight = new THREE.DirectionalLight(0xff8800, 2);
+    dirLight.position.set(5, 10, 5);
+    scene.add(dirLight);
 
+    // Vloer met savanne-kleur
     const ground = new THREE.Mesh(
-      new THREE.PlaneGeometry(160, 160),
-      new THREE.MeshStandardMaterial({ color: 0x82763b, roughness: 1 })
+      new THREE.PlaneGeometry(100, 100),
+      new THREE.MeshStandardMaterial({ color: 0x483519, roughness: 0.9 })
     );
     ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -0.15;
+    ground.position.y = -0.2;
     scene.add(ground);
-
-    function createTree(x, z, scale = 1) {
-      const tree = new THREE.Group();
-      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.22, 2.2, 7), new THREE.MeshStandardMaterial({ color: 0x604329 }));
-      trunk.position.y = 1.1;
-      tree.add(trunk);
-      const crown = new THREE.Mesh(new THREE.SphereGeometry(1, 12, 8), new THREE.MeshStandardMaterial({ color: 0x45572a, roughness: 1 }));
-      crown.scale.set(1.8, 0.38, 1.1);
-      crown.position.y = 2.35;
-      tree.add(crown);
-      tree.position.set(x, 0, z);
-      tree.scale.setScalar(scale);
-      scene.add(tree);
-      return tree;
-    }
-
-    const trees = [createTree(-7, -5, 1.5), createTree(7, -8, 1.2), createTree(-10, -14, 1.8), createTree(12, -18, 1.5)];
 
     const clock = new THREE.Clock();
     renderer.setAnimationLoop(() => {
-      const elapsed = clock.getElapsedTime();
-      camera.position.x = Math.sin(elapsed * 0.12) * 0.35;
+      const t = clock.getElapsedTime();
+      camera.position.x = Math.sin(t * 0.1) * 0.5;
       camera.lookAt(0, 1, 0);
-      trees.forEach((tree, i) => { tree.rotation.z = Math.sin(elapsed + i) * 0.008; });
       renderer.render(scene, camera);
     });
-
-    window.addEventListener('resize', () => {
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
-    });
-
-    // Wereldthema aanpassing voor de Mağra achtergrondwisselaar
-    window.changeSavannaTheme = function(theme) {
-      if(theme === 'standard') {
-        scene.background.setHex(0xf3bb78);
-        scene.fog.color.setHex(0xf3bb78);
-        sunlight.color.setHex(0xffd18a);
-      } else if(theme === 'sunset') {
-        scene.background.setHex(0xd9534f);
-        scene.fog.color.setHex(0xd9534f);
-        sunlight.color.setHex(0xff7675);
-      } else if(theme === 'night') {
-        scene.background.setHex(0x1e272c);
-        scene.fog.color.setHex(0x1e272c);
-        sunlight.color.setHex(0x48dbfb);
-      } else if(theme === 'jungle') {
-        scene.background.setHex(0x27ae60);
-        scene.fog.color.setHex(0x27ae60);
-        sunlight.color.setHex(0x2ecc71);
-      }
-    };
   </script>
 
   <!-- JAVASCRIPT LOGICA -->
@@ -641,110 +557,44 @@
       try { if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred(style); } catch(e) {}
     }
 
-    let username = "Oyuncu";
+    let username = "blueymons";
     let userId = "12345678";
     if (tg && tg.initDataUnsafe?.user) {
       tg.expand();
-      username = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name || "Oyuncu";
+      username = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name || "blueymons";
       userId = tg.initDataUnsafe.user.id || "12345678";
     }
     document.getElementById('hudUsername').innerText = username;
     document.getElementById('refLinkInput').value = `https://t.me/DailygramMinerBot?start=ref_${userId}`;
 
     let balance = 13769.0, gramBalance = 0.0257, unclaimedSteak = 0.0;
-    let cubCount = 24, lionCount = 0, twoLionsCount = 0, jaguarCount = 2, vultureCount = 6, hyenaCount = 0, wolfCount = 1;
-    let antelopeCount = 1, jackalCount = 0, cheetahCount = 0, pythonCount = 0, crocodileCount = 0, blackRhinoCount = 0, whiteRhinoCount = 0, elephantCount = 0, pantherCount = 0;
-
-    // Bereken totale productie per uur op basis van je dieren
-    function getSteakPerHour() {
-      return (cubCount * 2) + (vultureCount * 5) + (antelopeCount * 12) + (jaguarCount * 30) + (hyenaCount * 70) + (wolfCount * 260) + (lionCount * 370) + (cheetahCount * 850) + (twoLionsCount * 1950) + (pythonCount * 4400) + (crocodileCount * 9800) + (blackRhinoCount * 21500) + (whiteRhinoCount * 47000) + (elephantCount * 102000) + (pantherCount * 220000);
-    }
-
-    // Automatische passieve biefstuk teller per seconde
-    setInterval(() => {
-      let sph = getSteakPerHour();
-      let perSec = sph / 3600;
-      unclaimedSteak += perSec;
-      document.getElementById('huntSteakDisplay').innerText = unclaimedSteak.toFixed(1) + " 🥩";
-    }, 1000);
-
-    function handleMainActionTap(event) {
-      balance += 1;
-      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      haptic('light');
-
-      let box = document.getElementById('centerActionBox');
-      let rect = box.getBoundingClientRect();
-      let x = event.clientX || (rect.left + rect.width / 2);
-      let y = event.clientY || (rect.top + rect.height / 2);
-
-      let floatEl = document.createElement('div');
-      floatEl.className = 'floating-steak';
-      floatEl.innerText = '🥩 +1';
-      floatEl.style.left = (x - 20) + 'px';
-      floatEl.style.top = (y - 30) + 'px';
-      document.body.appendChild(floatEl);
-      setTimeout(() => { floatEl.remove(); }, 700);
-    }
+    let cubCount = 24, vultureCount = 6, antelopeCount = 1, jaguarCount = 2, wolfCount = 1;
 
     function claimEarnings() {
-      if (unclaimedSteak <= 0) { showToast("Toplanacak biftek yok!"); return; }
-      balance += unclaimedSteak;
-      unclaimedSteak = 0.0;
+      balance += 100;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       haptic('success');
-      showToast("📥 Biftekler başarıyla toplandı!");
+      showToast("⬆️ Leeuw succesvol geüpgraded!");
     }
 
-    function buyWithSteak(cost, type, name) {
-      if (balance < cost) { haptic('error'); showToast("Yetersiz Biftek!"); return; }
+    function buyWithSteak(cost, name) {
+      if (balance < cost) { haptic('error'); showToast("Onvoldoende biefstukken!"); return; }
       balance -= cost;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      
-      if(name === 'Aslan Yavrusu') { cubCount++; document.getElementById('countCub').innerText = cubCount; }
-      else if(name === 'Afrika Akbabası') { vultureCount++; document.getElementById('countVulture').innerText = vultureCount; }
-      else if(name === 'Antilop') { antelopeCount++; document.getElementById('countAntelope').innerText = antelopeCount; }
-      else if(name === 'Jaguar') { jaguarCount++; document.getElementById('countJaguar').innerText = jaguarCount; }
-      else if(name === 'Sırtlan Sürüsü') { hyenaCount++; document.getElementById('countHyena').innerText = hyenaCount; }
-      else if(name === 'Çakal') { jackalCount++; document.getElementById('countJackal').innerText = jackalCount; }
-      else if(name === 'Kurt') { wolfCount++; document.getElementById('countWolf').innerText = wolfCount; }
-      else if(name === 'Kral Aslan') { lionCount++; document.getElementById('countLion').innerText = lionCount; }
-      else if(name === 'Çita') { cheetahCount++; document.getElementById('countCheetah').innerText = cheetahCount; }
-      else if(name === '2 Erkek Aslan') { twoLionsCount++; document.getElementById('countTwoLions').innerText = twoLionsCount; }
-      else if(name === 'Python') { pythonCount++; document.getElementById('countPython').innerText = pythonCount; }
-      else if(name === 'Timsah') { crocodileCount++; document.getElementById('countCrocodile').innerText = crocodileCount; }
-      else if(name === 'Siyah Gergedan') { blackRhinoCount++; document.getElementById('countBlackRhino').innerText = blackRhinoCount; }
-      else if(name === 'Beyaz Gergedan') { whiteRhinoCount++; document.getElementById('countWhiteRhino').innerText = whiteRhinoCount; }
-      else if(name === 'Afrika Fili') { elephantCount++; document.getElementById('countElephant').innerText = elephantCount; }
-      else if(name === 'Kara Panter') { pantherCount++; document.getElementById('countPanther').innerText = pantherCount; }
-
-      document.getElementById('totalSpeedInfo').innerText = "Toplam Üretim Hızı: " + getSteakPerHour().toLocaleString() + " 🥩 / sa";
       haptic('success');
-      showToast(name + " satın alındı!");
+      showToast(name + " aangeschaft!");
     }
 
-    function setSavannaTheme(theme) {
-      document.querySelectorAll('.bg-option-btn').forEach(btn => btn.classList.remove('active'));
-      if(theme === 'standard') document.getElementById('bgOpt-standard').classList.add('active');
-      if(theme === 'sunset') document.getElementById('bgOpt-sunset').classList.add('active');
-      if(theme === 'night') document.getElementById('bgOpt-night').classList.add('active');
-      if(theme === 'jungle') document.getElementById('bgOpt-jungle').classList.add('active');
-      
-      if(window.changeSavannaTheme) window.changeSavannaTheme(theme);
-      haptic('light');
-      showToast("Mağra atmosferi değiştirildi!");
-    }
-
-    function selectBattleUnit(imgSrc, name) {
+    function selectBattleUnit(imgSrc) {
       document.getElementById('playerActiveUnitImg').src = imgSrc;
       haptic('light');
     }
 
     function triggerClashHunt(event) {
-      balance += 100;
+      balance += 150;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       haptic('heavy');
-      showToast("⚔️ Av başarıyla tamamlandı (+100 🥩)!");
+      showToast("⚔️ Gevecht gewonnen (+150 🥩)!");
     }
 
     function switchTab(tabName, element) {
@@ -757,16 +607,14 @@
 
     function openModalTab(tabName) { switchTab(tabName, null); }
     function toggleMenuPopup() { document.getElementById('menuPopup').classList.toggle('active'); }
-    function copyRefLink() { navigator.clipboard.writeText(document.getElementById('refLinkInput').value); haptic('success'); showToast("Link kopyalandı!"); }
-    function completeChannelTask() { balance += 100; document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩"; haptic('success'); showToast("+100 🥩 ödül alındı!"); }
-    function claimStreakDaily() { balance += 50; document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩"; haptic('success'); showToast("Günlük streak ödülü alındı!"); }
-    function claimAch(id) { balance += 500; document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩"; haptic('success'); showToast("Başarı ödülü alındı!"); }
-    function setAppLanguage(lang) { haptic('success'); showToast("Dil güncellendi!"); }
-    function updateCampaignSlider(val) { document.getElementById('sliderUsdVal').innerText = "$" + val + " USD"; document.getElementById('sliderRewardVal').innerText = "Alacağın: " + (val * 2500).toLocaleString() + " 🥩"; }
-    function buyCampaignSteak() { haptic('success'); showToast("Kampanya başarıyla işlendi!"); }
-    function copyMyWallet() { navigator.clipboard.writeText("UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH"); haptic('success'); showToast("Cüzdan adresi kopyalandı!"); }
+    function copyRefLink() { navigator.clipboard.writeText(document.getElementById('refLinkInput').value); haptic('success'); showToast("Link gekopieerd!"); }
+    function completeChannelTask() { balance += 100; document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩"; haptic('success'); showToast("+100 🥩 ontvangen!"); }
+    function claimStreakDaily() { balance += 50; document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩"; haptic('success'); showToast("Streak beloning geclaimd!"); }
+    function claimAch() { balance += 500; document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩"; haptic('success'); showToast("Prestatie behaald!"); }
+    function setAppLanguage(lang) { haptic('success'); showToast("Taal aangepast!"); }
+    function copyMyWallet() { navigator.clipboard.writeText("UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH"); haptic('success'); showToast("Adres gekopieerd!"); }
     function setWdMax() { document.getElementById('withdrawGramInput').value = gramBalance.toFixed(4); haptic('light'); }
-    function submitWithdraw() { showToast("Para çekme talebi oluşturuldu!"); haptic('success'); }
+    function submitWithdraw() { showToast("Opnameaanvraag ingediend!"); haptic('success'); }
     function openOfficialChannel() { if(tg) tg.openTelegramLink("https://t.me/telegram"); else window.open("https://t.me/telegram", "_blank"); }
 
     let currentRotation = 0;
@@ -779,7 +627,7 @@
         balance += 250;
         document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
         haptic('success');
-        showToast("🎉 Şans Çarkından +250 🥩 Kazandın!");
+        showToast("🎉 Je hebt +250 🥩 gewonnen!");
         btn.disabled = false;
       }, 4000);
     }

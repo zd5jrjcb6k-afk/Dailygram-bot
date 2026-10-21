@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Dailygram Miner - 3D Savanna</title>
+  <title>Dailygram Miner - Ultimate 3D Savanna</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <!-- Three.js Import Map -->
@@ -42,14 +42,6 @@
       display: block;
       width: 100%;
       height: 100%;
-    }
-
-    /* Achtergrondvideo als fallback of optionele laag als die aan staat */
-    .bg-video {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      object-fit: contain; background-color: #000;
-      z-index: 2; opacity: 0.3; pointer-events: none;
     }
 
     .app-container {
@@ -239,13 +231,29 @@
     .btn-max, .btn-copy { background: #27ae60; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
     .btn-copy { background: #3498db; }
 
-    .bg-switcher-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
-    .bg-option-btn {
-      background: linear-gradient(135deg, #2b1a0f, #1a0f05); border: 1px solid #704b2e;
-      padding: 6px; border-radius: 8px; color: #fff; font-size: 0.65rem; font-weight: bold; cursor: pointer; text-align: center; opacity: 0.5;
+    .wheel-tree-container {
+      position: relative; width: 200px; height: 200px; margin: 10px auto; display: flex; justify-content: center; align-items: center;
     }
-    .bg-option-btn.unlocked { opacity: 1; border-color: #ffd700; }
-    .bg-option-btn.active { border-color: #00ffcc; background: linear-gradient(135deg, #5c3a21, #3c2414); }
+    .wheel-pointer-top {
+      position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 16px solid #fff; z-index: 40;
+    }
+    .wheel-wooden-frame {
+      width: 180px; height: 180px; border-radius: 50%; border: 5px solid #ffb700; position: relative; overflow: hidden; background: #111;
+    }
+    .wheel {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: conic-gradient(#222 0deg 45deg, #444 45deg 90deg, #111 90deg 135deg, #555 135deg 180deg, #222 180deg 225deg, #666 225deg 270deg, #111 270deg 315deg, #333 315deg 360deg);
+      transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
+    }
+    .wheel-label {
+      position: absolute; width: 50%; height: 20px; top: 50%; left: 50%;
+      transform-origin: left center; font-size: 0.6rem; font-weight: 900; color: #fff; display: flex; align-items: center; padding-left: 35px;
+    }
+    .wheel-center-hub {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 30px; height: 30px; background: #fff; border-radius: 50%; border: 2px solid #000; z-index: 30; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
+    }
 
     .bottom-nav {
       position: absolute; bottom: 0; left: 0; width: 100%;
@@ -259,15 +267,6 @@
     .toast-notification {
       position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
       background: rgba(18, 10, 5, 0.95); border: 2px solid #ffd700; color: #ffd700; padding: 6px 14px; border-radius: 16px; font-size: 0.72rem; font-weight: bold; z-index: 300; display: none; text-align: center;
-    }
-
-    .modal-overlay {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.88); backdrop-filter: blur(8px); z-index: 200; justify-content: center; align-items: center;
-    }
-    .modal-overlay.active { display: flex; }
-    .modal-box {
-      background: linear-gradient(135deg, #24140b, #120a05); border: 2px solid #ffb700; border-radius: 18px; padding: 16px; width: 90%; max-width: 340px; text-align: center;
     }
   </style>
 </head>
@@ -335,102 +334,22 @@
           <div style="font-size: 0.65rem; color: #aaa; margin-bottom: 6px; text-align: center;" id="totalSpeedInfo">Toplam Üretim Hızı: 664 🥩 / sa</div>
           
           <div class="cr-cards-grid">
-            <div class="cr-card">
-              <img src="aslan_yavrusu.PNG" class="cr-card-img" alt="Aslan Yavrusu">
-              <div class="cr-card-title">Aslan Yavrusu (<span id="countCub">24</span>)</div>
-              <div class="cr-card-sub">+2 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="afrika_akbabasi.PNG" class="cr-card-img" alt="Afrika Akbabası">
-              <div class="cr-card-title">Afrika Akbabası (<span id="countVulture">6</span>)</div>
-              <div class="cr-card-sub">+5 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="antilop.PNG" class="cr-card-img" alt="Antilop">
-              <div class="cr-card-title">Antilop (<span id="countAntelope">1</span>)</div>
-              <div class="cr-card-sub">+12 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="jaguar.PNG" class="cr-card-img" alt="Jaguar">
-              <div class="cr-card-title">Jaguar (<span id="countJaguar">2</span>)</div>
-              <div class="cr-card-sub">+30 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="sirtlan_surusu.PNG" class="cr-card-img" alt="Sırtlan Sürüsü">
-              <div class="cr-card-title">Sırtlan Sürüsü (<span id="countHyena">0</span>)</div>
-              <div class="cr-card-sub">+70 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="cakal.PNG" class="cr-card-img" alt="Çakal">
-              <div class="cr-card-title">Çakal (<span id="countJackal">0</span>)</div>
-              <div class="cr-card-sub">+160 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="kurt.PNG" class="cr-card-img" alt="Kurt">
-              <div class="cr-card-title">Kurt (<span id="countWolf">1</span>)</div>
-              <div class="cr-card-sub">+260 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(42000, 'buyWolf', 'Kurt')">42000 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="kral_aslan.PNG" class="cr-card-img" alt="Kral Aslan">
-              <div class="cr-card-title">Kral Aslan (<span id="countLion">0</span>)</div>
-              <div class="cr-card-sub">+370 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="cita.PNG" class="cr-card-img" alt="Çita">
-              <div class="cr-card-title">Çita (<span id="countCheetah">0</span>)</div>
-              <div class="cr-card-sub">+850 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="iki_erkek_aslan.PNG" class="cr-card-img" alt="2 Erkek Aslan">
-              <div class="cr-card-title">2 Erkek Aslan (<span id="countTwoLions">0</span>)</div>
-              <div class="cr-card-sub">+1,950 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="python.PNG" class="cr-card-img" alt="Python">
-              <div class="cr-card-title">Python (<span id="countPython">0</span>)</div>
-              <div class="cr-card-sub">+4,400 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(800000, 'buyPython', 'Python')">800000 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="timsah.PNG" class="cr-card-img" alt="Timsah">
-              <div class="cr-card-title">Timsah (<span id="countCrocodile">0</span>)</div>
-              <div class="cr-card-sub">+9,800 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="siyah_gergedan.PNG" class="cr-card-img" alt="Siyah Gergedan">
-              <div class="cr-card-title">Siyah Gergedan (<span id="countBlackRhino">0</span>)</div>
-              <div class="cr-card-sub">+21,500 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4M 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="beyaz_gergedan.PNG" class="cr-card-img" alt="Beyaz Gergedan">
-              <div class="cr-card-title">Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</div>
-              <div class="cr-card-sub">+47,000 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9M 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="fil.PNG" class="cr-card-img" alt="Afrika Fili">
-              <div class="cr-card-title">Afrika Fili (<span id="countElephant">0</span>)</div>
-              <div class="cr-card-sub">+102,000 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20M 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="kara_panter.PNG" class="cr-card-img" alt="Kara Panter">
-              <div class="cr-card-title">Kara Panter (<span id="countPanther">0</span>)</div>
-              <div class="cr-card-sub">+220,000 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyWithSteak(45000000, 'buyPanther', 'Kara Panter')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">45M 🥩</button>
-            </div>
+            <div class="cr-card"><img src="aslan_yavrusu.PNG" class="cr-card-img"><div class="cr-card-title">Aslan Yavrusu (<span id="countCub">24</span>)</div><div class="cr-card-sub">+2 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button></div>
+            <div class="cr-card"><img src="afrika_akbabasi.PNG" class="cr-card-img"><div class="cr-card-title">Afrika Akbabası (<span id="countVulture">6</span>)</div><div class="cr-card-sub">+5 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button></div>
+            <div class="cr-card"><img src="antilop.PNG" class="cr-card-img"><div class="cr-card-title">Antilop (<span id="countAntelope">1</span>)</div><div class="cr-card-sub">+12 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button></div>
+            <div class="cr-card"><img src="jaguar.PNG" class="cr-card-img"><div class="cr-card-title">Jaguar (<span id="countJaguar">2</span>)</div><div class="cr-card-sub">+30 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button></div>
+            <div class="cr-card"><img src="sirtlan_surusu.PNG" class="cr-card-img"><div class="cr-card-title">Sırtlan Sürüsü (<span id="countHyena">0</span>)</div><div class="cr-card-sub">+70 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button></div>
+            <div class="cr-card"><img src="cakal.PNG" class="cr-card-img"><div class="cr-card-title">Çakal (<span id="countJackal">0</span>)</div><div class="cr-card-sub">+160 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button></div>
+            <div class="cr-card"><img src="kurt.PNG" class="cr-card-img"><div class="cr-card-title">Kurt (<span id="countWolf">1</span>)</div><div class="cr-card-sub">+260 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(42000, 'buyWolf', 'Kurt')">42000 🥩</button></div>
+            <div class="cr-card"><img src="kral_aslan.PNG" class="cr-card-img"><div class="cr-card-title">Kral Aslan (<span id="countLion">0</span>)</div><div class="cr-card-sub">+370 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button></div>
+            <div class="cr-card"><img src="cita.PNG" class="cr-card-img"><div class="cr-card-title">Çita (<span id="countCheetah">0</span>)</div><div class="cr-card-sub">+850 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button></div>
+            <div class="cr-card"><img src="iki_erkek_aslan.PNG" class="cr-card-img"><div class="cr-card-title">2 Erkek Aslan (<span id="countTwoLions">0</span>)</div><div class="cr-card-sub">+1,950 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button></div>
+            <div class="cr-card"><img src="python.PNG" class="cr-card-img"><div class="cr-card-title">Python (<span id="countPython">0</span>)</div><div class="cr-card-sub">+4,400 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(800000, 'buyPython', 'Python')">800000 🥩</button></div>
+            <div class="cr-card"><img src="timsah.PNG" class="cr-card-img"><div class="cr-card-title">Timsah (<span id="countCrocodile">0</span>)</div><div class="cr-card-sub">+9,800 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button></div>
+            <div class="cr-card"><img src="siyah_gergedan.PNG" class="cr-card-img"><div class="cr-card-title">Siyah Gergedan (<span id="countBlackRhino">0</span>)</div><div class="cr-card-sub">+21,500 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4M 🥩</button></div>
+            <div class="cr-card"><img src="beyaz_gergedan.PNG" class="cr-card-img"><div class="cr-card-title">Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</div><div class="cr-card-sub">+47,000 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9M 🥩</button></div>
+            <div class="cr-card"><img src="fil.PNG" class="cr-card-img"><div class="cr-card-title">Afrika Fili (<span id="countElephant">0</span>)</div><div class="cr-card-sub">+102,000 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20M 🥩</button></div>
+            <div class="cr-card"><img src="kara_panter.PNG" class="cr-card-img"><div class="cr-card-title">Kara Panter (<span id="countPanther">0</span>)</div><div class="cr-card-sub">+220,000 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(45000000, 'buyPanther', 'Kara Panter')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">45M 🥩</button></div>
           </div>
         </div>
       </div>
@@ -442,14 +361,9 @@
           <div class="battle-arena-container">
             <div style="font-size: 0.7rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;" id="battleStatusText">Savaş Alanı Hazır! Avcını Seç ve Saldır!</div>
             <div class="battle-board" id="battleBoard">
-              <div class="enemy-side">
-                <img src="antilop.PNG" class="battle-unit-img" title="Antilop">
-                <img src="aslan_yavrusu.PNG" class="battle-unit-img" title="Av">
-              </div>
+              <div class="enemy-side"><img src="antilop.PNG" class="battle-unit-img"><img src="aslan_yavrusu.PNG" class="battle-unit-img"></div>
               <div style="text-align: center; font-size: 0.6rem; color: #fff; background: rgba(0,0,0,0.5); padding: 1px 8px; border-radius: 6px;">VS</div>
-              <div class="player-side">
-                <img id="playerActiveUnitImg" src="kral_aslan.PNG" class="battle-unit-img" title="Seçilen Savaşçı">
-              </div>
+              <div class="player-side"><img id="playerActiveUnitImg" src="kral_aslan.PNG" class="battle-unit-img"></div>
             </div>
             <div class="unit-selector-row">
               <div class="unit-select-chip selected" onclick="selectBattleUnit('kral_aslan.PNG', 'Kral Aslan')">🦁 Aslan</div>
@@ -473,7 +387,13 @@
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
           <div class="page-title">👛 Cüzdan</div>
-          <p style="text-align: center; color: #ccc; font-size: 0.75rem;">Toncoin & GRAM bakiyeniz güvende.</p>
+          <div class="wallet-box-manual">
+            <label>Yatırım Adresi (TON):</label>
+            <div class="wallet-input-row">
+              <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
+              <button class="btn-copy" onclick="copyMyWallet()">Kopya</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -516,7 +436,7 @@
             <label>Davet Linkin:</label>
             <div class="wallet-input-row">
               <input type="text" id="refLinkInput" readonly>
-              <button class="btn-copy" onclick="copyRefLink()">Kopyala</button>
+              <button class="btn-copy" onclick="copyRefLink()">Kopya</button>
             </div>
           </div>
         </div>
@@ -535,7 +455,23 @@
       <div id="tab-spin" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🎡 Şans Çarkı</div>
-          <button class="btn-claim" id="spinBtn" onclick="spinWheel()" style="margin-top: 15px;">ÇEVİR</button>
+          <div class="wheel-tree-container">
+            <div class="wheel-pointer-top"></div>
+            <div class="wheel-wooden-frame">
+              <div class="wheel" id="wheel">
+                <div class="wheel-label" style="transform: rotate(22.5deg);">50 🥩</div>
+                <div class="wheel-label" style="transform: rotate(67.5deg);">100 🥩</div>
+                <div class="wheel-label" style="transform: rotate(112.5deg);">250 🥩</div>
+                <div class="wheel-label" style="transform: rotate(157.5deg);">500 🥩</div>
+                <div class="wheel-label" style="transform: rotate(202.5deg);">75 🥩</div>
+                <div class="wheel-label" style="transform: rotate(247.5deg);">150 🥩</div>
+                <div class="wheel-label" style="transform: rotate(292.5deg);">300 🥩</div>
+                <div class="wheel-label" style="transform: rotate(337.5deg);">1000 🥩</div>
+              </div>
+              <div class="wheel-center-hub">🎁</div>
+            </div>
+          </div>
+          <button class="btn-claim" id="spinBtn" onclick="spinWheel()">ÇEVİR</button>
         </div>
       </div>
 
@@ -635,7 +571,7 @@
     });
   </script>
 
-  <!-- JAVASCRIPT GAME LOGICA -->
+  <!-- JAVASCRIPT LOGICA -->
   <script>
     const tg = window.Telegram?.WebApp;
     function haptic(style) {
@@ -655,8 +591,7 @@
     let balance = 446.0, gramBalance = 0.0257, unclaimedSteak = 0.0, lastClaimTime = Date.now();
     let cubCount = 24, lionCount = 0, twoLionsCount = 0, jaguarCount = 2, vultureCount = 6, hyenaCount = 0, wolfCount = 1;
     let antelopeCount = 1, jackalCount = 0, cheetahCount = 0, pythonCount = 0, crocodileCount = 0, blackRhinoCount = 0, whiteRhinoCount = 0, elephantCount = 0, pantherCount = 0;
-    let level = 7, xp = 1697, huntEnergy = 9, lastHuntReset = Date.now(), totalHunts = 0, inviteCount = 0;
-    let streakDays = 0, channelTaskCompleted = false, achievementClaimed = {};
+    let level = 7, xp = 1697, huntEnergy = 9, totalHunts = 0, inviteCount = 0;
 
     function handleMainActionTap(event) {
       balance += 1;
@@ -677,12 +612,8 @@
       setTimeout(() => { floatEl.remove(); }, 700);
     }
 
-    function getSteakPerHour() {
-      return 5 + (cubCount * 2) + (vultureCount * 5) + (antelopeCount * 12) + (jaguarCount * 30) + (hyenaCount * 70) + (wolfCount * 260) + (lionCount * 370) + (cheetahCount * 850);
-    }
-
     function claimEarnings() {
-      balance += 50; // Demo claim
+      balance += 50;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       haptic('success');
       showToast("📥 Biftekler toplandı!");
@@ -722,10 +653,25 @@
     function copyRefLink() { navigator.clipboard.writeText(document.getElementById('refLinkInput').value); haptic('success'); showToast("Link kopyalandı!"); }
     function completeChannelTask() { haptic('success'); showToast("Kanal takip ödülü alındı!"); }
     function claimStreakDaily() { haptic('success'); showToast("Streak ödülü alındı!"); }
-    function spinWheel() { haptic('success'); showToast("Çark çevrildi!"); }
     function setAppLanguage(lang) { haptic('success'); showToast("Dil değiştirildi!"); }
     function updateCampaignSlider(val) { document.getElementById('sliderUsdVal').innerText = "$" + val + " USD"; }
     function buyCampaignSteak() { haptic('success'); showToast("Kampanya işlendi!"); }
+    function copyMyWallet() { navigator.clipboard.writeText("UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH"); haptic('success'); showToast("Cüzdan adresi kopyalandı!"); }
+
+    let currentRotation = 0;
+    function spinWheel() {
+      let btn = document.getElementById('spinBtn');
+      btn.disabled = true;
+      currentRotation += 1440 + Math.floor(Math.random() * 360);
+      document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
+      setTimeout(() => {
+        balance += 250;
+        document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
+        haptic('success');
+        showToast("🎉 Çarktan +250 🥩 Kazandın!");
+        btn.disabled = false;
+      }, 4000);
+    }
 
     function showToast(text) {
       let t = document.getElementById('toast');

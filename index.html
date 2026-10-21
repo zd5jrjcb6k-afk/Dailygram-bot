@@ -37,6 +37,7 @@
       overflow: hidden;
       background: linear-gradient(#f3b66b, #d9a85f 48%, #48552b);
       z-index: 1;
+      transition: filter 0.5s ease;
     }
     #savanna3d canvas {
       display: block;
@@ -182,13 +183,6 @@
     .enemy-side, .player-side { display: flex; justify-content: center; gap: 12px; }
     .battle-unit-img { width: 45px; height: 45px; border-radius: 10px; border: 2px solid #ffd700; object-fit: cover; }
 
-    @keyframes realisticHunt {
-      0% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-50px) scale(1.25) rotate(6deg); }
-      100% { transform: translateY(0) scale(1); }
-    }
-    .battle-unit-img.attacking { animation: realisticHunt 0.6s ease-in-out infinite alternate; }
-
     .unit-selector-row { display: flex; gap: 6px; overflow-x: auto; width: 100%; padding: 4px 0; margin-top: 6px; }
     .unit-select-chip {
       background: rgba(40, 24, 12, 0.9); border: 1.5px solid #704b2e; border-radius: 10px;
@@ -230,6 +224,14 @@
     .wallet-input-row input { flex: 1; background: #111; border: 1px solid #704b2e; color: #fff; padding: 8px; border-radius: 8px; font-size: 0.75rem; }
     .btn-max, .btn-copy { background: #27ae60; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
     .btn-copy { background: #3498db; }
+
+    .bg-switcher-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+    .bg-option-btn {
+      background: linear-gradient(135deg, #2b1a0f, #1a0f05); border: 1px solid #704b2e;
+      padding: 6px; border-radius: 8px; color: #fff; font-size: 0.65rem; font-weight: bold; cursor: pointer; text-align: center; opacity: 0.5;
+    }
+    .bg-option-btn.unlocked { opacity: 1; border-color: #ffd700; }
+    .bg-option-btn.active { border-color: #00ffcc; background: linear-gradient(135deg, #5c3a21, #3c2414); }
 
     .wheel-tree-container {
       position: relative; width: 200px; height: 200px; margin: 10px auto; display: flex; justify-content: center; align-items: center;
@@ -305,7 +307,7 @@
       <div id="tab-ana" class="tab-content active">
         <div class="center-action-box" id="centerActionBox" onclick="handleMainActionTap(event)">
           <div style="font-size: 0.62rem; color: #aaa; text-transform: uppercase;" id="txtCollectTitle">Toplanabilir Biftek (Max 3 Saat):</div>
-          <div style="font-size: 1.25rem; font-weight: 900; color: #ffd700; margin: 3px 0;" id="huntSteakDisplay">0 🥩</div>
+          <div style="font-size: 1.25rem; font-weight: 900; color: #ffd700; margin: 3px 0;" id="huntSteakDisplay">0.0 🥩</div>
           <button class="btn-claim" onclick="event.stopPropagation(); claimEarnings()" id="btnCollectText">📥 Biftekleri Topla</button>
         </div>
       </div>
@@ -333,7 +335,16 @@
           <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700; text-align: center; margin-top: 8px;">🛡️ Kart Koleksiyonu & Üretim Hızı</div>
           <div style="font-size: 0.65rem; color: #aaa; margin-bottom: 6px; text-align: center;" id="totalSpeedInfo">Toplam Üretim Hızı: 664 🥩 / sa</div>
           
-          <div class="cr-cards-grid">
+          <!-- MAĞRA / ARKA PLAN SEÇİCİ -->
+          <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700; text-align: center; margin-top: 10px;">🎬 Arka Planını Seç (Mağra Atmosferi)</div>
+          <div class="bg-switcher-grid">
+            <button class="bg-option-btn active" id="bgOpt-standard" onclick="setSavannaTheme('standard')">🗿 Standart Mağra</button>
+            <button class="bg-option-btn unlocked" id="bgOpt-sunset" onclick="setSavannaTheme('sunset')">🌅 Gün Batımı</button>
+            <button class="bg-option-btn unlocked" id="bgOpt-night" onclick="setSavannaTheme('night')">🌙 Gece Avı</button>
+            <button class="bg-option-btn unlocked" id="bgOpt-jungle" onclick="setSavannaTheme('jungle')">🌿 Orman / Vahşi</button>
+          </div>
+
+          <div class="cr-cards-grid" style="margin-top: 10px;">
             <div class="cr-card"><img src="aslan_yavrusu.PNG" class="cr-card-img"><div class="cr-card-title">Aslan Yavrusu (<span id="countCub">24</span>)</div><div class="cr-card-sub">+2 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button></div>
             <div class="cr-card"><img src="afrika_akbabasi.PNG" class="cr-card-img"><div class="cr-card-title">Afrika Akbabası (<span id="countVulture">6</span>)</div><div class="cr-card-sub">+5 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button></div>
             <div class="cr-card"><img src="antilop.PNG" class="cr-card-img"><div class="cr-card-title">Antilop (<span id="countAntelope">1</span>)</div><div class="cr-card-sub">+12 🥩 / sa</div><button class="cr-buy-btn" onclick="buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button></div>
@@ -386,13 +397,23 @@
       <!-- CÜZDAN -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
-          <div class="page-title">👛 Cüzdan</div>
+          <div class="page-title">👛 Cüzdan & Para Çek</div>
           <div class="wallet-box-manual">
             <label>Yatırım Adresi (TON):</label>
             <div class="wallet-input-row">
               <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
               <button class="btn-copy" onclick="copyMyWallet()">Kopya</button>
             </div>
+            <label style="margin-top: 6px; display:block;">Çekilecek Tutar (GRAM):</label>
+            <div class="wallet-input-row">
+              <input type="text" id="withdrawGramInput" placeholder="0.0000">
+              <button class="btn-max" onclick="setWdMax()">MAX</button>
+            </div>
+            <label>Cüzdan Adresiniz:</label>
+            <div class="wallet-input-row">
+              <input type="text" id="userWdAddr" placeholder="UQ...">
+            </div>
+            <button class="btn-claim" onclick="submitWithdraw()">TALEP OLUŞTUR</button>
           </div>
         </div>
       </div>
@@ -415,7 +436,12 @@
       <div id="tab-streak" class="tab-content">
         <div class="page-box">
           <div class="page-title">🔥 7 Günlük Streak</div>
-          <div class="streak-grid" id="streakGridContainer"></div>
+          <div class="streak-grid" id="streakGridContainer">
+            <div class="streak-card active-day"><div>Gün 1</div><div style="font-size:0.7rem; color:#ffd700;">50 🥩</div></div>
+            <div class="streak-card"><div>Gün 2</div><div style="font-size:0.7rem; color:#ffd700;">100 🥩</div></div>
+            <div class="streak-card"><div>Gün 3</div><div style="font-size:0.7rem; color:#ffd700;">200 🥩</div></div>
+            <div class="streak-card"><div>Gün 4</div><div style="font-size:0.7rem; color:#ffd700;">400 🥩</div></div>
+          </div>
           <button class="btn-claim" onclick="claimStreakDaily()" style="background: #2ecc71; color: #000;">📥 Ödülü Al</button>
         </div>
       </div>
@@ -423,8 +449,19 @@
       <!-- ACHIEVEMENTS -->
       <div id="tab-achievements" class="tab-content">
         <div class="page-box">
-          <div class="page-title">🏆 Başarılar</div>
-          <div class="task-list" id="achievementsListContainer"></div>
+          <div class="page-title">🏆 Başarılar (Badge)</div>
+          <div class="task-list">
+            <div class="task-card">
+              <div class="animal-icon-box">🎖️</div>
+              <div class="task-info"><strong>İlk Avcı</strong><br><small>10 Av Tamamla (+500 🥩)</small></div>
+              <button class="btn-buy" onclick="claimAch(1)">Al</button>
+            </div>
+            <div class="task-card">
+              <div class="animal-icon-box">👑</div>
+              <div class="task-info"><strong>Sürü Lideri</strong><br><small>10 Hayvan Satın Al (+2000 🥩)</small></div>
+              <button class="btn-buy" onclick="claimAch(2)">Al</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -479,19 +516,24 @@
       <div id="tab-leaderboard" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏆 Liderlik Tablosu</div>
-          <div class="task-list" id="leaderboardListContainer"></div>
+          <div class="task-list">
+            <div class="task-card"><div class="animal-icon-box">🥇</div><div class="task-info"><strong>1. AlphaWolf</strong><br><small>1,450,200 🥩</small></div></div>
+            <div class="task-card"><div class="animal-icon-box">🥈</div><div class="task-info"><strong>2. SavannaKing</strong><br><small>980,450 🥩</small></div></div>
+            <div class="task-card"><div class="animal-icon-box">🥉</div><div class="task-info"><strong>3. blueymons (Sen)</strong><br><small>13,769.0 🥩</small></div></div>
+          </div>
         </div>
       </div>
 
       <!-- MENU POPUP -->
       <div class="menu-popup" id="menuPopup">
         <div class="menu-popup-btn" onclick="openModalTab('gorevler')">📋 Görevler</div>
-        <div class="menu-popup-btn" onclick="openModalTab('streak')">🔥 Streak</div>
-        <div class="menu-popup-btn" onclick="openModalTab('achievements')">🏆 Başarılar</div>
-        <div class="menu-popup-btn" onclick="openModalTab('referral')">👥 Davet Et</div>
+        <div class="menu-popup-btn" onclick="openModalTab('streak')">🔥 7 Günlük Streak</div>
+        <div class="menu-popup-btn" onclick="openModalTab('achievements')">🏆 Başarılar (Badge)</div>
+        <div class="menu-popup-btn" onclick="openModalTab('referral')">👥 Arkadaş Davet</div>
         <div class="menu-popup-btn" onclick="openModalTab('spin')">🎡 Şans Çarkı</div>
         <div class="menu-popup-btn" onclick="openModalTab('leaderboard')">🏆 Liderlik</div>
-        <div class="menu-popup-btn" onclick="openModalTab('language')">🌍 Dil</div>
+        <div class="menu-popup-btn" onclick="openModalTab('language')">🌍 Dil / Language</div>
+        <div class="menu-popup-btn" onclick="openOfficialChannel()" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">📢 Resmi Kanal</div>
       </div>
 
     </div>
@@ -569,6 +611,27 @@
       camera.updateProjectionMatrix();
       renderer.setSize(container.clientWidth, container.clientHeight);
     });
+
+    // Wereldthema aanpassing voor de Mağra achtergrondwisselaar
+    window.changeSavannaTheme = function(theme) {
+      if(theme === 'standard') {
+        scene.background.setHex(0xf3bb78);
+        scene.fog.color.setHex(0xf3bb78);
+        sunlight.color.setHex(0xffd18a);
+      } else if(theme === 'sunset') {
+        scene.background.setHex(0xd9534f);
+        scene.fog.color.setHex(0xd9534f);
+        sunlight.color.setHex(0xff7675);
+      } else if(theme === 'night') {
+        scene.background.setHex(0x1e272c);
+        scene.fog.color.setHex(0x1e272c);
+        sunlight.color.setHex(0x48dbfb);
+      } else if(theme === 'jungle') {
+        scene.background.setHex(0x27ae60);
+        scene.fog.color.setHex(0x27ae60);
+        sunlight.color.setHex(0x2ecc71);
+      }
+    };
   </script>
 
   <!-- JAVASCRIPT LOGICA -->
@@ -588,10 +651,22 @@
     document.getElementById('hudUsername').innerText = username;
     document.getElementById('refLinkInput').value = `https://t.me/DailygramMinerBot?start=ref_${userId}`;
 
-    let balance = 446.0, gramBalance = 0.0257, unclaimedSteak = 0.0, lastClaimTime = Date.now();
+    let balance = 13769.0, gramBalance = 0.0257, unclaimedSteak = 0.0;
     let cubCount = 24, lionCount = 0, twoLionsCount = 0, jaguarCount = 2, vultureCount = 6, hyenaCount = 0, wolfCount = 1;
     let antelopeCount = 1, jackalCount = 0, cheetahCount = 0, pythonCount = 0, crocodileCount = 0, blackRhinoCount = 0, whiteRhinoCount = 0, elephantCount = 0, pantherCount = 0;
-    let level = 7, xp = 1697, huntEnergy = 9, totalHunts = 0, inviteCount = 0;
+
+    // Bereken totale productie per uur op basis van je dieren
+    function getSteakPerHour() {
+      return (cubCount * 2) + (vultureCount * 5) + (antelopeCount * 12) + (jaguarCount * 30) + (hyenaCount * 70) + (wolfCount * 260) + (lionCount * 370) + (cheetahCount * 850) + (twoLionsCount * 1950) + (pythonCount * 4400) + (crocodileCount * 9800) + (blackRhinoCount * 21500) + (whiteRhinoCount * 47000) + (elephantCount * 102000) + (pantherCount * 220000);
+    }
+
+    // Automatische passieve biefstuk teller per seconde
+    setInterval(() => {
+      let sph = getSteakPerHour();
+      let perSec = sph / 3600;
+      unclaimedSteak += perSec;
+      document.getElementById('huntSteakDisplay').innerText = unclaimedSteak.toFixed(1) + " 🥩";
+    }, 1000);
 
     function handleMainActionTap(event) {
       balance += 1;
@@ -613,18 +688,51 @@
     }
 
     function claimEarnings() {
-      balance += 50;
+      if (unclaimedSteak <= 0) { showToast("Toplanacak biftek yok!"); return; }
+      balance += unclaimedSteak;
+      unclaimedSteak = 0.0;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       haptic('success');
-      showToast("📥 Biftekler toplandı!");
+      showToast("📥 Biftekler başarıyla toplandı!");
     }
 
     function buyWithSteak(cost, type, name) {
       if (balance < cost) { haptic('error'); showToast("Yetersiz Biftek!"); return; }
       balance -= cost;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
+      
+      if(name === 'Aslan Yavrusu') { cubCount++; document.getElementById('countCub').innerText = cubCount; }
+      else if(name === 'Afrika Akbabası') { vultureCount++; document.getElementById('countVulture').innerText = vultureCount; }
+      else if(name === 'Antilop') { antelopeCount++; document.getElementById('countAntelope').innerText = antelopeCount; }
+      else if(name === 'Jaguar') { jaguarCount++; document.getElementById('countJaguar').innerText = jaguarCount; }
+      else if(name === 'Sırtlan Sürüsü') { hyenaCount++; document.getElementById('countHyena').innerText = hyenaCount; }
+      else if(name === 'Çakal') { jackalCount++; document.getElementById('countJackal').innerText = jackalCount; }
+      else if(name === 'Kurt') { wolfCount++; document.getElementById('countWolf').innerText = wolfCount; }
+      else if(name === 'Kral Aslan') { lionCount++; document.getElementById('countLion').innerText = lionCount; }
+      else if(name === 'Çita') { cheetahCount++; document.getElementById('countCheetah').innerText = cheetahCount; }
+      else if(name === '2 Erkek Aslan') { twoLionsCount++; document.getElementById('countTwoLions').innerText = twoLionsCount; }
+      else if(name === 'Python') { pythonCount++; document.getElementById('countPython').innerText = pythonCount; }
+      else if(name === 'Timsah') { crocodileCount++; document.getElementById('countCrocodile').innerText = crocodileCount; }
+      else if(name === 'Siyah Gergedan') { blackRhinoCount++; document.getElementById('countBlackRhino').innerText = blackRhinoCount; }
+      else if(name === 'Beyaz Gergedan') { whiteRhinoCount++; document.getElementById('countWhiteRhino').innerText = whiteRhinoCount; }
+      else if(name === 'Afrika Fili') { elephantCount++; document.getElementById('countElephant').innerText = elephantCount; }
+      else if(name === 'Kara Panter') { pantherCount++; document.getElementById('countPanther').innerText = pantherCount; }
+
+      document.getElementById('totalSpeedInfo').innerText = "Toplam Üretim Hızı: " + getSteakPerHour().toLocaleString() + " 🥩 / sa";
       haptic('success');
       showToast(name + " satın alındı!");
+    }
+
+    function setSavannaTheme(theme) {
+      document.querySelectorAll('.bg-option-btn').forEach(btn => btn.classList.remove('active'));
+      if(theme === 'standard') document.getElementById('bgOpt-standard').classList.add('active');
+      if(theme === 'sunset') document.getElementById('bgOpt-sunset').classList.add('active');
+      if(theme === 'night') document.getElementById('bgOpt-night').classList.add('active');
+      if(theme === 'jungle') document.getElementById('bgOpt-jungle').classList.add('active');
+      
+      if(window.changeSavannaTheme) window.changeSavannaTheme(theme);
+      haptic('light');
+      showToast("Mağra atmosferi değiştirildi!");
     }
 
     function selectBattleUnit(imgSrc, name) {
@@ -633,11 +741,10 @@
     }
 
     function triggerClashHunt(event) {
-      totalHunts++;
-      balance += 50;
+      balance += 100;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       haptic('heavy');
-      showToast("⚔️ Av başarıyla tamamlandı!");
+      showToast("⚔️ Av başarıyla tamamlandı (+100 🥩)!");
     }
 
     function switchTab(tabName, element) {
@@ -651,12 +758,16 @@
     function openModalTab(tabName) { switchTab(tabName, null); }
     function toggleMenuPopup() { document.getElementById('menuPopup').classList.toggle('active'); }
     function copyRefLink() { navigator.clipboard.writeText(document.getElementById('refLinkInput').value); haptic('success'); showToast("Link kopyalandı!"); }
-    function completeChannelTask() { haptic('success'); showToast("Kanal takip ödülü alındı!"); }
-    function claimStreakDaily() { haptic('success'); showToast("Streak ödülü alındı!"); }
-    function setAppLanguage(lang) { haptic('success'); showToast("Dil değiştirildi!"); }
-    function updateCampaignSlider(val) { document.getElementById('sliderUsdVal').innerText = "$" + val + " USD"; }
-    function buyCampaignSteak() { haptic('success'); showToast("Kampanya işlendi!"); }
+    function completeChannelTask() { balance += 100; document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩"; haptic('success'); showToast("+100 🥩 ödül alındı!"); }
+    function claimStreakDaily() { balance += 50; document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩"; haptic('success'); showToast("Günlük streak ödülü alındı!"); }
+    function claimAch(id) { balance += 500; document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩"; haptic('success'); showToast("Başarı ödülü alındı!"); }
+    function setAppLanguage(lang) { haptic('success'); showToast("Dil güncellendi!"); }
+    function updateCampaignSlider(val) { document.getElementById('sliderUsdVal').innerText = "$" + val + " USD"; document.getElementById('sliderRewardVal').innerText = "Alacağın: " + (val * 2500).toLocaleString() + " 🥩"; }
+    function buyCampaignSteak() { haptic('success'); showToast("Kampanya başarıyla işlendi!"); }
     function copyMyWallet() { navigator.clipboard.writeText("UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH"); haptic('success'); showToast("Cüzdan adresi kopyalandı!"); }
+    function setWdMax() { document.getElementById('withdrawGramInput').value = gramBalance.toFixed(4); haptic('light'); }
+    function submitWithdraw() { showToast("Para çekme talebi oluşturuldu!"); haptic('success'); }
+    function openOfficialChannel() { if(tg) tg.openTelegramLink("https://t.me/telegram"); else window.open("https://t.me/telegram", "_blank"); }
 
     let currentRotation = 0;
     function spinWheel() {
@@ -668,7 +779,7 @@
         balance += 250;
         document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
         haptic('success');
-        showToast("🎉 Çarktan +250 🥩 Kazandın!");
+        showToast("🎉 Şans Çarkından +250 🥩 Kazandın!");
         btn.disabled = false;
       }, 4000);
     }

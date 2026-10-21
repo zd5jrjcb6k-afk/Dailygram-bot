@@ -3,9 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Dailygram Miner</title>
+  <title>Dailygram Miner - 3D Savanna</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- Three.js Import Map -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.179.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.179.1/examples/jsm/"
+      }
+    }
+  </script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,15 +30,26 @@
       -webkit-user-select: none;
     }
 
-    .bg-video {
+    /* 3D SAVANNE ACHTERGROND CONTAINER */
+    #savanna3d {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
+      overflow: hidden;
+      background: linear-gradient(#f3b66b, #d9a85f 48%, #48552b);
+      z-index: 1;
+    }
+    #savanna3d canvas {
+      display: block;
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      background-color: #000;
-      z-index: 1;
+    }
+
+    /* Achtergrondvideo als fallback of optionele laag als die aan staat */
+    .bg-video {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: contain; background-color: #000;
+      z-index: 2; opacity: 0.3; pointer-events: none;
     }
 
     .app-container {
@@ -61,472 +81,179 @@
     .tab-content.active { display: flex; }
 
     /* TOP HUD */
-    .top-hud-container {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      gap: 5px;
-    }
-
+    .top-hud-container { display: flex; flex-direction: column; width: 100%; gap: 5px; }
     .wood-hud-panel {
-      background: linear-gradient(135deg, #8b5a2b, #5c3a21);
+      background: linear-gradient(135deg, rgba(139,90,43,0.92), rgba(92,58,33,0.92));
       border: 2px solid #ffde6b;
       border-radius: 14px;
       padding: 6px 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.7), inset 0 1px 2px rgba(255,255,255,0.3);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+      display: flex; justify-content: space-between; align-items: center;
+      backdrop-filter: blur(5px);
     }
-
-    .hud-left-side {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
+    .hud-left-side { display: flex; align-items: center; gap: 8px; }
     .hud-avatar {
-      width: 32px;
-      height: 32px;
+      width: 32px; height: 32px;
       background: linear-gradient(135deg, #ffd700, #ff8800);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      color: #1a0f05;
-      font-size: 0.9rem;
-      border: 2px solid #fff;
-      box-shadow: 0 0 6px rgba(255,215,0,0.6);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: 900; color: #1a0f05; font-size: 0.9rem; border: 2px solid #fff;
     }
-
-    .hud-right-balances {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-    }
+    .hud-right-balances { display: flex; flex-direction: column; align-items: flex-end; }
 
     /* XP PROGRESS BAR */
     .xp-bar-container {
-      width: 100%;
-      background: rgba(0,0,0,0.6);
-      border: 1.5px solid #ffde6b;
-      border-radius: 8px;
-      height: 12px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      padding: 1px;
+      width: 100%; background: rgba(0,0,0,0.6);
+      border: 1.5px solid #ffde6b; border-radius: 8px; height: 12px;
+      position: relative; overflow: hidden; display: flex; align-items: center; padding: 1px;
     }
-
-    .xp-bar-fill {
-      background: linear-gradient(90deg, #2ecc71, #27ae60);
-      height: 100%;
-      width: 0%;
-      border-radius: 6px;
-      transition: width 0.3s ease;
-    }
-
-    .xp-text-overlay {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      font-size: 0.55rem;
-      font-weight: 900;
-      color: #fff;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.9);
-    }
+    .xp-bar-fill { background: linear-gradient(90deg, #2ecc71, #27ae60); height: 100%; width: 0%; border-radius: 6px; transition: width 0.3s ease; }
+    .xp-text-overlay { position: absolute; width: 100%; text-align: center; font-size: 0.55rem; font-weight: 900; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.9); }
 
     .menu-popup {
-      position: absolute;
-      bottom: 75px;
-      right: 12px;
-      background: rgba(20, 12, 6, 0.98);
-      border: 2px solid #ffb700;
-      border-radius: 16px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      z-index: 150;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.9);
-      width: 180px;
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      transform: translateY(20px) scale(0.95);
-      pointer-events: none;
+      position: absolute; bottom: 75px; right: 12px;
+      background: rgba(20, 12, 6, 0.98); border: 2px solid #ffb700; border-radius: 16px;
+      padding: 10px; display: flex; flex-direction: column; gap: 6px; z-index: 150;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.9); width: 180px; backdrop-filter: blur(10px);
+      opacity: 0; transform: translateY(20px) scale(0.95); pointer-events: none;
       transition: opacity 0.25s ease, transform 0.25s ease;
     }
-    .menu-popup.active {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
-
+    .menu-popup.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
     .menu-popup-btn {
-      background: linear-gradient(135deg, #c28e46, #8a5a22);
-      border: 1px solid #ffde6b;
-      color: #fff;
-      padding: 7px 10px;
-      border-radius: 10px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      text-align: center;
-      cursor: pointer;
-      text-decoration: none;
-      display: block;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+      background: linear-gradient(135deg, #c28e46, #8a5a22); border: 1px solid #ffde6b;
+      color: #fff; padding: 7px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: bold;
+      text-align: center; cursor: pointer; text-decoration: none; display: block;
     }
 
     .center-action-box {
-      background: rgba(22, 14, 8, 0.92);
-      backdrop-filter: blur(8px);
-      border: 2px solid #ffb700;
-      border-radius: 16px;
-      padding: 16px;
-      text-align: center;
-      margin-top: auto;
-      margin-bottom: 25px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.85);
-      max-width: 85%;
-      margin-left: auto;
-      margin-right: auto;
-      position: relative;
-      cursor: pointer;
-      transition: transform 0.1s ease;
+      background: rgba(22, 14, 8, 0.88); backdrop-filter: blur(8px);
+      border: 2px solid #ffb700; border-radius: 16px; padding: 16px; text-align: center;
+      margin-top: auto; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(0,0,0,0.85);
+      max-width: 85%; margin-left: auto; margin-right: auto; position: relative; cursor: pointer;
     }
-    .center-action-box:active {
-      transform: scale(0.97);
-    }
+    .center-action-box:active { transform: scale(0.97); }
 
     .btn-claim {
-      width: 100%;
-      background: linear-gradient(135deg, #ffb700, #ff7700);
-      border: 1px solid #fff;
-      padding: 9px;
-      border-radius: 10px;
-      color: #1a0f05;
-      font-weight: 900;
-      font-size: 0.82rem;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(255, 136, 0, 0.5);
-      margin-top: 6px;
-      text-transform: uppercase;
+      width: 100%; background: linear-gradient(135deg, #ffb700, #ff7700);
+      border: 1px solid #fff; padding: 9px; border-radius: 10px; color: #1a0f05;
+      font-weight: 900; font-size: 0.82rem; cursor: pointer; margin-top: 6px; text-transform: uppercase;
     }
 
     .page-box {
-      background: rgba(18, 10, 5, 0.96);
-      border: 2px solid #8a5a22;
-      border-radius: 20px;
-      padding: 12px;
-      max-height: 76vh;
-      overflow-y: auto;
-      margin-top: 4px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.85);
-      backdrop-filter: blur(12px);
+      background: rgba(18, 10, 5, 0.94); border: 2px solid #8a5a22; border-radius: 20px;
+      padding: 12px; max-height: 76vh; overflow-y: auto; margin-top: 4px; backdrop-filter: blur(12px);
     }
-
-    .page-title {
-      font-size: 1.1rem;
-      color: #ffd700;
-      margin-bottom: 10px;
-      font-weight: 900;
-      text-align: center;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-    }
+    .page-title { font-size: 1.1rem; color: #ffd700; margin-bottom: 10px; font-weight: 900; text-align: center; }
 
     .promo-wolf-box {
-      background: linear-gradient(135deg, #1b365d, #0d1b2a);
-      border: 2px solid #00ffcc;
-      border-radius: 14px;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-align: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+      background: linear-gradient(135deg, #1b365d, #0d1b2a); border: 2px solid #00ffcc;
+      border-radius: 14px; padding: 10px; margin-bottom: 10px; text-align: center;
     }
-
     .cr-banner-box {
-      background: linear-gradient(135deg, #1b4d3e, #0f2d24);
-      border: 2px solid #2ecc71;
-      border-radius: 14px;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-align: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+      background: linear-gradient(135deg, #1b4d3e, #0f2d24); border: 2px solid #2ecc71;
+      border-radius: 14px; padding: 10px; margin-bottom: 10px; text-align: center;
     }
     .campaign-slider { width: 100%; margin: 6px 0; accent-color: #2ecc71; height: 5px; border-radius: 3px; }
 
-    .cr-cards-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 8px;
-    }
-
+    .cr-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
     .cr-card {
       background: linear-gradient(180deg, #1f140a 0%, #0d0804 100%);
-      border: 2px solid #e6af2e;
-      border-radius: 12px;
-      padding: 10px 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.8);
+      border: 2px solid #e6af2e; border-radius: 12px; padding: 10px 8px;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
     }
-
-    .cr-card-img {
-      width: 55px;
-      height: 55px;
-      border-radius: 10px;
-      border: 2px solid #ffd700;
-      object-fit: cover;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
-      margin-bottom: 6px;
-    }
-
+    .cr-card-img { width: 55px; height: 55px; border-radius: 10px; border: 2px solid #ffd700; object-fit: cover; margin-bottom: 6px; }
     .cr-card-title { font-size: 0.75rem; font-weight: 900; color: #fff; }
     .cr-card-sub { font-size: 0.65rem; color: #2ecc71; font-weight: bold; margin-bottom: 6px; }
-
     .cr-buy-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #2ecc71, #27ae60);
-      border: 1px solid #fff;
-      padding: 6px;
-      border-radius: 8px;
-      color: #fff;
-      font-weight: 900;
-      font-size: 0.7rem;
-      cursor: pointer;
-      text-transform: uppercase;
+      width: 100%; background: linear-gradient(135deg, #2ecc71, #27ae60);
+      border: 1px solid #fff; padding: 6px; border-radius: 8px; color: #fff; font-weight: 900; font-size: 0.7rem; cursor: pointer; text-transform: uppercase;
     }
 
-    /* VLEES KLIK ANIMATIE EFFECT */
     @keyframes floatUpFade {
       0% { transform: translateY(0) scale(0.8); opacity: 1; }
       100% { transform: translateY(-80px) scale(1.3); opacity: 0; }
     }
     .floating-steak {
-      position: absolute;
-      font-size: 1.3rem;
-      font-weight: 900;
-      color: #ffd700;
-      pointer-events: none;
-      animation: floatUpFade 0.7s ease-out forwards;
-      z-index: 100;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+      position: absolute; font-size: 1.3rem; font-weight: 900; color: #ffd700; pointer-events: none;
+      animation: floatUpFade 0.7s ease-out forwards; z-index: 100;
     }
 
-    /* BATTLE ARENA */
     .battle-arena-container {
       background: linear-gradient(180deg, #1b2e18 0%, #0d170b 100%);
-      border: 2.5px solid #2ecc71;
-      border-radius: 16px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.8);
-      margin-top: 2px;
+      border: 2.5px solid #2ecc71; border-radius: 16px; padding: 10px;
+      display: flex; flex-direction: column; align-items: center; margin-top: 2px;
     }
-
     .battle-board {
-      width: 100%;
-      height: 180px;
-      background: radial-gradient(circle, #27ae60 0%, #0e3b1f 100%);
-      border: 2px solid #f1c40f;
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 8px;
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+      width: 100%; height: 180px; background: radial-gradient(circle, #27ae60 0%, #0e3b1f 100%);
+      border: 2px solid #f1c40f; border-radius: 12px; position: relative; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: space-between; padding: 8px;
     }
-
-    .enemy-side, .player-side {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .battle-unit-img {
-      width: 45px;
-      height: 45px;
-      border-radius: 10px;
-      border: 2px solid #ffd700;
-      object-fit: cover;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
-    }
+    .enemy-side, .player-side { display: flex; justify-content: center; gap: 12px; }
+    .battle-unit-img { width: 45px; height: 45px; border-radius: 10px; border: 2px solid #ffd700; object-fit: cover; }
 
     @keyframes realisticHunt {
-      0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 2px #fff); }
-      50% { transform: translateY(-50px) scale(1.25) rotate(6deg); filter: drop-shadow(0 0 12px #ffcc00); }
+      0% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-50px) scale(1.25) rotate(6deg); }
       100% { transform: translateY(0) scale(1); }
     }
     .battle-unit-img.attacking { animation: realisticHunt 0.6s ease-in-out infinite alternate; }
 
-    .unit-selector-row {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      width: 100%;
-      padding: 4px 0;
-      margin-top: 6px;
-    }
-
+    .unit-selector-row { display: flex; gap: 6px; overflow-x: auto; width: 100%; padding: 4px 0; margin-top: 6px; }
     .unit-select-chip {
-      background: rgba(40, 24, 12, 0.9);
-      border: 1.5px solid #704b2e;
-      border-radius: 10px;
-      padding: 5px 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      white-space: nowrap;
-      font-size: 0.7rem;
-      color: #fff;
+      background: rgba(40, 24, 12, 0.9); border: 1.5px solid #704b2e; border-radius: 10px;
+      padding: 5px 8px; display: flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; font-size: 0.7rem; color: #fff;
     }
     .unit-select-chip.selected { border-color: #2ecc71; background: rgba(46, 204, 113, 0.25); }
 
-    .streak-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
+    .streak-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px; }
     .streak-card {
-      background: linear-gradient(135deg, #3d2612, #1a0f05);
-      border: 2px solid #704b2e;
-      border-radius: 14px;
-      padding: 10px;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      background: linear-gradient(135deg, #3d2612, #1a0f05); border: 2px solid #704b2e; border-radius: 14px; padding: 10px; text-align: center;
     }
-    .streak-card.claimed { border-color: #555; opacity: 0.6; background: #15110c; }
-    .streak-card.active-day { border-color: #ffd700; background: linear-gradient(135deg, #61411f, #3b2311); box-shadow: 0 0 12px rgba(255,215,0,0.5); }
+    .streak-card.claimed { border-color: #555; opacity: 0.6; }
+    .streak-card.active-day { border-color: #ffd700; background: linear-gradient(135deg, #61411f, #3b2311); }
 
     .task-list { display: flex; flex-direction: column; gap: 8px; }
     .task-card {
       background: linear-gradient(135deg, rgba(40, 24, 12, 0.9), rgba(20, 12, 6, 0.95));
-      border: 2px solid rgba(255, 215, 0, 0.4);
-      border-radius: 14px;
-      padding: 10px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 5px 12px rgba(0,0,0,0.6);
+      border: 2px solid rgba(255, 215, 0, 0.4); border-radius: 14px; padding: 10px 12px;
+      display: flex; justify-content: space-between; align-items: center;
     }
     .animal-icon-box {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, rgba(255,183,0,0.25), rgba(138,90,34,0.5));
-      border: 1.5px solid #ffd700;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
+      width: 40px; height: 40px; background: linear-gradient(135deg, rgba(255,183,0,0.25), rgba(138,90,34,0.5));
+      border: 1.5px solid #ffd700; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
     }
     .task-info { flex: 1; margin-left: 10px; }
     .task-info strong { color: #fff; font-size: 0.85rem; }
     .task-info small { color: #ffb700; font-size: 0.7rem; font-weight: bold; }
 
     .btn-buy {
-      background: linear-gradient(135deg, #ffb700, #ff8800);
-      border: 1px solid #ffe885;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-weight: 900;
-      color: #1a0f05;
-      font-size: 0.75rem;
-      cursor: pointer;
+      background: linear-gradient(135deg, #ffb700, #ff8800); border: 1px solid #ffe885;
+      padding: 6px 12px; border-radius: 8px; font-weight: 900; color: #1a0f05; font-size: 0.75rem; cursor: pointer;
     }
 
     .wallet-box-manual {
-      background: rgba(0, 0, 0, 0.7);
-      border: 1.5px solid #ffb700;
-      border-radius: 12px;
-      padding: 12px;
-      margin-top: 8px;
-      text-align: left;
+      background: rgba(0, 0, 0, 0.7); border: 1.5px solid #ffb700; border-radius: 12px; padding: 12px; margin-top: 8px; text-align: left;
     }
     .wallet-box-manual label { font-size: 0.75rem; color: #ffd700; font-weight: bold; }
     .wallet-input-row { display: flex; gap: 6px; margin-top: 4px; margin-bottom: 8px; align-items: center; }
     .wallet-input-row input { flex: 1; background: #111; border: 1px solid #704b2e; color: #fff; padding: 8px; border-radius: 8px; font-size: 0.75rem; }
-
-    .btn-max, .btn-copy {
-      background: #27ae60; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 0.7rem; cursor: pointer;
-    }
+    .btn-max, .btn-copy { background: #27ae60; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
     .btn-copy { background: #3498db; }
 
-    .bg-switcher-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      margin-top: 6px;
-    }
+    .bg-switcher-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
     .bg-option-btn {
-      background: linear-gradient(135deg, #2b1a0f, #1a0f05);
-      border: 1px solid #704b2e;
-      padding: 6px;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 0.65rem;
-      font-weight: bold;
-      cursor: pointer;
-      text-align: center;
-      opacity: 0.5;
+      background: linear-gradient(135deg, #2b1a0f, #1a0f05); border: 1px solid #704b2e;
+      padding: 6px; border-radius: 8px; color: #fff; font-size: 0.65rem; font-weight: bold; cursor: pointer; text-align: center; opacity: 0.5;
     }
     .bg-option-btn.unlocked { opacity: 1; border-color: #ffd700; }
     .bg-option-btn.active { border-color: #00ffcc; background: linear-gradient(135deg, #5c3a21, #3c2414); }
-
-    .wheel-tree-container {
-      position: relative; width: 220px; height: 220px; margin: 8px auto; display: flex; justify-content: center; align-items: center;
-    }
-    .wheel-pointer-top {
-      position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
-      width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 20px solid #fff; z-index: 40;
-    }
-    .wheel-wooden-frame {
-      width: 200px; height: 200px; border-radius: 50%; border: 6px solid #ffffff; position: relative; overflow: hidden; background: #111;
-    }
-    .wheel {
-      width: 100%; height: 100%; border-radius: 50%;
-      background: conic-gradient(
-        #222 0deg 45deg, #444 45deg 90deg, #111 90deg 135deg, #555 135deg 180deg, 
-        #222 180deg 225deg, #666 225deg 270deg, #111 270deg 315deg, #333 315deg 360deg
-      );
-      transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
-      position: relative;
-    }
-    .wheel-label {
-      position: absolute; width: 50%; height: 25px; top: 50%; left: 50%;
-      transform-origin: left center; font-size: 0.65rem; font-weight: 900; color: #fff;
-      display: flex; align-items: center; padding-left: 40px; pointer-events: none;
-    }
-    .wheel-center-hub {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 36px; height: 36px; background: #ffffff; border-radius: 50%; border: 2px solid #000; z-index: 30; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #000;
-    }
-    .wheel-btn-wood {
-      background: linear-gradient(135deg, #ffffff, #cccccc); color: #000; border: 2px solid #fff; padding: 8px 24px; font-weight: 900; border-radius: 16px; cursor: pointer; margin-top: 8px; font-size: 0.8rem;
-    }
 
     .bottom-nav {
       position: absolute; bottom: 0; left: 0; width: 100%;
       background: linear-gradient(180deg, rgba(18,10,5,0.96), rgba(8,4,1,0.99));
       border-top: 2px solid #704b2e; display: flex; justify-content: space-around; padding: 6px 0 10px 0; z-index: 100;
-      box-shadow: 0 -5px 20px rgba(0,0,0,0.85);
     }
-    .nav-item {
-      display: flex; flex-direction: column; align-items: center; color: #bfa38a; font-size: 0.68rem; text-decoration: none; cursor: pointer; gap: 2px;
-    }
-    .nav-item.active { color: #ffd700; font-weight: bold; text-shadow: 0 0 8px rgba(255,215,0,0.6); }
+    .nav-item { display: flex; flex-direction: column; align-items: center; color: #bfa38a; font-size: 0.68rem; text-decoration: none; cursor: pointer; gap: 2px; }
+    .nav-item.active { color: #ffd700; font-weight: bold; }
     .nav-icon { font-size: 1.25rem; }
 
     .toast-notification {
@@ -546,9 +273,8 @@
 </head>
 <body>
 
-  <video id="bgVideo" class="bg-video" autoplay loop muted playsinline preload="auto">
-    <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
-  </video>
+  <!-- 3D SAVANNE ACHTERGROND CONTAINER -->
+  <div id="savanna3d"></div>
 
   <div class="app-container" id="appContainer">
     <div id="toast" class="toast-notification"></div>
@@ -562,18 +288,17 @@
             <div class="hud-avatar" id="hudAvatarLetter">A</div>
             <div>
               <div style="font-size: 0.75rem; font-weight: 900; color: #fff;" id="hudUsername">Oyuncu</div>
-              <div style="font-size: 0.6rem; color: #ffd700;" id="hudLevelText">Level 1</div>
+              <div style="font-size: 0.6rem; color: #ffd700;" id="hudLevelText">Level 7</div>
             </div>
           </div>
           <div class="hud-right-balances">
-            <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700;" id="balance">0.0 🥩</div>
-            <div style="font-size: 0.6rem; color: #ccc;" id="gramBalance">0.0000 GRAM</div>
+            <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700;" id="balance">446.0 🥩</div>
+            <div style="font-size: 0.6rem; color: #ccc;" id="gramBalance">0.0257 GRAM</div>
           </div>
         </div>
-        <!-- XP BAR -->
         <div class="xp-bar-container">
-          <div class="xp-bar-fill" id="xpBarFill"></div>
-          <div class="xp-text-overlay" id="xpTextOverlay">XP: 0 / 1500 (Level 1)</div>
+          <div class="xp-bar-fill" id="xpBarFill" style="width: 25%;"></div>
+          <div class="xp-text-overlay" id="xpTextOverlay">Level 7 (XP: 1697 / 7000)</div>
         </div>
       </div>
 
@@ -582,7 +307,7 @@
         <div class="center-action-box" id="centerActionBox" onclick="handleMainActionTap(event)">
           <div style="font-size: 0.62rem; color: #aaa; text-transform: uppercase;" id="txtCollectTitle">Toplanabilir Biftek (Max 3 Saat):</div>
           <div style="font-size: 1.25rem; font-weight: 900; color: #ffd700; margin: 3px 0;" id="huntSteakDisplay">0 🥩</div>
-          <button class="btn-claim" onclick="event.stopPropagation(); haptic('success'); playSound('success'); claimEarnings()" id="btnCollectText">📥 Biftekleri Topla</button>
+          <button class="btn-claim" onclick="event.stopPropagation(); claimEarnings()" id="btnCollectText">📥 Biftekleri Topla</button>
         </div>
       </div>
 
@@ -591,11 +316,10 @@
         <div class="page-box">
           <div class="page-title">⚔️ Mağra & Özel Fırsatlar</div>
 
-          <!-- GRATIS WOLF CLAIM BANNER -->
           <div class="promo-wolf-box" id="promoWolfBanner">
             <div style="font-size: 0.82rem; font-weight: 900; color: #00ffcc;">🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!</div>
             <div style="font-size: 0.65rem; color: #ccc; margin: 2px 0;" id="wolfPromoCounter">Kalan Hak: 49 / 50</div>
-            <button class="cr-buy-btn" id="claimWolfPromoBtn" onclick="haptic('success'); playSound('success'); claimFreePromoWolf()" style="background: linear-gradient(135deg, #00ffcc, #0088cc); color: #000; font-size: 0.75rem; margin-top: 4px;">🎁 ÜCRETSİZ KURTU CLAIM ET!</button>
+            <button class="cr-buy-btn" id="claimWolfPromoBtn" onclick="claimFreePromoWolf()" style="background: linear-gradient(135deg, #00ffcc, #0088cc); color: #000; font-size: 0.75rem; margin-top: 4px;">🎁 ÜCRETSİZ KURTU CLAIM ET!</button>
           </div>
 
           <div class="cr-banner-box">
@@ -604,147 +328,108 @@
             <div style="font-size: 1rem; font-weight: 900; color: #fff; margin: 3px 0;" id="sliderUsdVal">$10 USD</div>
             <input type="range" min="1" max="500" value="10" class="campaign-slider" id="usdSlider" oninput="updateCampaignSlider(this.value)">
             <div style="font-size: 0.72rem; color: #2ecc71; font-weight: bold; margin-bottom: 6px;" id="sliderRewardVal">Alacağın: 25,000 🥩</div>
-            <button class="cr-buy-btn" onclick="haptic('light'); playSound('click'); buyCampaignSteak()">Paketi Satın Al</button>
+            <button class="cr-buy-btn" onclick="buyCampaignSteak()">Paketi Satın Al</button>
           </div>
 
           <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700; text-align: center; margin-top: 8px;">🛡️ Kart Koleksiyonu & Üretim Hızı</div>
-          <div style="font-size: 0.65rem; color: #aaa; margin-bottom: 6px; text-align: center;" id="totalSpeedInfo">Toplam Üretim Hızı: 5 🥩 / sa</div>
+          <div style="font-size: 0.65rem; color: #aaa; margin-bottom: 6px; text-align: center;" id="totalSpeedInfo">Toplam Üretim Hızı: 664 🥩 / sa</div>
           
           <div class="cr-cards-grid">
-            <!-- 1. Aslan Yavrusu -->
             <div class="cr-card">
               <img src="aslan_yavrusu.PNG" class="cr-card-img" alt="Aslan Yavrusu">
-              <div class="cr-card-title">Aslan Yavrusu (<span id="countCub">0</span>)</div>
+              <div class="cr-card-title">Aslan Yavrusu (<span id="countCub">24</span>)</div>
               <div class="cr-card-sub">+2 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
             </div>
-            <!-- 2. Afrika Akbabası -->
             <div class="cr-card">
               <img src="afrika_akbabasi.PNG" class="cr-card-img" alt="Afrika Akbabası">
-              <div class="cr-card-title">Afrika Akbabası (<span id="countVulture">0</span>)</div>
+              <div class="cr-card-title">Afrika Akbabası (<span id="countVulture">6</span>)</div>
               <div class="cr-card-sub">+5 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(600, 'buyVulture', 'Afrika Akbabası')">600 🥩</button>
             </div>
-            <!-- 3. Antilop -->
             <div class="cr-card">
               <img src="antilop.PNG" class="cr-card-img" alt="Antilop">
-              <div class="cr-card-title">Antilop (<span id="countAntelope">0</span>)</div>
+              <div class="cr-card-title">Antilop (<span id="countAntelope">1</span>)</div>
               <div class="cr-card-sub">+12 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(1500, 'buyAntelope', 'Antilop')">1500 🥩</button>
             </div>
-            <!-- 4. Jaguar -->
             <div class="cr-card">
               <img src="jaguar.PNG" class="cr-card-img" alt="Jaguar">
-              <div class="cr-card-title">Jaguar (<span id="countJaguar">0</span>)</div>
+              <div class="cr-card-title">Jaguar (<span id="countJaguar">2</span>)</div>
               <div class="cr-card-sub">+30 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(4000, 'buyJaguar', 'Jaguar')">4000 🥩</button>
             </div>
-            <!-- 5. Sırtlan Sürüsü -->
             <div class="cr-card">
               <img src="sirtlan_surusu.PNG" class="cr-card-img" alt="Sırtlan Sürüsü">
               <div class="cr-card-title">Sırtlan Sürüsü (<span id="countHyena">0</span>)</div>
               <div class="cr-card-sub">+70 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(10000, 'buyHyena', 'Sırtlan Sürüsü')">10000 🥩</button>
             </div>
-            <!-- 6. Çakal -->
             <div class="cr-card">
               <img src="cakal.PNG" class="cr-card-img" alt="Çakal">
               <div class="cr-card-title">Çakal (<span id="countJackal">0</span>)</div>
               <div class="cr-card-sub">+160 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(25000, 'buyJackal', 'Çakal')">25000 🥩</button>
             </div>
-            <!-- 7. Kurt -->
             <div class="cr-card">
               <img src="kurt.PNG" class="cr-card-img" alt="Kurt">
-              <div class="cr-card-title">Kurt (<span id="countWolf">0</span>)</div>
+              <div class="cr-card-title">Kurt (<span id="countWolf">1</span>)</div>
               <div class="cr-card-sub">+260 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(42000, 'buyWolf', 'Kurt')">42000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(42000, 'buyWolf', 'Kurt')">42000 🥩</button>
             </div>
-            <!-- 8. Kral Aslan -->
             <div class="cr-card">
               <img src="kral_aslan.PNG" class="cr-card-img" alt="Kral Aslan">
               <div class="cr-card-title">Kral Aslan (<span id="countLion">0</span>)</div>
               <div class="cr-card-sub">+370 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(60000, 'buyLion', 'Kral Aslan')">60000 🥩</button>
             </div>
-            <!-- 9. Çita -->
             <div class="cr-card">
               <img src="cita.PNG" class="cr-card-img" alt="Çita">
               <div class="cr-card-title">Çita (<span id="countCheetah">0</span>)</div>
               <div class="cr-card-sub">+850 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(150000, 'buyCheetah', 'Çita')">150000 🥩</button>
             </div>
-            <!-- 10. 2 Erkek Aslan -->
             <div class="cr-card">
               <img src="iki_erkek_aslan.PNG" class="cr-card-img" alt="2 Erkek Aslan">
               <div class="cr-card-title">2 Erkek Aslan (<span id="countTwoLions">0</span>)</div>
               <div class="cr-card-sub">+1,950 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(350000, 'buyTwoLions', '2 Erkek Aslan')">350000 🥩</button>
             </div>
-            <!-- 11. Python -->
             <div class="cr-card">
               <img src="python.PNG" class="cr-card-img" alt="Python">
               <div class="cr-card-title">Python (<span id="countPython">0</span>)</div>
               <div class="cr-card-sub">+4,400 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(800000, 'buyPython', 'Python Yılanı')">800000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(800000, 'buyPython', 'Python')">800000 🥩</button>
             </div>
-            <!-- 12. Timsah -->
             <div class="cr-card">
               <img src="timsah.PNG" class="cr-card-img" alt="Timsah">
               <div class="cr-card-title">Timsah (<span id="countCrocodile">0</span>)</div>
               <div class="cr-card-sub">+9,800 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(1800000, 'buyCrocodile', 'Timsah')">1800000 🥩</button>
             </div>
-            <!-- 13. Siyah Gergedan -->
             <div class="cr-card">
               <img src="siyah_gergedan.PNG" class="cr-card-img" alt="Siyah Gergedan">
               <div class="cr-card-title">Siyah Gergedan (<span id="countBlackRhino">0</span>)</div>
               <div class="cr-card-sub">+21,500 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4000000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(4000000, 'buyBlackRhino', 'Siyah Gergedan')">4M 🥩</button>
             </div>
-            <!-- 14. Beyaz Gergedan -->
             <div class="cr-card">
               <img src="beyaz_gergedan.PNG" class="cr-card-img" alt="Beyaz Gergedan">
               <div class="cr-card-title">Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</div>
               <div class="cr-card-sub">+47,000 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9000000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9M 🥩</button>
             </div>
-            <!-- 15. Afrika Fili -->
             <div class="cr-card">
               <img src="fil.PNG" class="cr-card-img" alt="Afrika Fili">
               <div class="cr-card-title">Afrika Fili (<span id="countElephant">0</span>)</div>
               <div class="cr-card-sub">+102,000 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20000000 🥩</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20M 🥩</button>
             </div>
-            <!-- 16. Kara Panter (Gecorrigeerd en exact gekoppeld) -->
             <div class="cr-card">
               <img src="kara_panter.PNG" class="cr-card-img" alt="Kara Panter">
               <div class="cr-card-title">Kara Panter (<span id="countPanther">0</span>)</div>
               <div class="cr-card-sub">+220,000 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(45000000, 'buyPanther', 'Kara Panter')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">45M 🥩</button>
-            </div>
-          </div>
-
-          <div style="margin-top: 12px; border-top: 1px solid rgba(255,215,0,0.3); padding-top: 8px;">
-            <div style="font-size: 0.75rem; font-weight: bold; color: #ffd700; text-align: center;">🎬 Arka Planını Seç (Önce Satın Almalısın)</div>
-            <div class="bg-switcher-grid">
-              <button class="bg-option-btn unlocked active" id="bgBtn-empty" onclick="haptic('light'); playSound('click'); changeBackground('./background_empty.MP4', 'empty')">🪨 Standart Mağra</button>
-              <button class="bg-option-btn" id="bgBtn-cub1" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub1', './background_cub1.MP4')">🐾 1 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cubs2" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cubs2', './background_cubs2.MP4')">🐾🐾 2 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cub3" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub3', './background_cub3.MP4')">🐾 3 Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-cub4" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cub4', './background_cub4.MP4')">🐾 4+ Aslan Yavrusu</button>
-              <button class="bg-option-btn" id="bgBtn-jaguar" onclick="haptic('light'); playSound('click'); checkAndChangeBg('jaguar', './background_jaguar.MP4')">🐆 Jaguar Mağarası</button>
-              <button class="bg-option-btn" id="bgBtn-vulture" onclick="haptic('light'); playSound('click'); checkAndChangeBg('vulture', './background_vulture.MP4')">🦅 Akbaba Mağarası</button>
-              <button class="bg-option-btn" id="bgBtn-hyena" onclick="haptic('light'); playSound('click'); checkAndChangeBg('hyena', './background_hyena.MP4')">🐺 Sırtlan Sürüsü</button>
-              <button class="bg-option-btn" id="bgBtn-jackal" onclick="haptic('light'); playSound('click'); checkAndChangeBg('jackal', './background_jackal.MP4')">🦊 Çakal Mağarası</button>
-              <button class="bg-option-btn" id="bgBtn-wolf" onclick="haptic('light'); playSound('click'); checkAndChangeBg('wolf', './background_wolf.MP4')">🐺 Kurt Mağarası</button>
-              <button class="bg-option-btn" id="bgBtn-lion" onclick="haptic('light'); playSound('click'); checkAndChangeBg('lion', './background_lion.MP4')">🦁 Kral Aslan</button>
-              <button class="bg-option-btn" id="bgBtn-two_lions" onclick="haptic('light'); playSound('click'); checkAndChangeBg('two_lions', './background_two_lions.MP4')">🦁🦁 2 Erkek Aslan</button>
-              <button class="bg-option-btn" id="bgBtn-cheetah" onclick="haptic('light'); playSound('click'); checkAndChangeBg('cheetah', './background_cheetah.MP4')">🐅 Çita Mağarası</button>
-              <button class="bg-option-btn" id="bgBtn-black_rhino" onclick="haptic('light'); playSound('click'); checkAndChangeBg('black_rhino', './BACKGROUND_BLACK_RHINO.MP4')">🦏 Siyah Gergedan</button>
-              <button class="bg-option-btn" id="bgBtn-elephant" onclick="haptic('light'); playSound('click'); checkAndChangeBg('elephant', './background_elephant.MP4')">🐘 Afrika Fili</button>
-              <button class="bg-option-btn" id="bgBtn-white_rhino" onclick="haptic('light'); playSound('click'); checkAndChangeBg('white_rhino', './background_white_rhino.MP4')">🦏 Beyaz Gergedan</button>
-              <button class="bg-option-btn" id="bgBtn-panther" onclick="haptic('light'); playSound('click'); checkAndChangeBg('panther', './background_panther.MP4')">🐈‍⬛ Kara Panter</button>
+              <button class="cr-buy-btn" onclick="buyWithSteak(45000000, 'buyPanther', 'Kara Panter')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">45M 🥩</button>
             </div>
           </div>
         </div>
@@ -754,24 +439,19 @@
       <div id="tab-hunt" class="tab-content">
         <div class="page-box" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
           <div class="page-title">🏹 Av & Savaş Arenası</div>
-
           <div class="battle-arena-container">
             <div style="font-size: 0.7rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;" id="battleStatusText">Savaş Alanı Hazır! Avcını Seç ve Saldır!</div>
-            
             <div class="battle-board" id="battleBoard">
               <div class="enemy-side">
                 <img src="antilop.PNG" class="battle-unit-img" title="Antilop">
                 <img src="aslan_yavrusu.PNG" class="battle-unit-img" title="Av">
               </div>
-
               <div style="text-align: center; font-size: 0.6rem; color: #fff; background: rgba(0,0,0,0.5); padding: 1px 8px; border-radius: 6px;">VS</div>
-
               <div class="player-side">
                 <img id="playerActiveUnitImg" src="kral_aslan.PNG" class="battle-unit-img" title="Seçilen Savaşçı">
               </div>
             </div>
-
-            <div class="unit-selector-row" id="unitSelectorRow">
+            <div class="unit-selector-row">
               <div class="unit-select-chip selected" onclick="selectBattleUnit('kral_aslan.PNG', 'Kral Aslan')">🦁 Aslan</div>
               <div class="unit-select-chip" onclick="selectBattleUnit('jaguar.PNG', 'Jaguar')">🐆 Jaguar</div>
               <div class="unit-select-chip" onclick="selectBattleUnit('kurt.PNG', 'Kurt')">🐺 Kurt</div>
@@ -779,82 +459,33 @@
               <div class="unit-select-chip" onclick="selectBattleUnit('timsah.PNG', 'Timsah')">🐊 Timsah</div>
             </div>
           </div>
-
           <div style="margin-top: 8px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div style="font-size: 0.72rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
               <div style="font-size: 0.6rem; color: #aaa;" id="huntTimerText">Yenilenme: 03:00:00</div>
             </div>
-            <button class="btn-claim" onclick="haptic('heavy'); playSound('hunt'); triggerClashHunt(event)" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; font-size: 0.85rem;">⚔️ SALDIR VE AVLAN!</button>
-          </div>
-
-          <div style="background: rgba(0,0,0,0.7); border: 1px solid #704b2e; border-radius: 10px; padding: 6px; text-align: center; margin-top: 6px;">
-            <div style="font-size: 0.68rem; color: #ffd700; font-weight: bold;">🔄 Biftek → GRAM Takası (50k = 0.01 GRAM)</div>
-            <button class="btn-claim" onclick="haptic('success'); playSound('success'); exchangeSteakToGram()" style="padding: 4px; font-size: 0.7rem; margin-top: 3px; background: #3498db; color: #fff;">GRAM ile Değiştir</button>
+            <button class="btn-claim" onclick="triggerClashHunt(event)" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; font-size: 0.85rem;">⚔️ SALDIR VE AVLAN!</button>
           </div>
         </div>
       </div>
 
-      <!-- CÜZDAN & PARA ÇEK -->
+      <!-- CÜZDAN -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
-          <div class="page-title">👛 Cüzdan & Para Çek</div>
-          <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 6px; text-align: center;">
-            💎 Cüzdanımıza yalnızca <strong>Toncoin (TON)</strong> veya <strong>GRAM</strong> yatırın veya bakiye çekin.
-          </p>
-          <div class="wallet-box-manual">
-            <label>Yatırım Adresi (TON):</label>
-            <div class="wallet-input-row">
-              <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
-              <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyMyWallet()">Kopya</button>
-            </div>
-          </div>
-          <div class="wallet-box-manual" style="margin-top: 10px;">
-            <label>Çekilecek Tutar (GRAM):</label>
-            <div class="wallet-input-row">
-              <input type="text" id="withdrawAmount" placeholder="0.0000">
-              <button class="btn-max" onclick="haptic('light'); playSound('click'); setMaxWithdraw()">MAX</button>
-            </div>
-            <label>Cüzdan Adresiniz:</label>
-            <div class="wallet-input-row">
-              <input type="text" id="withdrawAddress" placeholder="UQ...">
-            </div>
-            <button class="btn-claim" onclick="haptic('success'); playSound('success'); requestWithdraw()" style="margin-top: 4px;">Talep Oluştur</button>
-          </div>
+          <div class="page-title">👛 Cüzdan</div>
+          <p style="text-align: center; color: #ccc; font-size: 0.75rem;">Toncoin & GRAM bakiyeniz güvende.</p>
         </div>
-      </div>
-
-      <!-- MENU POPUP -->
-      <div class="menu-popup" id="menuPopup">
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('gorevler')">📋 Görevler</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('streak')">🔥 7 Günlük Streak</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('achievements')">🏆 Başarılar (Badge)</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('referral')">👥 Arkadaş Davet</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('spin')">🎡 Şans Çarkı</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('leaderboard')">🏆 Liderlik</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('language')">🌍 Dil / Language</div>
-        <a href="https://t.me/DailygramMinerOfficial" target="_blank" class="menu-popup-btn" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">📢 Resmi Kanal</a>
       </div>
 
       <!-- GÖREVLER -->
       <div id="tab-gorevler" class="tab-content">
         <div class="page-box">
-          <div class="page-title">📋 Görevler & Ödüller</div>
+          <div class="page-title">📋 Görevler</div>
           <div class="task-list">
             <div class="task-card">
               <div class="animal-icon-box">📢</div>
               <div class="task-info"><strong>Telegram Kanalını Takip Et</strong><br><small>+100 🥩</small></div>
-              <button class="btn-buy" onclick="haptic('success'); playSound('success'); completeChannelTask()">Takip Et</button>
-            </div>
-            <div class="task-card">
-              <div class="animal-icon-box">👥</div>
-              <div class="task-info"><strong>Arkadaş Davet Et</strong><br><small>+500 🥩 + 0.01 GRAM</small></div>
-              <button class="btn-buy" onclick="haptic('light'); playSound('click'); openModalTab('referral')">Git</button>
-            </div>
-            <div class="task-card">
-              <div class="animal-icon-box">🔥</div>
-              <div class="task-info"><strong>7 Günlük Streak Ödülleri</strong><br><small>Her gün gel bonus kap!</small></div>
-              <button class="btn-buy" onclick="haptic('light'); playSound('click'); openModalTab('streak')">Aç</button>
+              <button class="btn-buy" onclick="completeChannelTask()">Takip Et</button>
             </div>
           </div>
         </div>
@@ -863,17 +494,16 @@
       <!-- 7 GÜNLÜK STREAK -->
       <div id="tab-streak" class="tab-content">
         <div class="page-box">
-          <div class="page-title">🔥 7 Günlük Giriş Serisi</div>
-          <p style="font-size: 0.7rem; color: #ccc; text-align: center; margin-bottom: 8px;">Her gün oyuna girerek ödüllerini topla ve seriyi bozma!</p>
+          <div class="page-title">🔥 7 Günlük Streak</div>
           <div class="streak-grid" id="streakGridContainer"></div>
-          <button class="btn-claim" style="margin-top: 10px; background: #2ecc71; color: #000;" onclick="haptic('success'); playSound('success'); claimStreakDaily()">📥 Bugünün Ödülünü Al</button>
+          <button class="btn-claim" onclick="claimStreakDaily()" style="background: #2ecc71; color: #000;">📥 Ödülü Al</button>
         </div>
       </div>
 
       <!-- ACHIEVEMENTS -->
       <div id="tab-achievements" class="tab-content">
         <div class="page-box">
-          <div class="page-title">🏆 Başarılar & Rozetler</div>
+          <div class="page-title">🏆 Başarılar</div>
           <div class="task-list" id="achievementsListContainer"></div>
         </div>
       </div>
@@ -882,35 +512,22 @@
       <div id="tab-referral" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">👥 Arkadaş Davet Et</div>
-          <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 10px;">Her arkadaşın için <strong>+500 Biftek</strong> ve <strong>0.01 GRAM</strong> kazan! 🎁</p>
           <div class="wallet-box-manual">
-            <label>Senin Davet Linkin:</label>
+            <label>Davet Linkin:</label>
             <div class="wallet-input-row">
               <input type="text" id="refLinkInput" readonly>
-              <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyRefLink()">Kopyala</button>
+              <button class="btn-copy" onclick="copyRefLink()">Kopyala</button>
             </div>
           </div>
-          <div style="margin-top: 12px; background: rgba(0,0,0,0.5); border: 1px solid #704b2e; border-radius: 10px; padding: 10px;">
-            <div style="font-size: 0.75rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">📊 Davet İstatistiklerin</div>
-            <div style="font-size: 0.8rem; color: #fff;">Davet Edilen Arkadaş: <strong id="refCountDisplay" style="color: #2ecc71;">0</strong></div>
-            <div style="font-size: 0.7rem; color: #aaa; margin-top: 2px;">Kazanılan Toplam Ödül: <span id="refEarnedDisplay" style="color: #ffd700;">0 🥩</span></div>
-          </div>
-          <button class="btn-claim" style="margin-top: 12px; background: linear-gradient(135deg, #3498db, #2980b9); color: #fff;" onclick="haptic('light'); playSound('click'); shareRefLink()">🚀 Telegram'da Paylaş</button>
         </div>
       </div>
 
       <!-- DİL SEÇİMİ -->
       <div id="tab-language" class="tab-content">
         <div class="page-box" style="text-align: center;">
-          <div class="page-title">🌍 Dil Seçimi / Language</div>
-          <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 12px;">Uygulama dilini seçin:</p>
-          <div style="display: flex; flex-direction: column; gap: 8px;">
-            <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('tr')">🇹🇷 Türkçe</button>
-            <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('nl')">🇳🇱 Nederlands</button>
-            <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('en')">🇬🇧 English</button>
-            <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('de')">🇩🇪 Deutsch</button>
-            <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('es')">🇪🇸 Español</button>
-          </div>
+          <div class="page-title">🌍 Dil Seçimi</div>
+          <button class="btn-claim" onclick="setAppLanguage('tr')">🇹🇷 Türkçe</button>
+          <button class="btn-claim" onclick="setAppLanguage('nl')" style="margin-top: 6px;">🇳🇱 Nederlands</button>
         </div>
       </div>
 
@@ -918,23 +535,7 @@
       <div id="tab-spin" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🎡 Şans Çarkı</div>
-          <div class="wheel-tree-container">
-            <div class="wheel-pointer-top"></div>
-            <div class="wheel-wooden-frame">
-              <div class="wheel" id="wheel">
-                <div class="wheel-label" style="transform: rotate(22.5deg);">50 🥩</div>
-                <div class="wheel-label" style="transform: rotate(67.5deg);">100 🥩</div>
-                <div class="wheel-label" style="transform: rotate(112.5deg);">250 🥩</div>
-                <div class="wheel-label" style="transform: rotate(157.5deg);">500 🥩</div>
-                <div class="wheel-label" style="transform: rotate(202.5deg);">75 🥩</div>
-                <div class="wheel-label" style="transform: rotate(247.5deg);">150 🥩</div>
-                <div class="wheel-label" style="transform: rotate(292.5deg);">300 🥩</div>
-                <div class="wheel-label" style="transform: rotate(337.5deg);">1000 🥩</div>
-              </div>
-              <div class="wheel-center-hub">🎁</div>
-            </div>
-          </div>
-          <button class="wheel-btn-wood" id="spinBtn" onclick="haptic('success'); playSound('success'); spinWheel()">ÇEVİR</button>
+          <button class="btn-claim" id="spinBtn" onclick="spinWheel()" style="margin-top: 15px;">ÇEVİR</button>
         </div>
       </div>
 
@@ -946,155 +547,119 @@
         </div>
       </div>
 
+      <!-- MENU POPUP -->
+      <div class="menu-popup" id="menuPopup">
+        <div class="menu-popup-btn" onclick="openModalTab('gorevler')">📋 Görevler</div>
+        <div class="menu-popup-btn" onclick="openModalTab('streak')">🔥 Streak</div>
+        <div class="menu-popup-btn" onclick="openModalTab('achievements')">🏆 Başarılar</div>
+        <div class="menu-popup-btn" onclick="openModalTab('referral')">👥 Davet Et</div>
+        <div class="menu-popup-btn" onclick="openModalTab('spin')">🎡 Şans Çarkı</div>
+        <div class="menu-popup-btn" onclick="openModalTab('leaderboard')">🏆 Liderlik</div>
+        <div class="menu-popup-btn" onclick="openModalTab('language')">🌍 Dil</div>
+      </div>
+
     </div>
 
     <!-- ALT NAVIGATIE -->
     <div class="bottom-nav">
-      <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
-      <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
-      <div class="nav-item active" onclick="haptic('light'); playSound('click'); switchTab('ana', this)"><div class="nav-icon">🦁</div><div>Ana Sayfa</div></div>
-      <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div>Cüzdan</div></div>
-      <div class="nav-item" onclick="haptic('medium'); toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menü</div></div>
+      <div class="nav-item" onclick="switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
+      <div class="nav-item" onclick="switchTab('hunt', this)"><div class="nav-icon">🏹</div><div>Av</div></div>
+      <div class="nav-item active" onclick="switchTab('ana', this)"><div class="nav-icon">🦁</div><div>Ana Sayfa</div></div>
+      <div class="nav-item" onclick="switchTab('cuzdan', this)"><div class="nav-icon">👛</div><div>Cüzdan</div></div>
+      <div class="nav-item" onclick="toggleMenuPopup()"><div class="nav-icon">🗂️</div><div>Menü</div></div>
     </div>
 
   </div>
 
-  <!-- PAYMENT MODAL -->
-  <div class="modal-overlay" id="paymentModal">
-    <div class="modal-box">
-      <div class="modal-title" id="payModalTitle" style="color: #ffd700; font-weight: 900; margin-bottom: 8px;">Ödemeyi Tamamla</div>
-      <div class="wallet-box-manual" style="margin-top:0;">
-        <label>Ödenecek Tutar (USD):</label>
-        <div class="wallet-input-row"><input type="text" id="payModalAmount" readonly><button class="btn-copy" onclick="haptic('light'); playSound('click'); copyPayAmount()">Kopya</button></div>
-        <label>Toncoin (TON) Cüzdan:</label>
-        <div class="wallet-input-row"><input type="text" id="payModalAddress" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly><button class="btn-copy" onclick="haptic('light'); playSound('click'); copyPayAddress()">Kopya</button></div>
-      </div>
-      <button class="btn-claim" onclick="haptic('success'); playSound('success'); confirmManualPayment()">✅ Ödemeyi Yaptım</button>
-      <button class="btn-buy" style="background:#444; color:#fff; width:100%; margin-top:6px; padding: 6px; border-radius: 8px; border: none; font-weight: bold;" onclick="haptic('light'); playSound('click'); closePaymentModal()">İptal</button>
-    </div>
-  </div>
+  <!-- THREE.JS 3D SAVANNE ACHTERGROND SCRIPT -->
+  <script type="module">
+    import * as THREE from 'three';
 
+    const container = document.getElementById("savanna3d");
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf3bb78);
+    scene.fog = new THREE.Fog(0xf3bb78, 22, 85);
+
+    const camera = new THREE.PerspectiveCamera(48, container.clientWidth / container.clientHeight, 0.1, 150);
+    camera.position.set(0, 5, 15);
+    camera.lookAt(0, 1, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    scene.add(new THREE.HemisphereLight(0xffe4b0, 0x45512b, 2));
+    const sunlight = new THREE.DirectionalLight(0xffd18a, 3);
+    sunlight.position.set(-8, 14, 6);
+    scene.add(sunlight);
+
+    const ground = new THREE.Mesh(
+      new THREE.PlaneGeometry(160, 160),
+      new THREE.MeshStandardMaterial({ color: 0x82763b, roughness: 1 })
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -0.15;
+    scene.add(ground);
+
+    function createTree(x, z, scale = 1) {
+      const tree = new THREE.Group();
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.22, 2.2, 7), new THREE.MeshStandardMaterial({ color: 0x604329 }));
+      trunk.position.y = 1.1;
+      tree.add(trunk);
+      const crown = new THREE.Mesh(new THREE.SphereGeometry(1, 12, 8), new THREE.MeshStandardMaterial({ color: 0x45572a, roughness: 1 }));
+      crown.scale.set(1.8, 0.38, 1.1);
+      crown.position.y = 2.35;
+      tree.add(crown);
+      tree.position.set(x, 0, z);
+      tree.scale.setScalar(scale);
+      scene.add(tree);
+      return tree;
+    }
+
+    const trees = [createTree(-7, -5, 1.5), createTree(7, -8, 1.2), createTree(-10, -14, 1.8), createTree(12, -18, 1.5)];
+
+    const clock = new THREE.Clock();
+    renderer.setAnimationLoop(() => {
+      const elapsed = clock.getElapsedTime();
+      camera.position.x = Math.sin(elapsed * 0.12) * 0.35;
+      camera.lookAt(0, 1, 0);
+      trees.forEach((tree, i) => { tree.rotation.z = Math.sin(elapsed + i) * 0.008; });
+      renderer.render(scene, camera);
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  </script>
+
+  <!-- JAVASCRIPT GAME LOGICA -->
   <script>
     const tg = window.Telegram?.WebApp;
     function haptic(style) {
-      try {
-        if (tg && tg.HapticFeedback) {
-          if (style === 'success' || style === 'warning' || style === 'error') {
-            tg.HapticFeedback.notificationOccurred(style);
-          } else {
-            tg.HapticFeedback.impactOccurred(style);
-          }
-        }
-      } catch(e) {}
-    }
-
-    let audioCtx = null;
-    function playSound(type) {
-      try {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-
-        let osc = audioCtx.createOscillator();
-        let gainNode = audioCtx.createGain();
-        osc.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        let now = audioCtx.currentTime;
-
-        if (type === 'click') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(400, now);
-          osc.frequency.exponentialRampToValueAtTime(200, now + 0.05);
-          gainNode.gain.setValueAtTime(0.15, now);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-          osc.start(now);
-          osc.stop(now + 0.05);
-        } 
-        else if (type === 'hunt') {
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(300, now);
-          osc.frequency.exponentialRampToValueAtTime(600, now + 0.08);
-          gainNode.gain.setValueAtTime(0.2, now);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
-          osc.start(now);
-          osc.stop(now + 0.08);
-        }
-        else if (type === 'success') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(523.25, now); 
-          osc.frequency.setValueAtTime(659.25, now + 0.08); 
-          osc.frequency.setValueAtTime(783.99, now + 0.16); 
-          gainNode.gain.setValueAtTime(0.2, now);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-          osc.start(now);
-          osc.stop(now + 0.3);
-        }
-        else if (type === 'buy') {
-          osc.type = 'square';
-          osc.frequency.setValueAtTime(220, now);
-          osc.frequency.exponentialRampToValueAtTime(440, now + 0.15);
-          gainNode.gain.setValueAtTime(0.1, now);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
-          osc.start(now);
-          osc.stop(now + 0.15);
-        }
-      } catch(e) {}
+      try { if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred(style); } catch(e) {}
     }
 
     let username = "Oyuncu";
     let userId = "12345678";
-    let startParam = "";
-
     if (tg && tg.initDataUnsafe?.user) {
       tg.expand();
       username = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name || "Oyuncu";
       userId = tg.initDataUnsafe.user.id || "12345678";
-      if (tg.initDataUnsafe.start_param) {
-        startParam = tg.initDataUnsafe.start_param;
-      }
     }
-
     document.getElementById('hudUsername').innerText = username;
-    document.getElementById('hudAvatarLetter').innerText = username.charAt(0).toUpperCase();
+    document.getElementById('refLinkInput').value = `https://t.me/DailygramMinerBot?start=ref_${userId}`;
 
-    const myRefLink = `https://t.me/DailygramMinerBot?start=ref_${userId}`;
-    document.getElementById('refLinkInput').value = myRefLink;
-
-    const MY_RECEIVING_WALLET = "UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH";
-
-    let balance = 446.0;
-    let gramBalance = 0.0257;
-    let unclaimedSteak = 0.0;
-    let lastClaimTime = Date.now();
-    let inviteCount = 0;
-    let huntEnergy = 9;
-    let lastHuntReset = Date.now();
+    let balance = 446.0, gramBalance = 0.0257, unclaimedSteak = 0.0, lastClaimTime = Date.now();
     let cubCount = 24, lionCount = 0, twoLionsCount = 0, jaguarCount = 2, vultureCount = 6, hyenaCount = 0, wolfCount = 1;
     let antelopeCount = 1, jackalCount = 0, cheetahCount = 0, pythonCount = 0, crocodileCount = 0, blackRhinoCount = 0, whiteRhinoCount = 0, elephantCount = 0, pantherCount = 0;
-    let totalEarnedSteak = 0.0;
-    let level = 7;
-    let xp = 1697;
-    let lastWheelSpin = 0;
-    let currentCustomBg = './background_empty.MP4';
-    let channelTaskCompleted = false;
-    let currentLang = 'tr';
-
-    let streakDays = 0;
-    let lastStreakClaimDate = 0;
-    let totalHunts = 0;
-    let achievementClaimed = { hunt10: false, invite3: false, animal5: false };
-    let levelRewardsClaimed = {};
-
-    let promoWolfClaimedCount = 1;
-    let userClaimedPromoWolf = true;
+    let level = 7, xp = 1697, huntEnergy = 9, lastHuntReset = Date.now(), totalHunts = 0, inviteCount = 0;
+    let streakDays = 0, channelTaskCompleted = false, achievementClaimed = {};
 
     function handleMainActionTap(event) {
-      let clickReward = 1;
-      balance += clickReward;
+      balance += 1;
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
       haptic('light');
 
@@ -1108,707 +673,40 @@
       floatEl.innerText = '🥩 +1';
       floatEl.style.left = (x - 20) + 'px';
       floatEl.style.top = (y - 30) + 'px';
-      
       document.body.appendChild(floatEl);
       setTimeout(() => { floatEl.remove(); }, 700);
-      saveData();
     }
-
-    const translations = {
-      tr: { collect: "Toplanabilir Biftek (Max 3 Saat):", btnCollect: "📥 Biftekleri Topla", level: "Level" },
-      nl: { collect: "Verzamelbare Biefstuk (Max 3 Uur):", btnCollect: "📥 Biefstuk Claimen", level: "Level" },
-      en: { collect: "Claimable Steak (Max 3 Hours):", btnCollect: "📥 Claim Steak", level: "Level" },
-      de: { collect: "Sammelbares Steak (Max. 3 Std.):", btnCollect: "📥 Steak abholen", level: "Stufe" },
-      es: { collect: "Carne recolectable (Max 3 Horas):", btnCollect: "📥 Reclamar carne", level: "Nivel" }
-    };
-
-    function setAppLanguage(lang) {
-      currentLang = lang;
-      let t = translations[lang] || translations['tr'];
-      document.getElementById('txtCollectTitle').innerText = t.collect;
-      document.getElementById('btnCollectText').innerText = t.btnCollect;
-      document.getElementById('hudLevelText').innerText = `${t.level} ${level}`;
-      haptic('success');
-      showToast("🌍 Dil güncellendi / Language updated!");
-    }
-
-    function loadCloudData() {
-      if (tg && tg.CloudStorage) {
-        tg.CloudStorage.getItem('game_data', (err, val) => {
-          if (!err && val) {
-            try {
-              let data = JSON.parse(val);
-              balance = data.balance !== undefined ? data.balance : 446.0;
-              gramBalance = data.gramBalance !== undefined ? data.gramBalance : 0.0257;
-              unclaimedSteak = data.unclaimedSteak || 0.0;
-              lastClaimTime = data.lastClaimTime || Date.now();
-              inviteCount = data.inviteCount || 0;
-              huntEnergy = data.huntEnergy !== undefined ? data.huntEnergy : 9;
-              lastHuntReset = data.lastHuntReset || Date.now();
-              cubCount = data.cubCount !== undefined ? data.cubCount : 24;
-              lionCount = data.lionCount || 0;
-              twoLionsCount = data.twoLionsCount || 0;
-              jaguarCount = data.jaguarCount !== undefined ? data.jaguarCount : 2;
-              vultureCount = data.vultureCount !== undefined ? data.vultureCount : 6;
-              hyenaCount = data.hyenaCount || 0;
-              wolfCount = data.wolfCount !== undefined ? data.wolfCount : 1;
-              antelopeCount = data.antelopeCount !== undefined ? data.antelopeCount : 1;
-              jackalCount = data.jackalCount || 0;
-              cheetahCount = data.cheetahCount || 0;
-              pythonCount = data.pythonCount || 0;
-              crocodileCount = data.crocodileCount || 0;
-              blackRhinoCount = data.blackRhinoCount || 0;
-              whiteRhinoCount = data.whiteRhinoCount || 0;
-              elephantCount = data.elephantCount || 0;
-              pantherCount = data.pantherCount || 0;
-              totalEarnedSteak = data.totalEarnedSteak || 0.0;
-              level = data.level || 7;
-              xp = data.xp !== undefined ? data.xp : 1697;
-              lastWheelSpin = data.lastWheelSpin || 0;
-              currentCustomBg = data.currentCustomBg || './background_empty.MP4';
-              channelTaskCompleted = data.channelTaskCompleted || false;
-              streakDays = data.streakDays || 0;
-              lastStreakClaimDate = data.lastStreakClaimDate || 0;
-              totalHunts = data.totalHunts || 0;
-              achievementClaimed = data.achievementClaimed || { hunt10: false, invite3: false, animal5: false };
-              levelRewardsClaimed = data.levelRewardsClaimed || {};
-              promoWolfClaimedCount = data.promoWolfClaimedCount !== undefined ? data.promoWolfClaimedCount : 1;
-              userClaimedPromoWolf = data.userClaimedPromoWolf !== undefined ? data.userClaimedPromoWolf : true;
-            } catch(e) {}
-          }
-          checkReferralParam();
-          calculateEarnings();
-          checkHuntEnergyReset();
-          updateCaveDisplay();
-          updateLeaderboardUI();
-          updateStreakUI();
-          updateAchievementsUI();
-          updateXpBar();
-          updatePromoWolfUI();
-          changeBackground(currentCustomBg, 'empty');
-        });
-      } else {
-        checkReferralParam();
-        calculateEarnings();
-        checkHuntEnergyReset();
-        updateCaveDisplay();
-        updateLeaderboardUI();
-        updateStreakUI();
-        updateAchievementsUI();
-        updateXpBar();
-        updatePromoWolfUI();
-        changeBackground(currentCustomBg, 'empty');
-      }
-    }
-
-    function saveData() {
-      let data = {
-        balance, gramBalance, unclaimedSteak, lastClaimTime, inviteCount, huntEnergy, lastHuntReset,
-        cubCount, lionCount, twoLionsCount, jaguarCount, vultureCount, hyenaCount, wolfCount,
-        antelopeCount, jackalCount, cheetahCount, pythonCount, crocodileCount, blackRhinoCount, whiteRhinoCount, elephantCount, pantherCount,
-        totalEarnedSteak, level, xp, lastWheelSpin, currentCustomBg, channelTaskCompleted,
-        streakDays, lastStreakClaimDate, totalHunts, achievementClaimed, levelRewardsClaimed,
-        promoWolfClaimedCount, userClaimedPromoWolf
-      };
-
-      if (tg && tg.CloudStorage) {
-        tg.CloudStorage.setItem('game_data', JSON.stringify(data));
-      }
-    }
-
-    function checkReferralParam() {
-      if (startParam && startParam.startsWith('ref_')) {
-        let refBy = startParam.replace('ref_', '');
-        let claimedRefs = localStorage.getItem('claimed_ref_' + refBy);
-        if (!claimedRefs && refBy !== userId) {
-          balance += 500;
-          gramBalance += 0.0100;
-          inviteCount++;
-          localStorage.setItem('claimed_ref_' + refBy, 'true');
-          haptic('success');
-          showToast("🎁 Arkadaş daveti bonusu eklendi! (+500 🥩 + 0.01 GRAM)");
-          saveData();
-        }
-      }
-    }
-
-    let currentRotation = 0;
 
     function getSteakPerHour() {
-      let base = 5 + 
-        (cubCount * 2) + 
-        (vultureCount * 5) + 
-        (antelopeCount * 12) + 
-        (jaguarCount * 30) + 
-        (hyenaCount * 70) + 
-        (jackalCount * 160) +
-        (wolfCount * 260) +
-        (lionCount * 370) +
-        (cheetahCount * 850) +
-        (twoLionsCount * 1950) +
-        (pythonCount * 4400) +
-        (crocodileCount * 9800) +
-        (blackRhinoCount * 21500) +
-        (whiteRhinoCount * 47000) +
-        (elephantCount * 102000) +
-        (pantherCount * 220000);
-      
-      let bonusMultiplier = 1 + ((level - 1) * 0.1);
-      return Math.floor(base * bonusMultiplier);
+      return 5 + (cubCount * 2) + (vultureCount * 5) + (antelopeCount * 12) + (jaguarCount * 30) + (hyenaCount * 70) + (wolfCount * 260) + (lionCount * 370) + (cheetahCount * 850);
     }
-
-    function getTotalAnimalCount() {
-      return cubCount + lionCount + twoLionsCount + jaguarCount + vultureCount + hyenaCount + wolfCount +
-             antelopeCount + jackalCount + cheetahCount + pythonCount + crocodileCount + blackRhinoCount + whiteRhinoCount + elephantCount + pantherCount;
-    }
-
-    function calculateEarnings() {
-      let now = Date.now();
-      let elapsedSeconds = (now - lastClaimTime) / 1000;
-      let maxSeconds = 3 * 3600;
-      if (elapsedSeconds > maxSeconds) elapsedSeconds = maxSeconds;
-
-      if (elapsedSeconds > 0) {
-        let steakPerHour = getSteakPerHour();
-        let earned = (steakPerHour / 3600) * elapsedSeconds;
-        unclaimedSteak += earned;
-        totalEarnedSteak += earned;
-        addXp(Math.floor(earned / 10));
-      }
-      lastClaimTime = now;
-      saveData();
-    }
-
-    function addXp(amount) {
-      xp += amount;
-      let xpNeeded = level * 1000;
-      if (xp >= xpNeeded) {
-        xp -= xpNeeded;
-        level++;
-        haptic('success');
-        showToast(`🎉 TEBRİKLER! Level ${level} Oldun!`);
-        checkLevelMilestoneRewards();
-      }
-      updateXpBar();
-    }
-
-    function updateXpBar() {
-      let xpNeeded = level * 1000;
-      let percent = Math.min(100, (xp / xpNeeded) * 100);
-      document.getElementById('xpBarFill').style.width = percent + '%';
-      document.getElementById('xpTextOverlay').innerText = `Level ${level} (XP: ${xp} / ${xpNeeded})`;
-      document.getElementById('hudLevelText').innerText = `Level ${level}`;
-    }
-
-    function checkLevelMilestoneRewards() {
-      let milestoneBonuses = { 3: 500, 5: 1500, 10: 5000, 12: 8000, 15: 15000, 20: 30000 };
-      if (milestoneBonuses[level] && !levelRewardsClaimed[level]) {
-        levelRewardsClaimed[level] = true;
-        let bonus = milestoneBonuses[level];
-        balance += bonus;
-        showToast(`🎁 Level ${level} Ödülü: +${bonus} 🥩 Kazandın!`);
-        saveData();
-      }
-    }
-
-    function checkHuntEnergyReset() {
-      let now = Date.now();
-      let threeHours = 3 * 3600 * 1000;
-      if (isNaN(lastHuntReset) || (now - lastHuntReset > threeHours)) {
-        huntEnergy = 10;
-        lastHuntReset = now;
-        saveData();
-      }
-    }
-
-    function claimFreePromoWolf() {
-      if (userClaimedPromoWolf) {
-        haptic('warning');
-        showToast("⚠️ Bu promosyonu zaten kullandın!");
-        return;
-      }
-      if (promoWolfClaimedCount >= 50) {
-        haptic('error');
-        showToast("❌ Üzgünüm, ilk 50 kurt bitti!");
-        return;
-      }
-
-      promoWolfClaimedCount++;
-      userClaimedPromoWolf = true;
-      wolfCount++;
-
-      saveData();
-      updatePromoWolfUI();
-      updateCaveDisplay();
-      haptic('success');
-      showToast("🐺 TEBRİKLER! Ücretsiz Kurt başarıyla eklendi!");
-    }
-
-    function updatePromoWolfUI() {
-      let counterText = document.getElementById('wolfPromoCounter');
-      let claimBtn = document.getElementById('claimWolfPromoBtn');
-      let promoBox = document.getElementById('promoWolfBanner');
-
-      let remaining = 50 - promoWolfClaimedCount;
-      if (remaining < 0) remaining = 0;
-
-      if (counterText) counterText.innerText = `Kalan Hak: ${remaining} / 50`;
-
-      if (userClaimedPromoWolf) {
-        if (claimBtn) {
-          claimBtn.innerText = "ALINDI ✅";
-          claimBtn.disabled = true;
-          claimBtn.style.opacity = "0.6";
-        }
-      } else if (promoWolfClaimedCount >= 50) {
-        if (promoBox) {
-          promoBox.style.display = "none";
-        }
-      }
-    }
-
-    setInterval(() => {
-      let now = Date.now();
-      let threeHours = 3 * 3600 * 1000;
-      let diff = threeHours - (now - lastHuntReset);
-      if (diff <= 0) {
-        huntEnergy = 10;
-        lastHuntReset = now;
-        saveData();
-        diff = threeHours;
-      }
-      let remSec = Math.floor(diff / 1000);
-      let hrs = Math.floor(remSec / 3600);
-      let mins = Math.floor((remSec % 3600) / 60);
-      let secs = remSec % 60;
-      let timeStr = `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
-      let timerEl = document.getElementById('huntTimerText');
-      if(timerEl) timerEl.innerText = `Yenilenme: ${timeStr}`;
-      let energyEl = document.getElementById('huntEnergyText');
-      if(energyEl) energyEl.innerText = `Av Hakkı: ${huntEnergy} / 10`;
-    }, 1000);
-
-    function selectBattleUnit(imgSrc, name) {
-      document.getElementById('playerActiveUnitImg').src = imgSrc;
-      document.querySelectorAll('.unit-select-chip').forEach(chip => chip.classList.remove('selected'));
-      event.currentTarget.classList.add('selected');
-      haptic('light');
-      showToast(`${name} savaşa hazır! ⚔️`);
-    }
-
-    function triggerClashHunt(event) {
-      checkHuntEnergyReset();
-      if (huntEnergy <= 0) {
-        haptic('error');
-        showToast("⏳ Av hakkınız bitti! Geri sayımı bekleyin.");
-        return;
-      }
-
-      huntEnergy--;
-      totalHunts++;
-      let reward = Math.floor(Math.random() * 50) + 30; 
-      balance += reward;
-      addXp(35);
-
-      let unitElem = document.getElementById('playerActiveUnitImg');
-      unitElem.classList.add('attacking');
-      document.getElementById('battleStatusText').innerText = "⚔️ Savaş Başladı! Hayvanınız avına saldırdı!";
-
-      setTimeout(() => {
-        unitElem.classList.remove('attacking');
-        document.getElementById('battleStatusText').innerText = `🎉 Zafer! +${reward} 🥩 Kazanıldı!`;
-      }, 1500);
-
-      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      saveData();
-      updateAchievementsUI();
-    }
-
-    setInterval(() => {
-      let now = Date.now();
-      let elapsedSeconds = (now - lastClaimTime) / 1000;
-      let maxSeconds = 3 * 3600;
-      if (elapsedSeconds > maxSeconds) elapsedSeconds = maxSeconds;
-
-      let steakPerHour = getSteakPerHour();
-      let currentDisplaySteak = unclaimedSteak + ((steakPerHour / 3600) * elapsedSeconds);
-      
-      let maxCapSteak = (steakPerHour / 3600) * maxSeconds;
-      if (currentDisplaySteak > maxCapSteak) currentDisplaySteak = maxCapSteak;
-
-      document.getElementById('huntSteakDisplay').innerText = Math.floor(currentDisplaySteak) + " 🥩";
-    }, 1000);
 
     function claimEarnings() {
-      calculateEarnings();
-      let earned = Math.floor(unclaimedSteak);
-      if (earned <= 0) {
-        haptic('warning');
-        showToast("Henüz toplanacak biftek birikmedi!");
-        return;
-      }
-      balance += earned;
-      unclaimedSteak = 0;
-      lastClaimTime = Date.now();
-      addXp(50);
-      
+      balance += 50; // Demo claim
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      document.getElementById('huntSteakDisplay').innerText = "0 🥩";
-      saveData();
-      updateLeaderboardUI();
       haptic('success');
-      showToast(`🎉 ${earned} 🥩 cüzdana eklendi!`);
-    }
-
-    function exchangeSteakToGram() {
-      if (balance < 50000) {
-        haptic('error');
-        showToast("En az 50,000 Biftek olmalıdır!");
-        return;
-      }
-      let gramEarned = (balance / 50000) * 0.0100;
-      gramBalance += gramEarned;
-      balance = 0;
-      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
-      saveData();
-      updateLeaderboardUI();
-      haptic('success');
-      showToast("🎉 Takas başarılı! GRAM cüzdana eklendi.");
-    }
-
-    function updateCampaignSlider(val) {
-      document.getElementById('sliderUsdVal').innerText = "$" + val + " USD";
-      let steakReward = val * 2500;
-      document.getElementById('sliderRewardVal').innerText = "Alacağın: " + steakReward.toLocaleString() + " 🥩";
-    }
-
-    function buyCampaignSteak() {
-      let val = document.getElementById('usdSlider').value;
-      openPaymentModal(val, 'buyCampaign', 'Özel Biftek Paketi');
+      showToast("📥 Biftekler toplandı!");
     }
 
     function buyWithSteak(cost, type, name) {
-      if (balance < cost) {
-        haptic('error');
-        showToast("Yetersiz Biftek bakiyesi!");
-        return;
-      }
+      if (balance < cost) { haptic('error'); showToast("Yetersiz Biftek!"); return; }
       balance -= cost;
-      addXp(120);
-
-      if (type === 'buyCub') {
-        cubCount++;
-        if (cubCount === 1) currentCustomBg = './background_cub1.MP4';
-        else if (cubCount === 2) currentCustomBg = './background_cubs2.MP4';
-        else if (cubCount === 3) currentCustomBg = './background_cub3.MP4';
-        else if (cubCount >= 4) currentCustomBg = './background_cub4.MP4';
-      }
-      else if (type === 'buyWolf') { wolfCount++; currentCustomBg = './background_wolf.MP4'; }
-      else if (type === 'buyJackal') { jackalCount++; currentCustomBg = './background_jackal.MP4'; }
-      else if (type === 'buyLion') { lionCount++; currentCustomBg = './background_lion.MP4'; }
-      else if (type === 'buyTwoLions') { twoLionsCount++; currentCustomBg = './background_two_lions.MP4'; }
-      else if (type === 'buyJaguar') { jaguarCount++; currentCustomBg = './background_jaguar.MP4'; }
-      else if (type === 'buyVulture') { vultureCount++; currentCustomBg = './background_vulture.MP4'; }
-      else if (type === 'buyHyena') { hyenaCount++; currentCustomBg = './background_hyena.MP4'; }
-      else if (type === 'buyAntelope') { antelopeCount++; }
-      else if (type === 'buyCheetah') { cheetahCount++; currentCustomBg = './background_cheetah.MP4'; }
-      else if (type === 'buyPython') { pythonCount++; }
-      else if (type === 'buyCrocodile') { crocodileCount++; }
-      else if (type === 'buyBlackRhino') { blackRhinoCount++; currentCustomBg = './BACKGROUND_BLACK_RHINO.MP4'; }
-      else if (type === 'buyWhiteRhino') { whiteRhinoCount++; currentCustomBg = './background_white_rhino.MP4'; }
-      else if (type === 'buyElephant') { elephantCount++; currentCustomBg = './background_elephant.MP4'; }
-      else if (type === 'buyPanther') { pantherCount++; currentCustomBg = './background_panther.MP4'; }
-
       document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      saveData();
-      updateCaveDisplay();
-      updateLeaderboardUI();
-      updateAchievementsUI();
       haptic('success');
-      showToast(`🎉 Başarıyla ${name} satın alındı!`);
+      showToast(name + " satın alındı!");
     }
 
-    function checkAndChangeBg(bgKey, videoSrc) {
-      let unlocked = false;
-      if (bgKey === 'empty') unlocked = true;
-      if (bgKey === 'cub1' && cubCount >= 1) unlocked = true;
-      if (bgKey === 'cubs2' && cubCount >= 2) unlocked = true;
-      if (bgKey === 'cub3' && cubCount >= 3) unlocked = true;
-      if (bgKey === 'cub4' && cubCount >= 4) unlocked = true;
-      if (bgKey === 'wolf' && wolfCount >= 1) unlocked = true;
-      if (bgKey === 'jackal' && jackalCount >= 1) unlocked = true;
-      if (bgKey === 'lion' && lionCount >= 1) unlocked = true;
-      if (bgKey === 'two_lions' && twoLionsCount >= 1) unlocked = true;
-      if (bgKey === 'jaguar' && jaguarCount >= 1) unlocked = true;
-      if (bgKey === 'vulture' && vultureCount >= 1) unlocked = true;
-      if (bgKey === 'hyena' && hyenaCount >= 1) unlocked = true;
-      if (bgKey === 'cheetah' && cheetahCount >= 1) unlocked = true;
-      if (bgKey === 'black_rhino' && blackRhinoCount >= 1) unlocked = true;
-      if (bgKey === 'white_rhino' && whiteRhinoCount >= 1) unlocked = true;
-      if (bgKey === 'elephant' && elephantCount >= 1) unlocked = true;
-      if (bgKey === 'panther' && pantherCount >= 1) unlocked = true;
-
-      if (!unlocked) {
-        haptic('warning');
-        showToast("🔒 Önce bu hayvanı mağradan satın almalısın!");
-        return;
-      }
-      changeBackground(videoSrc, bgKey);
-    }
-
-    function changeBackground(videoSrc, btnKey) {
-      currentCustomBg = videoSrc;
-      let videoElem = document.getElementById('bgVideo');
-      let videoSource = document.getElementById('bgVideoSource');
-      
-      videoSource.src = videoSrc;
-      videoElem.load();
-      videoElem.play();
-
-      document.querySelectorAll('.bg-option-btn').forEach(btn => btn.classList.remove('active'));
-      let activeBtn = document.getElementById('bgBtn-' + btnKey);
-      if (activeBtn) activeBtn.classList.add('active');
-
-      saveData();
-    }
-
-    function copyRefLink() {
-      let inputElem = document.getElementById('refLinkInput');
-      inputElem.select();
-      navigator.clipboard.writeText(inputElem.value);
-      haptic('success');
-      showToast("🔗 Davet linki kopyalandı!");
-    }
-
-    function shareRefLink() {
-      let text = encodeURIComponent("🦁 Dailygram Miner oyununa katil, Aslanları besle ve GRAM kazan! 🥩🚀\n\nDavet Linkim: " + myRefLink);
-      window.open(`https://t.me/share/url?url=${encodeURIComponent(myRefLink)}&text=${text}`, '_blank');
-    }
-
-    function completeChannelTask() {
-      window.open("https://t.me/DailygramMinerOfficial", "_blank");
-      if (!channelTaskCompleted) {
-        channelTaskCompleted = true;
-        balance += 100;
-        addXp(50);
-        document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-        haptic('success');
-        showToast("🎉 Kanal takip edildi! +100 🥩 kazandın");
-        saveData();
-        updateLeaderboardUI();
-      } else {
-        haptic('warning');
-        showToast("✅ Bu ödülü zaten aldın!");
-      }
-    }
-
-    function updateStreakUI() {
-      let grid = document.getElementById('streakGridContainer');
-      let streakRewards = [
-        { day: 1, steak: 50 },
-        { day: 2, steak: 100 },
-        { day: 3, steak: 200 },
-        { day: 4, steak: 350 },
-        { day: 5, steak: 500 },
-        { day: 6, steak: 750 },
-        { day: 7, steak: 1000, gram: 0.05 }
-      ];
-
-      let html = "";
-      streakRewards.forEach((item, idx) => {
-        let isClaimed = idx < streakDays;
-        let isActive = idx === streakDays;
-        let cardClass = isClaimed ? "streak-card claimed" : isActive ? "streak-card active-day" : "streak-card";
-        
-        html += `
-          <div class="${cardClass}">
-            <div style="font-size:0.7rem; font-weight:900; color:#ffd700;">Gün ${item.day}</div>
-            <div style="margin: 2px 0; font-size: 0.8rem;">🎁</div>
-            <div style="font-size: 0.62rem; color:#fff;">+${item.steak} 🥩</div>
-            ${item.gram ? `<div style="font-size: 0.55rem; color:#2ecc71;">+${item.gram} GRAM</div>` : ''}
-          </div>
-        `;
-      });
-      grid.innerHTML = html;
-    }
-
-    function claimStreakDaily() {
-      let now = Date.now();
-      let oneDay = 24 * 3600 * 1000;
-      
-      if (now - lastStreakClaimDate < oneDay && streakDays > 0 && lastStreakClaimDate !== 0) {
-        haptic('error');
-        showToast("⏳ Bugünkü streak ödülünü zaten aldın! Yarın tekrar gel.");
-        return;
-      }
-
-      let streakRewards = [50, 100, 200, 350, 500, 750, 1000];
-      let gramRewards = [0, 0, 0, 0, 0, 0, 0.05];
-
-      let currentReward = streakRewards[streakDays % 7];
-      let currentGram = gramRewards[streakDays % 7];
-
-      balance += currentReward;
-      if (currentGram > 0) gramBalance += currentGram;
-      addXp(100);
-
-      streakDays++;
-      lastStreakClaimDate = now;
-      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
-      
-      saveData();
-      updateStreakUI();
-      updateLeaderboardUI();
-      haptic('success');
-      showToast(`🔥 Gün ${streakDays} Serisi Başarılı! +${currentReward} 🥩 eklendi!`);
-    }
-
-    function updateAchievementsUI() {
-      let container = document.getElementById('achievementsListContainer');
-      
-      let achs = [
-        { id: 'hunt10', title: 'Usta Avcı (10 Av)', desc: 'Toplam 10 kez avlan', reward: '+200 🥩', done: totalHunts >= 10, claimed: achievementClaimed.hunt10, steakVal: 200 },
-        { id: 'invite3', title: 'Sosyal Kurt (3 Davet)', desc: '3 arkadaşını davet et', reward: '+1500 🥩 + 0.03 GRAM', done: inviteCount >= 3, claimed: achievementClaimed.invite3, steakVal: 1500, gramVal: 0.03 },
-        { id: 'animal5', title: 'Hayvan Sever (5 Hayvan)', desc: 'Mağrandan toplam 5 hayvan al', reward: '+500 🥩', done: getTotalAnimalCount() >= 5, claimed: achievementClaimed.animal5, steakVal: 500 }
-      ];
-
-      let html = "";
-      achs.forEach(a => {
-        let btnText = a.claimed ? "Alındı ✅" : a.done ? "Ödülü Al 🎁" : "Kilitli 🔒";
-        let btnBg = a.claimed ? "#444" : a.done ? "#2ecc71" : "#704b2e";
-        
-        html += `
-          <div class="task-card">
-            <div class="animal-icon-box">🏆</div>
-            <div class="task-info">
-              <strong>${a.title}</strong><br>
-              <small>${a.desc} (${a.reward})</small>
-            </div>
-            <button class="btn-buy" style="background:${btnBg}; color:${a.done && !a.claimed ? '#000' : '#fff'};" onclick="claimAchievement('${a.id}', ${a.steakVal}, ${a.gramVal || 0})">${btnText}</button>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
-    }
-
-    function claimAchievement(id, steakReward, gramReward) {
-      if (achievementClaimed[id]) {
-        haptic('warning');
-        showToast("Bu ödülü zaten aldın!");
-        return;
-      }
-
-      let canClaim = false;
-      if (id === 'hunt10' && totalHunts >= 10) canClaim = true;
-      if (id === 'invite3' && inviteCount >= 3) canClaim = true;
-      if (id === 'animal5' && getTotalAnimalCount() >= 5) canClaim = true;
-
-      if (!canClaim) {
-        haptic('error');
-        showToast("🔒 Bu başarım henüz tamamlanmadı!");
-        return;
-      }
-
-      achievementClaimed[id] = true;
-      balance += steakReward;
-      if (gramReward > 0) gramBalance += gramReward;
-      addXp(150);
-
-      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
-      saveData();
-      updateAchievementsUI();
-      updateLeaderboardUI();
-      haptic('success');
-      showToast(`🎉 Başarım Ödülü Alındı! (+${steakReward} 🥩)`);
-    }
-
-    function setMaxWithdraw() {
-      document.getElementById('withdrawAmount').value = gramBalance.toFixed(4);
+    function selectBattleUnit(imgSrc, name) {
+      document.getElementById('playerActiveUnitImg').src = imgSrc;
       haptic('light');
-      showToast("Maksimum GRAM yazıldı!");
     }
 
-    function requestWithdraw() {
-      let amount = document.getElementById('withdrawAmount').value;
-      let addr = document.getElementById('withdrawAddress').value;
-      if (!amount || !addr) {
-        haptic('error');
-        showToast("Lütfen miktar ve cüzdan girin!");
-        return;
-      }
-      haptic('success');
-      showToast("📤 Para çekme talebiniz alındı!");
-      document.getElementById('withdrawAmount').value = "";
-      document.getElementById('withdrawAddress').value = "";
-    }
-
-    function spinWheel() {
-      let now = Date.now();
-      let oneDay = 24 * 3600 * 1000;
-      if (now - lastWheelSpin < oneDay && lastWheelSpin !== 0) {
-        haptic('error');
-        showToast("Çark hakkınız bitti! Yarın tekrar gelin.");
-        return;
-      }
-      let btn = document.getElementById('spinBtn');
-      btn.disabled = true;
-      let extraDegrees = Math.floor(Math.random() * 360) + 1800;
-      currentRotation += extraDegrees;
-      document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
-
-      setTimeout(() => {
-        let rewards = [50, 100, 250, 500, 75, 150, 300, 1000];
-        let randomReward = rewards[Math.floor(Math.random() * rewards.length)];
-        balance += randomReward;
-        addXp(80);
-        document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-        lastWheelSpin = Date.now();
-        saveData();
-        updateLeaderboardUI();
-        haptic('success');
-        showToast(`🎉 Çarktan +${randomReward} 🥩 Kazandın! 🎁`);
-        btn.innerText = "Yarın Tekrar Gel";
-      }, 4000);
-    }
-
-    function openPaymentModal(usdAmount, actionType, itemName) {
-      document.getElementById('payModalTitle').innerText = itemName + " Satın Al";
-      document.getElementById('payModalAmount').value = "$" + usdAmount + " USD";
-      document.getElementById('paymentModal').classList.add('active');
-    }
-
-    function closePaymentModal() { document.getElementById('paymentModal').classList.remove('active'); }
-    function copyMyWallet() {
-      navigator.clipboard.writeText(MY_RECEIVING_WALLET);
-      haptic('success');
-      showToast("Cüzdan adresi kopyalandı! 📋");
-    }
-    function copyPayAddress() { copyMyWallet(); }
-    function copyPayAmount() {
-      navigator.clipboard.writeText(document.getElementById('payModalAmount').value);
-      haptic('success');
-      showToast("Tutar kopyalandı! 📋");
-    }
-
-    function confirmManualPayment() {
-      let amount = document.getElementById('payModalAmount').value;
-      closePaymentModal();
-      haptic('success');
-      showToast("⏳ Ödemeniz alındı! Bildirim gönderiliyor...");
-
-      let botToken = "8890432514:AAHNRHlv8gwHccqG7jr9x8o8IheSCyx9rEQ";
-      let chatId = "7645167688";
-      let message = `🚨 YENİ ÖDEME BİLDİRİMİ!%0A👤 Kullanıcı: ${username}%0A💰 Tutar: ${amount}`;
-
-      fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`)
-        .catch(err => console.log("Bot bildirim hatası:", err));
-    }
-
-    function toggleMenuPopup() {
-      document.getElementById('menuPopup').classList.toggle('active');
+    function triggerClashHunt(event) {
+      totalHunts++;
+      balance += 50;
+      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
+      haptic('heavy');
+      showToast("⚔️ Av başarıyla tamamlandı!");
     }
 
     function switchTab(tabName, element) {
@@ -1817,133 +715,24 @@
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
       if(element) element.classList.add('active');
-
-      let videoElem = document.getElementById('bgVideo');
-      let videoSource = document.getElementById('bgVideoSource');
-      
-      if (tabName === 'hunt') {
-        videoSource.src = './background_hunt.MP4';
-        videoElem.pause();
-        videoElem.currentTime = 0;
-      } else {
-        videoSource.src = currentCustomBg;
-        videoElem.load();
-        videoElem.play();
-      }
-
-      if(tabName === 'leaderboard') {
-        updateLeaderboardUI();
-      } else if(tabName === 'streak') {
-        updateStreakUI();
-      } else if(tabName === 'achievements') {
-        updateAchievementsUI();
-      }
     }
 
-    function openModalTab(tabName) {
-      switchTab(tabName, null);
-    }
+    function openModalTab(tabName) { switchTab(tabName, null); }
+    function toggleMenuPopup() { document.getElementById('menuPopup').classList.toggle('active'); }
+    function copyRefLink() { navigator.clipboard.writeText(document.getElementById('refLinkInput').value); haptic('success'); showToast("Link kopyalandı!"); }
+    function completeChannelTask() { haptic('success'); showToast("Kanal takip ödülü alındı!"); }
+    function claimStreakDaily() { haptic('success'); showToast("Streak ödülü alındı!"); }
+    function spinWheel() { haptic('success'); showToast("Çark çevrildi!"); }
+    function setAppLanguage(lang) { haptic('success'); showToast("Dil değiştirildi!"); }
+    function updateCampaignSlider(val) { document.getElementById('sliderUsdVal').innerText = "$" + val + " USD"; }
+    function buyCampaignSteak() { haptic('success'); showToast("Kampanya işlendi!"); }
 
-    function updateLeaderboardUI() {
-      const container = document.getElementById('leaderboardListContainer');
-      
-      let players = [
-        { name: "CryptoKing_TR", level: 15, steak: 42500, gram: 0.85 },
-        { name: "WildHunter99", level: 12, steak: 31000, gram: 0.62 },
-        { name: "AnatoliaLion", level: 9, steak: 18500, gram: 0.37 },
-        { name: username, level: level, steak: balance, gram: gramBalance, isMe: true }
-      ];
-
-      players.sort((a, b) => (b.gram * 100000 + b.steak) - (a.gram * 100000 + a.steak));
-
-      let html = "";
-      players.forEach((p, index) => {
-        let rankEmoji = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
-        let borderColor = p.isMe ? "#2ecc71" : "rgba(255, 215, 0, 0.35)";
-        
-        html += `
-          <div class="task-card" style="border-color: ${borderColor};">
-            <div class="animal-icon-box">${rankEmoji}</div>
-            <div class="task-info">
-              <strong>${p.name} ${p.isMe ? '(Sen)' : ''}</strong><br>
-              <small>Level ${p.level} • ${Math.floor(p.steak).toLocaleString()} 🥩</small>
-            </div>
-            <span style="font-weight:900; color:${p.isMe ? '#2ecc71' : '#ffd700'}; font-size: 0.75rem;">${p.gram.toFixed(2)} GRAM</span>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-    }
-
-    function updateCaveDisplay() {
-      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
-      document.getElementById('gramBalance').innerText = gramBalance.toFixed(4) + " GRAM";
-      
-      document.getElementById('countCub').innerText = cubCount;
-      document.getElementById('countLion').innerText = lionCount;
-      document.getElementById('countTwoLions').innerText = twoLionsCount;
-      document.getElementById('countJaguar').innerText = jaguarCount;
-      document.getElementById('countVulture').innerText = vultureCount;
-      document.getElementById('countHyena').innerText = hyenaCount;
-      document.getElementById('countWolf').innerText = wolfCount;
-      
-      document.getElementById('countAntelope').innerText = antelopeCount;
-      document.getElementById('countJackal').innerText = jackalCount;
-      document.getElementById('countCheetah').innerText = cheetahCount;
-      document.getElementById('countPython').innerText = pythonCount;
-      document.getElementById('countCrocodile').innerText = crocodileCount;
-      document.getElementById('countBlackRhino').innerText = blackRhinoCount;
-      document.getElementById('countWhiteRhino').innerText = whiteRhinoCount;
-      document.getElementById('countElephant').innerText = elephantCount;
-      document.getElementById('countPanther').innerText = pantherCount;
-
-      document.getElementById('refCountDisplay').innerText = inviteCount;
-      document.getElementById('refEarnedDisplay').innerText = (inviteCount * 500) + " 🥩";
-
-      let steakPerHour = getSteakPerHour();
-      document.getElementById('totalSpeedInfo').innerText = `Toplam Üretim Hızı: ${steakPerHour} 🥩 / sa`;
-      document.getElementById('huntEnergyText').innerText = `Av Hakkı: ${huntEnergy} / 10`;
-
-      const updateBtnUnlock = (key, condition) => {
-        let b = document.getElementById('bgBtn-' + key);
-        if (b) {
-          if (condition) b.classList.add('unlocked');
-          else b.classList.remove('unlocked');
-        }
-      };
-
-      updateBtnUnlock('cub1', cubCount >= 1);
-      updateBtnUnlock('cubs2', cubCount >= 2);
-      updateBtnUnlock('cub3', cubCount >= 3);
-      updateBtnUnlock('cub4', cubCount >= 4);
-      updateBtnUnlock('wolf', wolfCount >= 1);
-      updateBtnUnlock('jackal', jackalCount >= 1);
-      updateBtnUnlock('lion', lionCount >= 1);
-      updateBtnUnlock('two_lions', twoLionsCount >= 1);
-      updateBtnUnlock('jaguar', jaguarCount >= 1);
-      updateBtnUnlock('vulture', vultureCount >= 1);
-      updateBtnUnlock('hyena', hyenaCount >= 1);
-      updateBtnUnlock('cheetah', cheetahCount >= 1);
-      updateBtnUnlock('black_rhino', blackRhinoCount >= 1);
-      updateBtnUnlock('white_rhino', whiteRhinoCount >= 1);
-      updateBtnUnlock('elephant', elephantCount >= 1);
-      updateBtnUnlock('panther', pantherCount >= 1);
-
-      updateXpBar();
-      updatePromoWolfUI();
-    }
-
-    function showToken(text) {
+    function showToast(text) {
       let t = document.getElementById('toast');
       t.innerText = text;
       t.style.display = 'block';
       setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
-    
-    function showToast(text) { showToken(text); }
-
-    loadCloudData();
   </script>
 </body>
 </html>

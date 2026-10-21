@@ -236,11 +236,11 @@
       text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
 
-    /* MAP / TERRITORY STYLES */
+    /* MAP / TERRITORY & BUILDING STYLES */
     .map-grid {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       margin-top: 6px;
     }
     .territory-card {
@@ -256,6 +256,20 @@
     .territory-card.unlocked { border-color: #2ecc71; background: linear-gradient(135deg, #1b3a20, #0d1a0f); }
     .territory-info h4 { font-size: 0.82rem; color: #ffd700; font-weight: 900; }
     .territory-info p { font-size: 0.65rem; color: #ccc; margin-top: 2px; }
+
+    .building-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .build-item-card {
+      background: rgba(20, 12, 6, 0.9);
+      border: 1.5px solid #e6af2e;
+      border-radius: 12px;
+      padding: 8px;
+      text-align: center;
+    }
 
     /* STATS / EVOLUTION STYLES */
     .stat-row {
@@ -628,29 +642,44 @@
         </div>
       </div>
 
-      <!-- 🗺️ SAVANNE KAARI & BÖLGELER (YENİ!) -->
+      <!-- 🗺️ SAVANNE KAART & BOUWMODUS (ALLE 4 STAPPEN GEINTEGREERD) -->
       <div id="tab-kaart" class="tab-content">
         <div class="page-box">
-          <div class="page-title">🗺️ Savannekaart & Gebieden</div>
-          <p style="font-size: 0.68rem; color: #ccc; text-align: center; margin-bottom: 8px;">Ontgrendel nieuwe gebieden en beheer de stats van je leeuw & kudde!</p>
+          <div class="page-title">🗺️ Savannekaart & Leefgebied</div>
+          <p style="font-size: 0.68rem; color: #ccc; text-align: center; margin-bottom: 8px;">Plaats objecten, ontgrendel gebieden en verzorg je leeuw[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)!</p>
           
           <!-- ANIMAL EVOLUTION STATUS PANEL -->
           <div style="background: rgba(0,0,0,0.7); border: 1.5px solid #ffb700; border-radius: 12px; padding: 10px; margin-bottom: 10px;">
-            <div style="font-size: 0.78rem; font-weight: 900; color: #ffd700; margin-bottom: 6px;">🦁 Kral Aslan - Level <span id="lionLevelDisplay">1</span></div>
+            <div style="font-size: 0.78rem; font-weight: 900; color: #ffd700; margin-bottom: 6px;">🦁 Kral Aslan - Level <span id="lionLevelDisplay">1</span> (Welp)</div>
             
             <div class="stat-row">
-              <div style="display:flex; justify-content:space-between; font-size:0.68rem;"><span>❤️ Gezondheid</span><span id="statHealth">100 / 100</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:0.68rem;"><span>❤️ Gezondheid / Aanvalkracht</span><span id="statHealth">100 / 100</span></div>
               <div class="stat-bar-container"><div class="stat-bar-fill" id="barHealth" style="width:100%;"></div></div>
             </div>
             <div class="stat-row">
-              <div style="display:flex; justify-content:space-between; font-size:0.68rem;"><span>⚡ Energie</span><span id="statEnergy">85 / 100</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:0.68rem;"><span>⚡ Energie / Dorst</span><span id="statEnergy">85 / 100</span></div>
               <div class="stat-bar-container"><div class="stat-bar-fill" id="barEnergy" style="width:85%; background: linear-gradient(90deg, #3498db, #2980b9);"></div></div>
             </div>
-            <button class="cr-buy-btn" onclick="haptic('success'); playSound('success'); upgradeLionLevel()" style="margin-top: 4px;">⬆️ Leeuw Upgraden (500 🥩)</button>
+            <button class="cr-buy-btn" onclick="haptic('success'); playSound('success'); upgradeLionLevel()" style="margin-top: 4px;">⬆️ Leeuw Evolueren / Upgraden (500 🥩)</button>
           </div>
 
-          <!-- TERRITORIES LIST -->
-          <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700; margin-bottom: 6px;">🌍 Ontdekkingsgebieden</div>
+          <!-- BUILDING / LEEFGEBIED BOUWEN (STAP 4) -->
+          <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700; margin-bottom: 4px;">🏗️ Leefgebied Inrichten & Bouwen</div>
+          <div class="building-grid">
+            <div class="build-item-card">
+              <div style="font-size: 1.2rem;">🌳</div>
+              <div style="font-size: 0.7rem; font-weight: bold; color: #fff;" id="treeCount">Aantal: 2</div>
+              <button class="cr-buy-btn" style="margin-top: 4px; font-size: 0.6rem;" onclick="buildItem('tree', 300)">+ Ağaç (300 🥩)</button>
+            </div>
+            <div class="build-item-card">
+              <div style="font-size: 1.2rem;">💧</div>
+              <div style="font-size: 0.7rem; font-weight: bold; color: #fff;" id="waterCount">Aantal: 1</div>
+              <button class="cr-buy-btn" style="margin-top: 4px; font-size: 0.6rem;" onclick="buildItem('water', 600)">+ Su Noktası (600 🥩)</button>
+            </div>
+          </div>
+
+          <!-- TERRITORIES LIST (STAP 1) -->
+          <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700; margin-top: 10px; margin-bottom: 6px;">🌍 Savanne Gebieden</div>
           <div class="map-grid">
             <div class="territory-card unlocked">
               <div class="territory-info">
@@ -848,18 +877,18 @@
         </div>
       </div>
 
-      <!-- AV SEKMESİ -->
+      <!-- AV SEKMESİ (STAP 3: MİSSIES & BESCHERMEN) -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-          <div class="page-title">🏹 Av & Savaş Arenası</div>
+          <div class="page-title">🏹 Av & Savanne-Arena</div>
 
           <div class="battle-arena-container">
-            <div style="font-size: 0.7rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;" id="battleStatusText">Savaş Alanı Hazır! Avcını Seç ve Saldır!</div>
+            <div style="font-size: 0.7rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;" id="battleStatusText">Missie: Jacht op Antilopen & Welpen Beschermen[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)!</div>
             
             <div class="battle-board" id="battleBoard">
               <div class="enemy-side">
                 <img src="antilop.PNG" class="battle-unit-img" title="Antilop">
-                <img src="aslan_yavrusu.PNG" class="battle-unit-img" title="Av">
+                <img src="aslan_yavrusu.PNG" class="battle-unit-img" title="Welp">
               </div>
 
               <div style="text-align: center; font-size: 0.6rem; color: #fff; background: rgba(0,0,0,0.5); padding: 1px 8px; border-radius: 6px;">VS</div>
@@ -883,7 +912,7 @@
               <div style="font-size: 0.72rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
               <div style="font-size: 0.6rem; color: #aaa;" id="huntTimerText">Yenilenme: 03:00:00</div>
             </div>
-            <button class="btn-claim" onclick="haptic('heavy'); playSound('hunt'); triggerClashHunt(event)" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; font-size: 0.85rem;">⚔️ SALDIR VE AVLAN!</button>
+            <button class="btn-claim" onclick="haptic('heavy'); playSound('hunt'); triggerClashHunt(event)" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; font-size: 0.85rem;">⚔️ MISSIE STARTEN & JAGEN!</button>
           </div>
 
           <div style="background: rgba(0,0,0,0.7); border: 1px solid #704b2e; border-radius: 10px; padding: 6px; text-align: center; margin-top: 6px;">
@@ -1046,7 +1075,7 @@
 
     </div>
 
-    <!-- ALT NAVIGATIE (KAART EKLENDİ) -->
+    <!-- ALT NAVIGATIE -->
     <div class="bottom-nav">
       <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('market', this)"><div class="nav-icon">🏕️</div><div>Mağra</div></div>
       <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('kaart', this)"><div class="nav-icon">🗺️</div><div>Kaart</div></div>
@@ -1191,9 +1220,11 @@
     let promoWolfClaimedCount = 1;
     let userClaimedPromoWolf = true;
 
-    // YENİ: Harita & Evrim değişkenleri
+    // RPG & Bouwvariabelen
     let lionLevel = 1;
     let territoriesUnlocked = { crocodile: false, elephant: false, jungle: false };
+    let buildTreeCount = 2;
+    let buildWaterCount = 1;
 
     function handleMainActionTap(event) {
       let clickReward = 1;
@@ -1279,6 +1310,8 @@
               userClaimedPromoWolf = data.userClaimedPromoWolf !== undefined ? data.userClaimedPromoWolf : true;
               lionLevel = data.lionLevel || 1;
               territoriesUnlocked = data.territoriesUnlocked || { crocodile: false, elephant: false, jungle: false };
+              buildTreeCount = data.buildTreeCount !== undefined ? data.buildTreeCount : 2;
+              buildWaterCount = data.buildWaterCount !== undefined ? data.buildWaterCount : 1;
             } catch(e) {}
           }
           checkReferralParam();
@@ -1315,7 +1348,7 @@
         antelopeCount, jackalCount, cheetahCount, pythonCount, crocodileCount, blackRhinoCount, whiteRhinoCount, elephantCount, pantherCount,
         totalEarnedSteak, level, xp, lastWheelSpin, currentCustomBg, channelTaskCompleted,
         streakDays, lastStreakClaimDate, totalHunts, achievementClaimed, levelRewardsClaimed,
-        promoWolfClaimedCount, userClaimedPromoWolf, lionLevel, territoriesUnlocked
+        promoWolfClaimedCount, userClaimedPromoWolf, lionLevel, territoriesUnlocked, buildTreeCount, buildWaterCount
       };
 
       if (tg && tg.CloudStorage) {
@@ -1337,7 +1370,24 @@
       saveData();
       updateMapUI();
       haptic('success');
-      showToast(`🦁 Kral Aslan Level ${lionLevel} oldu! Güç arttı!`);
+      showToast(`🦁 Kral Aslan Level ${lionLevel} Oldu! Güç ve stats arttı[span_14](start_span)[span_14](end_span)!`);
+    }
+
+    function buildItem(type, cost) {
+      if (balance < cost) {
+        haptic('error');
+        showToast("Yetersiz Biftek bakiyesi!");
+        return;
+      }
+      balance -= cost;
+      if (type === 'tree') buildTreeCount++;
+      if (type === 'water') buildWaterCount++;
+      addXp(50);
+      document.getElementById('balance').innerText = balance.toFixed(1) + " 🥩";
+      saveData();
+      updateMapUI();
+      haptic('success');
+      showToast("🏗️ Leefgebied succesvol uitgebreid[span_15](start_span)[span_15](end_span)!");
     }
 
     function unlockTerritory(terrKey, cost) {
@@ -1352,11 +1402,13 @@
       saveData();
       updateMapUI();
       haptic('success');
-      showToast("🌍 Yeni Bölge Başarıyla Keşfedildi!");
+      showToast("🌍 Yeni Bölge Başarıyla Keşfedildi! Video açıldı[span_16](start_span)[span_16](end_span).");
     }
 
     function updateMapUI() {
       document.getElementById('lionLevelDisplay').innerText = lionLevel;
+      document.getElementById('treeCount').innerText = `Aantal: ${buildTreeCount}`;
+      document.getElementById('waterCount').innerText = `Aantal: ${buildWaterCount}`;
       
       const setTerritoryStatus = (key, cardId) => {
         let card = document.getElementById(cardId);
@@ -1408,10 +1460,11 @@
         (elephantCount * 102000) +
         (pantherCount * 220000);
       
-      // Bölge bonusları
+      // Bölge ve bina bonusları
       if(territoriesUnlocked.crocodile) base += 20;
       if(territoriesUnlocked.elephant) base += 50;
       if(territoriesUnlocked.jungle) base += 120;
+      base += (buildTreeCount * 3) + (buildWaterCount * 5);
 
       let bonusMultiplier = 1 + ((level - 1) * 0.1) + ((lionLevel - 1) * 0.05);
       return Math.floor(base * bonusMultiplier);
@@ -1572,7 +1625,7 @@
 
       let unitElem = document.getElementById('playerActiveUnitImg');
       unitElem.classList.add('attacking');
-      document.getElementById('battleStatusText').innerText = "⚔️ Savaş Başladı! Hayvanınız avına saldırdı!";
+      document.getElementById('battleStatusText').innerText = "⚔️ Jacht op antilopen & welpen beschermen actief[span_17](start_span)[span_17](end_span)[span_18](start_span)[span_18](end_span)!";
 
       setTimeout(() => {
         unitElem.classList.remove('attacking');

@@ -133,6 +133,16 @@
     }
     .builder-slot.occupied { border-style: solid; background: rgba(20, 40, 20, 0.85); border-color: #2ecc71; }
 
+    /* MODAL OVERLAY FOR PAYMENT */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85); z-index: 500; display: none; justify-content: center; align-items: center; padding: 20px;
+    }
+    .modal-box {
+      background: linear-gradient(135deg, #2c1a0e, #140b05); border: 2px solid #ffd700; border-radius: 16px;
+      padding: 16px; width: 100%; max-width: 340px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.9); display: flex; flex-direction: column; gap: 10px;
+    }
+
     /* BOTTOM NAVIGATION BAR */
     .bottom-nav {
       position: absolute; bottom: 0; left: 0; width: 100%;
@@ -193,6 +203,20 @@
   <video id="bgVideo" class="bg-video" autoplay loop muted playsinline preload="auto">
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
+
+  <!-- BEVESTIGINGSMODAL VOOR AANKOOP -->
+  <div class="modal-overlay" id="paymentModal">
+    <div class="modal-box">
+      <div style="font-size: 0.9rem; font-weight: 900; color: #ffd700;" id="modalTitle">💳 Betalingsbevestiging</div>
+      <div style="font-size: 0.65rem; color: #ccc;" id="modalDesc">Stuur de vereiste TON naar onderstaand adres om je pakket te activeren:</div>
+      <input type="text" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly style="background:#111; color:#ffd700; border:1px solid #ffd700; padding:6px; border-radius:6px; font-size:0.55rem; width:100%; text-align:center;">
+      <div style="font-size: 0.6rem; color: #2ecc71; font-weight: bold;" id="modalPackageInfo">Pakket: $10 USD (25.000 Steak)</div>
+      <div style="display: flex; gap: 6px; margin-top: 6px;">
+        <button class="cr-buy-btn" style="background: #e74c3c; margin-top:0;" onclick="closePaymentModal()" id="modalBtnCancel">Annuleren</button>
+        <button class="cr-buy-btn" style="background: #2ecc71; margin-top:0;" onclick="confirmPayment()" id="modalBtnConfirm">Betaald & Bevestigen</button>
+      </div>
+    </div>
+  </div>
 
   <div class="app-container" id="appContainer">
     <div id="toast" class="toast-notification"></div>
@@ -366,7 +390,7 @@
         </div>
       </div>
 
-      <!-- TAB 4: MARKET / MAĞRA (Met Promo Banner & USD Slider zoals in screenshot) -->
+      <!-- TAB 4: MARKET / MAĞRA (Met tot $500 USD schuifregelaar en betalingsbevestiging) -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblMarketTitle">🏕️ Mağra & Özel Fırsatlar</div>
@@ -379,14 +403,14 @@
             <button class="cr-buy-btn" style="background: #2ecc71;" onclick="claimPromoWolf()" id="lblPromoBtn">ÜCRETSİZ AL</button>
           </div>
 
-          <!-- ÖZEL BİFTEK KAMPANYASI (USD SLIDER) -->
+          <!-- ÖZEL BİFTEK KAMPANYASI (USD SLIDER TOT $500) -->
           <div style="background: linear-gradient(135deg, #2c1a0e, #140b05); border: 2px solid #ffd700; border-radius: 14px; padding: 10px; margin-bottom: 8px; text-align: center;">
             <div style="font-size: 0.72rem; font-weight: bold; color: #ffd700;" id="lblUsdPackTitle">🚀 Özel Biftek Kampanyası</div>
-            <div style="font-size: 0.58rem; color: #ccc; margin: 4px 0;" id="lblUsdSelect">USD Miktarını Seç:</div>
+            <div style="font-size: 0.58rem; color: #ccc; margin: 4px 0;" id="lblUsdSelect">USD Miktarını Seç (Max $500):</div>
             <div style="font-size: 0.95rem; font-weight: 900; color: #fff; margin: 4px 0;" id="usdDisplay">$10 USD</div>
-            <input type="range" id="usdSlider" min="1" max="50" value="10" style="width: 100%; accent-color: #ffd700; cursor: pointer;" oninput="updateUsdSlider(this.value)">
+            <input type="range" id="usdSlider" min="5" max="500" step="5" value="10" style="width: 100%; accent-color: #ffd700; cursor: pointer;" oninput="updateUsdSlider(this.value)">
             <div style="font-size: 0.65rem; color: #2ecc71; font-weight: bold; margin: 6px 0;" id="usdRewardText">Alacağın: 25,000 🥩</div>
-            <button class="cr-buy-btn" onclick="buyUsdPackage()" id="lblBuyUsdBtn">PAKETİ SATIN AL</button>
+            <button class="cr-buy-btn" onclick="openPaymentModal()" id="lblBuyUsdBtn">PAKETİ SATIN AL</button>
           </div>
 
           <div class="cr-cards-grid" id="animalShopGrid"></div>
@@ -476,28 +500,26 @@
       } catch(e) {}
     }
 
-    let balance = 500;
-    let tonBalance = 0.245;
-    let unclaimedSteak = 157;
-    let hourlyProduction = 157;
-    let playerLevel = 1;
-    let playerXP = 0;
-    let xpNeeded = 100;
-    let lionLevel = 1;
-    let lastFreeClaim = 0;
-    let lastSpinTime = 0;
+    // STATE VARIABELEN (met automatische localStorage laadfunctie)
+    let balance = parseInt(localStorage.getItem('dg_balance')) || 500;
+    let tonBalance = parseFloat(localStorage.getItem('dg_ton')) || 0.245;
+    let unclaimedSteak = parseInt(localStorage.getItem('dg_unclaimed')) || 157;
+    let hourlyProduction = parseInt(localStorage.getItem('dg_prod')) || 157;
+    let playerLevel = parseInt(localStorage.getItem('dg_level')) || 1;
+    let playerXP = parseInt(localStorage.getItem('dg_xp')) || 0;
+    let xpNeeded = parseInt(localStorage.getItem('dg_xpneeded')) || 100;
+    let lionLevel = parseInt(localStorage.getItem('dg_lion')) || 1;
+    let promoClaimed = localStorage.getItem('dg_promo') === 'true';
+    let promoSlots = parseInt(localStorage.getItem('dg_promoslots')) || 49;
+    let currentLang = localStorage.getItem('dg_lang') || 'nl';
+
+    let lastFreeClaim = parseInt(localStorage.getItem('dg_freeclaim')) || 0;
+    let lastSpinTime = parseInt(localStorage.getItem('dg_spintime')) || 0;
     let currentRotation = 0;
-    let currentLang = 'nl';
-    let promoClaimed = false;
-    let promoSlots = 49;
     let currentUsdVal = 10;
 
-    let currentHour = new Date().getHours();
-    if (currentHour >= 19 || currentHour < 6) {
-      document.getElementById('appBody').classList.add('night-mode');
-    }
-
-    let savannaSlots = [
+    let savedSlots = localStorage.getItem('dg_slots');
+    let savannaSlots = savedSlots ? JSON.parse(savedSlots) : [
       { id: 1, type: 'empty', name: 'Leeg Veld' },
       { id: 2, type: 'empty', name: 'Leeg Veld' },
       { id: 3, type: 'empty', name: 'Leeg Veld' },
@@ -506,6 +528,7 @@
       { id: 6, type: 'empty', name: 'Leeg Veld' }
     ];
 
+    let savedAnimals = localStorage.getItem('dg_animals');
     let animalsData = [
       { id: 'cub', img: 'aslan_yavrusu.PNG', count: 1, baseProd: 2, cost: 200, names: { nl: 'Aslan Yavrusu', tr: 'Aslan Yavrusu', en: 'Lion Cub', de: 'Löwenjungen', fr: 'Lionceau' } },
       { id: 'vulture', img: 'afrika_akbabasi.PNG', count: 0, baseProd: 5, cost: 600, names: { nl: 'Afrikaanse Akbaba', tr: 'Afrika Akbabası', en: 'African Vulture', de: 'Afrikanischer Geier', fr: 'Vautour africain' } },
@@ -524,6 +547,34 @@
       { id: 'elephant', img: 'fil.PNG', count: 0, baseProd: 102000, cost: 20000000, names: { nl: 'Afrikaanse Olifant', tr: 'Afrika Fili', en: 'African Elephant', de: 'Afrikanischer Elefant', fr: 'Éléphant d’Afrique' } },
       { id: 'panther', img: 'kara_panter.PNG', count: 0, baseProd: 220000, cost: 45000000, names: { nl: 'Zwarte Panter', tr: 'Kara Panter', en: 'Black Panther', de: 'Schwarzer Panther', fr: 'Panthère noire' } }
     ];
+
+    if (savedAnimals) {
+      let parsedCounts = JSON.parse(savedAnimals);
+      animalsData.forEach((a, i) => { if (parsedCounts[i] !== undefined) a.count = parsedCounts[i]; });
+    }
+
+    function saveGame() {
+      localStorage.setItem('dg_balance', balance);
+      localStorage.setItem('dg_ton', tonBalance);
+      localStorage.setItem('dg_unclaimed', unclaimedSteak);
+      localStorage.setItem('dg_prod', hourlyProduction);
+      localStorage.setItem('dg_level', playerLevel);
+      localStorage.setItem('dg_xp', playerXP);
+      localStorage.setItem('dg_xpneeded', xpNeeded);
+      localStorage.setItem('dg_lion', lionLevel);
+      localStorage.setItem('dg_promo', promoClaimed);
+      localStorage.setItem('dg_promoslots', promoSlots);
+      localStorage.setItem('dg_lang', currentLang);
+      localStorage.setItem('dg_freeclaim', lastFreeClaim);
+      localStorage.setItem('dg_spintime', lastSpinTime);
+      localStorage.setItem('dg_slots', JSON.stringify(savannaSlots));
+      localStorage.setItem('dg_animals', JSON.stringify(animalsData.map(a => a.count)));
+    }
+
+    let currentHour = new Date().getHours();
+    if (currentHour >= 19 || currentHour < 6) {
+      document.getElementById('appBody').classList.add('night-mode');
+    }
 
     const translations = {
       nl: {
@@ -621,6 +672,7 @@
       document.getElementById('hudLevelText').innerText = `Level ${playerLevel}`;
       document.getElementById('xpTextOverlay').innerText = `${playerXP} / ${xpNeeded} XP`;
       document.getElementById('xpBarFill').style.width = pct + '%';
+      saveGame();
     }
 
     function renderBuilder() {
@@ -663,6 +715,7 @@
       document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
       renderBuilder();
       addXP(25);
+      saveGame();
       haptic('success');
       showToast("🏗️ Succesvol gebouwd op je savanne!");
     }
@@ -696,10 +749,24 @@
       document.getElementById('usdRewardText').innerText = `Alacağın: ${steakReward.toLocaleString()} 🥩`;
     }
 
-    function buyUsdPackage() {
+    function openPaymentModal() {
+      let steakReward = currentUsdVal * 2500;
+      document.getElementById('modalPackageInfo').innerText = `Pakket: $${currentUsdVal} USD (${steakReward.toLocaleString()} Steak)`;
+      document.getElementById('paymentModal').style.display = 'flex';
+      haptic('light');
+    }
+
+    function closePaymentModal() {
+      document.getElementById('paymentModal').style.display = 'none';
+      haptic('light');
+    }
+
+    function confirmPayment() {
       let steakReward = currentUsdVal * 2500;
       balance += steakReward;
       document.getElementById('balance').innerText = balance.toLocaleString();
+      saveGame();
+      closePaymentModal();
       addXP(50);
       haptic('success');
       showToast(`🚀 Succesvol $${currentUsdVal} USD pakket gekocht (+${steakReward.toLocaleString()} 🥩)!`);
@@ -721,13 +788,13 @@
       document.getElementById('promoSlots').innerText = promoSlots;
       document.getElementById('lblPromoBtn').innerText = "ALINDI ✅";
       
-      // Voeg wolf toe aan inventaris (index 6 is Wolf)
       animalsData[6].count++;
       hourlyProduction += animalsData[6].baseProd;
       document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
       document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
       renderShop();
       addXP(100);
+      saveGame();
       haptic('success');
       showToast("🐺 Gefeliciteerd! Gratis Kurt (Wolf) succesvol geclaimd!");
     }
@@ -748,12 +815,14 @@
       tonBalance = 0;
       document.getElementById('gramBalance').innerText = '0.000';
       document.getElementById('withdrawAddrInput').value = '';
+      saveGame();
       haptic('success');
-      showToast(`📤 Uitbetaling van ${withdrawn.toFixed(3)} TON aangevraagd!`);
+      showToast(`📤 Uitbetaling van ${withdrawn.toFixed(3)} TON aangevraagd! Binnen enkele minuten wordt dit betaald.`);
     }
 
     function setAppLanguage(lang) {
       currentLang = lang;
+      saveGame();
       let t = translations[lang];
       document.getElementById('txtHourRate').innerText = t.hourRate;
       document.getElementById('lblFreeBonus').innerText = t.freeBonus;
@@ -793,7 +862,8 @@
       document.getElementById('lblBuilderTitle').innerText = t.builderTitle;
       document.getElementById('lblPromoTitle').innerText = t.promoTitle;
       document.getElementById('lblPromoLeft').childNodes[0].nodeValue = t.promoLeft + " ";
-      if (!promoClaimed) document.getElementById('lblPromoBtn').innerText = t.promoBtn;
+      if (promoClaimed) document.getElementById('lblPromoBtn').innerText = "ALINDI ✅";
+      else document.getElementById('lblPromoBtn').innerText = t.promoBtn;
       document.getElementById('lblUsdPackTitle').innerText = t.usdPackTitle;
       document.getElementById('lblUsdSelect').innerText = t.usdSelect;
       document.getElementById('lblBuyUsdBtn').innerText = t.buyUsdBtn;
@@ -823,6 +893,7 @@
       
       renderShop();
       addXP(50);
+      saveGame();
       haptic('success');
       showToast(`🎉 ${anim.names[currentLang] || anim.names['en']} aangeschaft! +${anim.baseProd} 🥩/u`);
     }
@@ -839,6 +910,7 @@
       document.getElementById('balance').innerText = balance.toLocaleString();
       document.getElementById('lblCollectVal').innerText = `0 STEAK KLAAR`;
       addXP(10);
+      saveGame();
       haptic('success');
       showToast(`🎉 +${claimed} Steak succesvol geclaimd!`);
     }
@@ -864,6 +936,7 @@
       document.getElementById('balance').innerText = balance.toLocaleString();
       document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
       addXP(100);
+      saveGame();
       haptic('success');
       showToast(`🎉 Wissel gelukt! +${tonEarned.toFixed(3)} TON toegevoegd.`);
     }
@@ -895,6 +968,7 @@
       balance += 100;
       document.getElementById('balance').innerText = balance.toLocaleString();
       addXP(15);
+      saveGame();
       haptic('success');
       showToast("🎁 Gratis +100 Steak geclaimd!");
     }
@@ -918,6 +992,7 @@
         document.getElementById('balance').innerText = balance.toLocaleString();
         lastSpinTime = Date.now();
         addXP(30);
+        saveGame();
         haptic('success');
         showToast(`🎉 Gefeliciteerd! +${reward} 🥩 gewonnen!`);
         btn.disabled = false;
@@ -936,6 +1011,7 @@
       document.getElementById('balance').innerText = balance.toLocaleString();
       document.getElementById('lionLevelDisplay').innerText = lionLevel;
       addXP(60);
+      saveGame();
       haptic('success');
       showToast(`🦁 Koning Leeuw is geüpgraded naar Level ${lionLevel}!`);
     }
@@ -945,6 +1021,7 @@
       balance += reward;
       document.getElementById('balance').innerText = balance.toLocaleString();
       addXP(40);
+      saveGame();
       haptic('success');
       showToast(`⚔️ Arena Overwinning! +${reward} 🥩 verdiend!`);
     }
@@ -960,8 +1037,18 @@
       let inc = Math.max(1, Math.floor(hourlyProduction / 720));
       unclaimedSteak += inc;
       document.getElementById('lblCollectVal').innerText = `+${unclaimedSteak} STEAK KLAAR`;
+      saveGame();
     }, 5000);
 
+    // Initialiseer bij laden
+    document.getElementById('balance').innerText = balance.toLocaleString();
+    document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
+    document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
+    document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
+    document.getElementById('lionLevelDisplay').innerText = lionLevel;
+    document.getElementById('promoSlots').innerText = promoSlots;
+    if (promoClaimed) document.getElementById('lblPromoBtn').innerText = "ALINDI ✅";
+    
     renderShop();
     renderBuilder();
     addXP(0);

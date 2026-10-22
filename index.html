@@ -23,123 +23,52 @@
 
     .bg-video {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      background-color: #000;
-      z-index: 1;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover; background-color: #000; z-index: 1;
     }
 
     .app-container {
-      width: 100%;
-      max-width: 480px;
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      z-index: 10;
+      width: 100%; max-width: 480px; height: 100vh;
+      position: relative; overflow: hidden; display: flex; flex-direction: column; z-index: 10;
     }
 
     /* TOP FIXED HEADER */
     .top-header-area {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 8px 10px;
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      background: linear-gradient(180deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0) 100%);
+      position: absolute; top: 0; left: 0; width: 100%; padding: 8px 10px; z-index: 50;
+      display: flex; flex-direction: column; gap: 6px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0) 100%);
     }
 
     .top-hud-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      gap: 6px;
+      display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px;
     }
 
     .quick-actions-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      padding: 0 2px;
+      display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 2px;
     }
 
     .hud-badge-pill {
-      background: rgba(18, 10, 5, 0.92);
-      border: 1.5px solid #e6af2e;
-      border-radius: 20px;
-      padding: 4px 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-      cursor: pointer;
+      background: rgba(18, 10, 5, 0.92); border: 1.5px solid #e6af2e; border-radius: 20px;
+      padding: 4px 10px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.6); cursor: pointer;
     }
 
     .mini-card-btn {
-      background: linear-gradient(135deg, #2c1a0e, #140b05);
-      border: 1.5px solid #e6af2e;
-      border-radius: 12px;
-      padding: 5px 8px;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.62rem;
-      font-weight: bold;
-      color: #ffd700;
+      background: linear-gradient(135deg, #2c1a0e, #140b05); border: 1.5px solid #e6af2e; border-radius: 12px;
+      padding: 5px 8px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.7); cursor: pointer;
+      display: flex; align-items: center; gap: 4px; font-size: 0.6rem; font-weight: bold; color: #ffd700;
     }
 
     .level-banner-wood {
-      background: linear-gradient(135deg, #422812, #241408);
-      border: 2px solid #ffd700;
-      border-radius: 14px;
-      padding: 5px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.8);
-      width: 130px;
-      cursor: pointer;
+      background: linear-gradient(135deg, #422812, #241408); border: 2px solid #ffd700; border-radius: 14px;
+      padding: 5px 8px; display: flex; flex-direction: column; gap: 2px; box-shadow: 0 4px 12px rgba(0,0,0,0.8); width: 130px; cursor: pointer;
     }
 
-    .mini-xp-bar {
-      width: 100%;
-      background: #111;
-      border: 1px solid #ffd700;
-      border-radius: 6px;
-      height: 5px;
-      overflow: hidden;
-    }
-    .mini-xp-fill {
-      background: linear-gradient(90deg, #f1c40f, #e67e22);
-      height: 100%;
-      width: 32%;
-    }
+    .mini-xp-bar { width: 100%; background: #111; border: 1px solid #ffd700; border-radius: 6px; height: 5px; overflow: hidden; }
+    .mini-xp-fill { background: linear-gradient(90deg, #f1c40f, #e67e22); height: 100%; width: 32%; }
 
-    /* MIDDLE CONTENT AREA */
+    /* CONTENT AREA */
     .overlay-content {
-      position: absolute;
-      top: 105px;
-      bottom: 65px;
-      left: 0;
-      width: 100%;
-      z-index: 10;
-      padding: 10px 12px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
+      position: absolute; top: 105px; bottom: 65px; left: 0; width: 100%; z-index: 10; padding: 10px 12px; overflow-y: auto; display: flex; flex-direction: column;
     }
 
     .tab-content { display: none; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; }
@@ -147,245 +76,102 @@
 
     /* UNLOCKED BANNER */
     .unlocked-banner {
-      background: linear-gradient(135deg, #3d2612 0%, #1c1007 100%);
-      border: 2px solid #ffd700;
-      border-radius: 14px;
-      padding: 8px 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.8);
-      margin-bottom: 6px;
+      background: linear-gradient(135deg, #3d2612 0%, #1c1007 100%); border: 2px solid #ffd700; border-radius: 14px;
+      padding: 8px 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.8); margin-bottom: 6px;
     }
-    .unlocked-img {
-      width: 42px;
-      height: 42px;
-      border-radius: 8px;
-      border: 2px solid #ffd700;
-      object-fit: cover;
-    }
+    .unlocked-img { width: 42px; height: 42px; border-radius: 8px; border: 2px solid #ffd700; object-fit: cover; }
 
     /* ANIMAL CARDS HORIZONTAL ROW */
     .animals-row-container {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 2px 0;
-      width: 100%;
-      scrollbar-width: none;
-      margin-bottom: 6px;
+      display: flex; gap: 8px; overflow-x: auto; padding: 2px 0; width: 100%; scrollbar-width: none; margin-bottom: 6px;
     }
     .animals-row-container::-webkit-scrollbar { display: none; }
 
     .animal-show-card {
-      min-width: 74px;
-      background: linear-gradient(180deg, #2b180d 0%, #120904 100%);
-      border: 2px solid #e6af2e;
-      border-radius: 12px;
-      padding: 6px 4px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
-      flex-shrink: 0;
-      cursor: pointer;
+      min-width: 74px; background: linear-gradient(180deg, #2b180d 0%, #120904 100%); border: 2px solid #e6af2e; border-radius: 12px;
+      padding: 6px 4px; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.7); flex-shrink: 0; cursor: pointer;
     }
-    .animal-card-img {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      border: 1.5px solid #ffd700;
-      object-fit: cover;
-      margin-bottom: 3px;
-    }
+    .animal-card-img { width: 40px; height: 40px; border-radius: 8px; border: 1.5px solid #ffd700; object-fit: cover; margin-bottom: 3px; }
 
     /* HOME BOTTOM SECTION */
-    .home-bottom-section {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: auto;
-      padding-bottom: 10px;
-    }
+    .home-bottom-section { display: flex; flex-direction: column; gap: 8px; margin-top: auto; padding-bottom: 10px; }
 
     .active-missions-banner {
-      background: linear-gradient(135deg, #1b2e18 0%, #0d170b 100%);
-      border: 2px solid #2ecc71;
-      border-radius: 14px;
-      padding: 8px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.8);
-      cursor: pointer;
+      background: linear-gradient(135deg, #1b2e18 0%, #0d170b 100%); border: 2px solid #2ecc71; border-radius: 14px;
+      padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 6px 20px rgba(0,0,0,0.8); cursor: pointer;
     }
 
     .tap-collect-btn {
-      background: linear-gradient(135deg, #ffd700 0%, #ff8800 100%);
-      border: 2.5px solid #ffffff;
-      border-radius: 16px;
-      padding: 12px;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(255, 140, 0, 0.6);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
+      background: linear-gradient(135deg, #ffd700 0%, #ff8800 100%); border: 2.5px solid #ffffff; border-radius: 16px;
+      padding: 12px; text-align: center; box-shadow: 0 8px 25px rgba(255, 140, 0, 0.6); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
     }
     .tap-collect-btn:active { transform: scale(0.97); }
 
     /* PAGE BOX & MODALS */
     .page-box {
-      background: rgba(18, 10, 5, 0.96);
-      border: 2px solid #8a5a22;
-      border-radius: 18px;
-      padding: 12px;
-      max-height: 100%;
-      overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.85);
-      backdrop-filter: blur(10px);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      background: rgba(18, 10, 5, 0.96); border: 2px solid #8a5a22; border-radius: 18px; padding: 12px;
+      max-height: 100%; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 10px;
     }
-    .page-title {
-      font-size: 1.05rem;
-      color: #ffd700;
-      font-weight: 900;
-      text-align: center;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-    }
+    .page-title { font-size: 1.05rem; color: #ffd700; font-weight: 900; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
 
     /* MARKET / SHOP GRID */
-    .cr-cards-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
+    .cr-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .cr-card {
-      background: linear-gradient(180deg, #1f140a 0%, #0d0804 100%);
-      border: 2px solid #e6af2e;
-      border-radius: 12px;
-      padding: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+      background: linear-gradient(180deg, #1f140a 0%, #0d0804 100%); border: 2px solid #e6af2e; border-radius: 12px;
+      padding: 8px; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
     }
-    .cr-card-img {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
-      border: 2px solid #ffd700;
-      object-fit: cover;
-      margin-bottom: 4px;
-    }
+    .cr-card-img { width: 48px; height: 48px; border-radius: 10px; border: 2px solid #ffd700; object-fit: cover; margin-bottom: 4px; }
     .cr-buy-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #2ecc71, #27ae60);
-      border: 1px solid #fff;
-      padding: 6px;
-      border-radius: 8px;
-      color: #fff;
-      font-weight: 900;
-      font-size: 0.7rem;
-      cursor: pointer;
-      margin-top: 6px;
-      text-transform: uppercase;
+      width: 100%; background: linear-gradient(135deg, #2ecc71, #27ae60); border: 1px solid #fff; padding: 6px;
+      border-radius: 8px; color: #fff; font-weight: 900; font-size: 0.7rem; cursor: pointer; margin-top: 6px; text-transform: uppercase;
+    }
+
+    /* TERRITORY & MAP CARDS */
+    .territory-card {
+      background: linear-gradient(135deg, #2b1a0f, #120904); border: 1.5px solid #e6af2e; border-radius: 12px; padding: 8px 10px;
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
     }
 
     /* BOTTOM NAVIGATION BAR */
     .bottom-nav {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: linear-gradient(180deg, rgba(18,10,5,0.98), rgba(8,4,1,1));
-      border-top: 2px solid #704b2e;
-      display: flex;
-      justify-content: space-around;
-      padding: 6px 0 10px 0;
-      z-index: 100;
-      box-shadow: 0 -5px 20px rgba(0,0,0,0.9);
+      position: absolute; bottom: 0; left: 0; width: 100%;
+      background: linear-gradient(180deg, rgba(18,10,5,0.98), rgba(8,4,1,1)); border-top: 2px solid #704b2e;
+      display: flex; justify-content: space-around; padding: 6px 0 10px 0; z-index: 100; box-shadow: 0 -5px 20px rgba(0,0,0,0.9);
     }
     .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #bfa38a;
-      font-size: 0.65rem;
-      text-decoration: none;
-      cursor: pointer;
-      gap: 2px;
+      display: flex; flex-direction: column; align-items: center; color: #bfa38a; font-size: 0.65rem; text-decoration: none; cursor: pointer; gap: 2px;
     }
     .nav-item.active { color: #ffd700; font-weight: bold; text-shadow: 0 0 8px rgba(255,215,0,0.6); }
     .nav-icon { font-size: 1.2rem; }
 
     .toast-notification {
-      position: absolute;
-      top: 115px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(18, 10, 5, 0.96);
-      border: 2px solid #ffd700;
-      color: #ffd700;
-      padding: 6px 14px;
-      border-radius: 16px;
-      font-size: 0.7rem;
-      font-weight: bold;
-      z-index: 300;
-      display: none;
-      text-align: center;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+      position: absolute; top: 115px; left: 50%; transform: translateX(-50%);
+      background: rgba(18, 10, 5, 0.96); border: 2px solid #ffd700; color: #ffd700; padding: 6px 14px;
+      border-radius: 16px; font-size: 0.7rem; font-weight: bold; z-index: 300; display: none; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
     }
 
     /* BATTLE ARENA & WHEEL */
     .battle-arena-container {
-      background: linear-gradient(180deg, #1b2e18 0%, #0d170b 100%);
-      border: 2px solid #2ecc71;
-      border-radius: 14px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
+      background: linear-gradient(180deg, #1b2e18 0%, #0d170b 100%); border: 2px solid #2ecc71; border-radius: 14px; padding: 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
     }
     .battle-board {
-      width: 100%;
-      height: 130px;
-      background: radial-gradient(circle, #27ae60 0%, #0e3b1f 100%);
-      border: 2px solid #f1c40f;
-      border-radius: 10px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 8px;
+      width: 100%; height: 130px; background: radial-gradient(circle, #27ae60 0%, #0e3b1f 100%); border: 2px solid #f1c40f;
+      border-radius: 10px; position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 8px;
     }
-    .battle-unit-img {
-      width: 38px; height: 38px; border-radius: 8px; border: 2px solid #ffd700; object-fit: cover;
-    }
-    .unit-selector-row {
-      display: flex; gap: 6px; overflow-x: auto; width: 100%; padding: 4px 0;
-    }
+    .battle-unit-img { width: 38px; height: 38px; border-radius: 8px; border: 2px solid #ffd700; object-fit: cover; }
+    .unit-selector-row { display: flex; gap: 6px; overflow-x: auto; width: 100%; padding: 4px 0; }
     .unit-select-chip {
       background: rgba(40, 24, 12, 0.9); border: 1.5px solid #704b2e; border-radius: 8px; padding: 4px 8px; font-size: 0.65rem; color: #fff; cursor: pointer; white-space: nowrap;
     }
     .unit-select-chip.selected { border-color: #2ecc71; background: rgba(46, 204, 113, 0.25); }
 
-    .wheel-tree-container {
-      position: relative; width: 160px; height: 160px; margin: 6px auto; display: flex; justify-content: center; align-items: center;
-    }
+    .wheel-tree-container { position: relative; width: 160px; height: 160px; margin: 6px auto; display: flex; justify-content: center; align-items: center; }
     .wheel-pointer-top {
       position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
       width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 16px solid #fff; z-index: 40;
     }
-    .wheel-wooden-frame {
-      width: 140px; height: 140px; border-radius: 50%; border: 5px solid #ffffff; position: relative; overflow: hidden; background: #111;
-    }
+    .wheel-wooden-frame { width: 140px; height: 140px; border-radius: 50%; border: 5px solid #ffffff; position: relative; overflow: hidden; background: #111; }
     .wheel {
       width: 100%; height: 100%; border-radius: 50%;
       background: conic-gradient(#222 0deg 90deg, #444 90deg 180deg, #111 180deg 270deg, #555 270deg 360deg);
@@ -413,7 +199,7 @@
     <!-- TOP FIXED HEADER AREA -->
     <div class="top-header-area">
       <div class="top-hud-row">
-        <!-- Level Banner (Klikbaar) -->
+        <!-- Level Banner (Klikbaar naar Kaart) -->
         <div class="level-banner-wood" onclick="switchTab('kaart', null)">
           <div style="display: flex; align-items: center; gap: 4px;">
             <span style="font-size: 0.85rem;">👑</span>
@@ -423,13 +209,13 @@
           <div style="font-size: 0.45rem; color: #ccc; text-align: right;" id="xpTextOverlay">320 / 1,000</div>
         </div>
 
-        <!-- Balances (Steak & TON - TON is nu klikbaar naar Wallet) -->
+        <!-- Balances (Steak + Hourly Rate & TON - Klikbaar naar Wallet) -->
         <div style="display: flex; gap: 5px;">
           <div class="hud-badge-pill" onclick="handleCollectEarnings()">
             <span style="font-size: 0.85rem;">🥩</span>
             <div style="text-align: right;">
               <div style="font-size: 0.68rem; font-weight: 900; color: #ffd700;" id="balance">12,580</div>
-              <div style="font-size: 0.42rem; color: #aaa;" id="txtHourRate">/ uur</div>
+              <div style="font-size: 0.42rem; color: #aaa;"><span id="totalProductionDisplay">157</span> <span id="txtHourRate">/ uur</span></div>
             </div>
           </div>
           <div class="hud-badge-pill" style="border-color: #3498db;" onclick="switchTab('cuzdan', null)">
@@ -445,24 +231,19 @@
       <!-- Quick Action Buttons Row -->
       <div class="quick-actions-row">
         <div class="mini-card-btn" onclick="claimStreakDailySecure()">
-          <span>🎁</span>
-          <span id="lblFreeBonus">Gratis +100</span>
+          <span>🎁</span> <span id="lblFreeBonus">Gratis +100</span>
         </div>
         <div class="mini-card-btn" onclick="switchTab('spin', null)">
-          <span>🎡</span>
-          <span id="lblSpin">Wiel 🥩</span>
+          <span>🎡</span> <span id="lblSpin">Wiel 🥩</span>
         </div>
         <div class="mini-card-btn" onclick="switchTab('cuzdan', null)">
-          <span>💎</span>
-          <span id="lblWallet">Wallet</span>
+          <span>💎</span> <span id="lblWallet">Wallet</span>
         </div>
         <div class="mini-card-btn" onclick="switchTab('hunt', null)">
-          <span>🎯</span>
-          <span id="lblMissions">Missies</span>
+          <span>🎯</span> <span id="lblMissions">Missies</span>
         </div>
         <div class="mini-card-btn" onclick="switchTab('language', null)">
-          <span>⚙️</span>
-          <span id="lblLang">Taal</span>
+          <span>⚙️</span> <span id="lblLang">Taal</span>
         </div>
       </div>
     </div>
@@ -489,27 +270,27 @@
             <div class="animal-show-card" onclick="switchTab('market', null)">
               <img src="beyaz_gergedan.PNG" class="animal-card-img" alt="White Rhino">
               <div style="font-size: 0.55rem; font-weight: 900; color: #fff;">White Rhino</div>
-              <div style="font-size: 0.48rem; color: #f1c40f;">Level 1</div>
+              <div style="font-size: 0.48rem; color: #f1c40f;" id="invCardRhino">Bezit: 0</div>
             </div>
             <div class="animal-show-card" onclick="switchTab('market', null)">
               <img src="fil.PNG" class="animal-card-img" alt="Elephant">
               <div style="font-size: 0.55rem; font-weight: 900; color: #fff;">Elephant</div>
-              <div style="font-size: 0.48rem; color: #9b59b6;">Level 1</div>
+              <div style="font-size: 0.48rem; color: #9b59b6;" id="invCardElephant">Bezit: 0</div>
             </div>
             <div class="animal-show-card" onclick="switchTab('market', null)">
               <img src="kara_panter.PNG" class="animal-card-img" alt="Panther">
               <div style="font-size: 0.55rem; font-weight: 900; color: #fff;">Panther</div>
-              <div style="font-size: 0.48rem; color: #3498db;">Level 1</div>
+              <div style="font-size: 0.48rem; color: #3498db;" id="invCardPanther">Bezit: 0</div>
             </div>
             <div class="animal-show-card" onclick="switchTab('market', null)">
               <img src="cita.PNG" class="animal-card-img" alt="Cheetah">
               <div style="font-size: 0.55rem; font-weight: 900; color: #fff;">Cheetah</div>
-              <div style="font-size: 0.48rem; color: #2ecc71;">Level 1</div>
+              <div style="font-size: 0.48rem; color: #2ecc71;" id="invCardCheetah">Bezit: 0</div>
             </div>
             <div class="animal-show-card" onclick="switchTab('market', null)">
               <img src="aslan_yavrusu.PNG" class="animal-card-img" alt="Lion Cub">
               <div style="font-size: 0.55rem; font-weight: 900; color: #fff;">Lion Cub</div>
-              <div style="font-size: 0.48rem; color: #e67e22;">Level 1</div>
+              <div style="font-size: 0.48rem; color: #e67e22;" id="invCardCub">Bezit: 1</div>
             </div>
           </div>
         </div>
@@ -532,157 +313,92 @@
             <span style="font-size: 1.3rem;">🥩</span>
             <div style="text-align: left;">
               <div style="font-size: 0.8rem; font-weight: 900; color: #1a0f05; text-transform: uppercase;" id="lblTapToCollect">TAP TO COLLECT</div>
-              <div style="font-size: 0.6rem; font-weight: bold; color: #7a3a00;" id="lblCollectVal">+100 STEAK</div>
+              <div style="font-size: 0.6rem; font-weight: bold; color: #7a3a00;" id="lblCollectVal">+500 STEAK</div>
             </div>
             <span style="font-size: 1.2rem; margin-left: auto;">👆</span>
           </div>
         </div>
       </div>
 
-      <!-- TAB 2: ANIMALS / KAART -->
+      <!-- TAB 2: ANIMALS / KAART & GEBIEDEN (Interactief gebouwd) -->
       <div id="tab-kaart" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblMapTitle">🗺️ Savannekaart & Gebieden</div>
-          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Ontgrendel nieuwe gebieden en beheer je leefgebied.</p>
+          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Ontgrendel gebieden, plant bomen en beheer je leefgebied.</p>
+          
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #ffb700; border-radius: 10px; padding: 8px; text-align: center;">
-            <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">🦁 Kral Aslan - Level <span id="lionLevelDisplay">1</span></div>
+            <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">🦁 <span id="lblLionKing">Kral Aslan</span> - Level <span id="lionLevelDisplay">1</span></div>
             <button class="cr-buy-btn" onclick="upgradeLionLevel()" id="lblUpgradeLion">⬆️ Leeuw Upgraden (500 🥩)</button>
+          </div>
+
+          <div class="territory-card">
+            <div>
+              <div style="font-size: 0.7rem; font-weight: bold; color: #ffd700;" id="terr1Name">🦁 Leeuwenvlakte</div>
+              <div style="font-size: 0.55rem; color: #aaa;" id="terr1Desc">Standaard leefgebied & basis jacht.</div>
+            </div>
+            <span style="font-size: 0.65rem; color: #2ecc71; font-weight: bold;" id="statusUnlocked">Ontgrendeld ✅</span>
+          </div>
+
+          <div class="territory-card">
+            <div>
+              <div style="font-size: 0.7rem; font-weight: bold; color: #ffd700;" id="terr2Name">🐊 Krokodillenrivier</div>
+              <div style="font-size: 0.55rem; color: #aaa;" id="terr2Desc">Gevaarlijke riviermissies. +20% bonus.</div>
+            </div>
+            <button class="cr-buy-btn" style="width: auto; padding: 4px 10px;" onclick="unlockTerritory(5000)" id="btnUnlock2">5.000 🥩</button>
+          </div>
+
+          <div class="territory-card">
+            <div>
+              <div style="font-size: 0.7rem; font-weight: bold; color: #ffd700;" id="terr3Name">🐘 Olifantenvallei</div>
+              <div style="font-size: 0.55rem; color: #aaa;" id="terr3Desc">Sterke verdediging en kuddebeheer.</div>
+            </div>
+            <button class="cr-buy-btn" style="width: auto; padding: 4px 10px;" onclick="unlockTerritory(20000)" id="btnUnlock3">20.000 🥩</button>
           </div>
         </div>
       </div>
 
-      <!-- TAB 3: ARENA -->
+      <!-- TAB 3: ARENA (Interactieve Missies & Keuzes) -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblArenaTitle">🎯 Savanne-Arena & Missies</div>
           <div class="battle-arena-container">
-            <div style="font-size: 0.62rem; color: #ffd700; font-weight: bold;" id="lblArenaDesc">Versla wilde beesten & bescherm welpen!</div>
+            <div style="font-size: 0.62rem; color: #ffd700; font-weight: bold;" id="lblArenaDesc">Selecteer je jager en start een dynamische missie!</div>
+            
             <div class="battle-board">
               <div style="display:flex; justify-content:center; gap:8px;">
-                <img src="antilop.PNG" class="battle-unit-img">
-                <img src="aslan_yavrusu.PNG" class="battle-unit-img">
+                <img src="antilop.PNG" class="battle-unit-img" alt="Antilop">
+                <img src="aslan_yavrusu.PNG" class="battle-unit-img" alt="Welp">
               </div>
               <div style="text-align:center; font-size:0.5rem; background:rgba(0,0,0,0.5); padding:1px 6px; border-radius:4px;">VS</div>
               <div style="display:flex; justify-content:center;">
-                <img src="kral_aslan.PNG" class="battle-unit-img">
+                <img id="activeArenaFighter" src="kral_aslan.PNG" class="battle-unit-img" alt="Fighter">
               </div>
             </div>
+
             <div class="unit-selector-row">
-              <div class="unit-select-chip selected">🦁 Aslan</div>
-              <div class="unit-select-chip">🐈‍⬛ Panter</div>
+              <div class="unit-select-chip selected" onclick="selectFighter('kral_aslan.PNG', this)">🦁 Aslan</div>
+              <div class="unit-select-chip" onclick="selectFighter('kara_panter.PNG', this)">🐈‍⬛ Panter</div>
+              <div class="unit-select-chip" onclick="selectFighter('cita.PNG', this)">🐆 Cheetah</div>
+              <div class="unit-select-chip" onclick="selectFighter('fil.PNG', this)">🐘 Olifant</div>
             </div>
           </div>
-          <button class="cr-buy-btn" onclick="triggerClashHunt()" style="padding: 8px; font-size: 0.72rem;" id="lblStartMission">⚔️ MISSIE STARTEN!</button>
+          <button class="cr-buy-btn" onclick="triggerClashHunt()" style="padding: 9px; font-size: 0.75rem;" id="lblStartMission">⚔️ MISSIE STARTEN & JAGEN!</button>
         </div>
       </div>
 
-      <!-- TAB 4: MARKET / MAĞRA (Alle 16 dieren zichtbaar en koopbaar) -->
+      <!-- TAB 4: MARKET / MAĞRA (Alle 16 Dieren met Inventaris en Productiestijging) -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblMarketTitle">🏕️ Mağra & Dierenwinkel</div>
-          <div style="font-size: 0.58rem; color: #aaa; text-align: center;"><span id="lblTotalProd">Totaal Productie:</span> <span id="totalSpeedInfo">157</span> 🥩 / uur</div>
-          <div class="cr-cards-grid">
-            <div class="cr-card">
-              <img src="aslan_yavrusu.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Aslan Yavrusu</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+2 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(200)">200 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="afrika_akbabasi.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Afrika Akbabası</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+5 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(600)">600 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="antilop.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Antilop</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+12 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(1500)">1.500 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="jaguar.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Jaguar</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+30 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(4000)">4.000 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="sirtlan_surusu.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Sırtlan Sürüsü</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+70 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(10000)">10k 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="cakal.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Çakal</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+160 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(25000)">25k 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="kurt.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Kurt</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+260 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(42000)">42k 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="kral_aslan.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Kral Aslan</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+370 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(60000)">60k 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="cita.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Çita</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+850 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(150000)">150k 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="iki_erkek_aslan.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">2 Erkek Aslan</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+1.9k 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(350000)">350k 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="python.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Python Yılanı</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+4.4k 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(800000)">800k 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="timsah.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Timsah</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+9.8k 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(1800000)">1.8M 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="siyah_gergedan.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Siyah Gergedan</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+21.5k 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(4000000)">4M 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="beyaz_gergedan.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Beyaz Gergedan</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+47k 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(9000000)">9M 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="fil.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Afrika Fili</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+102k 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(20000000)">20M 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="kara_panter.PNG" class="cr-card-img">
-              <div style="font-size: 0.65rem; font-weight: 900;">Kara Panter</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">+220k 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="buyAnimal(45000000)">45M 🥩</button>
-            </div>
+          <div style="font-size: 0.58rem; color: #aaa; text-align: center;"><span id="lblTotalProd">Totaal Productie:</span> <span id="totalSpeedInfoMarket">157</span> 🥩 / uur</div>
+          
+          <div class="cr-cards-grid" id="animalShopGrid">
+            <!-- Wordt dynamisch gevuld met juiste vertalingen en inventaris -->
           </div>
         </div>
       </div>
 
-      <!-- TAB 5: EARN / WALLET (Met werkende Steak -> TON Wisselkoers) -->
+      <!-- TAB 5: EARN / WALLET -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblWalletTitle">🏦 Wallet & Wisselkoers</div>
@@ -701,15 +417,17 @@
         </div>
       </div>
 
-      <!-- SETTINGS / LANGUAGE TAB (3 Talen: NL, TR, EN) -->
+      <!-- SETTINGS / LANGUAGE TAB (5 Talen: NL, TR, EN, DE, FR) -->
       <div id="tab-language" class="tab-content">
         <div class="page-box" style="text-align: center;">
-          <div class="page-title">🌍 Taal / Language / Dil</div>
+          <div class="page-title" id="lblLangMenuTitle">🌍 Taal / Language / Dil / Sprache / Langue</div>
           <p style="font-size: 0.62rem; color: #ccc; margin-bottom: 8px;" id="lblLangDesc">Selecteer je taal:</p>
           <div style="display: flex; flex-direction: column; gap: 6px;">
             <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="setAppLanguage('nl')">🇳🇱 Nederlands</button>
             <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="setAppLanguage('tr')">🇹🇷 Türkçe</button>
             <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="setAppLanguage('en')">🇬🇧 English</button>
+            <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="setAppLanguage('de')">🇩🇪 Deutsch</button>
+            <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="setAppLanguage('fr')">🇫🇷 Français</button>
           </div>
         </div>
       </div>
@@ -753,70 +471,135 @@
       } catch(e) {}
     }
 
-    let audioCtx = null;
-    function playSound(type) {
-      try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        let osc = audioCtx.createOscillator();
-        let gainNode = audioCtx.createGain();
-        osc.connect(gainNode); gainNode.connect(audioCtx.destination);
-        let now = audioCtx.currentTime;
-        if (type === 'click') {
-          osc.type = 'sine'; osc.frequency.setValueAtTime(400, now); osc.frequency.exponentialRampToValueAtTime(200, now + 0.05);
-          gainNode.gain.setValueAtTime(0.1, now); gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-          osc.start(now); osc.stop(now + 0.05);
-        }
-      } catch(e) {}
-    }
-
     let balance = 12580;
     let tonBalance = 0.245;
     let unclaimedSteak = 500;
+    let hourlyProduction = 157;
     let lionLevel = 1;
     let lastFreeClaim = 0;
     let lastSpinTime = 0;
     let currentRotation = 0;
     let currentLang = 'nl';
 
+    // Dierenlijst met inventaris en productie
+    let animalsData = [
+      { id: 'cub', img: 'aslan_yavrusu.PNG', count: 1, baseProd: 2, cost: 200, names: { nl: 'Aslan Yavrusu', tr: 'Aslan Yavrusu', en: 'Lion Cub', de: 'Löwenjungen', fr: 'Lionceau' } },
+      { id: 'vulture', img: 'afrika_akbabasi.PNG', count: 0, baseProd: 5, cost: 600, names: { nl: 'Afrikaanse Akbaba', tr: 'Afrika Akbabası', en: 'African Vulture', de: 'Afrikanischer Geier', fr: 'Vautour africain' } },
+      { id: 'antilope', img: 'antilop.PNG', count: 0, baseProd: 12, cost: 1500, names: { nl: 'Antilope', tr: 'Antilop', en: 'Antelope', de:antilopeName='Antilope', fr: 'Antilope' } },
+      { id: 'jaguar', img: 'jaguar.PNG', count: 0, baseProd: 30, cost: 4000, names: { nl: 'Jaguar', tr: 'Jaguar', en: 'Jaguar', de: 'Jaguar', fr: 'Jaguar' } },
+      { id: 'hyena', img: 'sirtlan_surusu.PNG', count: 0, baseProd: 70, cost: 10000, names: { nl: 'Hyenafamilie', tr: 'Sırtlan Sürüsü', en: 'Hyena Pack', de: 'Hyänen-Rudel', fr: 'Meute de hyènes' } },
+      { id: 'jackal', img: 'cakal.PNG', count: 0, baseProd: 160, cost: 25000, names: { nl: 'Jakhals', tr: 'Çakal', en: 'Jackal', de: 'Schakal', fr: 'Chacal' } },
+      { id: 'wolf', img: 'kurt.PNG', count: 0, baseProd: 260, cost: 42000, names: { nl: 'Wolf', tr: 'Kurt', en: 'Wolf', de: 'Wolf', fr: 'Loup' } },
+      { id: 'lion', img: 'kral_aslan.PNG', count: 0, baseProd: 370, cost: 60000, names: { nl: 'Koning Leeuw', tr: 'Kral Aslan', en: 'King Lion', de: 'König Löwe', fr: 'Roi Lion' } },
+      { id: 'cheetah', img: 'cita.PNG', count: 0, baseProd: 850, cost: 150000, names: { nl: 'Cheetah', tr: 'Çita', en: 'Cheetah', de: 'Gepard', fr: 'Guépard' } },
+      { id: 'twolions', img: 'iki_erkek_aslan.PNG', count: 0, baseProd: 1900, cost: 350000, names: { nl: '2 Mannetjesleeuwen', tr: '2 Erkek Aslan', en: '2 Male Lions', de: '2 Männliche Löwen', fr: '2 Lions mâles' } },
+      { id: 'python', img: 'python.PNG', count: 0, baseProd: 4400, cost: 800000, names: { nl: 'Python Slang', tr: 'Python Yılanı', en: 'Python Snake', de: 'Python Schlange', fr: 'Serpent Python' } },
+      { id: 'croc', img: 'timsah.PNG', count: 0, baseProd: 9800, cost: 1800000, names: { nl: 'Timsah', tr: 'Timsah', en: 'Crocodile', de: 'Krokodil', fr: 'Crocodile' } },
+      { id: 'blackrhino', img: 'siyah_gergedan.PNG', count: 0, baseProd: 21500, cost: 4000000, names: { nl: 'Zwarte Neushoorn', tr: 'Siyah Gergedan', en: 'Black Rhino', de: 'Schwarzes Nashorn', fr: 'Rhinocéros noir' } },
+      { id: 'whiterhino', img: 'beyaz_gergedan.PNG', count: 0, baseProd: 47000, cost: 9000000, names: { nl: 'Witte Neushoorn', tr: 'Beyaz Gergedan', en: 'White Rhino', de: 'Weißes Nashorn', fr: 'Rhinocéros blanc' } },
+      { id: 'elephant', img: 'fil.PNG', count: 0, baseProd: 102000, cost: 20000000, names: { nl: 'Afrikaanse Olifant', tr: 'Afrika Fili', en: 'African Elephant', de: 'Afrikanischer Elefant', fr: 'Éléphant d’Afrique' } },
+      { id: 'panther', img: 'kara_panter.PNG', count: 0, baseProd: 220000, cost: 45000000, names: { nl: 'Zwarte Panter', tr: 'Kara Panter', en: 'Black Panther', de: 'Schwarzer Panther', fr: 'Panthère noire' } }
+    ];
+
     const translations = {
       nl: {
         hourRate: "/ uur", freeBonus: "Gratis +100", wheel: "Wiel 🥩", wallet: "Wallet", missions: "Missies", lang: "Taal",
         unlocked: "ONTSLOTEN:", activeMissions: "Actieve Missies", defeatBeasts: "Versla de wilde beesten",
-        tapToCollect: "TAP TO COLLECT", collectVal: "+100 STEAK", mapTitle: "🗺️ Savannekaart & Gebieden",
-        mapDesc: "Ontgrendel nieuwe gebieden en beheer je leefgebied.", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
-        arenaTitle: "🎯 Savanne-Arena & Missies", arenaDesc: "Versla wilde beesten & bescherm welpen!", startMission: "⚔️ MISSIE STARTEN!",
+        tapToCollect: "TAP TO COLLECT", collectVal: "+500 STEAK", mapTitle: "🗺️ Savannekaart & Gebieden",
+        mapDesc: "Ontgrendel gebieden, plant bomen en beheer je leefgebied.", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
+        arenaTitle: "🎯 Savanne-Arena & Missies", arenaDesc: "Selecteer je jager en start een dynamische missie!", startMission: "⚔️ MISSIE STARTEN & JAGEN!",
         marketTitle: "🏕️ Mağra & Dierenwinkel", totalProd: "Totaal Productie:", walletTitle: "🏦 Wallet & Wisselkoers",
         walletDesc: "Wissel je gespaarde Steak om naar TON of beheer je tegoeden.", exchangeTitle: "🔄 Steak → TON Wisselen",
         exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "Wissel Naar TON", depositAddr: "Stortingsadres (TON):",
         langDesc: "Selecteer je taal:", wheelTitle: "🎡 Rad van Fortuin", spinBtn: "DRAAI",
-        home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn"
+        home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
+        lionKing: "Kral Aslan", terr1Name: "🦁 Leeuwenvlakte", terr1Desc: "Standaard leefgebied & basis jacht.",
+        terr2Name: "🐊 Krokodillenrivier", terr2Desc: "Gevaarlijke riviermissies. +20% bonus.",
+        terr3Name: "🐘 Olifantenvallei", terr3Desc: "Sterke verdediging en kuddebeheer.",
+        statusUnlocked: "Ontgrendeld ✅"
       },
       tr: {
         hourRate: "/ sa", freeBonus: "Ücretsiz +100", wheel: "Çark 🥩", wallet: "Cüzdan", missions: "Görevler", lang: "Dil",
         unlocked: "AÇILDI:", activeMissions: "Aktif Görevler", defeatBeasts: "Vahşi canavarları alt et",
-        tapTopCollect: "TOPLAMAK İÇİN DOKUN", collectVal: "+100 BİFTEK", mapTitle: "🗺️ Savana Haritası & Bölgeler",
-        mapDesc: "Yeni bölgelerin kilidini aç ve yaşam alanını yönet.", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
-        arenaTitle: "🎯 Savana Arenası & Görevler", arenaDesc: "Vahşi canavarları yen & yavruları koru!", startMission: "⚔️ GÖREVİ BAŞLAT!",
+        tapToCollect: "TOPLAMAK İÇİN DOKUN", collectVal: "+500 BİFTEK", mapTitle: "🗺️ Savana Haritası & Bölgeler",
+        mapDesc: "Bölgelerin kilidini aç, ağaç dik ve yaşam alanını yönet.", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
+        arenaTitle: "🎯 Savana Arenası & Görevler", arenaDesc: "Avcını seç ve dinamik bir göreve başla!", startMission: "⚔️ GÖREVİ BAŞLAT & AVLAN!",
         marketTitle: "🏕️ Mağra & Hayvan Dükkanı", totalProd: "Toplam Üretim:", walletTitle: "🏦 Cüzdan & Takas",
-        walletDesc: "Biriktirdiğin Biftekleri TON'a dönüştür.", exchangeTitle: "🔄 Biftek → TON Takası",
+        walletDesc: "Biftekleri TON'a dönüştür veya bakiyeni yönet.", exchangeTitle: "🔄 Biftek → TON Takası",
         exchangeInfo: "50.000 Biftek = 0.01 TON", exchangeBtn: "TON'a Dönüştür", depositAddr: "Yatırım Adresi (TON):",
         langDesc: "Dilinizi seçin:", wheelTitle: "🎡 Şans Çarkı", spinBtn: "ÇEVİR",
-        home: "Ana Sayfa", animals: "Hayvanlar", arena: "Arena", market: "Mağra", earn: "Cüzdan"
+        home: "Ana Sayfa", animals: "Hayvanlar", arena: "Arena", market: "Mağra", earn: "Cüzdan",
+        lionKing: "Kral Aslan", terr1Name: "🦁 Aslan Ovası", terr1Desc: "Standart yaşam alanı ve temel avlanma.",
+        terr2Name: "🐊 Timsah Nehri", terr2Desc: "Tehlikeli nehir görevleri. +%20 bonus.",
+        terr3Name: "🐘 Fil Vadisi", terr3Desc: "Güçlü savunma ve sürü yönetimi.",
+        statusUnlocked: "Açıldı ✅"
       },
       en: {
         hourRate: "/ hour", freeBonus: "Free +100", wheel: "Wheel 🥩", wallet: "Wallet", missions: "Missions", lang: "Language",
         unlocked: "UNLOCKED:", activeMissions: "Active Missions", defeatBeasts: "Defeat the wild beasts",
-        tapToCollect: "TAP TO COLLECT", collectVal: "+100 STEAK", mapTitle: "🗺️ Savanna Map & Territories",
-        mapDesc: "Unlock new areas and manage your habitat.", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
-        arenaTitle: "🎯 Savanna Arena & Missions", arenaDesc: "Defeat wild beasts & protect cubs!", startMission: "⚔️ START MISSION!",
+        tapToCollect: "TAP TO COLLECT", collectVal: "+500 STEAK", mapTitle: "🗺️ Savanna Map & Territories",
+        mapDesc: "Unlock zones, plant trees and manage your habitat.", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
+        arenaTitle: "🎯 Savanna Arena & Missions", arenaDesc: "Select your fighter and start a dynamic mission!", startMission: "⚔️ START MISSION & HUNT!",
         marketTitle: "🏕️ Cave & Animal Shop", totalProd: "Total Production:", walletTitle: "🏦 Wallet & Exchange",
         walletDesc: "Exchange your saved Steak for TON.", exchangeTitle: "🔄 Steak → TON Exchange",
         exchangeInfo: "50,000 Steak = 0.01 TON", exchangeBtn: "Exchange to TON", depositAddr: "Deposit Address (TON):",
         langDesc: "Select your language:", wheelTitle: "🎡 Wheel of Fortune", spinBtn: "SPIN",
-        home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn"
+        home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
+        lionKing: "King Lion", terr1Name: "🦁 Lion Plains", terr1Desc: "Standard habitat & basic hunting.",
+        terr2Name: "🐊 Crocodile River", terr2Desc: "Dangerous river missions. +20% bonus.",
+        terr3Name: "🐘 Elephant Valley", terr3Desc: "Strong defense and herd management.",
+        statusUnlocked: "Unlocked ✅"
+      },
+      de: {
+        hourRate: "/ Std", freeBonus: "Gratis +100", wheel: "Rad 🥩", wallet: "Wallet", missions: "Missionen", lang: "Sprache",
+        unlocked: "FREIGESCHALTET:", activeMissions: "Aktive Missionen", defeatBeasts: "Besiege die wilden Bestien",
+        tapToCollect: "ZUM SAMMELN TIPPEN", collectVal: "+500 STEAK", mapTitle: "🗺️ Savannenkarte & Gebiete",
+        mapDesc: "Schalte Zonen frei, pflanze Bäume und verwalte deinen Lebensraum.", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
+        arenaTitle: "🎯 Savannen-Arena & Missionen", arenaDesc: "Wähle deinen Jäger und starte eine dynamische Mission!", startMission: "⚔️ MISSION STARTEN & JAGEN!",
+        marketTitle: "🏕️ Höhle & Tierladen", totalProd: "Gesamtproduktion:", walletTitle: "🏦 Wallet & Tausch",
+        walletDesc: "Tausche gesammeltes Steak gegen TON.", exchangeTitle: "🔄 Steak → TON Tausch",
+        exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "In TON tauschen", depositAddr: "Einzahlungsadresse (TON):",
+        langDesc: "Wähle deine Sprache:", wheelTitle: "🎡 Glücksrad", spinBtn: "DREHEN",
+        home: "Home", animals: "Tiere", arena: "Arena", market: "Markt", earn: "Earn",
+        lionKing: "König Löwe", terr1Name: "🦁 Löwenebene", terr1Desc: "Standardlebensraum & Jagd.",
+        terr2Name: "🐊 Krokodilfluss", terr2Desc: "Gefährliche Flussmissionen. +20% Bonus.",
+        terr3Name: "🐘 Elefantental", terr3Desc: "Starke Verteidigung und Herdenmanagement.",
+        statusUnlocked: "Freigeschaltet ✅"
+      },
+      fr: {
+        hourRate: "/ heure", freeBonus: "Gratuit +100", wheel: "Roue 🥩", wallet: "Portefeuille", missions: "Missions", lang: "Langue",
+        unlocked: "DÉBLOQUÉ:", activeMissions: "Missions Actives", defeatBeasts: "Vainquez les bêtes sauvages",
+        tapToCollect: "APPUYER POUR COLLECTER", collectVal: "+500 STEAK", mapTitle: "🗺️ Carte de la Savane & Territoires",
+        mapDesc: "Débloquez des zones, plantez des arbres et gérez votre habitat.", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
+        arenaTitle: "🎯 Arène de la Savane & Missions", arenaDesc: "Sélectionnez votre combattant et lancez une mission !", startMission: "⚔️ LANCER LA MISSION !",
+        marketTitle: "🏕️ Caverne & Boutique d'Animaux", totalProd: "Production Totale:", walletTitle: "🏦 Portefeuille & Échange",
+        walletDesc: "Échangez vos Steaks contre des TON.", exchangeTitle: "🔄 Échange Steak → TON",
+        exchangeInfo: "50 000 Steaks = 0,01 TON", exchangeBtn: "Échanger en TON", depositAddr: "Adresse de dépôt (TON):",
+        langDesc: "Sélectionnez votre langue:", wheelTitle: "🎡 Roue de la Fortune", spinBtn: "TOURNER",
+        home: "Accueil", animals: "Animaux", arena: "Arène", market: "Marché", earn: "Gagner",
+        lionKing: "Roi Lion", terr1Name: "🦁 Plaine des Lions", terr1Desc: "Habitat standard et chasse.",
+        terr2Name: "🐊 Rivière des Crocodiles", terr2Desc: "Missions de rivière dangereuses. +20% bonus.",
+        terr3Name: "🐘 Vallée des Éléphants", terr3Desc: "Défense solide et gestion de troupeau.",
+        statusUnlocked: "Débloqué ✅"
       }
     };
+
+    function renderShop() {
+      let grid = document.getElementById('animalShopGrid');
+      grid.innerHTML = '';
+      animalsData.forEach((anim, idx) => {
+        let name = anim.names[currentLang] || anim.names['en'];
+        grid.innerHTML += `
+          <div class="cr-card">
+            <img src="${anim.img}" class="cr-card-img" alt="${name}">
+            <div style="font-size: 0.65rem; font-weight: 900;">${name}</div>
+            <div style="font-size: 0.52rem; color: #2ecc71;">+${anim.baseProd.toLocaleString()} 🥩 / sa</div>
+            <div style="font-size: 0.48rem; color: #ffd700; margin: 2px 0;">Bezit: ${anim.count}</div>
+            <button class="cr-buy-btn" onclick="buyAnimal(${idx})">${anim.cost.toLocaleString()} 🥩</button>
+          </div>
+        `;
+      });
+    }
 
     function setAppLanguage(lang) {
       currentLang = lang;
@@ -854,20 +637,44 @@
       document.getElementById('navArena').innerText = t.arena;
       document.getElementById('navMarket').innerText = t.market;
       document.getElementById('navEarn').innerText = t.earn;
+      document.getElementById('lblLionKing').innerText = t.lionKing;
+      document.getElementById('terr1Name').innerText = t.terr1Name;
+      document.getElementById('terr1Desc').innerText = t.terr1Desc;
+      document.getElementById('terr2Name').innerText = t.terr2Name;
+      document.getElementById('terr2Desc').innerText = t.terr2Desc;
+      document.getElementById('terr3Name').innerText = t.terr3Name;
+      document.getElementById('terr3Desc').innerText = t.terr3Desc;
+      document.getElementById('statusUnlocked').innerText = t.statusUnlocked;
 
+      renderShop();
       haptic('success');
       showToast("🌍 Taal bijgewerkt / Language updated!");
       switchTab('ana', null);
     }
 
-    function handleCollectEarnings() {
-      if (unclaimedSteak <= 0) {
-        haptic('warning');
-        showToast("Geen op te halen Steak op dit moment!");
+    function buyAnimal(index) {
+      let anim = animalsData[index];
+      if (balance < anim.cost) {
+        haptic('error');
+        showToast("Onvoldoende Steak saldo!");
         return;
       }
+      balance -= anim.cost;
+      anim.count++;
+      hourlyProduction += anim.baseProd;
+
+      document.getElementById('balance').innerText = balance.toLocaleString();
+      document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
+      document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
+      
+      renderShop();
+      haptic('success');
+      showToast(`🎉 ${anim.names[currentLang] || anim.names['en']} aangeschaft! +${anim.baseProd} 🥩/u`);
+    }
+
+    function handleCollectEarnings() {
       balance += unclaimedSteak;
-      unclaimedSteak = 0;
+      unclaimedSteak = hourlyProduction; // vernieuw passieve opbrengst
       document.getElementById('balance').innerText = balance.toLocaleString();
       haptic('success');
       showToast("🎉 Steak succesvol geclaimd!");
@@ -876,7 +683,7 @@
     function exchangeSteakToTon() {
       if (balance < 50000) {
         haptic('error');
-        showToast("Je hebt minimaal 50.000 Steak nodig om te wisselen!");
+        showToast("Minimaal 50.000 Steak nodig om te wisselen!");
         return;
       }
       let tonEarned = (balance / 50000) * 0.01;
@@ -886,6 +693,13 @@
       document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
       haptic('success');
       showToast(`🎉 Wissel gelukt! +${tonEarned.toFixed(3)} TON toegevoegd.`);
+    }
+
+    function selectFighter(imgSrc, el) {
+      document.querySelectorAll('.unit-select-chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('activeArenaFighter').src = imgSrc;
+      haptic('light');
     }
 
     function switchTab(tabName, element) {
@@ -950,24 +764,24 @@
       showToast(`🦁 Leeuw geüpgraded naar Level ${lionLevel}!`);
     }
 
-    function buyAnimal(cost) {
+    function unlockTerritory(cost) {
       if (balance < cost) {
         haptic('error');
-        showToast("Onvoldoende Steak saldo!");
+        showToast("Onvoldoende Steak saldo voor dit gebied!");
         return;
       }
       balance -= cost;
       document.getElementById('balance').innerText = balance.toLocaleString();
       haptic('success');
-      showToast("🎉 Dier succesvol aangeschaft in de maag(!)");
+      showToast("🌍 Nieuw gebied succesvol ontgrendeld!");
     }
 
     function triggerClashHunt() {
-      let reward = 150;
+      let reward = 250;
       balance += reward;
       document.getElementById('balance').innerText = balance.toLocaleString();
       haptic('success');
-      showToast(`⚔️ Missie voltooid! +${reward} 🥩 verdiend!`);
+      showToast(`⚔️ Arena Overwinning! +${reward} 🥩 verdiend!`);
     }
 
     function showToast(text) {
@@ -976,6 +790,9 @@
       t.style.display = 'block';
       setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
+
+    // Initialiseer de winkel bij het laden
+    renderShop();
   </script>
 </body>
 </html>

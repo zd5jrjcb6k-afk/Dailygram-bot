@@ -25,7 +25,9 @@
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       object-fit: cover; background-color: #000; z-index: 1;
+      transition: filter 0.5s ease;
     }
+    body.night-mode .bg-video { filter: brightness(0.5) sepia(0.3) hue-rotate(180deg); }
 
     .app-container {
       width: 100%; max-width: 480px; height: 100vh;
@@ -36,16 +38,11 @@
     .top-header-area {
       position: absolute; top: 0; left: 0; width: 100%; padding: 8px 10px; z-index: 50;
       display: flex; flex-direction: column; gap: 6px;
-      background: linear-gradient(180deg, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0) 100%);
     }
 
-    .top-hud-row {
-      display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px;
-    }
-
-    .quick-actions-row {
-      display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 2px;
-    }
+    .top-hud-row { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px; }
+    .quick-actions-row { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 2px; }
 
     .hud-badge-pill {
       background: rgba(18, 10, 5, 0.92); border: 1.5px solid #e6af2e; border-radius: 20px;
@@ -64,7 +61,7 @@
     }
 
     .mini-xp-bar { width: 100%; background: #111; border: 1px solid #ffd700; border-radius: 6px; height: 5px; overflow: hidden; }
-    .mini-xp-fill { background: linear-gradient(90deg, #f1c40f, #e67e22); height: 100%; width: 32%; }
+    .mini-xp-fill { background: linear-gradient(90deg, #f1c40f, #e67e22); height: 100%; width: 0%; transition: width 0.3s ease; }
 
     /* CONTENT AREA */
     .overlay-content {
@@ -126,11 +123,15 @@
       border-radius: 8px; color: #fff; font-weight: 900; font-size: 0.7rem; cursor: pointer; margin-top: 6px; text-transform: uppercase;
     }
 
-    /* TERRITORY & MAP CARDS */
-    .territory-card {
-      background: linear-gradient(135deg, #2b1a0f, #120904); border: 1.5px solid #e6af2e; border-radius: 12px; padding: 8px 10px;
-      display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
+    /* INTERACTIVE SAVANNA BUILDER GRID */
+    .savanna-builder-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 6px 0;
     }
+    .builder-slot {
+      background: rgba(40, 24, 12, 0.8); border: 1.5px dashed #ffd700; border-radius: 10px; height: 65px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; text-align: center; font-size: 0.55rem; color: #ffd700; gap: 2px;
+    }
+    .builder-slot.occupied { border-style: solid; background: rgba(20, 40, 20, 0.85); border-color: #2ecc71; }
 
     /* BOTTOM NAVIGATION BAR */
     .bottom-nav {
@@ -186,7 +187,7 @@
     }
   </style>
 </head>
-<body>
+<body id="appBody">
 
   <!-- ACHTERGROND VIDEO -->
   <video id="bgVideo" class="bg-video" autoplay loop muted playsinline preload="auto">
@@ -199,22 +200,22 @@
     <!-- TOP FIXED HEADER AREA -->
     <div class="top-header-area">
       <div class="top-hud-row">
-        <!-- Level Banner (Klikbaar naar Kaart) -->
+        <!-- Level Banner -->
         <div class="level-banner-wood" onclick="switchTab('kaart', null)">
           <div style="display: flex; align-items: center; gap: 4px;">
             <span style="font-size: 0.85rem;">👑</span>
-            <span style="font-size: 0.68rem; font-weight: 900; color: #ffd700;" id="hudLevelText">Level 25</span>
+            <span style="font-size: 0.68rem; font-weight: 900; color: #ffd700;" id="hudLevelText">Level 1</span>
           </div>
           <div class="mini-xp-bar"><div class="mini-xp-fill" id="xpBarFill"></div></div>
-          <div style="font-size: 0.45rem; color: #ccc; text-align: right;" id="xpTextOverlay">320 / 1,000</div>
+          <div style="font-size: 0.45rem; color: #ccc; text-align: right;" id="xpTextOverlay">0 / 100 XP</div>
         </div>
 
-        <!-- Balances (Steak + Hourly Rate & TON - Klikbaar naar Wallet) -->
+        <!-- Balances -->
         <div style="display: flex; gap: 5px;">
-          <div class="hud-badge-pill" onclick="handleCollectEarnings()">
+          <div class="hud-badge-pill" onclick="claimPassiveSteak()">
             <span style="font-size: 0.85rem;">🥩</span>
             <div style="text-align: right;">
-              <div style="font-size: 0.68rem; font-weight: 900; color: #ffd700;" id="balance">12,580</div>
+              <div style="font-size: 0.68rem; font-weight: 900; color: #ffd700;" id="balance">500</div>
               <div style="font-size: 0.42rem; color: #aaa;"><span id="totalProductionDisplay">157</span> <span id="txtHourRate">/ uur</span></div>
             </div>
           </div>
@@ -309,55 +310,36 @@
             <span style="font-size: 0.9rem; color: #ffd700;">›</span>
           </div>
 
-          <div class="tap-collect-btn" onclick="handleCollectEarnings()">
+          <div class="tap-collect-btn" onclick="claimPassiveSteak()">
             <span style="font-size: 1.3rem;">🥩</span>
             <div style="text-align: left;">
-              <div style="font-size: 0.8rem; font-weight: 900; color: #1a0f05; text-transform: uppercase;" id="lblTapToCollect">TAP TO COLLECT</div>
-              <div style="font-size: 0.6rem; font-weight: bold; color: #7a3a00;" id="lblCollectVal">+500 STEAK</div>
+              <div style="font-size: 0.8rem; font-weight: 900; color: #1a0f05; text-transform: uppercase;" id="lblTapToCollect">PASSIEF CLAIMEN</div>
+              <div style="font-size: 0.6rem; font-weight: bold; color: #7a3a00;" id="lblCollectVal">+157 STEAK KLAAR</div>
             </div>
-            <span style="font-size: 1.2rem; margin-left: auto;">👆</span>
+            <span style="font-size: 1.2rem; margin-left: auto;">📥</span>
           </div>
         </div>
       </div>
 
-      <!-- TAB 2: ANIMALS / KAART & GEBIEDEN (Interactief gebouwd) -->
+      <!-- TAB 2: ANIMALS / INTERACTIEVE SAVANNE KAART & BOUWER -->
       <div id="tab-kaart" class="tab-content">
         <div class="page-box">
-          <div class="page-title" id="lblMapTitle">🗺️ Savannekaart & Gebieden</div>
-          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Ontgrendel gebieden, plant bomen en beheer je leefgebied.</p>
+          <div class="page-title" id="lblMapTitle">🗺️ Savanne-Bouwer & Kaart</div>
+          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Plaats bomen, waterplaatsen en dieren op je eigen savanne!</p>
           
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #ffb700; border-radius: 10px; padding: 8px; text-align: center;">
             <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">🦁 <span id="lblLionKing">Kral Aslan</span> - Level <span id="lionLevelDisplay">1</span></div>
             <button class="cr-buy-btn" onclick="upgradeLionLevel()" id="lblUpgradeLion">⬆️ Leeuw Upgraden (500 🥩)</button>
           </div>
 
-          <div class="territory-card">
-            <div>
-              <div style="font-size: 0.7rem; font-weight: bold; color: #ffd700;" id="terr1Name">🦁 Leeuwenvlakte</div>
-              <div style="font-size: 0.55rem; color: #aaa;" id="terr1Desc">Standaard leefgebied & basis jacht.</div>
-            </div>
-            <span style="font-size: 0.65rem; color: #2ecc71; font-weight: bold;" id="statusUnlocked">Ontgrendeld ✅</span>
-          </div>
-
-          <div class="territory-card">
-            <div>
-              <div style="font-size: 0.7rem; font-weight: bold; color: #ffd700;" id="terr2Name">🐊 Krokodillenrivier</div>
-              <div style="font-size: 0.55rem; color: #aaa;" id="terr2Desc">Gevaarlijke riviermissies. +20% bonus.</div>
-            </div>
-            <button class="cr-buy-btn" style="width: auto; padding: 4px 10px;" onclick="unlockTerritory(5000)" id="btnUnlock2">5.000 🥩</button>
-          </div>
-
-          <div class="territory-card">
-            <div>
-              <div style="font-size: 0.7rem; font-weight: bold; color: #ffd700;" id="terr3Name">🐘 Olifantenvallei</div>
-              <div style="font-size: 0.55rem; color: #aaa;" id="terr3Desc">Sterke verdediging en kuddebeheer.</div>
-            </div>
-            <button class="cr-buy-btn" style="width: auto; padding: 4px 10px;" onclick="unlockTerritory(20000)" id="btnUnlock3">20.000 🥩</button>
+          <div style="font-size: 0.65rem; font-weight: bold; color: #ffd700; margin-top: 4px;" id="lblBuilderTitle">🏗️ Savanne Bouwgrond (Tik om te bouwen):</div>
+          <div class="savanna-builder-grid" id="builderGrid">
+            <!-- Wordt dynamisch gevuld met 6 bouwslots -->
           </div>
         </div>
       </div>
 
-      <!-- TAB 3: ARENA (Interactieve Missies & Keuzes) -->
+      <!-- TAB 3: ARENA -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblArenaTitle">🎯 Savanne-Arena & Missies</div>
@@ -386,19 +368,17 @@
         </div>
       </div>
 
-      <!-- TAB 4: MARKET / MAĞRA (Alle 16 Dieren met Inventaris en Productiestijging) -->
+      <!-- TAB 4: MARKET / MAĞRA (Dieren kopen, voeren en water geven) -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblMarketTitle">🏕️ Mağra & Dierenwinkel</div>
           <div style="font-size: 0.58rem; color: #aaa; text-align: center;"><span id="lblTotalProd">Totaal Productie:</span> <span id="totalSpeedInfoMarket">157</span> 🥩 / uur</div>
           
-          <div class="cr-cards-grid" id="animalShopGrid">
-            <!-- Wordt dynamisch gevuld met juiste vertalingen en inventaris -->
-          </div>
+          <div class="cr-cards-grid" id="animalShopGrid"></div>
         </div>
       </div>
 
-      <!-- TAB 5: EARN / WALLET -->
+      <!-- TAB 5: EARN / WALLET (Met duidelijke kopieerknop) -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblWalletTitle">🏦 Wallet & Wisselkoers</div>
@@ -412,12 +392,15 @@
 
           <div style="background: rgba(0,0,0,0.6); border: 1px solid #ffd700; border-radius: 10px; padding: 8px;">
             <label style="font-size: 0.62rem; color: #ffd700;" id="lblDepositAddr">Stortingsadres (TON):</label>
-            <input type="text" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly style="background:#111; color:#fff; border:1px solid #704b2e; padding:6px; border-radius:6px; font-size:0.58rem; margin-top:4px; width:100%;">
+            <div style="display: flex; gap: 6px; margin-top: 4px;">
+              <input type="text" id="walletAddrInput" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly style="background:#111; color:#fff; border:1px solid #704b2e; padding:6px; border-radius:6px; font-size:0.55rem; width:100%;">
+              <button class="cr-buy-btn" style="width: auto; padding: 4px 10px; margin-top: 0;" onclick="copyWalletAddress()" id="lblCopyBtn">Kopieer</button>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- SETTINGS / LANGUAGE TAB (5 Talen: NL, TR, EN, DE, FR) -->
+      <!-- SETTINGS / LANGUAGE TAB -->
       <div id="tab-language" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title" id="lblLangMenuTitle">🌍 Taal / Language / Dil / Sprache / Langue</div>
@@ -471,21 +454,39 @@
       } catch(e) {}
     }
 
-    let balance = 12580;
+    let balance = 500;
     let tonBalance = 0.245;
-    let unclaimedSteak = 500;
+    let unclaimedSteak = 157;
     let hourlyProduction = 157;
+    let playerLevel = 1;
+    let playerXP = 0;
+    let xpNeeded = 100;
     let lionLevel = 1;
     let lastFreeClaim = 0;
     let lastSpinTime = 0;
     let currentRotation = 0;
     let currentLang = 'nl';
 
-    // Dierenlijst met inventaris en productie
+    // Automatische nachtmodus check (na 19:00 uur)
+    let currentHour = new Date().getHours();
+    if (currentHour >= 19 || currentHour < 6) {
+      document.getElementById('appBody').classList.add('night-mode');
+    }
+
+    // Bouwgrond slots voor de savanne kaart
+    let savannaSlots = [
+      { id: 1, type: 'empty', name: 'Leeg Veld' },
+      { id: 2, type: 'empty', name: 'Leeg Veld' },
+      { id: 3, type: 'empty', name: 'Leeg Veld' },
+      { id: 4, type: 'empty', name: 'Leeg Veld' },
+      { id: 5, type: 'empty', name: 'Leeg Veld' },
+      { id: 6, type: 'empty', name: 'Leeg Veld' }
+    ];
+
     let animalsData = [
       { id: 'cub', img: 'aslan_yavrusu.PNG', count: 1, baseProd: 2, cost: 200, names: { nl: 'Aslan Yavrusu', tr: 'Aslan Yavrusu', en: 'Lion Cub', de: 'Löwenjungen', fr: 'Lionceau' } },
       { id: 'vulture', img: 'afrika_akbabasi.PNG', count: 0, baseProd: 5, cost: 600, names: { nl: 'Afrikaanse Akbaba', tr: 'Afrika Akbabası', en: 'African Vulture', de: 'Afrikanischer Geier', fr: 'Vautour africain' } },
-      { id: 'antilope', img: 'antilop.PNG', count: 0, baseProd: 12, cost: 1500, names: { nl: 'Antilope', tr: 'Antilop', en: 'Antelope', de:antilopeName='Antilope', fr: 'Antilope' } },
+      { id: 'antilope', img: 'antilop.PNG', count: 0, baseProd: 12, cost: 1500, names: { nl: 'Antilope', tr: 'Antilop', en: 'Antelope', de: 'Antilope', fr: 'Antilope' } },
       { id: 'jaguar', img: 'jaguar.PNG', count: 0, baseProd: 30, cost: 4000, names: { nl: 'Jaguar', tr: 'Jaguar', en: 'Jaguar', de: 'Jaguar', fr: 'Jaguar' } },
       { id: 'hyena', img: 'sirtlan_surusu.PNG', count: 0, baseProd: 70, cost: 10000, names: { nl: 'Hyenafamilie', tr: 'Sırtlan Sürüsü', en: 'Hyena Pack', de: 'Hyänen-Rudel', fr: 'Meute de hyènes' } },
       { id: 'jackal', img: 'cakal.PNG', count: 0, baseProd: 160, cost: 25000, names: { nl: 'Jakhals', tr: 'Çakal', en: 'Jackal', de: 'Schakal', fr: 'Chacal' } },
@@ -505,84 +506,133 @@
       nl: {
         hourRate: "/ uur", freeBonus: "Gratis +100", wheel: "Wiel 🥩", wallet: "Wallet", missions: "Missies", lang: "Taal",
         unlocked: "ONTSLOTEN:", activeMissions: "Actieve Missies", defeatBeasts: "Versla de wilde beesten",
-        tapToCollect: "TAP TO COLLECT", collectVal: "+500 STEAK", mapTitle: "🗺️ Savannekaart & Gebieden",
-        mapDesc: "Ontgrendel gebieden, plant bomen en beheer je leefgebied.", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
+        tapToCollect: "PASSIEF CLAIMEN", collectVal: "STEAK KLAAR", mapTitle: "🗺️ Savanne-Bouwer & Kaart",
+        mapDesc: "Plaats bomen, waterplaatsen en dieren op je eigen savanne!", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
         arenaTitle: "🎯 Savanne-Arena & Missies", arenaDesc: "Selecteer je jager en start een dynamische missie!", startMission: "⚔️ MISSIE STARTEN & JAGEN!",
         marketTitle: "🏕️ Mağra & Dierenwinkel", totalProd: "Totaal Productie:", walletTitle: "🏦 Wallet & Wisselkoers",
         walletDesc: "Wissel je gespaarde Steak om naar TON of beheer je tegoeden.", exchangeTitle: "🔄 Steak → TON Wisselen",
         exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "Wissel Naar TON", depositAddr: "Stortingsadres (TON):",
         langDesc: "Selecteer je taal:", wheelTitle: "🎡 Rad van Fortuin", spinBtn: "DRAAI",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
-        lionKing: "Kral Aslan", terr1Name: "🦁 Leeuwenvlakte", terr1Desc: "Standaard leefgebied & basis jacht.",
-        terr2Name: "🐊 Krokodillenrivier", terr2Desc: "Gevaarlijke riviermissies. +20% bonus.",
-        terr3Name: "🐘 Olifantenvallei", terr3Desc: "Sterke verdediging en kuddebeheer.",
-        statusUnlocked: "Ontgrendeld ✅"
+        lionKing: "Kral Aslan", copyBtn: "Kopieer", builderTitle: "🏗️ Savanne Bouwgrond (Tik om te bouwen):"
       },
       tr: {
         hourRate: "/ sa", freeBonus: "Ücretsiz +100", wheel: "Çark 🥩", wallet: "Cüzdan", missions: "Görevler", lang: "Dil",
         unlocked: "AÇILDI:", activeMissions: "Aktif Görevler", defeatBeasts: "Vahşi canavarları alt et",
-        tapToCollect: "TOPLAMAK İÇİN DOKUN", collectVal: "+500 BİFTEK", mapTitle: "🗺️ Savana Haritası & Bölgeler",
-        mapDesc: "Bölgelerin kilidini aç, ağaç dik ve yaşam alanını yönet.", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
+        tapToCollect: "PASİF TOPLA", collectVal: "BİFTEK HAZIR", mapTitle: "🗺️ Savana Kurucu & Harita",
+        mapDesc: "Kendi savanana ağaçlar, su kaynakları ve hayvanlar yerleştir!", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
         arenaTitle: "🎯 Savana Arenası & Görevler", arenaDesc: "Avcını seç ve dinamik bir göreve başla!", startMission: "⚔️ GÖREVİ BAŞLAT & AVLAN!",
         marketTitle: "🏕️ Mağra & Hayvan Dükkanı", totalProd: "Toplam Üretim:", walletTitle: "🏦 Cüzdan & Takas",
         walletDesc: "Biftekleri TON'a dönüştür veya bakiyeni yönet.", exchangeTitle: "🔄 Biftek → TON Takası",
         exchangeInfo: "50.000 Biftek = 0.01 TON", exchangeBtn: "TON'a Dönüştür", depositAddr: "Yatırım Adresi (TON):",
         langDesc: "Dilinizi seçin:", wheelTitle: "🎡 Şans Çarkı", spinBtn: "ÇEVİR",
         home: "Ana Sayfa", animals: "Hayvanlar", arena: "Arena", market: "Mağra", earn: "Cüzdan",
-        lionKing: "Kral Aslan", terr1Name: "🦁 Aslan Ovası", terr1Desc: "Standart yaşam alanı ve temel avlanma.",
-        terr2Name: "🐊 Timsah Nehri", terr2Desc: "Tehlikeli nehir görevleri. +%20 bonus.",
-        terr3Name: "🐘 Fil Vadisi", terr3Desc: "Güçlü savunma ve sürü yönetimi.",
-        statusUnlocked: "Açıldı ✅"
+        lionKing: "Kral Aslan", copyBtn: "Kopyala", builderTitle: "🏗️ Savana Arsa (İnşa etmek için dokun):"
       },
       en: {
         hourRate: "/ hour", freeBonus: "Free +100", wheel: "Wheel 🥩", wallet: "Wallet", missions: "Missions", lang: "Language",
         unlocked: "UNLOCKED:", activeMissions: "Active Missions", defeatBeasts: "Defeat the wild beasts",
-        tapToCollect: "TAP TO COLLECT", collectVal: "+500 STEAK", mapTitle: "🗺️ Savanna Map & Territories",
-        mapDesc: "Unlock zones, plant trees and manage your habitat.", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
+        tapToCollect: "CLAIM PASSIVE", collectVal: "STEAK READY", mapTitle: "🗺️ Savanna Builder & Map",
+        mapDesc: "Place trees, waterholes, and animals on your custom savanna!", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
         arenaTitle: "🎯 Savanna Arena & Missions", arenaDesc: "Select your fighter and start a dynamic mission!", startMission: "⚔️ START MISSION & HUNT!",
         marketTitle: "🏕️ Cave & Animal Shop", totalProd: "Total Production:", walletTitle: "🏦 Wallet & Exchange",
         walletDesc: "Exchange your saved Steak for TON.", exchangeTitle: "🔄 Steak → TON Exchange",
         exchangeInfo: "50,000 Steak = 0.01 TON", exchangeBtn: "Exchange to TON", depositAddr: "Deposit Address (TON):",
         langDesc: "Select your language:", wheelTitle: "🎡 Wheel of Fortune", spinBtn: "SPIN",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
-        lionKing: "King Lion", terr1Name: "🦁 Lion Plains", terr1Desc: "Standard habitat & basic hunting.",
-        terr2Name: "🐊 Crocodile River", terr2Desc: "Dangerous river missions. +20% bonus.",
-        terr3Name: "🐘 Elephant Valley", terr3Desc: "Strong defense and herd management.",
-        statusUnlocked: "Unlocked ✅"
+        lionKing: "King Lion", copyBtn: "Copy", builderTitle: "🏗️ Savanna Land (Tap to build):"
       },
       de: {
         hourRate: "/ Std", freeBonus: "Gratis +100", wheel: "Rad 🥩", wallet: "Wallet", missions: "Missionen", lang: "Sprache",
         unlocked: "FREIGESCHALTET:", activeMissions: "Aktive Missionen", defeatBeasts: "Besiege die wilden Bestien",
-        tapToCollect: "ZUM SAMMELN TIPPEN", collectVal: "+500 STEAK", mapTitle: "🗺️ Savannenkarte & Gebiete",
-        mapDesc: "Schalte Zonen frei, pflanze Bäume und verwalte deinen Lebensraum.", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
+        tapToCollect: "PASSIV SAMMELN", collectVal: "STEAK BEREIT", mapTitle: "🗺️ Savannen-Builder & Karte",
+        mapDesc: "Platziere Bäume, Wasserlöcher und Tiere auf deiner Savanne!", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
         arenaTitle: "🎯 Savannen-Arena & Missionen", arenaDesc: "Wähle deinen Jäger und starte eine dynamische Mission!", startMission: "⚔️ MISSION STARTEN & JAGEN!",
         marketTitle: "🏕️ Höhle & Tierladen", totalProd: "Gesamtproduktion:", walletTitle: "🏦 Wallet & Tausch",
         walletDesc: "Tausche gesammeltes Steak gegen TON.", exchangeTitle: "🔄 Steak → TON Tausch",
         exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "In TON tauschen", depositAddr: "Einzahlungsadresse (TON):",
         langDesc: "Wähle deine Sprache:", wheelTitle: "🎡 Glücksrad", spinBtn: "DREHEN",
         home: "Home", animals: "Tiere", arena: "Arena", market: "Markt", earn: "Earn",
-        lionKing: "König Löwe", terr1Name: "🦁 Löwenebene", terr1Desc: "Standardlebensraum & Jagd.",
-        terr2Name: "🐊 Krokodilfluss", terr2Desc: "Gefährliche Flussmissionen. +20% Bonus.",
-        terr3Name: "🐘 Elefantental", terr3Desc: "Starke Verteidigung und Herdenmanagement.",
-        statusUnlocked: "Freigeschaltet ✅"
+        lionKing: "König Löwe", copyBtn: "Kopieren", builderTitle: "🏗️ Savannenland (Zum Bauen tippen):"
       },
       fr: {
         hourRate: "/ heure", freeBonus: "Gratuit +100", wheel: "Roue 🥩", wallet: "Portefeuille", missions: "Missions", lang: "Langue",
         unlocked: "DÉBLOQUÉ:", activeMissions: "Missions Actives", defeatBeasts: "Vainquez les bêtes sauvages",
-        tapToCollect: "APPUYER POUR COLLECTER", collectVal: "+500 STEAK", mapTitle: "🗺️ Carte de la Savane & Territoires",
-        mapDesc: "Débloquez des zones, plantez des arbres et gérez votre habitat.", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
+        tapToCollect: "RÉCOLTE PASSIVE", collectVal: "STEAK PRÊT", mapTitle: "🗺️ Constructeur & Carte",
+        mapDesc: "Placez des arbres, points d'eau et animaux sur votre savane !", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
         arenaTitle: "🎯 Arène de la Savane & Missions", arenaDesc: "Sélectionnez votre combattant et lancez une mission !", startMission: "⚔️ LANCER LA MISSION !",
         marketTitle: "🏕️ Caverne & Boutique d'Animaux", totalProd: "Production Totale:", walletTitle: "🏦 Portefeuille & Échange",
         walletDesc: "Échangez vos Steaks contre des TON.", exchangeTitle: "🔄 Échange Steak → TON",
         exchangeInfo: "50 000 Steaks = 0,01 TON", exchangeBtn: "Échanger en TON", depositAddr: "Adresse de dépôt (TON):",
         langDesc: "Sélectionnez votre langue:", wheelTitle: "🎡 Roue de la Fortune", spinBtn: "TOURNER",
         home: "Accueil", animals: "Animaux", arena: "Arène", market: "Marché", earn: "Gagner",
-        lionKing: "Roi Lion", terr1Name: "🦁 Plaine des Lions", terr1Desc: "Habitat standard et chasse.",
-        terr2Name: "🐊 Rivière des Crocodiles", terr2Desc: "Missions de rivière dangereuses. +20% bonus.",
-        terr3Name: "🐘 Vallée des Éléphants", terr3Desc: "Défense solide et gestion de troupeau.",
-        statusUnlocked: "Débloqué ✅"
+        lionKing: "Roi Lion", copyBtn: "Copier", builderTitle: "🏗️ Terrain (Appuyer pour construire):"
       }
     };
+
+    function addXP(amount) {
+      playerXP += amount;
+      if (playerXP >= xpNeeded) {
+        playerXP -= xpNeeded;
+        playerLevel++;
+        xpNeeded = Math.floor(xpNeeded * 1.5);
+        haptic('success');
+        showToast(`🎉 GEFELICITEERD! Je bent naar Level ${playerLevel} gestegen!`);
+      }
+      let pct = Math.min(100, (playerXP / xpNeeded) * 100);
+      document.getElementById('hudLevelText').innerText = `Level ${playerLevel}`;
+      document.getElementById('xpTextOverlay').innerText = `${playerXP} / ${xpNeeded} XP`;
+      document.getElementById('xpBarFill').style.width = pct + '%';
+    }
+
+    function renderBuilder() {
+      let grid = document.getElementById('builderGrid');
+      grid.innerHTML = '';
+      savannaSlots.forEach((slot, idx) => {
+        if (slot.type === 'empty') {
+          grid.innerHTML += `
+            <div class="builder-slot" onclick="openBuildMenu(${idx})">
+              <span>➕</span>
+              <span>Bouwgrond</span>
+            </div>
+          `;
+        } else {
+          grid.innerHTML += `
+            <div class="builder-slot occupied" onclick="interactSlot(${idx})">
+              <span>${slot.icon}</span>
+              <span>${slot.name}</span>
+            </div>
+          `;
+        }
+      });
+    }
+
+    function openBuildMenu(idx) {
+      let choice = prompt("Kies wat je wilt bouwen:\n1. Acacia Boom 🌳 (+10 🥩/u)\n2. Waterplaats 💧 (+25 🥩/u)\n3. Welpen Speelplaats 🦁 (+50 🥩/u)", "1");
+      if (choice === "1") {
+        savannaSlots[idx] = { type: 'building', name: 'Acacia Boom', icon: '🌳', prod: 10 };
+        hourlyProduction += 10;
+      } else if (choice === "2") {
+        savannaSlots[idx] = { type: 'building', name: 'Waterplaats', icon: '💧', prod: 25 };
+        hourlyProduction += 25;
+      } else if (choice === "3") {
+        savannaSlots[idx] = { type: 'building', name: 'Welpen Plek', icon: '🦁', prod: 50 };
+        hourlyProduction += 50;
+      } else {
+        return;
+      }
+      document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
+      document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
+      renderBuilder();
+      addXP(25);
+      haptic('success');
+      showToast("🏗️ Succesvol gebouwd op je savanne!");
+    }
+
+    function interactSlot(idx) {
+      haptic('light');
+      showToast(`✨ Dit is je ${savannaSlots[idx].name}. Het produceert extra Steak!`);
+    }
 
     function renderShop() {
       let grid = document.getElementById('animalShopGrid');
@@ -638,13 +688,8 @@
       document.getElementById('navMarket').innerText = t.market;
       document.getElementById('navEarn').innerText = t.earn;
       document.getElementById('lblLionKing').innerText = t.lionKing;
-      document.getElementById('terr1Name').innerText = t.terr1Name;
-      document.getElementById('terr1Desc').innerText = t.terr1Desc;
-      document.getElementById('terr2Name').innerText = t.terr2Name;
-      document.getElementById('terr2Desc').innerText = t.terr2Desc;
-      document.getElementById('terr3Name').innerText = t.terr3Name;
-      document.getElementById('terr3Desc').innerText = t.terr3Desc;
-      document.getElementById('statusUnlocked').innerText = t.statusUnlocked;
+      document.getElementById('lblCopyBtn').innerText = t.copyBtn;
+      document.getElementById('lblBuilderTitle').innerText = t.builderTitle;
 
       renderShop();
       haptic('success');
@@ -668,16 +713,34 @@
       document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
       
       renderShop();
+      addXP(50);
       haptic('success');
       showToast(`🎉 ${anim.names[currentLang] || anim.names['en']} aangeschaft! +${anim.baseProd} 🥩/u`);
     }
 
-    function handleCollectEarnings() {
+    function claimPassiveSteak() {
+      if (unclaimedSteak <= 0) {
+        haptic('warning');
+        showToast("Nog geen Steak opgespaard!");
+        return;
+      }
       balance += unclaimedSteak;
-      unclaimedSteak = hourlyProduction; // vernieuw passieve opbrengst
+      let claimed = unclaimedSteak;
+      unclaimedSteak = 0;
       document.getElementById('balance').innerText = balance.toLocaleString();
+      document.getElementById('lblCollectVal').innerText = `0 STEAK KLAAR`;
+      addXP(10);
       haptic('success');
-      showToast("🎉 Steak succesvol geclaimd!");
+      showToast(`🎉 +${claimed} Steak succesvol geclaimd!`);
+    }
+
+    function copyWalletAddress() {
+      let input = document.getElementById('walletAddrInput');
+      input.select();
+      input.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(input.value);
+      haptic('success');
+      showToast("📋 Stortingsadres gekopieerd naar klembord!");
     }
 
     function exchangeSteakToTon() {
@@ -691,6 +754,7 @@
       balance = 0;
       document.getElementById('balance').innerText = balance.toLocaleString();
       document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
+      addXP(100);
       haptic('success');
       showToast(`🎉 Wissel gelukt! +${tonEarned.toFixed(3)} TON toegevoegd.`);
     }
@@ -721,6 +785,7 @@
       lastFreeClaim = now;
       balance += 100;
       document.getElementById('balance').innerText = balance.toLocaleString();
+      addXP(15);
       haptic('success');
       showToast("🎁 Gratis +100 Steak geclaimd!");
     }
@@ -743,6 +808,7 @@
         balance += reward;
         document.getElementById('balance').innerText = balance.toLocaleString();
         lastSpinTime = Date.now();
+        addXP(30);
         haptic('success');
         showToast(`🎉 Gefeliciteerd! +${reward} 🥩 gewonnen!`);
         btn.disabled = false;
@@ -760,26 +826,16 @@
       lionLevel++;
       document.getElementById('balance').innerText = balance.toLocaleString();
       document.getElementById('lionLevelDisplay').innerText = lionLevel;
+      addXP(60);
       haptic('success');
-      showToast(`🦁 Leeuw geüpgraded naar Level ${lionLevel}!`);
-    }
-
-    function unlockTerritory(cost) {
-      if (balance < cost) {
-        haptic('error');
-        showToast("Onvoldoende Steak saldo voor dit gebied!");
-        return;
-      }
-      balance -= cost;
-      document.getElementById('balance').innerText = balance.toLocaleString();
-      haptic('success');
-      showToast("🌍 Nieuw gebied succesvol ontgrendeld!");
+      showToast(`🦁 Koning Leeuw is geüpgraded naar Level ${lionLevel}!`);
     }
 
     function triggerClashHunt() {
       let reward = 250;
       balance += reward;
       document.getElementById('balance').innerText = balance.toLocaleString();
+      addXP(40);
       haptic('success');
       showToast(`⚔️ Arena Overwinning! +${reward} 🥩 verdiend!`);
     }
@@ -791,8 +847,17 @@
       setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
 
-    // Initialiseer de winkel bij het laden
+    // Passieve opbrengst timer (elke 5 seconden komt er steak bij)
+    setInterval(() => {
+      let inc = Math.max(1, Math.floor(hourlyProduction / 720));
+      unclaimedSteak += inc;
+      document.getElementById('lblCollectVal').innerText = `+${unclaimedSteak} STEAK KLAAR`;
+    }, 5000);
+
+    // Initialisatie
     renderShop();
+    renderBuilder();
+    addXP(0);
   </script>
 </body>
 </html>

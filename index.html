@@ -321,7 +321,7 @@
         </div>
       </div>
 
-      <!-- TAB 2: ANIMALS / INTERACTIEVE SAVANNE KAART & BOUWER -->
+      <!-- TAB 2: ANIMALS / SAVANNE KAART & BOUWER -->
       <div id="tab-kaart" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblMapTitle">🗺️ Savanne-Bouwer & Kaart</div>
@@ -333,9 +333,7 @@
           </div>
 
           <div style="font-size: 0.65rem; font-weight: bold; color: #ffd700; margin-top: 4px;" id="lblBuilderTitle">🏗️ Savanne Bouwgrond (Tik om te bouwen):</div>
-          <div class="savanna-builder-grid" id="builderGrid">
-            <!-- Wordt dynamisch gevuld met 6 bouwslots -->
-          </div>
+          <div class="savanna-builder-grid" id="builderGrid"></div>
         </div>
       </div>
 
@@ -368,21 +366,38 @@
         </div>
       </div>
 
-      <!-- TAB 4: MARKET / MAĞRA (Dieren kopen, voeren en water geven) -->
+      <!-- TAB 4: MARKET / MAĞRA (Met Promo Banner & USD Slider zoals in screenshot) -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
-          <div class="page-title" id="lblMarketTitle">🏕️ Mağra & Dierenwinkel</div>
+          <div class="page-title" id="lblMarketTitle">🏕️ Mağra & Özel Fırsatlar</div>
           <div style="font-size: 0.58rem; color: #aaa; text-align: center;"><span id="lblTotalProd">Totaal Productie:</span> <span id="totalSpeedInfoMarket">157</span> 🥩 / uur</div>
           
+          <!-- PROMO: İlk 50 Oyuncuya Ücretsiz Kurt! -->
+          <div style="background: linear-gradient(135deg, #1b2e18, #0d170b); border: 2px solid #2ecc71; border-radius: 14px; padding: 10px; margin-bottom: 8px; text-align: center;">
+            <div style="font-size: 0.72rem; font-weight: bold; color: #2ecc71;" id="lblPromoTitle">🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!</div>
+            <div style="font-size: 0.58rem; color: #ccc; margin: 4px 0;" id="lblPromoLeft">Kalan Hak: <span id="promoSlots">49</span> / 50</div>
+            <button class="cr-buy-btn" style="background: #2ecc71;" onclick="claimPromoWolf()" id="lblPromoBtn">ÜCRETSİZ AL</button>
+          </div>
+
+          <!-- ÖZEL BİFTEK KAMPANYASI (USD SLIDER) -->
+          <div style="background: linear-gradient(135deg, #2c1a0e, #140b05); border: 2px solid #ffd700; border-radius: 14px; padding: 10px; margin-bottom: 8px; text-align: center;">
+            <div style="font-size: 0.72rem; font-weight: bold; color: #ffd700;" id="lblUsdPackTitle">🚀 Özel Biftek Kampanyası</div>
+            <div style="font-size: 0.58rem; color: #ccc; margin: 4px 0;" id="lblUsdSelect">USD Miktarını Seç:</div>
+            <div style="font-size: 0.95rem; font-weight: 900; color: #fff; margin: 4px 0;" id="usdDisplay">$10 USD</div>
+            <input type="range" id="usdSlider" min="1" max="50" value="10" style="width: 100%; accent-color: #ffd700; cursor: pointer;" oninput="updateUsdSlider(this.value)">
+            <div style="font-size: 0.65rem; color: #2ecc71; font-weight: bold; margin: 6px 0;" id="usdRewardText">Alacağın: 25,000 🥩</div>
+            <button class="cr-buy-btn" onclick="buyUsdPackage()" id="lblBuyUsdBtn">PAKETİ SATIN AL</button>
+          </div>
+
           <div class="cr-cards-grid" id="animalShopGrid"></div>
         </div>
       </div>
 
-      <!-- TAB 5: EARN / WALLET (Met duidelijke kopieerknop) -->
+      <!-- TAB 5: EARN / WALLET -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
-          <div class="page-title" id="lblWalletTitle">🏦 Wallet & Wisselkoers</div>
-          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblWalletDesc">Wissel je gespaarde Steak om naar TON of beheer je tegoeden.</p>
+          <div class="page-title" id="lblWalletTitle">🏦 Wallet, Wissel & Uitbetalen</div>
+          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblWalletDesc">Wissel Steak om naar TON of vraag een uitbetaling aan naar je wallet.</p>
           
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #3498db; border-radius: 10px; padding: 10px; text-align: center;">
             <div style="font-size: 0.7rem; font-weight: bold; color: #3498db;" id="lblExchangeTitle">🔄 Steak → TON Wisselen</div>
@@ -390,7 +405,14 @@
             <button class="cr-buy-btn" style="background: #3498db;" onclick="exchangeSteakToTon()" id="lblExchangeBtn">Wissel Naar TON</button>
           </div>
 
-          <div style="background: rgba(0,0,0,0.6); border: 1px solid #ffd700; border-radius: 10px; padding: 8px;">
+          <!-- Uitbetaling Sectie -->
+          <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #e74c3c; border-radius: 10px; padding: 8px;">
+            <div style="font-size: 0.7rem; font-weight: bold; color: #e74c3c;" id="lblWithdrawTitle">📤 TON / GRAM Uitbetaling</div>
+            <input type="text" id="withdrawAddrInput" placeholder="Jouw TON Wallet Adres..." style="background:#111; color:#fff; border:1px solid #704b2e; padding:6px; border-radius:6px; font-size:0.55rem; width:100%; margin-top:4px;">
+            <button class="cr-buy-btn" style="background: #e74c3c; margin-top: 6px;" onclick="requestWithdrawal()" id="lblWithdrawBtn">Vraag Uitbetaling Aan</button>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #ffd700; border-radius: 10px; padding: 8px;">
             <label style="font-size: 0.62rem; color: #ffd700;" id="lblDepositAddr">Stortingsadres (TON):</label>
             <div style="display: flex; gap: 6px; margin-top: 4px;">
               <input type="text" id="walletAddrInput" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly style="background:#111; color:#fff; border:1px solid #704b2e; padding:6px; border-radius:6px; font-size:0.55rem; width:100%;">
@@ -466,14 +488,15 @@
     let lastSpinTime = 0;
     let currentRotation = 0;
     let currentLang = 'nl';
+    let promoClaimed = false;
+    let promoSlots = 49;
+    let currentUsdVal = 10;
 
-    // Automatische nachtmodus check (na 19:00 uur)
     let currentHour = new Date().getHours();
     if (currentHour >= 19 || currentHour < 6) {
       document.getElementById('appBody').classList.add('night-mode');
     }
 
-    // Bouwgrond slots voor de savanne kaart
     let savannaSlots = [
       { id: 1, type: 'empty', name: 'Leeg Veld' },
       { id: 2, type: 'empty', name: 'Leeg Veld' },
@@ -509,12 +532,15 @@
         tapToCollect: "PASSIEF CLAIMEN", collectVal: "STEAK KLAAR", mapTitle: "🗺️ Savanne-Bouwer & Kaart",
         mapDesc: "Plaats bomen, waterplaatsen en dieren op je eigen savanne!", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
         arenaTitle: "🎯 Savanne-Arena & Missies", arenaDesc: "Selecteer je jager en start een dynamische missie!", startMission: "⚔️ MISSIE STARTEN & JAGEN!",
-        marketTitle: "🏕️ Mağra & Dierenwinkel", totalProd: "Totaal Productie:", walletTitle: "🏦 Wallet & Wisselkoers",
-        walletDesc: "Wissel je gespaarde Steak om naar TON of beheer je tegoeden.", exchangeTitle: "🔄 Steak → TON Wisselen",
+        marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Totaal Productie:", walletTitle: "🏦 Wallet, Wissel & Uitbetalen",
+        walletDesc: "Wissel Steak om naar TON of vraag een uitbetaling aan naar je wallet.", exchangeTitle: "🔄 Steak → TON Wisselen",
         exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "Wissel Naar TON", depositAddr: "Stortingsadres (TON):",
         langDesc: "Selecteer je taal:", wheelTitle: "🎡 Rad van Fortuin", spinBtn: "DRAAI",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
-        lionKing: "Kral Aslan", copyBtn: "Kopieer", builderTitle: "🏗️ Savanne Bouwgrond (Tik om te bouwen):"
+        lionKing: "Kral Aslan", copyBtn: "Kopieer", builderTitle: "🏗️ Savanne Bouwgrond (Tik om te bouwen):",
+        promoTitle: "🐺 PROMO: Eerste 50 Spelers Gratis Wolf!", promoLeft: "Resterende plekken:", promoBtn: "GRATIS CLAIMEN",
+        usdPackTitle: "🚀 Speciale Vlees Kampagne", usdSelect: "Selecteer USD Bedrag:", buyUsdBtn: "PAKETİ SATIN AL",
+        withdrawTitle: "📤 TON / GRAM Uitbetaling", withdrawBtn: "Vraag Uitbetaling Aan"
       },
       tr: {
         hourRate: "/ sa", freeBonus: "Ücretsiz +100", wheel: "Çark 🥩", wallet: "Cüzdan", missions: "Görevler", lang: "Dil",
@@ -522,12 +548,15 @@
         tapToCollect: "PASİF TOPLA", collectVal: "BİFTEK HAZIR", mapTitle: "🗺️ Savana Kurucu & Harita",
         mapDesc: "Kendi savanana ağaçlar, su kaynakları ve hayvanlar yerleştir!", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
         arenaTitle: "🎯 Savana Arenası & Görevler", arenaDesc: "Avcını seç ve dinamik bir göreve başla!", startMission: "⚔️ GÖREVİ BAŞLAT & AVLAN!",
-        marketTitle: "🏕️ Mağra & Hayvan Dükkanı", totalProd: "Toplam Üretim:", walletTitle: "🏦 Cüzdan & Takas",
-        walletDesc: "Biftekleri TON'a dönüştür veya bakiyeni yönet.", exchangeTitle: "🔄 Biftek → TON Takası",
+        marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Toplam Üretim:", walletTitle: "🏦 Cüzdan, Takas & Çekim",
+        walletDesc: "Biftekleri TON'a dönüştür veya cüzdanına çekim talebi oluştur.", exchangeTitle: "🔄 Biftek → TON Takası",
         exchangeInfo: "50.000 Biftek = 0.01 TON", exchangeBtn: "TON'a Dönüştür", depositAddr: "Yatırım Adresi (TON):",
         langDesc: "Dilinizi seçin:", wheelTitle: "🎡 Şans Çarkı", spinBtn: "ÇEVİR",
         home: "Ana Sayfa", animals: "Hayvanlar", arena: "Arena", market: "Mağra", earn: "Cüzdan",
-        lionKing: "Kral Aslan", copyBtn: "Kopyala", builderTitle: "🏗️ Savana Arsa (İnşa etmek için dokun):"
+        lionKing: "Kral Aslan", copyBtn: "Kopyala", builderTitle: "🏗️ Savana Arsa (İnşa etmek için dokun):",
+        promoTitle: "🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!", promoLeft: "Kalan Hak:", promoBtn: "ALINDI ✅",
+        usdPackTitle: "🚀 Özel Biftek Kampanyası", usdSelect: "USD Miktarını Seç:", buyUsdBtn: "PAKETİ SATIN AL",
+        withdrawTitle: "📤 TON / GRAM Çekim Talebi", withdrawBtn: "Çekim Talebi Oluştur"
       },
       en: {
         hourRate: "/ hour", freeBonus: "Free +100", wheel: "Wheel 🥩", wallet: "Wallet", missions: "Missions", lang: "Language",
@@ -535,12 +564,15 @@
         tapToCollect: "CLAIM PASSIVE", collectVal: "STEAK READY", mapTitle: "🗺️ Savanna Builder & Map",
         mapDesc: "Place trees, waterholes, and animals on your custom savanna!", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
         arenaTitle: "🎯 Savanna Arena & Missions", arenaDesc: "Select your fighter and start a dynamic mission!", startMission: "⚔️ START MISSION & HUNT!",
-        marketTitle: "🏕️ Cave & Animal Shop", totalProd: "Total Production:", walletTitle: "🏦 Wallet & Exchange",
-        walletDesc: "Exchange your saved Steak for TON.", exchangeTitle: "🔄 Steak → TON Exchange",
+        marketTitle: "🏕️ Cave & Special Offers", totalProd: "Total Production:", walletTitle: "🏦 Wallet, Exchange & Withdraw",
+        walletDesc: "Exchange Steak for TON or request a withdrawal.", exchangeTitle: "🔄 Steak → TON Exchange",
         exchangeInfo: "50,000 Steak = 0.01 TON", exchangeBtn: "Exchange to TON", depositAddr: "Deposit Address (TON):",
         langDesc: "Select your language:", wheelTitle: "🎡 Wheel of Fortune", spinBtn: "SPIN",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
-        lionKing: "King Lion", copyBtn: "Copy", builderTitle: "🏗️ Savanna Land (Tap to build):"
+        lionKing: "King Lion", copyBtn: "Copy", builderTitle: "🏗️ Savanna Land (Tap to build):",
+        promoTitle: "🐺 PROMO: Free Wolf for First 50 Players!", promoLeft: "Remaining Slots:", promoBtn: "CLAIM FREE",
+        usdPackTitle: "🚀 Special Steak Campaign", usdSelect: "Select USD Amount:", buyUsdBtn: "BUY PACKAGE",
+        withdrawTitle: "📤 TON / GRAM Withdrawal", withdrawBtn: "Request Withdrawal"
       },
       de: {
         hourRate: "/ Std", freeBonus: "Gratis +100", wheel: "Rad 🥩", wallet: "Wallet", missions: "Missionen", lang: "Sprache",
@@ -548,12 +580,15 @@
         tapToCollect: "PASSIV SAMMELN", collectVal: "STEAK BEREIT", mapTitle: "🗺️ Savannen-Builder & Karte",
         mapDesc: "Platziere Bäume, Wasserlöcher und Tiere auf deiner Savanne!", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
         arenaTitle: "🎯 Savannen-Arena & Missionen", arenaDesc: "Wähle deinen Jäger und starte eine dynamische Mission!", startMission: "⚔️ MISSION STARTEN & JAGEN!",
-        marketTitle: "🏕️ Höhle & Tierladen", totalProd: "Gesamtproduktion:", walletTitle: "🏦 Wallet & Tausch",
-        walletDesc: "Tausche gesammeltes Steak gegen TON.", exchangeTitle: "🔄 Steak → TON Tausch",
+        marketTitle: "🏕️ Höhle & Angebote", totalProd: "Gesamtproduktion:", walletTitle: "🏦 Wallet, Tausch & Auszahlung",
+        walletDesc: "Tausche Steak gegen TON oder fordere eine Auszahlung an.", exchangeTitle: "🔄 Steak → TON Tausch",
         exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "In TON tauschen", depositAddr: "Einzahlungsadresse (TON):",
         langDesc: "Wähle deine Sprache:", wheelTitle: "🎡 Glücksrad", spinBtn: "DREHEN",
         home: "Home", animals: "Tiere", arena: "Arena", market: "Markt", earn: "Earn",
-        lionKing: "König Löwe", copyBtn: "Kopieren", builderTitle: "🏗️ Savannenland (Zum Bauen tippen):"
+        lionKing: "König Löwe", copyBtn: "Kopieren", builderTitle: "🏗️ Savannenland (Zum Bauen tippen):",
+        promoTitle: "🐺 PROMO: Kostenloser Wolf für 50 Spieler!", promoLeft: "Verbleibende Plätze:", promoBtn: "KOSTENLOS ANFORDERN",
+        usdPackTitle: "🚀 Spezielle Steak-Kampagne", usdSelect: "USD-Betrag auswählen:", buyUsdBtn: "PAKET KAUFEN",
+        withdrawTitle: "📤 TON / GRAM Auszahlung", withdrawBtn: "Auszahlung anfordern"
       },
       fr: {
         hourRate: "/ heure", freeBonus: "Gratuit +100", wheel: "Roue 🥩", wallet: "Portefeuille", missions: "Missions", lang: "Langue",
@@ -561,12 +596,15 @@
         tapToCollect: "RÉCOLTE PASSIVE", collectVal: "STEAK PRÊT", mapTitle: "🗺️ Constructeur & Carte",
         mapDesc: "Placez des arbres, points d'eau et animaux sur votre savane !", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
         arenaTitle: "🎯 Arène de la Savane & Missions", arenaDesc: "Sélectionnez votre combattant et lancez une mission !", startMission: "⚔️ LANCER LA MISSION !",
-        marketTitle: "🏕️ Caverne & Boutique d'Animaux", totalProd: "Production Totale:", walletTitle: "🏦 Portefeuille & Échange",
-        walletDesc: "Échangez vos Steaks contre des TON.", exchangeTitle: "🔄 Échange Steak → TON",
+        marketTitle: "🏕️ Caverne & Offres Spéciales", totalProd: "Production Totale:", walletTitle: "🏦 Portefeuille & Retrait",
+        walletDesc: "Échangez vos Steaks contre des TON ou demandez un retrait.", exchangeTitle: "🔄 Échange Steak → TON",
         exchangeInfo: "50 000 Steaks = 0,01 TON", exchangeBtn: "Échanger en TON", depositAddr: "Adresse de dépôt (TON):",
         langDesc: "Sélectionnez votre langue:", wheelTitle: "🎡 Roue de la Fortune", spinBtn: "TOURNER",
         home: "Accueil", animals: "Animaux", arena: "Arène", market: "Marché", earn: "Gagner",
-        lionKing: "Roi Lion", copyBtn: "Copier", builderTitle: "🏗️ Terrain (Appuyer pour construire):"
+        lionKing: "Roi Lion", copyBtn: "Copier", builderTitle: "🏗️ Terrain (Appuyer pour construire):",
+        promoTitle: "🐺 PROMO: Loup gratuit pour 50 joueurs !", promoLeft: "Places restantes :", promoBtn: "RÉCLAMER GRATUIT",
+        usdPackTitle: "🚀 Campagne Steak Spéciale", usdSelect: "Sélectionnez le montant USD :", buyUsdBtn: "ACHETER LE PACK",
+        withdrawTitle: "📤 Retrait TON / GRAM", withdrawBtn: "Demander le retrait"
       }
     };
 
@@ -651,6 +689,69 @@
       });
     }
 
+    function updateUsdSlider(val) {
+      currentUsdVal = parseInt(val);
+      let steakReward = currentUsdVal * 2500;
+      document.getElementById('usdDisplay').innerText = `$${currentUsdVal} USD`;
+      document.getElementById('usdRewardText').innerText = `Alacağın: ${steakReward.toLocaleString()} 🥩`;
+    }
+
+    function buyUsdPackage() {
+      let steakReward = currentUsdVal * 2500;
+      balance += steakReward;
+      document.getElementById('balance').innerText = balance.toLocaleString();
+      addXP(50);
+      haptic('success');
+      showToast(`🚀 Succesvol $${currentUsdVal} USD pakket gekocht (+${steakReward.toLocaleString()} 🥩)!`);
+    }
+
+    function claimPromoWolf() {
+      if (promoClaimed) {
+        haptic('error');
+        showToast("Je hebt deze promo al geclaimd!");
+        return;
+      }
+      if (promoSlots <= 0) {
+        haptic('error');
+        showToast("Helaas, alle gratis plekken zijn vergeven!");
+        return;
+      }
+      promoClaimed = true;
+      promoSlots--;
+      document.getElementById('promoSlots').innerText = promoSlots;
+      document.getElementById('lblPromoBtn').innerText = "ALINDI ✅";
+      
+      // Voeg wolf toe aan inventaris (index 6 is Wolf)
+      animalsData[6].count++;
+      hourlyProduction += animalsData[6].baseProd;
+      document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
+      document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
+      renderShop();
+      addXP(100);
+      haptic('success');
+      showToast("🐺 Gefeliciteerd! Gratis Kurt (Wolf) succesvol geclaimd!");
+    }
+
+    function requestWithdrawal() {
+      let addr = document.getElementById('withdrawAddrInput').value.trim();
+      if (!addr || addr.length < 10) {
+        haptic('error');
+        showToast("Vul een geldig TON wallet adres in!");
+        return;
+      }
+      if (tonBalance < 0.05) {
+        haptic('error');
+        showToast("Minimaal 0.05 TON nodig voor uitbetaling!");
+        return;
+      }
+      let withdrawn = tonBalance;
+      tonBalance = 0;
+      document.getElementById('gramBalance').innerText = '0.000';
+      document.getElementById('withdrawAddrInput').value = '';
+      haptic('success');
+      showToast(`📤 Uitbetaling van ${withdrawn.toFixed(3)} TON aangevraagd!`);
+    }
+
     function setAppLanguage(lang) {
       currentLang = lang;
       let t = translations[lang];
@@ -690,6 +791,14 @@
       document.getElementById('lblLionKing').innerText = t.lionKing;
       document.getElementById('lblCopyBtn').innerText = t.copyBtn;
       document.getElementById('lblBuilderTitle').innerText = t.builderTitle;
+      document.getElementById('lblPromoTitle').innerText = t.promoTitle;
+      document.getElementById('lblPromoLeft').childNodes[0].nodeValue = t.promoLeft + " ";
+      if (!promoClaimed) document.getElementById('lblPromoBtn').innerText = t.promoBtn;
+      document.getElementById('lblUsdPackTitle').innerText = t.usdPackTitle;
+      document.getElementById('lblUsdSelect').innerText = t.usdSelect;
+      document.getElementById('lblBuyUsdBtn').innerText = t.buyUsdBtn;
+      document.getElementById('lblWithdrawTitle').innerText = t.withdrawTitle;
+      document.getElementById('lblWithdrawBtn').innerText = t.withdrawBtn;
 
       renderShop();
       haptic('success');
@@ -847,17 +956,16 @@
       setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
 
-    // Passieve opbrengst timer (elke 5 seconden komt er steak bij)
     setInterval(() => {
       let inc = Math.max(1, Math.floor(hourlyProduction / 720));
       unclaimedSteak += inc;
       document.getElementById('lblCollectVal').innerText = `+${unclaimedSteak} STEAK KLAAR`;
     }, 5000);
 
-    // Initialisatie
     renderShop();
     renderBuilder();
     addXP(0);
+    updateUsdSlider(10);
   </script>
 </body>
 </html>

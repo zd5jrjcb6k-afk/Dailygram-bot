@@ -208,9 +208,10 @@
   <div class="modal-overlay" id="paymentModal">
     <div class="modal-box">
       <div style="font-size: 0.9rem; font-weight: 900; color: #ffd700;" id="modalTitle">💳 Betalingsbevestiging</div>
-      <div style="font-size: 0.65rem; color: #ccc;" id="modalDesc">Stuur de vereiste TON naar onderstaand adres om je pakket te activeren:</div>
+      <div style="font-size: 0.65rem; color: #ccc;" id="modalDesc">Stuur de vereiste TON naar onderstaand adres of bevestig met je TON-saldo:</div>
       <input type="text" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly style="background:#111; color:#ffd700; border:1px solid #ffd700; padding:6px; border-radius:6px; font-size:0.55rem; width:100%; text-align:center;">
       <div style="font-size: 0.6rem; color: #2ecc71; font-weight: bold;" id="modalPackageInfo">Pakket: $10 USD (25.000 Steak)</div>
+      <div style="font-size: 0.55rem; color: #3498db;" id="modalTonCost">Kosten: 0.05 TON</div>
       <div style="display: flex; gap: 6px; margin-top: 6px;">
         <button class="cr-buy-btn" style="background: #e74c3c; margin-top:0;" onclick="closePaymentModal()" id="modalBtnCancel">Annuleren</button>
         <button class="cr-buy-btn" style="background: #2ecc71; margin-top:0;" onclick="confirmPayment()" id="modalBtnConfirm">Betaald & Bevestigen</button>
@@ -390,7 +391,7 @@
         </div>
       </div>
 
-      <!-- TAB 4: MARKET / MAĞRA (Met tot $500 USD schuifregelaar en betalingsbevestiging) -->
+      <!-- TAB 4: MARKET / MAĞRA -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblMarketTitle">🏕️ Mağra & Özel Fırsatlar</div>
@@ -500,7 +501,6 @@
       } catch(e) {}
     }
 
-    // STATE VARIABELEN (met automatische localStorage laadfunctie)
     let balance = parseInt(localStorage.getItem('dg_balance')) || 500;
     let tonBalance = parseFloat(localStorage.getItem('dg_ton')) || 0.245;
     let unclaimedSteak = parseInt(localStorage.getItem('dg_unclaimed')) || 157;
@@ -745,13 +745,16 @@
     function updateUsdSlider(val) {
       currentUsdVal = parseInt(val);
       let steakReward = currentUsdVal * 2500;
+      let tonCost = (currentUsdVal * 0.005).toFixed(3);
       document.getElementById('usdDisplay').innerText = `$${currentUsdVal} USD`;
-      document.getElementById('usdRewardText').innerText = `Alacağın: ${steakReward.toLocaleString()} 🥩`;
+      document.getElementById('usdRewardText').innerText = `Alacağın: ${steakReward.toLocaleString()} 🥩 (Kosten: ${tonCost} TON)`;
     }
 
     function openPaymentModal() {
       let steakReward = currentUsdVal * 2500;
+      let tonCost = (currentUsdVal * 0.005).toFixed(3);
       document.getElementById('modalPackageInfo').innerText = `Pakket: $${currentUsdVal} USD (${steakReward.toLocaleString()} Steak)`;
+      document.getElementById('modalTonCost').innerText = `Kosten: ${tonCost} TON`;
       document.getElementById('paymentModal').style.display = 'flex';
       haptic('light');
     }
@@ -762,14 +765,23 @@
     }
 
     function confirmPayment() {
+      let tonCost = currentUsdVal * 0.005;
+      if (tonBalance < tonCost) {
+        haptic('error');
+        showToast("❌ Onvoldoende TON saldo in je wallet!");
+        closePaymentModal();
+        return;
+      }
+      tonBalance -= tonCost;
       let steakReward = currentUsdVal * 2500;
       balance += steakReward;
       document.getElementById('balance').innerText = balance.toLocaleString();
+      document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
       saveGame();
       closePaymentModal();
       addXP(50);
       haptic('success');
-      showToast(`🚀 Succesvol $${currentUsdVal} USD pakket gekocht (+${steakReward.toLocaleString()} 🥩)!`);
+      showToast(`🚀 Succesvol $${currentUsdVal} USD pakket gekocht voor ${tonCost.toFixed(3)} TON (+${steakReward.toLocaleString()} 🥩)!`);
     }
 
     function claimPromoWolf() {
@@ -817,7 +829,7 @@
       document.getElementById('withdrawAddrInput').value = '';
       saveGame();
       haptic('success');
-      showToast(`📤 Uitbetaling van ${withdrawn.toFixed(3)} TON aangevraagd! Binnen enkele minuten wordt dit betaald.`);
+      showToast(`📤 Uitbetaling van ${withdrawn.toFixed(3)} TON aangevraagd! Dit wordt binnen 3 tot 5 minuten verstuurd.`);
     }
 
     function setAppLanguage(lang) {

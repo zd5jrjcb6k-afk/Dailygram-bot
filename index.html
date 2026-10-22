@@ -27,7 +27,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: fill;
+      object-fit: cover;
       background-color: #000;
       z-index: 1;
     }
@@ -51,13 +51,14 @@
       height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 10px 10px;
+      justify-content: flex-start;
+      padding: 10px 12px;
       padding-bottom: 75px;
+      gap: 10px;
       overflow-y: auto;
     }
 
-    .tab-content { display: none; height: 100%; flex-direction: column; justify-content: space-between; }
+    .tab-content { display: none; flex-direction: column; gap: 10px; width: 100%; flex: 1; }
     .tab-content.active { display: flex; }
 
     /* TOP HEADER & HUD */
@@ -67,43 +68,25 @@
       align-items: center;
       width: 100%;
       gap: 6px;
-    }
-
-    .profile-pill {
-      background: rgba(18, 10, 5, 0.85);
-      border: 1.5px solid #e6af2e;
-      border-radius: 30px;
-      padding: 4px 10px 4px 4px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-    }
-
-    .profile-avatar-img {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      border: 2px solid #ffd700;
-      object-fit: cover;
+      margin-top: 2px;
     }
 
     .hud-badge-pill {
-      background: rgba(18, 10, 5, 0.88);
+      background: rgba(18, 10, 5, 0.92);
       border: 1.5px solid #e6af2e;
       border-radius: 20px;
-      padding: 4px 10px;
+      padding: 5px 10px;
       display: flex;
       align-items: center;
       gap: 6px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.6);
     }
 
-    /* RIGHT SIDE FLOATING BUTTONS */
+    /* FLOATING ACTION BUTTONS */
     .floating-actions-right {
       position: absolute;
-      top: 60px;
-      right: 10px;
+      top: 65px;
+      right: 12px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -111,8 +94,8 @@
     }
 
     .float-icon-btn {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       background: radial-gradient(circle, #3a2210 0%, #150a04 100%);
       border: 2px solid #e6af2e;
       border-radius: 50%;
@@ -121,14 +104,13 @@
       align-items: center;
       justify-content: center;
       color: #fff;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       font-weight: bold;
       box-shadow: 0 4px 12px rgba(0,0,0,0.8);
       cursor: pointer;
       position: relative;
     }
-
-    .float-icon-btn .icon { font-size: 1.1rem; }
+    .float-icon-btn .icon { font-size: 1rem; }
     
     .badge-dot {
       position: absolute;
@@ -136,10 +118,10 @@
       right: -2px;
       background: #e74c3c;
       color: #fff;
-      font-size: 0.55rem;
+      font-size: 0.5rem;
       font-weight: bold;
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -147,11 +129,10 @@
       border: 1px solid #fff;
     }
 
-    /* LEFT SIDE FLOATING BUTTONS (Free & Spin) */
     .floating-actions-left {
       position: absolute;
-      top: 60px;
-      left: 10px;
+      top: 65px;
+      left: 12px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -162,14 +143,14 @@
       background: linear-gradient(135deg, #2c1a0e, #140b05);
       border: 1.5px solid #e6af2e;
       border-radius: 12px;
-      padding: 4px 8px;
+      padding: 6px 10px;
       text-align: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.7);
       cursor: pointer;
-      min-width: 65px;
+      min-width: 70px;
     }
 
-    /* LEVEL BANNER TOP LEFT */
+    /* LEVEL BANNER */
     .level-banner-wood {
       background: linear-gradient(135deg, #422812, #241408);
       border: 2px solid #ffd700;
@@ -179,7 +160,7 @@
       flex-direction: column;
       gap: 3px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.8);
-      max-width: 150px;
+      width: 140px;
     }
 
     .mini-xp-bar {
@@ -187,7 +168,7 @@
       background: #111;
       border: 1px solid #ffd700;
       border-radius: 6px;
-      height: 7px;
+      height: 6px;
       overflow: hidden;
     }
     .mini-xp-fill {
@@ -196,22 +177,21 @@
       width: 32%;
     }
 
-    /* UNLOCKED BANNER (MAJESTIC LION) */
+    /* UNLOCKED BANNER */
     .unlocked-banner {
       background: linear-gradient(135deg, #3d2612 0%, #1c1007 100%);
-      border: 2.5px solid #ffd700;
-      border-radius: 16px;
-      padding: 8px 12px;
+      border: 2px solid #ffd700;
+      border-radius: 14px;
+      padding: 8px 10px;
       display: flex;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.85);
-      margin: 4px 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.8);
     }
     .unlocked-img {
-      width: 50px;
-      height: 50px;
-      border-radius: 10px;
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
       border: 2px solid #ffd700;
       object-fit: cover;
     }
@@ -221,13 +201,16 @@
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding: 4px 0;
+      padding: 2px 0;
       width: 100%;
+      scrollbar-width: none;
     }
+    .animals-row-container::-webkit-scrollbar { display: none; }
+
     .animal-show-card {
-      min-width: 78px;
+      min-width: 76px;
       background: linear-gradient(180deg, #2b180d 0%, #120904 100%);
-      border: 2px solid #3498db;
+      border: 2px solid #e6af2e;
       border-radius: 12px;
       padding: 6px 4px;
       display: flex;
@@ -236,20 +219,15 @@
       text-align: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.7);
       flex-shrink: 0;
+      cursor: pointer;
     }
-    .animal-show-card.rhino { border-color: #f1c40f; }
-    .animal-show-card.elephant { border-color: #9b59b6; }
-    .animal-show-card.panther { border-color: #3498db; }
-    .animal-show-card.cheetah { border-color: #2ecc71; }
-    .animal-show-card.cub { border-color: #e67e22; }
-
     .animal-card-img {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 8px;
       border: 1.5px solid #ffd700;
       object-fit: cover;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     /* ACTIVE MISSIONS BANNER */
@@ -269,42 +247,80 @@
     .tap-collect-btn {
       background: linear-gradient(135deg, #ffd700 0%, #ff8800 100%);
       border: 2.5px solid #ffffff;
-      border-radius: 18px;
+      border-radius: 16px;
       padding: 12px;
       text-align: center;
       box-shadow: 0 8px 25px rgba(255, 140, 0, 0.6);
       cursor: pointer;
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      margin-top: 4px;
     }
     .tap-collect-btn:active { transform: scale(0.97); }
 
-    /* GENERAL PAGE BOX & MODals */
+    /* PAGE BOX & MODALS */
     .page-box {
       background: rgba(18, 10, 5, 0.96);
       border: 2px solid #8a5a22;
-      border-radius: 20px;
+      border-radius: 18px;
       padding: 12px;
-      max-height: 78vh;
+      max-height: 75vh;
       overflow-y: auto;
-      margin-top: 4px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.85);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
     .page-title {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: #ffd700;
-      margin-bottom: 10px;
       font-weight: 900;
       text-align: center;
       text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
 
-    /* BOTTOM NAVIGATION BAR (MATCHING SCREENSHOT) */
+    /* MARKET / SHOP GRID */
+    .cr-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .cr-card {
+      background: linear-gradient(180deg, #1f140a 0%, #0d0804 100%);
+      border: 2px solid #e6af2e;
+      border-radius: 12px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+    }
+    .cr-card-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      border: 2px solid #ffd700;
+      object-fit: cover;
+      margin-bottom: 4px;
+    }
+    .cr-buy-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      border: 1px solid #fff;
+      padding: 6px;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 900;
+      font-size: 0.7rem;
+      cursor: pointer;
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+
+    /* BOTTOM NAVIGATION BAR */
     .bottom-nav {
       position: absolute; bottom: 0; left: 0; width: 100%;
       background: linear-gradient(180deg, rgba(18,10,5,0.98), rgba(8,4,1,1));
@@ -318,23 +334,71 @@
     .nav-icon { font-size: 1.2rem; }
 
     .toast-notification {
-      position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
-      background: rgba(18, 10, 5, 0.95); border: 2px solid #ffd700; color: #ffd700; padding: 6px 14px; border-radius: 16px; font-size: 0.72rem; font-weight: bold; z-index: 300; display: none; text-align: center;
+      position: absolute; top: 45px; left: 50%; transform: translateX(-50%);
+      background: rgba(18, 10, 5, 0.96); border: 2px solid #ffd700; color: #ffd700; padding: 6px 14px; border-radius: 16px; font-size: 0.7rem; font-weight: bold; z-index: 300; display: none; text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.8);
     }
 
-    .modal-overlay {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.88); backdrop-filter: blur(8px); z-index: 200; justify-content: center; align-items: center;
+    /* BATTLE ARENA & WHEEL */
+    .battle-arena-container {
+      background: linear-gradient(180deg, #1b2e18 0%, #0d170b 100%);
+      border: 2px solid #2ecc71;
+      border-radius: 14px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .modal-overlay.active { display: flex; }
-    .modal-box {
-      background: linear-gradient(135deg, #24140b, #120a05); border: 2px solid #ffb700; border-radius: 18px; padding: 16px; width: 90%; max-width: 340px; text-align: center;
+    .battle-board {
+      width: 100%;
+      height: 140px;
+      background: radial-gradient(circle, #27ae60 0%, #0e3b1f 100%);
+      border: 2px solid #f1c40f;
+      border-radius: 10px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8px;
+    }
+    .battle-unit-img {
+      width: 40px; height: 40px; border-radius: 8px; border: 2px solid #ffd700; object-fit: cover;
+    }
+    .unit-selector-row {
+      display: flex; gap: 6px; overflow-x: auto; width: 100%; padding: 4px 0;
+    }
+    .unit-select-chip {
+      background: rgba(40, 24, 12, 0.9); border: 1.5px solid #704b2e; border-radius: 8px; padding: 4px 8px; font-size: 0.65rem; color: #fff; cursor: pointer; white-space: nowrap;
+    }
+    .unit-select-chip.selected { border-color: #2ecc71; background: rgba(46, 204, 113, 0.25); }
+
+    .wheel-tree-container {
+      position: relative; width: 180px; height: 180px; margin: 6px auto; display: flex; justify-content: center; align-items: center;
+    }
+    .wheel-pointer-top {
+      position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 16px solid #fff; z-index: 40;
+    }
+    .wheel-wooden-frame {
+      width: 160px; height: 160px; border-radius: 50%; border: 5px solid #ffffff; position: relative; overflow: hidden; background: #111;
+    }
+    .wheel {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: conic-gradient(#222 0deg 90deg, #444 90deg 180deg, #111 180deg 270deg, #555 270deg 360deg);
+      transition: transform 3.5s cubic-bezier(0.15, 0.9, 0.15, 1);
+    }
+    .wheel-center-hub {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 30px; height: 30px; background: #fff; border-radius: 50%; border: 2px solid #000; z-index: 30; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
+    }
+    .wheel-btn-wood {
+      background: linear-gradient(135deg, #ffffff, #cccccc); color: #000; border: 2px solid #fff; padding: 6px 20px; font-weight: 900; border-radius: 12px; cursor: pointer; margin-top: 6px; font-size: 0.75rem;
     }
   </style>
 </head>
 <body>
 
-  <!-- DYNAMISCHE ACHTERGROND VIDEO -->
+  <!-- ACHTERGROND VIDEO -->
   <video id="bgVideo" class="bg-video" autoplay loop muted playsinline preload="auto">
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
@@ -344,7 +408,7 @@
 
     <div class="overlay-content">
 
-      <!-- FLOATING RIGHT BUTTONS (Wallet, Missions, Settings)[span_1](start_span)[span_1](end_span) -->
+      <!-- RECHTER ZWEVENDE KNOPPEN (Wallet, Missions, Settings) -->
       <div class="floating-actions-right">
         <div class="float-icon-btn" onclick="haptic('light'); playSound('click'); switchTab('cuzdan', null)">
           <span class="icon">💎</span>
@@ -355,308 +419,222 @@
           <span>Missions</span>
           <div class="badge-dot">1</div>
         </div>
-        <div class="float-icon-btn" onclick="haptic('light'); playSound('click'); openModalTab('language')">
+        <div class="float-icon-btn" onclick="haptic('light'); playSound('click'); switchTab('language', null)">
           <span class="icon">⚙️</span>
           <span>Settings</span>
         </div>
       </div>
 
-      <!-- FLOATING LEFT BUTTONS (Free & Spin)[span_2](start_span)[span_2](end_span) -->
+      <!-- LINKER ZWEVENDE KNOPPEN (Free Steak & Spin) -->
       <div class="floating-actions-left">
-        <div class="mini-card-btn" onclick="haptic('success'); playSound('success'); claimStreakDaily()">
-          <div style="font-size: 0.9rem;">🎁</div>
-          <div style="font-size: 0.6rem; color: #ffd700; font-weight: bold;">Free +100</div>
+        <div class="mini-card-btn" onclick="claimStreakDailySecure()">
+          <div style="font-size: 0.85rem;">🎁</div>
+          <div style="font-size: 0.55rem; color: #ffd700; font-weight: bold;">Free +100</div>
         </div>
         <div class="mini-card-btn" onclick="haptic('light'); playSound('click'); switchTab('spin', null)" style="margin-top: 4px;">
-          <div style="font-size: 0.9rem;">🎡</div>
-          <div style="font-size: 0.6rem; color: #3498db; font-weight: bold;">Spin 🥩</div>
+          <div style="font-size: 0.85rem;">🎡</div>
+          <div style="font-size: 0.55rem; color: #3498db; font-weight: bold;">Spin 🥩</div>
         </div>
       </div>
 
-      <!-- TOP HEADER (Level, Steak Balance, Ton/Gram Balance)[span_3](start_span)[span_3](end_span) -->
+      <!-- TOP HEADER HUD -->
       <div class="top-hud-row">
         <!-- Level Banner -->
         <div class="level-banner-wood" onclick="haptic('light'); playSound('click'); switchTab('kaart', null)">
           <div style="display: flex; align-items: center; gap: 4px;">
-            <span style="font-size: 1rem;">👑</span>
-            <span style="font-size: 0.75rem; font-weight: 900; color: #ffd700;" id="hudLevelText">Level 25</span>
+            <span style="font-size: 0.9rem;">👑</span>
+            <span style="font-size: 0.7rem; font-weight: 900; color: #ffd700;" id="hudLevelText">Level 25</span>
           </div>
           <div class="mini-xp-bar"><div class="mini-xp-fill" id="xpBarFill"></div></div>
-          <div style="font-size: 0.5rem; color: #ccc; text-align: right;" id="xpTextOverlay">320 / 1,000</div>
+          <div style="font-size: 0.48rem; color: #ccc; text-align: right;" id="xpTextOverlay">320 / 1,000</div>
         </div>
 
-        <!-- Balances (Steak & Ton/Gram) -->
-        <div style="display: flex; gap: 6px;">
+        <!-- Balances (Steak & TON) -->
+        <div style="display: flex; gap: 5px;">
           <div class="hud-badge-pill">
-            <span style="font-size: 1rem;">🥩</span>
+            <span style="font-size: 0.9rem;">🥩</span>
             <div style="text-align: right;">
-              <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700;" id="balance">12,580</div>
-              <div style="font-size: 0.5rem; color: #aaa;">/ hour</div>
+              <div style="font-size: 0.7rem; font-weight: 900; color: #ffd700;" id="balance">12,580</div>
+              <div style="font-size: 0.45rem; color: #aaa;">/ hour</div>
             </div>
           </div>
           <div class="hud-badge-pill" style="border-color: #3498db;">
-            <span style="font-size: 1rem;">💎</span>
+            <span style="font-size: 0.9rem;">💎</span>
             <div style="text-align: right;">
-              <div style="font-size: 0.75rem; font-weight: 900; color: #3498db;" id="gramBalance">0.245</div>
-              <div style="font-size: 0.5rem; color: #aaa;">TON</div>
+              <div style="font-size: 0.7rem; font-weight: 900; color: #3498db;" id="gramBalance">0.245</div>
+              <div style="font-size: 0.45rem; color: #aaa;">TON</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- MAIN HOME TAB CONTENT -->
+      <!-- TAB 1: HOME -->
       <div id="tab-ana" class="tab-content active">
-        <div style="display: flex; flex-direction: column; gap: 8px; justify-content: center; margin-top: auto; margin-bottom: 20px;">
-          
-          <!-- UNLOCKED BANNER (MAJESTIC LION)[span_4](start_span)[span_4](end_span) -->
-          <div class="unlocked-banner">
-            <img src="kral_aslan.PNG" class="unlocked-img" alt="Majestic Lion">
+        <!-- Unlocked Banner -->
+        <div class="unlocked-banner">
+          <img src="kral_aslan.PNG" class="unlocked-img" alt="Majestic Lion">
+          <div>
+            <div style="font-size: 0.58rem; color: #aaa; font-weight: bold;">UNLOCKED:</div>
+            <div style="font-size: 0.8rem; font-weight: 900; color: #ffd700;">MAJESTIC LION!</div>
+            <div style="font-size: 0.62rem; color: #2ecc71; font-weight: bold;">🥩 +100 STEAK PER HOUR</div>
+          </div>
+          <div style="margin-left: auto; font-size: 1.1rem; color: #2ecc71;">✅</div>
+        </div>
+
+        <!-- Animal Cards Row -->
+        <div class="animals-row-container">
+          <div class="animal-show-card" onclick="switchTab('market', null)">
+            <img src="beyaz_gergedan.PNG" class="animal-card-img" alt="White Rhino">
+            <div style="font-size: 0.58rem; font-weight: 900; color: #fff;">White Rhino</div>
+            <div style="font-size: 0.5rem; color: #f1c40f;">Level 1</div>
+          </div>
+          <div class="animal-show-card" onclick="switchTab('market', null)">
+            <img src="fil.PNG" class="animal-card-img" alt="Elephant">
+            <div style="font-size: 0.58rem; font-weight: 900; color: #fff;">Elephant</div>
+            <div style="font-size: 0.5rem; color: #9b59b6;">Level 1</div>
+          </div>
+          <div class="animal-show-card" onclick="switchTab('market', null)">
+            <img src="kara_panter.PNG" class="animal-card-img" alt="Panther">
+            <div style="font-size: 0.58rem; font-weight: 900; color: #fff;">Panther</div>
+            <div style="font-size: 0.5rem; color: #3498db;">Level 1</div>
+          </div>
+          <div class="animal-show-card" onclick="switchTab('market', null)">
+            <img src="cita.PNG" class="animal-card-img" alt="Cheetah">
+            <div style="font-size: 0.58rem; font-weight: 900; color: #fff;">Cheetah</div>
+            <div style="font-size: 0.5rem; color: #2ecc71;">Level 1</div>
+          </div>
+          <div class="animal-show-card" onclick="switchTab('market', null)">
+            <img src="aslan_yavrusu.PNG" class="animal-card-img" alt="Lion Cub">
+            <div style="font-size: 0.58rem; font-weight: 900; color: #fff;">Lion Cub</div>
+            <div style="font-size: 0.5rem; color: #e67e22;">Level 1</div>
+          </div>
+        </div>
+
+        <!-- Active Missions Banner -->
+        <div class="active-missions-banner" onclick="switchTab('hunt', null)">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.2rem;">⚔️</span>
             <div>
-              <div style="font-size: 0.62rem; color: #aaa; font-weight: bold;">UNLOCKED:</div>
-              <div style="font-size: 0.85rem; font-weight: 900; color: #ffd700;">MAJESTIC LION!</div>
-              <div style="font-size: 0.68rem; color: #2ecc71; font-weight: bold; margin-top: 2px;">🥩 +100 STEAK PER HOUR</div>
-            </div>
-            <div style="margin-left: auto; font-size: 1.2rem; color: #2ecc71;">✅</div>
-          </div>
-
-          <!-- ANIMAL CARDS HORIZONTAL ROW (White Rhino, Elephant, Panther, Cheetah, Lion Cub)[span_5](start_span)[span_5](end_span) -->
-          <div class="animals-row-container">
-            <div class="animal-show-card rhino" onclick="haptic('light'); playSound('click'); switchTab('market', null)">
-              <img src="beyaz_gergedan.PNG" class="animal-card-img" alt="White Rhino">
-              <div style="font-size: 0.62rem; font-weight: 900; color: #fff;">White Rhino</div>
-              <div style="font-size: 0.55rem; color: #f1c40f;">Level 1</div>
-            </div>
-            <div class="animal-show-card elephant" onclick="haptic('light'); playSound('click'); switchTab('market', null)">
-              <img src="fil.PNG" class="animal-card-img" alt="Elephant">
-              <div style="font-size: 0.62rem; font-weight: 900; color: #fff;">Elephant</div>
-              <div style="font-size: 0.55rem; color: #9b59b6;">Level 1</div>
-            </div>
-            <div class="animal-show-card panther" onclick="haptic('light'); playSound('click'); switchTab('market', null)">
-              <img src="kara_panter.PNG" class="animal-card-img" alt="Panther">
-              <div style="font-size: 0.62rem; font-weight: 900; color: #fff;">Panther</div>
-              <div style="font-size: 0.55rem; color: #3498db;">Level 1</div>
-            </div>
-            <div class="animal-show-card cheetah" onclick="haptic('light'); playSound('click'); switchTab('market', null)">
-              <img src="cita.PNG" class="animal-card-img" alt="Cheetah">
-              <div style="font-size: 0.62rem; font-weight: 900; color: #fff;">Cheetah</div>
-              <div style="font-size: 0.55rem; color: #2ecc71;">Level 1</div>
-            </div>
-            <div class="animal-show-card cub" onclick="haptic('light'); playSound('click'); switchTab('market', null)">
-              <img src="aslan_yavrusu.PNG" class="animal-card-img" alt="Lion Cub">
-              <div style="font-size: 0.62rem; font-weight: 900; color: #fff;">Lion Cub</div>
-              <div style="font-size: 0.55rem; color: #e67e22;">Level 1</div>
+              <div style="font-size: 0.55rem; color: #2ecc71; font-weight: bold;">Active Missions</div>
+              <div style="font-size: 0.7rem; font-weight: 900; color: #fff;">Savanne Arena</div>
+              <div style="font-size: 0.5rem; color: #aaa;">Defeat the wild beasts</div>
             </div>
           </div>
+          <span style="font-size: 1rem; color: #ffd700;">›</span>
+        </div>
 
-          <!-- ACTIVE MISSIONS BANNER (Savanne Arena)[span_6](start_span)[span_6](end_span) -->
-          <div class="active-missions-banner" onclick="haptic('light'); playSound('click'); switchTab('hunt', null)">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 1.3rem;">⚔️</span>
-              <div>
-                <div style="font-size: 0.6rem; color: #2ecc71; font-weight: bold;">Active Missions</div>
-                <div style="font-size: 0.75rem; font-weight: 900; color: #fff;">Savanne Arena</div>
-                <div style="font-size: 0.55rem; color: #aaa;">Defeat the wild beasts</div>
-              </div>
-            </div>
-            <span style="font-size: 1rem; color: #ffd700;">›</span>
+        <!-- Tap to Collect Button -->
+        <div class="tap-collect-btn" onclick="handleMainActionTap(event)">
+          <span style="font-size: 1.4rem;">🥩</span>
+          <div style="text-align: left;">
+            <div style="font-size: 0.85rem; font-weight: 900; color: #1a0f05; text-transform: uppercase;">TAP TO COLLECT</div>
+            <div style="font-size: 0.65rem; font-weight: bold; color: #7a3a00;">+100 STEAK</div>
           </div>
-
-          <!-- TAP TO COLLECT BUTTON (Met hand-icoon)[span_7](start_span)[span_7](end_span) -->
-          <div class="tap-collect-btn" id="centerActionBox" onclick="handleMainActionTap(event)">
-            <span style="font-size: 1.6rem;">🥩</span>
-            <div style="text-align: left;">
-              <div style="font-size: 0.95rem; font-weight: 900; color: #1a0f05; text-transform: uppercase;">TAP TO COLLECT</div>
-              <div style="font-size: 0.7rem; font-weight: bold; color: #7a3a00;" id="huntSteakDisplay">+100 STEAK</div>
-            </div>
-            <span style="font-size: 1.5rem; margin-left: auto;">👆</span>
-          </div>
-
+          <span style="font-size: 1.3rem; margin-left: auto;">👆</span>
         </div>
       </div>
 
-      <!-- 🗺️ KART & BÖLGELER TAB -->
+      <!-- TAB 2: ANIMALS / KAART -->
       <div id="tab-kaart" class="tab-content">
         <div class="page-box">
-          <div class="page-title">🗺️ Savannekaart & Gebied</div>
-          <p style="font-size: 0.68rem; color: #ccc; text-align: center; margin-bottom: 8px;">Ontgrendel gebieden en richt je leefgebied in[span_8](start_span)[span_8](end_span)!</p>
-          
-          <div style="background: rgba(0,0,0,0.7); border: 1.5px solid #ffb700; border-radius: 12px; padding: 10px; margin-bottom: 10px;">
-            <div style="font-size: 0.78rem; font-weight: 900; color: #ffd700; margin-bottom: 6px;">🦁 Kral Aslan - Level <span id="lionLevelDisplay">1</span></div>
-            <button class="cr-buy-btn" onclick="haptic('success'); playSound('success'); upgradeLionLevel()" style="margin-top: 4px;">⬆️ Leeuw Upgraden (500 🥩)</button>
-          </div>
-
-          <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700; margin-bottom: 6px;">🌍 Ontdekkingsgebieden</div>
-          <div class="map-grid">
-            <div class="territory-card unlocked">
-              <div class="territory-info">
-                <h4>🦁 Leeuwenvlakte</h4>
-                <p>Standaard leefgebied. +5 🥩 / uur</p>
-              </div>
-              <span style="font-size: 0.7rem; color: #2ecc71; font-weight: bold;">Aktiv ✅</span>
-            </div>
-            <div class="territory-card" id="terrCrocodile">
-              <div class="territory-info">
-                <h4>🐊 Krokodillenrivier</h4>
-                <p>Gevaarlijke rivier missies. +20 🥩 / uur</p>
-              </div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); unlockTerritory('crocodile', 5000)">5,000 🥩</button>
-            </div>
-            <div class="territory-card" id="terrElephant">
-              <div class="territory-info">
-                <h4>🐘 Olifantenvallei</h4>
-                <p>Sterke verdedigingsbonus. +50 🥩 / uur</p>
-              </div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); unlockTerritory('elephant', 20000)">20,000 🥩</button>
-            </div>
-            <div class="territory-card" id="terrJungle">
-              <div class="territory-info">
-                <h4>🌙 Nachtelijke Jungle</h4>
-                <p>Exclusieve nachtbonussen. +120 🥩 / uur</p>
-              </div>
-              <button class="btn-buy" onclick="haptic('medium'); playSound('buy'); unlockTerritory('jungle', 75000)">75k 🥩</button>
-            </div>
+          <div class="page-title">🗺️ Savannekaart & Gebieden</div>
+          <p style="font-size: 0.65rem; color: #ccc; text-align: center;">Ontgrendel nieuwe gebieden en beheer je leefgebied.</p>
+          <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #ffb700; border-radius: 10px; padding: 8px; text-align: center;">
+            <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700;">🦁 Kral Aslan - Level <span id="lionLevelDisplay">1</span></div>
+            <button class="cr-buy-btn" onclick="upgradeLionLevel()">⬆️ Leeuw Upgraden (500 🥩)</button>
           </div>
         </div>
       </div>
 
-      <!-- MAĞRA / MARKET TAB -->
+      <!-- TAB 3: ARENA -->
+      <div id="tab-hunt" class="tab-content">
+        <div class="page-box">
+          <div class="page-title">🎯 Savanne-Arena & Missies</div>
+          <div class="battle-arena-container">
+            <div style="font-size: 0.65rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;">Defeat wild beasts & protect cubs!</div>
+            <div class="battle-board">
+              <div style="display:flex; justify-content:center; gap:8px;">
+                <img src="antilop.PNG" class="battle-unit-img">
+                <img src="aslan_yavrusu.PNG" class="battle-unit-img">
+              </div>
+              <div style="text-align:center; font-size:0.55rem; background:rgba(0,0,0,0.5); padding:1px 6px; border-radius:4px;">VS</div>
+              <div style="display:flex; justify-content:center;">
+                <img src="kral_aslan.PNG" class="battle-unit-img">
+              </div>
+            </div>
+            <div class="unit-selector-row">
+              <div class="unit-select-chip selected">🦁 Aslan</div>
+              <div class="unit-select-chip">🐈‍⬛ Panter</div>
+            </div>
+          </div>
+          <button class="cr-buy-btn" onclick="triggerClashHunt()" style="padding: 9px; font-size: 0.75rem;">⚔️ MISSIE STARTEN!</button>
+        </div>
+      </div>
+
+      <!-- TAB 4: MARKET / MAĞRA -->
       <div id="tab-market" class="tab-content">
         <div class="page-box">
           <div class="page-title">🏕️ Mağra & Hayvan Koleksiyonu</div>
-          <div style="font-size: 0.65rem; color: #aaa; margin-bottom: 6px; text-align: center;" id="totalSpeedInfo">Toplam Üretim Hızı: 5 🥩 / sa</div>
-          
+          <div style="font-size: 0.6rem; color: #aaa; text-align: center;">Toplam Üretim Hızı: <span id="totalSpeedInfo">5</span> 🥩 / sa</div>
           <div class="cr-cards-grid">
             <div class="cr-card">
-              <img src="aslan_yavrusu.PNG" class="cr-card-img" alt="Aslan Yavrusu">
-              <div class="cr-card-title">Aslan Yavrusu (<span id="countCub">24</span>)</div>
-              <div class="cr-card-sub">+2 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(200, 'buyCub', 'Aslan Yavrusu')">200 🥩</button>
+              <img src="aslan_yavrusu.PNG" class="cr-card-img">
+              <div style="font-size: 0.7rem; font-weight: 900;">Aslan Yavrusu</div>
+              <div style="font-size: 0.6rem; color: #2ecc71;">+2 🥩 / sa</div>
+              <button class="cr-buy-btn" onclick="buyAnimal(200)">200 🥩</button>
             </div>
             <div class="cr-card">
-              <img src="beyaz_gergedan.PNG" class="cr-card-img" alt="Beyaz Gergedan">
-              <div class="cr-card-title">Beyaz Gergedan (<span id="countWhiteRhino">0</span>)</div>
-              <div class="cr-card-sub">+47,000 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(9000000, 'buyWhiteRhino', 'Beyaz Gergedan')">9M 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="fil.PNG" class="cr-card-img" alt="Afrika Fili">
-              <div class="cr-card-title">Afrika Fili (<span id="countElephant">0</span>)</div>
-              <div class="cr-card-sub">+102,000 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(20000000, 'buyElephant', 'Afrika Fili')">20M 🥩</button>
-            </div>
-            <div class="cr-card">
-              <img src="kara_panter.PNG" class="cr-card-img" alt="Kara Panter">
-              <div class="cr-card-title">Kara Panter (<span id="countPanther">0</span>)</div>
-              <div class="cr-card-sub">+220,000 🥩 / sa</div>
-              <button class="cr-buy-btn" onclick="haptic('medium'); playSound('buy'); buyWithSteak(45000000, 'buyPanther', 'Kara Panter')">45M 🥩</button>
+              <img src="beyaz_gergedan.PNG" class="cr-card-img">
+              <div style="font-size: 0.7rem; font-weight: 900;">Beyaz Gergedan</div>
+              <div style="font-size: 0.6rem; color: #2ecc71;">+47k 🥩 / sa</div>
+              <button class="cr-buy-btn" onclick="buyAnimal(9000000)">9M 🥩</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- AV & ARENA TAB -->
-      <div id="tab-hunt" class="tab-content">
-        <div class="page-box" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-          <div class="page-title">🎯 Savanne-Arena & Missies</div>
-
-          <div class="battle-arena-container">
-            <div style="font-size: 0.7rem; color: #ffd700; font-weight: bold; margin-bottom: 4px;" id="battleStatusText">Defeat the wild beasts & protect cubs[span_9](start_span)[span_9](end_span)!</div>
-            
-            <div class="battle-board" id="battleBoard">
-              <div class="enemy-side">
-                <img src="antilop.PNG" class="battle-unit-img" title="Antilop">
-                <img src="aslan_yavrusu.PNG" class="battle-unit-img" title="Welp">
-              </div>
-              <div style="text-align: center; font-size: 0.6rem; color: #fff; background: rgba(0,0,0,0.5); padding: 1px 8px; border-radius: 6px;">VS</div>
-              <div class="player-side">
-                <img id="playerActiveUnitImg" src="kral_aslan.PNG" class="battle-unit-img" title="Savaşçı">
-              </div>
-            </div>
-
-            <div class="unit-selector-row" id="unitSelectorRow">
-              <div class="unit-select-chip selected" onclick="selectBattleUnit('kral_aslan.PNG', 'Kral Aslan')">🦁 Aslan</div>
-              <div class="unit-select-chip" onclick="selectBattleUnit('kara_panter.PNG', 'Panther')">🐈‍⬛ Panter</div>
-            </div>
-          </div>
-
-          <div style="margin-top: 8px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-size: 0.72rem; color: #ffd700; font-weight: bold;" id="huntEnergyText">Av Hakkı: 10 / 10</div>
-              <div style="font-size: 0.6rem; color: #aaa;" id="huntTimerText">Yenilenme: 03:00:00</div>
-            </div>
-            <button class="btn-claim" onclick="haptic('heavy'); playSound('hunt'); triggerClashHunt(event)" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; font-size: 0.85rem;">⚔️ MISSIE STARTEN!</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- CÜZDAN & WALLET TAB -->
+      <!-- TAB 5: EARN / WALLET -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
-          <div class="page-title">💎 Wallet & Para Çek</div>
-          <p style="font-size: 0.7rem; color: #ccc; margin-bottom: 6px; text-align: center;">
-            Cüzdanınıza TON veya GRAM yatırın/çekin.
-          </p>
-          <div class="wallet-box-manual">
-            <label>Yatırım Adresi (TON):</label>
-            <div class="wallet-input-row">
-              <input type="text" id="myWalletAddressText" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly>
-              <button class="btn-copy" onclick="haptic('light'); playSound('click'); copyMyWallet()">Kopya</button>
-            </div>
+          <div class="page-title">🏦 Wallet & Para Çek</div>
+          <p style="font-size: 0.65rem; color: #ccc; text-align: center;">Cüzdanınıza TON veya GRAM yatırın/çekin.</p>
+          <div style="background: rgba(0,0,0,0.6); border: 1px solid #ffd700; border-radius: 10px; padding: 8px;">
+            <label style="font-size: 0.65rem; color: #ffd700;">Yatırım Adresi (TON):</label>
+            <input type="text" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly style="width:1puzzles; background:#111; color:#fff; border:1px solid #704b2e; padding:6px; border-radius:6px; font-size:0.6rem; margin-top:4px; width:100%;">
           </div>
         </div>
       </div>
 
-      <!-- MENU POPUP -->
-      <div class="menu-popup" id="menuPopup">
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('streak')">🔥 7 Günlük Streak</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('spin')">🎡 Şans Çarkı</div>
-        <div class="menu-popup-btn" onclick="haptic('light'); playSound('click'); openModalTab('language')">🌍 Dil / Language</div>
-      </div>
-
-      <!-- STREAK MODAL -->
-      <div id="tab-streak" class="tab-content">
-        <div class="page-box">
-          <div class="page-title">🔥 7 Günlük Giriş Serisi</div>
-          <div class="streak-grid" id="streakGridContainer"></div>
-          <button class="btn-claim" style="margin-top: 10px; background: #2ecc71; color: #000;" onclick="haptic('success'); playSound('success'); claimStreakDaily()">📥 Ödülü Al</button>
-        </div>
-      </div>
-
-      <!-- DİL SEÇİMİ -->
+      <!-- SETTINGS / LANGUAGE TAB -->
       <div id="tab-language" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🌍 Dil / Language</div>
-          <div style="display: flex; flex-direction: column; gap: 8px;">
-            <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('tr')">🇹🇷 Türkçe</button>
-            <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('nl')">🇳🇱 Nederlands</button>
-            <button class="btn-claim" style="background: #2b1a0f; color: #fff; border: 1px solid #ffd700;" onclick="setAppLanguage('en')">🇬🇧 English</button>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="setAppLanguage('tr')">🇹🇷 Türkçe</button>
+            <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="setAppLanguage('nl')">🇳🇱 Nederlands</button>
+            <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="setAppLanguage('en')">🇬🇧 English</button>
           </div>
         </div>
       </div>
 
-      <!-- ŞANS ÇARKI -->
+      <!-- SPIN WHEEL TAB -->
       <div id="tab-spin" class="tab-content">
         <div class="page-box" style="text-align: center;">
           <div class="page-title">🎡 Şans Çarkı</div>
           <div class="wheel-tree-container">
             <div class="wheel-pointer-top"></div>
             <div class="wheel-wooden-frame">
-              <div class="wheel" id="wheel">
-                <div class="wheel-label" style="transform: rotate(22.5deg);">50 🥩</div>
-                <div class="wheel-label" style="transform: rotate(67.5deg);">100 🥩</div>
-                <div class="wheel-label" style="transform: rotate(112.5deg);">250 🥩</div>
-                <div class="wheel-label" style="transform: rotate(157.5deg);">500 🥩</div>
-              </div>
+              <div class="wheel" id="wheel"></div>
               <div class="wheel-center-hub">🎁</div>
             </div>
           </div>
-          <button class="wheel-btn-wood" id="spinBtn" onclick="haptic('success'); playSound('success'); spinWheel()">ÇEVİR</button>
+          <button class="wheel-btn-wood" id="spinBtn" onclick="spinWheelSecure()">ÇEVİR</button>
         </div>
       </div>
 
     </div>
 
-    <!-- BOTTOM NAVIGATION BAR (Home, Animals, Arena, Market, Earn)[span_10](start_span)[span_10](end_span) -->
+    <!-- BOTTOM NAVIGATION BAR -->
     <div class="bottom-nav">
       <div class="nav-item active" onclick="haptic('light'); playSound('click'); switchTab('ana', this)"><div class="nav-icon">🏠</div><div>Home</div></div>
       <div class="nav-item" onclick="haptic('light'); playSound('click'); switchTab('kaart', this)"><div class="nav-icon">🐾</div><div>Animals</div></div>
@@ -672,11 +650,8 @@
     function haptic(style) {
       try {
         if (tg && tg.HapticFeedback) {
-          if (style === 'success' || style === 'warning' || style === 'error') {
-            tg.HapticFeedback.notificationOccurred(style);
-          } else {
-            tg.HapticFeedback.impactOccurred(style);
-          }
+          if (style === 'success' || style === 'error') tg.HapticFeedback.notificationOccurred(style);
+          else tg.HapticFeedback.impactOccurred(style);
         }
       } catch(e) {}
     }
@@ -688,28 +663,22 @@
         if (audioCtx.state === 'suspended') audioCtx.resume();
         let osc = audioCtx.createOscillator();
         let gainNode = audioCtx.createGain();
-        osc.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
+        osc.connect(gainNode); gainNode.connect(audioCtx.destination);
         let now = audioCtx.currentTime;
         if (type === 'click') {
           osc.type = 'sine'; osc.frequency.setValueAtTime(400, now); osc.frequency.exponentialRampToValueAtTime(200, now + 0.05);
-          gainNode.gain.setValueAtTime(0.15, now); gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+          gainNode.gain.setValueAtTime(0.1, now); gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
           osc.start(now); osc.stop(now + 0.05);
-        } else if (type === 'success') {
-          osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, now); osc.frequency.setValueAtTime(659.25, now + 0.08);
-          gainNode.gain.setValueAtTime(0.2, now); gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-          osc.start(now); osc.stop(now + 0.3);
         }
       } catch(e) {}
     }
 
     let balance = 12580;
     let gramBalance = 0.245;
-    let level = 25;
     let lionLevel = 1;
-    let cubCount = 24, whiteRhinoCount = 0, elephantCount = 0, pantherCount = 0;
-    let streakDays = 0;
-    let lastStreakClaimDate = 0;
+    let lastFreeClaim = 0;
+    let lastSpinTime = 0;
+    let currentRotation = 0;
 
     function handleMainActionTap(event) {
       balance += 100;
@@ -721,17 +690,88 @@
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
-      if(element) element.classList.add('active');
+      if (element) element.classList.add('active');
+      haptic('light');
     }
 
-    function openModalTab(tabName) { switchTab(tabName, null); }
-
-    function claimStreakDaily() {
+    function claimStreakDailySecure() {
+      let now = Date.now();
+      let oneDay = 24 * 3600 * 1000;
+      if (now - lastFreeClaim < oneDay && lastFreeClaim !== 0) {
+        haptic('error');
+        showToast("⏳ Bu ödülü zaten aldın! 24 saatte bir alabilirsin.");
+        return;
+      }
+      lastFreeClaim = now;
       balance += 100;
-      streakDays++;
       document.getElementById('balance').innerText = balance.toLocaleString();
       haptic('success');
       showToast("🎁 Free +100 Steak başarıyla alındı!");
+    }
+
+    function spinWheelSecure() {
+      let now = Date.now();
+      let oneDay = 24 * 3600 * 1000;
+      if (now - lastSpinTime < oneDay && lastSpinTime !== 0) {
+        haptic('error');
+        showToast("⏳ Çark hakkınız bitti! Yarın tekrar gelin.");
+        return;
+      }
+      let btn = document.getElementById('spinBtn');
+      btn.disabled = true;
+      currentRotation += 1800 + Math.floor(Math.random() * 360);
+      document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
+
+      setTimeout(() => {
+        let reward = 250;
+        balance += reward;
+        document.getElementById('balance').innerText = balance.toLocaleString();
+        lastSpinTime = Date.now();
+        haptic('success');
+        showToast(`🎉 Çarktan +${reward} 🥩 Kazandın!`);
+        btn.disabled = false;
+      }, 3500);
+    }
+
+    function upgradeLionLevel() {
+      let cost = lionLevel * 500;
+      if (balance < cost) {
+        haptic('error');
+        showToast("Yetersiz Biftek bakiyesi!");
+        return;
+      }
+      balance -= cost;
+      lionLevel++;
+      document.getElementById('balance').innerText = balance.toLocaleString();
+      document.getElementById('lionLevelDisplay').innerText = lionLevel;
+      haptic('success');
+      showToast(`🦁 Kral Aslan Level ${lionLevel} oldu!`);
+    }
+
+    function buyAnimal(cost) {
+      if (balance < cost) {
+        haptic('error');
+        showToast("Yetersiz Biftek bakiyesi!");
+        return;
+      }
+      balance -= cost;
+      document.getElementById('balance').innerText = balance.toLocaleString();
+      haptic('success');
+      showToast("🎉 Hayvan başarıyla satın alındı!");
+    }
+
+    function triggerClashHunt() {
+      let reward = 150;
+      balance += reward;
+      document.getElementById('balance').innerText = balance.toLocaleString();
+      haptic('success');
+      showToast(`⚔️ Zafer! +${reward} 🥩 kazanıldı!`);
+    }
+
+    function setAppLanguage(lang) {
+      haptic('success');
+      showToast("🌍 Dil güncellendi / Language updated!");
+      switchTab('ana', null);
     }
 
     function showToast(text) {

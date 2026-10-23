@@ -123,14 +123,22 @@
       border-radius: 8px; color: #fff; font-weight: 900; font-size: 0.7rem; cursor: pointer; margin-top: 6px; text-transform: uppercase;
     }
 
-    /* INTERACTIVE GAME-STYLE SAVANNA BUILDER MAP */
+    /* GAME-STYLE SAVANNA BUILDER MAP & SLOTS */
     .game-builder-container { display: flex; flex-direction: column; gap: 8px; }
     .habitat-card-game {
       background: linear-gradient(135deg, #26170a 0%, #120904 100%); border: 2px solid #e6af2e; border-radius: 14px;
-      padding: 8px 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.8); cursor: pointer;
+      padding: 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.8); cursor: pointer;
     }
     .habitat-card-game:active { transform: scale(0.98); }
-    .habitat-img { width: 46px; height: 46px; border-radius: 10px; border: 2px solid #ffd700; object-fit: cover; }
+
+    /* GAME-STYLE ARENA BOARD */
+    .game-arena-board {
+      background: linear-gradient(180deg, #1b2e18 0%, #0d170b 100%); border: 2px solid #2ecc71; border-radius: 14px; padding: 12px;
+      display: flex; flex-direction: column; gap: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+    }
+    .arena-enemy-card {
+      background: rgba(0,0,0,0.6); border: 1.5px solid #e74c3c; border-radius: 12px; padding: 8px; text-align: center; display: flex; align-items: center; justify-content: space-between;
+    }
 
     /* MODAL OVERLAY FOR PAYMENT */
     .modal-overlay {
@@ -159,22 +167,6 @@
       background: rgba(18, 10, 5, 0.96); border: 2px solid #ffd700; color: #ffd700; padding: 6px 14px;
       border-radius: 16px; font-size: 0.7rem; font-weight: bold; z-index: 300; display: none; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
     }
-
-    /* BATTLE ARENA & WHEEL */
-    .battle-arena-container {
-      background: linear-gradient(180deg, #1b2e18 0%, #0d170b 100%); border: 2px solid #2ecc71; border-radius: 14px; padding: 10px;
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-    }
-    .battle-board {
-      width: 100%; height: 130px; background: radial-gradient(circle, #27ae60 0%, #0e3b1f 100%); border: 2px solid #f1c40f;
-      border-radius: 10px; position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 8px;
-    }
-    .battle-unit-img { width: 38px; height: 38px; border-radius: 8px; border: 2px solid #ffd700; object-fit: cover; }
-    .unit-selector-row { display: flex; gap: 6px; overflow-x: auto; width: 100%; padding: 4px 0; }
-    .unit-select-chip {
-      background: rgba(40, 24, 12, 0.9); border: 1.5px solid #704b2e; border-radius: 8px; padding: 4px 8px; font-size: 0.65rem; color: #fff; cursor: pointer; white-space: nowrap;
-    }
-    .unit-select-chip.selected { border-color: #2ecc71; background: rgba(46, 204, 113, 0.25); }
 
     .wheel-tree-container { position: relative; width: 160px; height: 160px; margin: 6px auto; display: flex; justify-content: center; align-items: center; }
     .wheel-pointer-top {
@@ -335,32 +327,34 @@
         </div>
       </div>
 
-      <!-- TAB 3: ARENA -->
+      <!-- TAB 3: ARENA (Game-Style Tactical Board) -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblArenaTitle">🎯 Savanne-Arena & Missies</div>
-          <div class="battle-arena-container">
-            <div style="font-size: 0.62rem; color: #ffd700; font-weight: bold;" id="lblArenaDesc">Selecteer je jager en start een dynamische missie!</div>
+          <div class="game-arena-board">
+            <div style="font-size: 0.68rem; color: #ffd700; font-weight: bold; text-align: center;">⚡ Tactisch Jachtgebied & Strijd</div>
             
-            <div class="battle-board">
-              <div style="display:flex; justify-content:center; gap:8px;">
-                <img src="antilop.PNG" class="battle-unit-img" alt="Antilop">
-                <img src="aslan_yavrusu.PNG" class="battle-unit-img" alt="Welp">
+            <div class="arena-enemy-card">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.5rem;">🐃</span>
+                <div style="text-align: left;">
+                  <div style="font-size: 0.7rem; font-weight: 900; color: #fff;">Alpha Buffalo Boss</div>
+                  <div style="font-size: 0.52rem; color: #e74c3c;">Kracht: 5,000 CP</div>
+                </div>
               </div>
-              <div style="text-align:center; font-size:0.5rem; background:rgba(0,0,0,0.5); padding:1px 6px; border-radius:4px;">VS</div>
-              <div style="display:flex; justify-content:center;">
-                <img id="activeArenaFighter" src="kral_aslan.PNG" class="battle-unit-img" alt="Fighter">
-              </div>
+              <div style="font-size: 0.6rem; background: #2ecc71; color: #000; padding: 4px 8px; border-radius: 6px; font-weight: 900;">Beloning: +500 🥩</div>
             </div>
 
+            <div style="font-size: 0.62rem; color: #ccc; text-align: center;">Selecteer je jager en start de aanval:</div>
             <div class="unit-selector-row">
               <div class="unit-select-chip selected" onclick="selectFighter('kral_aslan.PNG', this)">🦁 Aslan</div>
               <div class="unit-select-chip" onclick="selectFighter('kara_panter.PNG', this)">🐈‍⬛ Panter</div>
               <div class="unit-select-chip" onclick="selectFighter('cita.PNG', this)">🐆 Cheetah</div>
               <div class="unit-select-chip" onclick="selectFighter('fil.PNG', this)">🐘 Olifant</div>
             </div>
+
+            <button class="cr-buy-btn" onclick="triggerClashHunt()" style="padding: 10px; font-size: 0.78rem;" id="lblStartMission">⚔️ STRIJD STARTEN & WIN!</button>
           </div>
-          <button class="cr-buy-btn" onclick="triggerClashHunt()" style="padding: 9px; font-size: 0.75rem;" id="lblStartMission">⚔️ MISSIE STARTEN & JAGEN!</button>
         </div>
       </div>
 
@@ -391,7 +385,7 @@
         </div>
       </div>
 
-      <!-- TAB 5: EARN / WALLET -->
+      <!-- TAB 5: EARN / WALLET (Gecorrigeerde Knoptekst) -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblWalletTitle">🏦 Wallet, Wissel & Uitbetalen</div>
@@ -400,7 +394,7 @@
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #3498db; border-radius: 10px; padding: 10px; text-align: center;">
             <div style="font-size: 0.7rem; font-weight: bold; color: #3498db;" id="lblExchangeTitle">🔄 Steak → TON Wisselen</div>
             <div style="font-size: 0.58rem; color: #aaa; margin: 4px 0;" id="lblExchangeInfo">50.000 Steak = 0.01 TON</div>
-            <button class="cr-buy-btn" style="background: #3498db;" onclick="exchangeSteakToTon()" id="lblExchangeBtn">Wissel Naار TON</button>
+            <button class="cr-buy-btn" style="background: #3498db;" onclick="exchangeSteakToTon()" id="lblExchangeBtn">WISSEL NAAR TON</button>
           </div>
 
           <!-- Uitbetaling Sectie -->
@@ -553,10 +547,10 @@
         unlocked: "ONTSLOTEN:", activeMissions: "Actieve Missies", defeatBeasts: "Versla de wilde beesten",
         tapToCollect: "PASSIEF CLAIMEN", collectVal: "STEAK KLAAR", mapTitle: "🗺️ Savanne Habitat & Leefgebied Beheer",
         mapDesc: "Beheer je habitats, bomen en waterplaatsen in game-stijl!", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
-        arenaTitle: "🎯 Savanne-Arena & Missies", arenaDesc: "Selecteer je jager en start een dynamische missie!", startMission: "⚔️ MISSIE STARTEN & JAGEN!",
+        arenaTitle: "🎯 Savanne-Arena & Missies", arenaDesc: "Selecteer je jager en start een dynamische missie!", startMission: "⚔️ STRIJD STARTEN & WIN!",
         marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Totaal Productie:", walletTitle: "🏦 Wallet, Wissel & Uitbetalen",
         walletDesc: "Wissel Steak om naar TON of vraag een uitbetaling aan naar je wallet.", exchangeTitle: "🔄 Steak → TON Wisselen",
-        exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "Wissel Naar TON", depositAddr: "Stortingsadres (TON):",
+        exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Stortingsadres (TON):",
         langDesc: "Selecteer je taal:", wheelTitle: "🎡 Rad van Fortuin", spinBtn: "DRAAI",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
         lionKing: "Kral Aslan", copyBtn: "Kopieer", builderTitle: "🏗️ Actieve Habitatecosystemen:",
@@ -569,10 +563,10 @@
         unlocked: "AÇILDI:", activeMissions: "Aktif Görevler", defeatBeasts: "Vahşi canavarları alt et",
         tapToCollect: "PASİF TOPLA", collectVal: "BİFTEK HAZIR", mapTitle: "🗺️ Savana Habitat & Yaşam Alanı",
         mapDesc: "Habitatları, ağaçları ve su kaynaklarını oyun tarzında yönet!", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
-        arenaTitle: "🎯 Savana Arenası & Görevler", arenaDesc: "Avcını seç ve dinamik bir göreve başla!", startMission: "⚔️ GÖREVİ BAŞLAT & AVLAN!",
+        arenaTitle: "🎯 Savana Arenası & Görevler", arenaDesc: "Avcını seç ve dinamik bir göreve başla!", startMission: "⚔️ STRİJD STARTEN & WIN!",
         marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Toplam Üretim:", walletTitle: "🏦 Cüzdan, Takas & Çekim",
         walletDesc: "Biftekleri TON'a dönüştür veya cüzdanına çekim talebi oluştur.", exchangeTitle: "🔄 Biftek → TON Takası",
-        exchangeInfo: "50.000 Biftek = 0.01 TON", exchangeBtn: "TON'a Dönüştür", depositAddr: "Yatırım Adresi (TON):",
+        exchangeInfo: "50.000 Biftek = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Yatırım Adresi (TON):",
         langDesc: "Dilinizi seçin:", wheelTitle: "🎡 Şans Çarkı", spinBtn: "ÇEVİR",
         home: "Ana Sayfa", animals: "Hayvanlar", arena: "Arena", market: "Mağra", earn: "Cüzdan",
         lionKing: "Kral Aslan", copyBtn: "Kopyala", builderTitle: "🏗️ Aktif Habitat Ekosistemleri:",
@@ -585,10 +579,10 @@
         unlocked: "UNLOCKED:", activeMissions: "Active Missions", defeatBeasts: "Defeat the wild beasts",
         tapToCollect: "CLAIM PASSIVE", collectVal: "STEAK READY", mapTitle: "🗺️ Savanna Habitat & Management",
         mapDesc: "Manage your habitats, trees and waterholes in game style!", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
-        arenaTitle: "🎯 Savanna Arena & Missions", arenaDesc: "Select your fighter and start a dynamic mission!", startMission: "⚔️ START MISSION & HUNT!",
+        arenaTitle: "🎯 Savanna Arena & Missions", arenaDesc: "Select your fighter and start a dynamic mission!", startMission: "⚔️ START MISSION & WIN!",
         marketTitle: "🏕️ Cave & Special Offers", totalProd: "Total Production:", walletTitle: "🏦 Wallet, Exchange & Withdraw",
         walletDesc: "Exchange Steak for TON or request a withdrawal.", exchangeTitle: "🔄 Steak → TON Exchange",
-        exchangeInfo: "50,000 Steak = 0.01 TON", exchangeBtn: "Exchange to TON", depositAddr: "Deposit Address (TON):",
+        exchangeInfo: "50,000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Deposit Address (TON):",
         langDesc: "Select your language:", wheelTitle: "🎡 Wheel of Fortune", spinBtn: "SPIN",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
         lionKing: "King Lion", copyBtn: "Copy", builderTitle: "🏗️ Active Habitat Ecosystems:",
@@ -601,10 +595,10 @@
         unlocked: "FREIGESCHALTET:", activeMissions: "Aktive Missionen", defeatBeasts: "Besiege die wilden Bestien",
         tapToCollect: "PASSIV SAMMELN", collectVal: "STEAK BEREIT", mapTitle: "🗺️ Savannen Habitat & Management",
         mapDesc: "Verwalte deine Habitate im Spiel-Stil!", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
-        arenaTitle: "🎯 Savannen-Arena & Missionen", arenaDesc: "Wähle deinen Jäger und starte eine dynamische Mission!", starMission: "⚔️ MISSION STARTEN & JAGEN!",
+        arenaTitle: "🎯 Savannen-Arena & Missionen", arenaDesc: "Wähle deinen Jäger und starte eine dynamische Mission!", startMission: "⚔️ STRİJD STARTEN & WIN!",
         marketTitle: "🏕️ Höhle & Angebote", totalProd: "Gesamtproduktion:", walletTitle: "🏦 Wallet, Tausch & Auszahlung",
         walletDesc: "Tausche Steak gegen TON oder fordere eine Auszahlung an.", exchangeTitle: "🔄 Steak → TON Tausch",
-        exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "In TON tauschen", depositAddr: "Einzahlungsadresse (TON):",
+        exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Einzahlungsadresse (TON):",
         langDesc: "Wähle deine Sprache:", wheelTitle: "🎡 Glücksrad", spinBtn: "DREHEN",
         home: "Home", animals: "Tiere", arena: "Arena", market: "Markt", earn: "Earn",
         lionKing: "König Löwe", copyBtn: "Kopieren", builderTitle: "🏗️ Aktive Habitat-Ökosysteme:",
@@ -617,10 +611,10 @@
         unlocked: "DÉBLOQUÉ:", activeMissions: "Missions Actives", defeatBeasts: "Vainquez les bêtes sauvages",
         tapToCollect: "RÉCOLTE PASSIVE", collectVal: "STEAK PRÊT", mapTitle: "🗺️ Habitat & Gestion",
         mapDesc: "Gérez vos habitats et points d'eau dans le style du jeu !", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
-        arenaTitle: "🎯 Arène de la Savane & Missions", arenaDesc: "Sélectionnez votre combattant et lancez une mission !", startMission: "⚔️ LANCER LA MISSION !",
+        arenaTitle: "🎯 Arène de la Savane & Missions", arenaDesc: "Sélectionnez votre combattant et lancez une mission !", startMission: "⚔️ STRİJD STARTEN & WIN!",
         marketTitle: "🏕️ Caverne & Offres Spéciales", totalProd: "Production Totale:", walletTitle: "🏦 Portefeuille & Retrait",
         walletDesc: "Échangez vos Steaks contre des TON ou demandez un retrait.", exchangeTitle: "🔄 Échange Steak → TON",
-        exchangeInfo: "50 000 Steaks = 0,01 TON", exchangeBtn: "Échanger en TON", depositAddr: "Adresse de dépôt (TON):",
+        exchangeInfo: "50 000 Steaks = 0,01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Adresse de dépôt (TON):",
         langDesc: "Sélectionnez votre langue:", wheelTitle: "🎡 Roue de la Fortune", spinBtn: "TOURNER",
         home: "Accueil", animals: "Animaux", arena: "Arène", market: "Marché", earn: "Gagner",
         lionKing: "Roi Lion", copyBtn: "Copier", builderTitle: "🏗️ Écosystèmes actifs :",
@@ -646,11 +640,9 @@
       saveGame();
     }
 
-    // DYNAMISCHE HOME DIEREN RIJ (Gekoppeld aan echte aankopen!)
     function renderHomeAnimals() {
       let row = document.getElementById('homeAnimalsRow');
       row.innerHTML = '';
-      // Toon de belangrijkste dieren (bijv. rhino, elephant, panther, cheetah, cub)
       let featuredIds = ['whiterhino', 'elephant', 'panther', 'cheetah', 'cub', 'blackrhino'];
       animalsData.forEach(anim => {
         if (featuredIds.includes(anim.id)) {
@@ -666,7 +658,6 @@
       });
     }
 
-    // GAME-STYLE HABITAT & SAVANNA MAP RENDERER
     function renderGameBuilder() {
       let container = document.getElementById('gameBuilderContainer');
       container.innerHTML = '';
@@ -942,7 +933,6 @@
     function selectFighter(imgSrc, el) {
       document.querySelectorAll('.unit-select-chip').forEach(c => c.classList.remove('selected'));
       el.classList.add('selected');
-      document.getElementById('activeArenaFighter').src = imgSrc;
       haptic('light');
     }
 
@@ -1015,10 +1005,10 @@
     }
 
     function triggerClashHunt() {
-      let reward = 250;
+      let reward = 500;
       balance += reward;
       document.getElementById('balance').innerText = balance.toLocaleString();
-      addXP(40);
+      addXP(50);
       saveGame();
       haptic('success');
       showToast(`⚔️ Arena Overwinning! +${reward} 🥩 verdiend!`);

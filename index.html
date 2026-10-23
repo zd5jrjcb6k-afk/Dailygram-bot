@@ -109,7 +109,7 @@
     }
     .tap-collect-btn:active { transform: scale(0.97); }
 
-    /* PAGE BOX & STRATEGY UPGRADE TILES */
+    /* PAGE BOX & MILLIONLORDS STYLE UPGRADE BUTTONS */
     .page-box {
       background: rgba(18, 10, 5, 0.96); border: 2px solid #8a5a22; border-radius: 18px; padding: 12px;
       max-height: 100%; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 10px;
@@ -140,20 +140,20 @@
       width: 100%; background: #111; border: 1px solid #ffd700; border-radius: 6px; height: 8px; overflow: hidden; margin: 2px 0;
     }
     .progress-bar-fill {
-      background: linear-gradient(90deg, #2ecc71, #27ae60); height: 100%; width: 65%;
+      background: linear-gradient(90deg, #2ecc71, #27ae60); height: 100%; width: 75%;
     }
     .strategy-upgrade-btn {
       width: 100%;
       background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%);
       border: 2px solid #fff;
       border-radius: 12px;
-      padding: 8px;
+      padding: 9px;
       color: #111;
       font-weight: 900;
       font-size: 0.75rem;
       cursor: pointer;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(241, 196, 15, 0.5);
+      box-shadow: 0 4px 15px rgba(241, 196, 15, 0.6);
       text-transform: uppercase;
     }
     .strategy-upgrade-btn:active { transform: scale(0.97); }
@@ -197,6 +197,12 @@
     .modal-box {
       background: linear-gradient(135deg, #2c1a0e, #140b05); border: 2px solid #ffd700; border-radius: 16px;
       padding: 16px; width: 100%; max-width: 340px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.9); display: flex; flex-direction: column; gap: 10px;
+    }
+
+    /* WITHDRAWAL HISTORY ITEM */
+    .history-item {
+      background: rgba(0,0,0,0.7); border: 1px solid #704b2e; border-radius: 8px; padding: 6px 8px;
+      display: flex; justify-content: space-between; align-items: center; font-size: 0.58rem; margin-top: 4px;
     }
 
     /* BOTTOM NAVIGATION BAR */
@@ -248,13 +254,12 @@
   <div class="modal-overlay" id="paymentModal">
     <div class="modal-box">
       <div style="font-size: 0.9rem; font-weight: 900; color: #ffd700;" id="modalTitle">💳 Betalingsbevestiging</div>
-      <div style="font-size: 0.65rem; color: #ccc;" id="modalDesc">Stuur de vereiste TON naar onderstaand adres of bevestig met je TON-saldo:</div>
-      <input type="text" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly style="background:#111; color:#ffd700; border:1px solid #ffd700; padding:6px; border-radius:6px; font-size:0.55rem; width:100%; text-align:center;">
+      <div style="font-size: 0.65rem; color: #ccc;" id="modalDesc">Bevestig de aankoop met je TON-saldo:</div>
       <div style="font-size: 0.6rem; color: #2ecc71; font-weight: bold;" id="modalPackageInfo">Pakket: $10 USD (25.000 Steak)</div>
       <div style="font-size: 0.55rem; color: #3498db;" id="modalTonCost">Kosten: 0.05 TON</div>
       <div style="display: flex; gap: 6px; margin-top: 6px;">
         <button class="cr-buy-btn" style="background: #e74c3c; margin-top:0;" onclick="closePaymentModal()" id="modalBtnCancel">Annuleren</button>
-        <button class="cr-buy-btn" style="background: #2ecc71; margin-top:0;" onclick="confirmPayment()" id="modalBtnConfirm">Betaald & Bevestigen</button>
+        <button class="cr-buy-btn" style="background: #2ecc71; margin-top:0;" onclick="confirmPayment()" id="modalBtnConfirm">Bevestigen</button>
       </div>
     </div>
   </div>
@@ -363,18 +368,18 @@
         </div>
       </div>
 
-      <!-- TAB 2: ANIMALS / STRATEGIE UPGRADE TAB -->
+      <!-- TAB 2: ANIMALS / LEEGBIEDEN & KNOPPEN (Strakke Millionlords Stijl) -->
       <div id="tab-kaart" class="tab-content">
         <div class="page-box">
-          <div class="page-title" id="lblMapTitle">🗺️ Savanne Strategie & Leefgebieden</div>
-          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Upgrade je leefgebieden en dieren met voortgangsbalken zoals in de game!</p>
+          <div class="page-title" id="lblMapTitle">🗺️ Leefgebieden & Bomen & Vijvers</div>
+          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Upgrade je leefgebieden (zoals waterpoelen en bomen) direct met de knoppen hieronder!</p>
           
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #ffb700; border-radius: 10px; padding: 8px; text-align: center;">
             <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">🦁 <span id="lblLionKing">Kral Aslan</span> - Level <span id="lionLevelDisplay">1</span></div>
             <button class="strategy-upgrade-btn" style="margin-top: 6px;" onclick="upgradeLionLevel()">⬆️ LEEUW UPGRADEN (500 🥩)</button>
           </div>
 
-          <div style="font-size: 0.65rem; font-weight: bold; color: #ffd700; margin-top: 4px;" id="lblBuilderTitle">🏗️ Actieve Leefgebieden & Upgrade Kaarten:</div>
+          <div style="font-size: 0.65rem; font-weight: bold; color: #ffd700; margin-top: 4px;" id="lblBuilderTitle">🏗️ Actieve Leefgebieden & Upgrade Knoppen:</div>
           <div id="strategyGridContainer" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;"></div>
         </div>
       </div>
@@ -439,11 +444,11 @@
         </div>
       </div>
 
-      <!-- TAB 5: EARN / WALLET -->
+      <!-- TAB 5: EARN / WALLET (Zelf bedrag kiezen + Voortgang & Geschiedenis) -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblWalletTitle">🏦 Wallet, Wissel & Uitbetalen</div>
-          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblWalletDesc">Wissel Steak om naar TON of vraag een uitbetaling aan naar je wallet.</p>
+          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblWalletDesc">Wissel Steak om naar TON of vraag een eigen uitbetalingsbedrag aan.</p>
           
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #3498db; border-radius: 10px; padding: 10px; text-align: center;">
             <div style="font-size: 0.7rem; font-weight: bold; color: #3498db;" id="lblExchangeTitle">🔄 Steak → TON Wisselen</div>
@@ -452,16 +457,17 @@
           </div>
 
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #e74c3c; border-radius: 10px; padding: 8px;">
-            <div style="font-size: 0.7rem; font-weight: bold; color: #e74c3c;" id="lblWithdrawTitle">📤 TON / GRAM Uitbetaling</div>
+            <div style="font-size: 0.7rem; font-weight: bold; color: #e74c3c;" id="lblWithdrawTitle">📤 Eigen Bedrag TON Uitbetalen</div>
+            <input type="text" id="withdrawAmountInput" placeholder="Aantal TON (bijv. 0.1)..." style="background:#111; color:#fff; border:1px solid #704b2e; padding:6px; border-radius:6px; font-size:0.55rem; width:100%; margin-top:4px;">
             <input type="text" id="withdrawAddrInput" placeholder="Jouw TON Wallet Adres..." style="background:#111; color:#fff; border:1px solid #704b2e; padding:6px; border-radius:6px; font-size:0.55rem; width:100%; margin-top:4px;">
-            <button class="cr-buy-btn" style="background: #e74c3c; margin-top: 6px;" onclick="requestWithdrawal()" id="lblWithdrawBtn">Vraag Uitbetaling Aan</button>
+            <button class="cr-buy-btn" style="background: #e74c3c; margin-top: 6px;" onclick="requestWithdrawalCustom()" id="lblWithdrawBtn">Vraag Uitbetaling Aan</button>
           </div>
 
+          <!-- Voortgang & Uitbetalingshistorie -->
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #ffd700; border-radius: 10px; padding: 8px;">
-            <label style="font-size: 0.62rem; color: #ffd700;" id="lblDepositAddr">Stortingsadres (TON):</label>
-            <div style="display: flex; gap: 6px; margin-top: 4px;">
-              <input type="text" id="walletAddrInput" value="UQAfwLNsBO1WJbzc2bqTBIEtPv9ErGvEpKRn-g2XSz_vRdWH" readonly style="background:#111; color:#fff; border:1px solid #704b2e; padding:6px; border-radius:6px; font-size:0.55rem; width:100%;">
-              <button class="cr-buy-btn" style="width: auto; padding: 4px 10px; margin-top: 0;" onclick="copyWalletAddress()" id="lblCopyBtn">Kopieer</button>
+            <div style="font-size: 0.68rem; font-weight: bold; color: #ffd700;" id="lblHistoryTitle">📜 Uitbetalingsvoortgang & Historie:</div>
+            <div id="withdrawalHistoryContainer" style="display: flex; flex-direction: column; gap: 4px; margin-top: 4px; max-height: 110px; overflow-y: auto;">
+              <!-- Wordt dynamisch gevuld -->
             </div>
           </div>
         </div>
@@ -579,12 +585,18 @@
     let selectedFighter = { id: 'lion', name: 'Aslan', hp: 150, maxHp: 150, attack: 65 };
     let bossFightActive = false;
 
+    // Veilige initialisatie van leefgebieden (waterpoel, bomen, rotsen) zonder null/undefined HP bugs
     let savedSlots = localStorage.getItem('dg_savannagrid');
     let savannaGrid = savedSlots ? JSON.parse(savedSlots) : [
-      { id: 0, built: true, name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 2, hp: 200 },
-      { id: 1, built: true, name: 'Waterpoel Oase', icon: '💧', prod: 35, level: 2, hp: 150 },
-      { id: 2, built: true, name: 'Acacia Bosje', icon: '🌳', prod: 45, level: 1, hp: 120 },
-      { id: 3, built: true, name: 'Olifantenvallei', icon: '🐘', prod: 150, level: 1, hp: 300 }
+      { id: 0, name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 2, hp: 200 },
+      { id: 1, name: 'Waterpoel Oase', icon: '💧', prod: 35, level: 2, hp: 150 },
+      { id: 2, name: 'Acacia Bosje', icon: '🌳', prod: 45, level: 1, hp: 120 },
+      { id: 3, name: 'Olifantenvallei', icon: '🐘', prod: 150, level: 1, hp: 300 }
+    ];
+
+    let savedWithdrawals = localStorage.getItem('dg_withdrawals');
+    let withdrawalHistory = savedWithdrawals ? JSON.parse(savedWithdrawals) : [
+      { amount: 0.05, status: 'Verzonden ✅', date: 'Gisteren' }
     ];
 
     let savedAnimals = localStorage.getItem('dg_animals');
@@ -625,6 +637,7 @@
       localStorage.setItem('dg_promoslots', promoSlots);
       localStorage.setItem('dg_lang', currentLang);
       localStorage.setItem('dg_savannagrid', JSON.stringify(savannaGrid));
+      localStorage.setItem('dg_withdrawals', JSON.stringify(withdrawalHistory));
       localStorage.setItem('dg_animals', JSON.stringify(animalsData.map(a => a.count)));
     }
 
@@ -637,77 +650,77 @@
       nl: {
         hourRate: "/ uur", freeBonus: "Gratis +100", wheel: "Wiel 🥩", wallet: "Wallet", missions: "Missies", lang: "Taal",
         unlocked: "ONTSLOTEN:", activeMissions: "Tactische Gevechten", defeatBeasts: "Kies vechter en win het gevecht",
-        tapToCollect: "PASSIEF CLAIMEN", collectVal: "STEAK KLAAR", mapTitle: "🗺️ Savanne Strategie & Leefgebieden",
-        mapDesc: "Upgrade je leefgebieden en dieren met voortgangsbalken zoals in de game!", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
+        tapToCollect: "PASSIEF CLAIMEN", collectVal: "STEAK KLAAR", mapTitle: "🗺️ Leefgebieden & Bomen & Vijvers",
+        mapDesc: "Upgrade je leefgebieden direct met de knoppen hieronder!", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
         arenaTitle: "🎯 Tactische Savanne-Arena", marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Totaal Productie:",
-        walletTitle: "🏦 Wallet, Wissel & Uitbetalen", walletDesc: "Wissel Steak om naar TON of vraag een uitbetaling aan.",
+        walletTitle: "🏦 Wallet, Wissel & Uitbetalen", walletDesc: "Wissel Steak om naar TON of vraag een eigen uitbetalingsbedrag aan.",
         exchangeTitle: "🔄 Steak → TON Wisselen", exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON",
-        depositAddr: "Stortingsadres (TON):", langDesc: "Selecteer je taal:", wheelTitle: "🎡 Rad van Fortuin", spinBtn: "DRAAI",
+        langDesc: "Selecteer je taal:", wheelTitle: "🎡 Rad van Fortuin", spinBtn: "DRAAI",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
-        lionKing: "Kral Aslan", copyBtn: "Kopieer", builderTitle: "🏗️ Actieve Leefgebieden & Upgrade Kaarten:",
+        lionKing: "Kral Aslan", copyBtn: "Kopieer", builderTitle: "🏗️ Actieve Leefgebieden & Upgrade Knoppen:",
         promoTitle: "🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!", promoLeft: "Kalan Hak:", promoBtn: "GRATIS CLAIMEN",
         usdPackTitle: "🚀 Speciale Vlees Kampagne", usdSelect: "Selecteer USD Bedrag:", buyUsdBtn: "PAKETİ SATIN AL",
-        withdrawTitle: "📤 TON / GRAM Uitbetaling", withdrawBtn: "Vraag Uitbetaling Aan"
+        withdrawTitle: "📤 Eigen Bedrag TON Uitbetalen", withdrawBtn: "Vraag Uitbetaling Aan", historyTitle: "📜 Uitbetalingsvoortgang & Historie:"
       },
       tr: {
         hourRate: "/ sa", freeBonus: "Ücretsiz +100", wheel: "Çark 🥩", wallet: "Cüzdan", missions: "Görevler", lang: "Dil",
         unlocked: "AÇILDI:", activeMissions: "Taktiksel Savaşlar", defeatBeasts: "Avcını seç ve savaşı kazan",
-        tapToCollect: "PASİF TOPLA", collectVal: "BİFTEK HAZIR", mapTitle: "🗺️ Savana Strateji & Yaşam Alanları",
-        mapDesc: "Oyun tarzı çubuklarla yaşam alanlarını ve hayvanları yükselt!", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
+        tapToCollect: "PASİF TOPLA", collectVal: "BİFTEK HAZIR", mapTitle: "🗺️ Yaşam Alanları & Ağaçlar",
+        mapDesc: "Yaşam alanlarını aşağıdaki butonlarla anında yükselt!", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
         arenaTitle: "🎯 Taktiksel Savana Arenası", marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Toplam Üretim:",
-        walletTitle: "🏦 Cüzdan, Takas & Çekim", walletDesc: "Biftekleri TON'a dönüştür veya çekim yap.",
+        walletTitle: "🏦 Cüzdan, Takas & Çekim", walletDesc: "Biftekleri TON'a dönüştür veya özel miktar çekim yap.",
         exchangeTitle: "🔄 Biftek → TON Takası", exchangeInfo: "50.000 Biftek = 0.01 TON", exchangeBtn: "WISSEL NAAR TON",
-        depositAddr: "Yatırım Adresi (TON):", langDesc: "Dilinizi seçin:", wheelTitle: "🎡 Şans Çarkı", spinBtn: "ÇEVİR",
+        langDesc: "Dilinizi seçin:", wheelTitle: "🎡 Şans Çarkı", spinBtn: "ÇEVİR",
         home: "Ana Sayfa", animals: "Hayvanlar", arena: "Arena", market: "Mağra", earn: "Cüzdan",
-        lionKing: "Kral Aslan", copyBtn: "Kopyala", builderTitle: "🏗️ Aktif Habitatlar & Yükseltme Kartları:",
+        lionKing: "Kral Aslan", copyBtn: "Kopyala", builderTitle: "🏗️ Aktif Habitatlar & Yükseltme Butonları:",
         promoTitle: "🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!", promoLeft: "Kalan Hak:", promoBtn: "ALINDI ✅",
         usdPackTitle: "🚀 Özel Biftek Kampanyası", usdSelect: "USD Miktarını Seç:", buyUsdBtn: "PAKETİ SATIN AL",
-        withdrawTitle: "📤 TON / GRAM Çekim Talebi", withdrawBtn: "Çekim Talebi Oluştur"
+        withdrawTitle: "📤 Özel Miktar TON Çekimi", withdrawBtn: "Çekim Talebi Oluştur", historyTitle: "📜 Çekim Geçmişi ve Durumu:"
       },
       en: {
         hourRate: "/ hour", freeBonus: "Free +100", wheel: "Wheel 🥩", wallet: "Wallet", missions: "Missions", lang: "Language",
         unlocked: "UNLOCKED:", activeMissions: "Tactical Battles", defeatBeasts: "Choose fighter and win battle",
-        tapToCollect: "CLAIM PASSIVE", collectVal: "STEAK READY", mapTitle: "🗺️ Savanna Strategy & Habitats",
-        mapDesc: "Upgrade habitats and animals with progress bars like in the game!", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
+        tapToCollect: "CLAIM PASSIVE", collectVal: "STEAK READY", mapTitle: "🗺️ Habitats & Ponds & Trees",
+        mapDesc: "Upgrade your habitats directly with the buttons below!", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
         arenaTitle: "🎯 Tactical Savanna Arena", marketTitle: "🏕️ Cave & Special Offers", totalProd: "Total Production:",
-        walletTitle: "🏦 Wallet, Exchange & Withdraw", walletDesc: "Exchange Steak for TON or request withdrawal.",
+        walletTitle: "🏦 Wallet, Exchange & Withdraw", walletDesc: "Exchange Steak for TON or request custom withdrawal.",
         exchangeTitle: "🔄 Steak → TON Exchange", exchangeInfo: "50,000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON",
-        depositAddr: "Deposit Address (TON):", langDesc: "Select your language:", wheelTitle: "🎡 Wheel of Fortune", spinBtn: "SPIN",
+        langDesc: "Select your language:", wheelTitle: "🎡 Wheel of Fortune", spinBtn: "SPIN",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
-        lionKing: "King Lion", copyBtn: "Copy", builderTitle: "🏗️ Active Habitats & Upgrade Cards:",
+        lionKing: "King Lion", copyBtn: "Copy", builderTitle: "🏗️ Active Habitats & Upgrade Buttons:",
         promoTitle: "🐺 PROMO: Free Wolf for First 50 Players!", promoLeft: "Remaining Slots:", promoBtn: "CLAIM FREE",
         usdPackTitle: "🚀 Special Steak Campaign", usdSelect: "Select USD Amount:", buyUsdBtn: "BUY PACKAGE",
-        withdrawTitle: "📤 TON / GRAM Withdrawal", withdrawBtn: "Request Withdrawal"
+        withdrawTitle: "📤 Custom TON Withdrawal", withdrawBtn: "Request Withdrawal", historyTitle: "📜 Withdrawal History & Progress:"
       },
       de: {
         hourRate: "/ Std", freeBonus: "Gratis +100", wheel: "Rad 🥩", wallet: "Wallet", missions: "Missionen", lang: "Sprache",
         unlocked: "FREIGESCHALTET:", activeMissions: "Taktische Kämpfe", defeatBeasts: "Wähle Kämpfer und gewinne",
-        tapToCollect: "PASSIV SAMMELN", collectVal: "STEAK BEREIT", mapTitle: "🗺️ Savannen Strategie & Habitate",
-        mapDesc: "Habitate und Tiere mit Fortschrittsbalken verbessern!", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
+        tapToCollect: "PASSIV SAMMELN", collectVal: "STEAK BEREIT", mapTitle: "🗺️ Habitate & Bäume",
+        mapDesc: "Verbessere Habitate direkt mit den Buttons unten!", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
         arenaTitle: "🎯 Taktische Savannen-Arena", marketTitle: "🏕️ Höhle & Angebote", totalProd: "Gesamtproduktion:",
-        walletTitle: "🏦 Wallet, Tausch & Auszahlung", walletDesc: "Tausche Steak gegen TON.",
+        walletTitle: "🏦 Wallet, Tausch & Auszahlung", walletDesc: "Tausche Steak gegen TON oder fordere Auszahlung an.",
         exchangeTitle: "🔄 Steak → TON Tausch", exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON",
-        depositAddr: "Einzahlungsadresse (TON):", langDesc: "Wähle deine Sprache:", wheelTitle: "🎡 Glücksrad", spinBtn: "DREHEN",
+        langDesc: "Wähle deine Sprache:", wheelTitle: "🎡 Glücksrad", spinBtn: "DREHEN",
         home: "Home", animals: "Tiere", arena: "Arena", market: "Markt", earn: "Earn",
-        lionKing: "König Löwe", copyBtn: "Kopieren", builderTitle: "🏗️ Aktive Habitate & Upgrade-Karten:",
+        lionKing: "König Löwe", copyBtn: "Kopieren", builderTitle: "🏗️ Aktive Habitate & Buttons:",
         promoTitle: "🐺 PROMO: Kostenloser Wolf für 50 Spieler!", promoLeft: "Verbleibende Plätze:", promoBtn: "KOSTENLOS ANFORDERN",
         usdPackTitle: "🚀 Spezielle Steak-Kampagne", usdSelect: "USD-Betrag auswählen:", buyUsdBtn: "PAKET KAUFEN",
-        withdrawTitle: "📤 TON / GRAM Auszahlung", withdrawBtn: "Auszahlung anfordern"
+        withdrawTitle: "📤 Benutzerdefinierte Auszahlung", withdrawBtn: "Auszahlung anfordern", historyTitle: "📜 Auszahlungshistorie & Verlauf:"
       },
       fr: {
         hourRate: "/ heure", freeBonus: "Gratuit +100", wheel: "Roue 🥩", wallet: "Portefeuille", missions: "Missions", lang: "Langue",
         unlocked: "DÉBLOQUÉ:", activeMissions: "Combats Tactiques", defeatBeasts: "Choisissez le combattant et gagnez",
-        tapToCollect: "RÉCOLTE PASSIVE", collectVal: "STEAK PRÊT", mapTitle: "🗺️ Stratégie & Habitats",
-        mapDesc: "Améliorez les habitats avec des barres de progression !", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
+        tapToCollect: "RÉCOLTE PASSIVE", collectVal: "STEAK PRÊT", mapTitle: "🗺️ Habitats & Étonds",
+        mapDesc: "Améliorez vos habitats directement avec les boutons !", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
         arenaTitle: "🎯 Arène Tactique", marketTitle: "🏕️ Caverne & Offres", totalProd: "Production Totale:",
-        walletTitle: "🏦 Portefeuille & Retrait", walletDesc: "Échangez vos Steaks contre des TON.",
+        walletTitle: "🏦 Portefeuille & Retrait", walletDesc: "Échangez vos Steaks ou demandez un retrait personnalisé.",
         exchangeTitle: "🔄 Échange Steak → TON", exchangeInfo: "50 000 Steaks = 0,01 TON", exchangeBtn: "WISSEL NAAR TON",
-        depositAddr: "Adresse de dépôt (TON):", langDesc: "Sélectionnez votre langue:", wheelTitle: "🎡 Roue de la Fortune", spinBtn: "TOURNER",
+        langDesc: "Sélectionnez votre langue:", wheelTitle: "🎡 Roue de la Fortune", spinBtn: "TOURNER",
         home: "Accueil", animals: "Animaux", arena: "Arène", market: "Marché", earn: "Gagner",
         lionKing: "Roi Lion", copyBtn: "Copier", builderTitle: "🏗️ Habitats Actifs :",
         promoTitle: "🐺 PROMO: Loup gratuit pour 50 joueurs !", promoLeft: "Places restantes :", promoBtn: "RÉCLAMER GRATUIT",
         usdPackTitle: "🚀 Campagne Steak Spéciale", usdSelect: "Sélectionnez le montant USD :", buyUsdBtn: "ACHETER LE PACK",
-        withdrawTitle: "📤 Retrait TON / GRAM", withdrawBtn: "Demander le retrait"
+        withdrawTitle: "📤 Retrait TON Personnalisé", withdrawBtn: "Demander le retrait", historyTitle: "📜 Historique des retraits :"
       }
     };
 
@@ -752,6 +765,7 @@
       });
     }
 
+    // Render Leefgebieden & Bomen / Vijvers met strakke upgrade knoppen (Millionlords style)
     function renderStrategyGrid() {
       let container = document.getElementById('strategyGridContainer');
       container.innerHTML = '';
@@ -765,11 +779,11 @@
                 <span style="font-size: 1.5rem;">${plot.icon}</span>
                 <div>
                   <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700;">${plot.name}</div>
-                  <div style="font-size: 0.55rem; color: #2ecc71; font-weight: bold;">UPGRADING (Lv ${plot.level} ➔ ${nextLevel})</div>
+                  <div style="font-size: 0.55rem; color: #2ecc71; font-weight: bold;">Level ${plot.level} ➔ ${nextLevel}</div>
                 </div>
               </div>
               <div style="text-align: right;">
-                <div style="font-size: 0.55rem; color: #aaa;">❤️ ${plot.hp} HP</div>
+                <div style="font-size: 0.55rem; color: #aaa;">❤️ ${plot.hp || 150} HP</div>
                 <div style="font-size: 0.58rem; color: #ffd700; font-weight: bold;">+${plot.prod} 🥩/u</div>
               </div>
             </div>
@@ -796,7 +810,7 @@
       }
       balance -= cost;
       plot.level++;
-      plot.hp += 60;
+      plot.hp = (plot.hp || 150) + 60;
       let addedProd = Math.floor(plot.prod * 0.5);
       plot.prod += addedProd;
       hourlyProduction += addedProd;
@@ -976,25 +990,58 @@
       showToast("🐺 Gefeliciteerd! Gratis Wolf geclaimed & 3D video geactiveerd!");
     }
 
-    function requestWithdrawal() {
+    // Uitbetaling met zelfgekozen bedrag + directe voortgangsweergave
+    function requestWithdrawalCustom() {
+      let amountStr = document.getElementById('withdrawAmountInput').value.trim();
       let addr = document.getElementById('withdrawAddrInput').value.trim();
+      let amount = parseFloat(amountStr);
+
+      if (isNaN(amount) || amount <= 0) {
+        haptic('error');
+        showToast("Vul een geldig uitbetalingsbedrag in!");
+        return;
+      }
       if (!addr || addr.length < 10) {
         haptic('error');
         showToast("Vul een geldig TON wallet adres in!");
         return;
       }
-      if (tonBalance < 0.05) {
+      if (tonBalance < amount) {
         haptic('error');
-        showToast("Minimaal 0.05 TON nodig voor uitbetaling!");
+        showToast("Onvoldoende TON saldo voor deze aanvraag!");
         return;
       }
-      let withdrawn = tonBalance;
-      tonBalance = 0;
-      document.getElementById('gramBalance').innerText = '0.000';
+
+      tonBalance -= amount;
+      document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
+      document.getElementById('withdrawAmountInput').value = '';
       document.getElementById('withdrawAddrInput').value = '';
+
+      // Voeg toe aan geschiedenis
+      withdrawalHistory.unshift({
+        amount: amount,
+        status: 'In behandeling ⏳',
+        date: 'Zojuist'
+      });
+
+      renderWithdrawalHistory();
       saveGame();
       haptic('success');
-      showToast(`📤 Uitbetaling van ${withdrawn.toFixed(3)} TON aangevraagd!`);
+      showToast(`📤 Uitbetaling van ${amount.toFixed(3)} TON succesvol aangevraagd! Wordt gestort.`);
+    }
+
+    function renderWithdrawalHistory() {
+      let container = document.getElementById('withdrawalHistoryContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      withdrawalHistory.forEach(item => {
+        container.innerHTML += `
+          <div class="history-item">
+            <span>💎 <b>${item.amount} TON</b> (${item.date})</span>
+            <span style="color: #2ecc71; font-weight: bold;">${item.status}</span>
+          </div>
+        `;
+      });
     }
 
     function setAppLanguage(lang) {
@@ -1007,14 +1054,12 @@
       document.getElementById('lblWallet').innerText = t.wallet;
       document.getElementById('lblMissions').innerText = t.missions;
       document.getElementById('lblLang').innerText = t.lang;
-      document.getElementById('lblUnlocked').innerText = t.unlocked;
       document.getElementById('lblActiveMissions').innerText = t.activeMissions;
       document.getElementById('lblDefeatBeasts').innerText = t.defeatBeasts;
       document.getElementById('lblTapToCollect').innerText = t.tapToCollect;
       document.getElementById('lblCollectVal').innerText = t.collectVal;
       document.getElementById('lblMapTitle').innerText = t.mapTitle;
       document.getElementById('lblMapDesc').innerText = t.mapDesc;
-      document.getElementById('lblUpgradeLion').innerText = t.upgradeLion;
       document.getElementById('lblArenaTitle').innerText = t.arenaTitle;
       document.getElementById('lblMarketTitle').innerText = t.marketTitle;
       document.getElementById('lblTotalProd').innerText = t.totalProd;
@@ -1023,8 +1068,6 @@
       document.getElementById('lblExchangeTitle').innerText = t.exchangeTitle;
       document.getElementById('lblExchangeInfo').innerText = t.exchangeInfo;
       document.getElementById('lblExchangeBtn').innerText = t.exchangeBtn;
-      document.getElementById('lblDepositAddr').innerText = t.depositAddr;
-      document.getElementById('lblLangDesc').innerText = t.langDesc;
       document.getElementById('lblWheelTitle').innerText = t.wheelTitle;
       document.getElementById('spinBtn').innerText = t.spinBtn;
       document.getElementById('navHome').innerText = t.home;
@@ -1033,7 +1076,6 @@
       document.getElementById('navMarket').innerText = t.market;
       document.getElementById('navEarn').innerText = t.earn;
       document.getElementById('lblLionKing').innerText = t.lionKing;
-      document.getElementById('lblCopyBtn').innerText = t.copyBtn;
       document.getElementById('lblBuilderTitle').innerText = t.builderTitle;
       document.getElementById('lblPromoTitle').innerText = t.promoTitle;
       document.getElementById('lblPromoLeft').childNodes[0].nodeValue = t.promoLeft + " ";
@@ -1044,6 +1086,7 @@
       document.getElementById('lblBuyUsdBtn').innerText = t.buyUsdBtn;
       document.getElementById('lblWithdrawTitle').innerText = t.withdrawTitle;
       document.getElementById('lblWithdrawBtn').innerText = t.withdrawBtn;
+      document.getElementById('lblHistoryTitle').innerText = t.historyTitle;
 
       renderShop();
       haptic('success');
@@ -1092,15 +1135,6 @@
       saveGame();
       haptic('success');
       showToast(`🎉 +${claimed} Steak geclaimd!`);
-    }
-
-    function copyWalletAddress() {
-      let input = document.getElementById('walletAddrInput');
-      input.select();
-      input.setSelectionRange(0, 99999);
-      navigator.clipboard.writeText(input.value);
-      haptic('success');
-      showToast("📋 Adres gekopieerd!");
     }
 
     function exchangeSteakToTon() {
@@ -1205,7 +1239,7 @@
       setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
 
-    // Passief genereren MET een maximale limiet van 12 uur zodat het nooit ongecontroleerd door blijft lopen
+    // Passief genereren MET een maximale limiet van 12 uur
     setInterval(() => {
       let maxCap = hourlyProduction * 12;
       if (unclaimedSteak < maxCap) {
@@ -1228,6 +1262,7 @@
     renderShop();
     renderStrategyGrid();
     renderHomeAnimals();
+    renderWithdrawalHistory();
     addXP(0);
     updateUsdSlider(10);
   </script>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Dailygram Miner - Savanne Wereld</title>
+  <title>Dailygram Miner - 3D Savanne Wereld</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -116,6 +116,7 @@
     .cr-card {
       background: linear-gradient(180deg, #1f140a 0%, #0d0804 100%); border: 2px solid #e6af2e; border-radius: 12px;
       padding: 8px; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+      cursor: pointer;
     }
     .cr-card-img { width: 48px; height: 48px; border-radius: 10px; border: 2px solid #ffd700; object-fit: cover; margin-bottom: 4px; }
     .cr-buy-btn {
@@ -123,48 +124,40 @@
       border-radius: 8px; color: #fff; font-weight: 900; font-size: 0.7rem; cursor: pointer; margin-top: 6px; text-transform: uppercase;
     }
 
-    /* INTERACTIVE GRID BUILDER STYLING (Zoals in je video!) */
+    /* INTERACTIVE GRID BUILDER */
     .savanna-grid-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-top: 6px;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px;
     }
     .build-plot-card {
       background: linear-gradient(135deg, #26170a 0%, #120904 100%);
-      border: 2px dashed #e6af2e;
-      border-radius: 14px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 6px;
-      cursor: pointer;
-      min-height: 110px;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
-      transition: transform 0.2s ease;
+      border: 2px dashed #e6af2e; border-radius: 14px; padding: 10px;
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
+      cursor: pointer; min-height: 110px; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.7);
     }
-    .build-plot-card:active { transform: scale(0.96); }
-    .build-plot-card.built {
-      border: 2px solid #2ecc71;
-      border-style: solid;
-    }
+    .build-plot-card.built { border: 2px solid #2ecc71; border-style: solid; }
 
-    /* GAME-STYLE ARENA BOARD */
+    /* TACTICAL ARENA BOARD */
     .game-arena-board {
       background: linear-gradient(135deg, #1b2e18 0%, #0d170b 100%); border: 2px solid #2ecc71; border-radius: 14px; padding: 12px;
       display: flex; flex-direction: column; gap: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.8);
     }
-    .arena-enemy-card {
-      background: rgba(0,0,0,0.6); border: 1.5px solid #e74c3c; border-radius: 12px; padding: 8px; text-align: center; display: flex; align-items: center; justify-content: space-between;
+    .battle-hud {
+      display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.7); padding: 8px; border-radius: 10px; border: 1px solid #2ecc71;
     }
+    .hp-bar-bg { width: 100px; background: #333; border: 1px solid #fff; border-radius: 4px; height: 10px; overflow: hidden; }
+    .hp-bar-fill { background: #e74c3c; height: 100%; width: 100%; transition: width 0.3s ease; }
+    .hp-bar-fill.player { background: #2ecc71; }
 
-    /* MODAL OVERLAY FOR PAYMENT / BUILDING */
+    .unit-selector-row { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0; }
+    .unit-select-chip {
+      background: #221206; border: 1px solid #e6af2e; border-radius: 10px; padding: 6px 10px; font-size: 0.65rem; color: #ffd700; cursor: pointer; flex-shrink: 0; text-align: center;
+    }
+    .unit-select-chip.selected { background: #e6af2e; color: #000; font-weight: bold; }
+
+    /* MODALS */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85); z-index: 500; display: none; justify-content: center; align-items: center; padding: 20px;
+      background: rgba(0,0,0,0.88); z-index: 500; display: none; justify-content: center; align-items: center; padding: 20px;
     }
     .modal-box {
       background: linear-gradient(135deg, #2c1a0e, #140b05); border: 2px solid #ffd700; border-radius: 16px;
@@ -211,7 +204,7 @@
 </head>
 <body id="appBody">
 
-  <!-- ACHTERGROND VIDEO -->
+  <!-- ACHTERGROND VIDEO (Gekoppeld aan jouw 3D MP4 bestanden) -->
   <video id="bgVideo" class="bg-video" autoplay loop muted playsinline preload="auto">
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
@@ -231,7 +224,7 @@
     </div>
   </div>
 
-  <!-- BOUWKEUZE MODAL (Voor Grid Bouwen) -->
+  <!-- BOUWKEUZE MODAL -->
   <div class="modal-overlay" id="buildModal">
     <div class="modal-box">
       <div style="font-size: 0.9rem; font-weight: 900; color: #ffd700;">🏗️ Kies Habitat / Bouwstijl</div>
@@ -243,6 +236,13 @@
         <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="buildStructure('elephant', 'Olifantenvallei', '🐘', 150, 2500)">🐘 Olifantenvallei (2.500 🥩)</button>
       </div>
       <button class="cr-buy-btn" style="background: #e74c3c; margin-top: 6px;" onclick="closeBuildModal()">Sluiten</button>
+    </div>
+  </div>
+
+  <!-- DIER / HABITAT STATS & INSPECTIE MODAL -->
+  <div class="modal-overlay" id="inspectModal">
+    <div class="modal-box" id="inspectModalContent">
+      <!-- Wordt dynamisch gevuld met HP, Aanval, XP en Video -->
     </div>
   </div>
 
@@ -308,17 +308,17 @@
       <div id="tab-ana" class="tab-content active">
         <div>
           <!-- Unlocked Banner -->
-          <div class="unlocked-banner">
+          <div class="unlocked-banner" onclick="inspectAnimal('lion')">
             <img src="kral_aslan.PNG" class="unlocked-img" alt="Majestic Lion">
             <div>
               <div style="font-size: 0.55rem; color: #aaa; font-weight: bold;" id="lblUnlocked">ONTSLOTEN:</div>
               <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700;">MAJESTIC LION!</div>
-              <div style="font-size: 0.58rem; color: #2ecc71; font-weight: bold;">🥩 +100 STEAK PER UUR</div>
+              <div style="font-size: 0.58rem; color: #2ecc71; font-weight: bold;">🥩 +100 STEAK PER UUR (Tik voor Stats)</div>
             </div>
-            <div style="margin-left: auto; font-size: 1rem; color: #2ecc71;">✅</div>
+            <div style="margin-left: auto; font-size: 1rem; color: #ffd700;">🔍</div>
           </div>
 
-          <!-- Dynamisch Gekoppelde Dieren Rij (Home Scherm) -->
+          <!-- Dynamisch Gekoppelde Dieren Rij -->
           <div class="animals-row-container" id="homeAnimalsRow"></div>
         </div>
 
@@ -328,9 +328,9 @@
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="font-size: 1.1rem;">⚔️</span>
               <div>
-                <div style="font-size: 0.52rem; color: #2ecc71; font-weight: bold;" id="lblActiveMissions">Actieve Missies</div>
-                <div style="font-size: 0.68rem; font-weight: 900; color: #fff;">Savanne Arena</div>
-                <div style="font-size: 0.48rem; color: #aaa;" id="lblDefeatBeasts">Versla de wilde beesten</div>
+                <div style="font-size: 0.52rem; color: #2ecc71; font-weight: bold;" id="lblActiveMissions">Tactische Gevechten</div>
+                <div style="font-size: 0.68rem; font-weight: 900; color: #fff;">Savanne Arena (Met HP & XP)</div>
+                <div style="font-size: 0.48rem; color: #aaa;" id="lblDefeatBeasts">Kies vechter en versla de baas</div>
               </div>
             </div>
             <span style="font-size: 0.9rem; color: #ffd700;">›</span>
@@ -347,11 +347,11 @@
         </div>
       </div>
 
-      <!-- TAB 2: ANIMALS / INTERACTIVE GRID SAVANNA BUILDER -->
+      <!-- TAB 2: ANIMALS / GRID BUILDER -->
       <div id="tab-kaart" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblMapTitle">🗺️ Savanne Bouwgrond & Leefgebied</div>
-          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Bouw en inricht je savanne in game-stijl met interactieve percelen!</p>
+          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Beheer je habitats, bekijk HP & vechtkracht en upgrade in 3D!</p>
           
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #ffb700; border-radius: 10px; padding: 8px; text-align: center;">
             <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">🦁 <span id="lblLionKing">Kral Aslan</span> - Level <span id="lionLevelDisplay">1</span></div>
@@ -359,39 +359,43 @@
           </div>
 
           <div style="font-size: 0.65rem; font-weight: bold; color: #ffd700; margin-top: 4px;" id="lblBuilderTitle">🏗️ Bouwgrond & Habitat Percelen:</div>
-          
-          <!-- Interactief 2x3 Grid voor Bouwen & Upgraden -->
           <div class="savanna-grid-container" id="savannaGridContainer"></div>
         </div>
       </div>
 
-      <!-- TAB 3: ARENA -->
+      <!-- TAB 3: TACTICAL ARENA (Met HP & Vechter Kiezen) -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box">
-          <div class="page-title" id="lblArenaTitle">🎯 Savanne-Arena & Missies</div>
+          <div class="page-title" id="lblArenaTitle">🎯 Tactische Savanne-Arena</div>
           <div class="game-arena-board">
-            <div style="font-size: 0.68rem; color: #ffd700; font-weight: bold; text-align: center;">⚡ Tactisch Jachtgebied & Strijd</div>
+            <div style="font-size: 0.68rem; color: #ffd700; font-weight: bold; text-align: center;">⚔️ Live Gevecht & HP Simulatie</div>
             
-            <div class="arena-enemy-card">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 1.5rem;">🐃</span>
-                <div style="text-align: left;">
-                  <div style="font-size: 0.7rem; font-weight: 900; color: #fff;">Alpha Buffalo Boss</div>
-                  <div style="font-size: 0.52rem; color: #e74c3c;">Kracht: 5,000 CP</div>
-                </div>
+            <!-- Battle HUD (HP Bars) -->
+            <div class="battle-hud">
+              <div>
+                <div style="font-size: 0.55rem; color: #2ecc71; font-weight: bold;" id="playerFighterName">Jouw Vechter: Aslan</div>
+                <div style="font-size: 0.45rem; color: #ccc;">HP: <span id="playerHpText">100/100</span></div>
+                <div class="hp-bar-bg" style="margin-top:2px;"><div class="hp-bar-fill player" id="playerHpBar" style="width: 100%;"></div></div>
               </div>
-              <div style="font-size: 0.6rem; background: #2ecc71; color: #000; padding: 4px 8px; border-radius: 6px; font-weight: 900;">Beloning: +500 🥩</div>
+              <div style="font-size: 1rem; font-weight: bold; color: #e74c3c;">VS</div>
+              <div style="text-align: right;">
+                <div style="font-size: 0.55rem; color: #e74c3c; font-weight: bold;">Alpha Buffalo Boss</div>
+                <div style="font-size: 0.45rem; color: #ccc;">HP: <span id="bossHpText">500/500</span></div>
+                <div class="hp-bar-bg" style="margin-top:2px;"><div class="hp-bar-fill" id="bossHpBar" style="width: 100%;"></div></div>
+              </div>
             </div>
 
-            <div style="font-size: 0.62rem; color: #ccc; text-align: center;">Selecteer je jager en start de aanval:</div>
-            <div class="unit-selector-row">
-              <div class="unit-select-chip selected" onclick="selectFighter('kral_aslan.PNG', this)">🦁 Aslan</div>
-              <div class="unit-select-chip" onclick="selectFighter('kara_panter.PNG', this)">🐈‍⬛ Panter</div>
-              <div class="unit-select-chip" onclick="selectFighter('cita.PNG', this)">🐆 Cheetah</div>
-              <div class="unit-select-chip" onclick="selectFighter('fil.PNG', this)">🐘 Olifant</div>
+            <div style="font-size: 0.62rem; color: #ffd700; text-align: center;" id="battleStatusMsg">Selecteer je vechter en start het tactische gevecht:</div>
+
+            <div class="unit-selector-row" id="arenaFighterSelector">
+              <div class="unit-select-chip selected" onclick="selectArenaFighter('lion', 'Aslan', 100, 35, this)">🦁 Aslan</div>
+              <div class="unit-select-chip" onclick="selectArenaFighter('panther', 'Panter', 90, 40, this)">🐈‍⬛ Panter</div>
+              <div class="unit-select-chip" onclick="selectArenaFighter('cheetah', 'Cheetah', 80, 45, this)">🐆 Cheetah</div>
+              <div class="unit-select-chip" onclick="selectArenaFighter('elephant', 'Olifant', 200, 60, this)">🐘 Olifant</div>
+              <div class="unit-select-chip" onclick="selectArenaFighter('wolf', 'Wolf', 85, 38, this)">🐺 Wolf</div>
             </div>
 
-            <button class="cr-buy-btn" onclick="triggerClashHunt()" style="padding: 10px; font-size: 0.78rem;" id="lblStartMission">⚔️ STRIJD STARTEN & WIN!</button>
+            <button class="cr-buy-btn" id="startBattleBtn" onclick="startTacticalBattle()" style="padding: 10px; font-size: 0.78rem;" id="lblStartMission">⚔️ START TACTISCH GEVECHT!</button>
           </div>
         </div>
       </div>
@@ -435,7 +439,7 @@
             <button class="cr-buy-btn" style="background: #3498db;" onclick="exchangeSteakToTon()" id="lblExchangeBtn">WISSEL NAAR TON</button>
           </div>
 
-          <!-- Uitbetaling Sectie -->
+          <!-- Uitbetaling -->
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #e74c3c; border-radius: 10px; padding: 8px;">
             <div style="font-size: 0.7rem; font-weight: bold; color: #e74c3c;" id="lblWithdrawTitle">📤 TON / GRAM Uitbetaling</div>
             <input type="text" id="withdrawAddrInput" placeholder="Jouw TON Wallet Adres..." style="background:#111; color:#fff; border:1px solid #704b2e; padding:6px; border-radius:6px; font-size:0.55rem; width:100%; margin-top:4px;">
@@ -506,6 +510,7 @@
       } catch(e) {}
     }
 
+    // Gekoppelde 3D MP4 Video bestandsnamen uit jouw GitHub repository
     const videoMapping = {
       default: 'background_empty.MP4',
       mother: 'background_mother.MP4',
@@ -551,35 +556,39 @@
     let currentUsdVal = 10;
     let activeBuildingSlotIndex = null;
 
-    // Savanne Grid Slots (Bouwgrond)
+    // Arena Gevechtsstatus
+    let selectedFighter = { id: 'lion', name: 'Aslan', hp: 100, maxHp: 100, attack: 35 };
+    let bossFightActive = false;
+
+    // Savanne Grid Bouwgrond
     let savedSlots = localStorage.getItem('dg_savannagrid');
     let savannaGrid = savedSlots ? JSON.parse(savedSlots) : [
-      { id: 0, built: true, name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 1 },
-      { id: 1, built: true, name: 'Waterpoel Oase', icon: '💧', prod: 35, level: 1 },
-      { id: 2, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0 },
-      { id: 3, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0 },
-      { id: 4, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0 },
-      { id: 5, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0 }
+      { id: 0, built: true, name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 1, hp: 150 },
+      { id: 1, built: true, name: 'Waterpoel Oase', icon: '💧', prod: 35, level: 1, hp: 100 },
+      { id: 2, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0, hp: 0 },
+      { id: 3, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0, hp: 0 },
+      { id: 4, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0, hp: 0 },
+      { id: 5, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0, hp: 0 }
     ];
 
     let savedAnimals = localStorage.getItem('dg_animals');
     let animalsData = [
-      { id: 'cub', img: 'aslan_yavrusu.PNG', count: 1, baseProd: 2, cost: 200, names: { nl: 'Aslan Yavrusu', tr: 'Aslan Yavrusu', en: 'Lion Cub', de: 'Löwenjungen', fr: 'Lionceau' } },
-      { id: 'vulture', img: 'afrika_akbabasi.PNG', count: 0, baseProd: 5, cost: 600, names: { nl: 'Afrikaanse Akbaba', tr: 'Afrika Akbabası', en: 'African Vulture', de: 'Afrikanischer Geier', fr: 'Vautour africain' } },
-      { id: 'antilope', img: 'antilop.PNG', count: 0, baseProd: 12, cost: 1500, names: { nl: 'Antilope', tr: 'Antilop', en: 'Antelope', de: 'Antilope', fr: 'Antilope' } },
-      { id: 'jaguar', img: 'jaguar.PNG', count: 0, baseProd: 30, cost: 4000, names: { nl: 'Jaguar', tr: 'Jaguar', en: 'Jaguar', de: 'Jaguar', fr: 'Jaguar' } },
-      { id: 'hyena', img: 'sirtlan_surusu.PNG', count: 0, baseProd: 70, cost: 10000, names: { nl: 'Hyenafamilie', tr: 'Sırtlan Sürüsü', en: 'Hyena Pack', de: 'Hyänen-Rudel', fr: 'Meute de hyènes' } },
-      { id: 'jackal', img: 'cakal.PNG', count: 0, baseProd: 160, cost: 25000, names: { nl: 'Jakhals', tr: 'Çakal', en: 'Jackal', de: 'Schakal', fr: 'Chacal' } },
-      { id: 'wolf', img: 'kurt.PNG', count: 0, baseProd: 260, cost: 42000, names: { nl: 'Wolf', tr: 'Kurt', en: 'Wolf', de: 'Wolf', fr: 'Loup' } },
-      { id: 'lion', img: 'kral_aslan.PNG', count: 0, baseProd: 370, cost: 60000, names: { nl: 'Koning Leeuw', tr: 'Kral Aslan', en: 'King Lion', de: 'König Löwe', fr: 'Roi Lion' } },
-      { id: 'cheetah', img: 'cita.PNG', count: 0, baseProd: 850, cost: 150000, names: { nl: 'Cheetah', tr: 'Çita', en: 'Cheetah', de: 'Gepard', fr: 'Guépard' } },
-      { id: 'twolions', img: 'iki_erkek_aslan.PNG', count: 0, baseProd: 1900, cost: 350000, names: { nl: '2 Mannetjesleeuwen', tr: '2 Erkek Aslan', en: '2 Male Lions', de: '2 Männliche Löwen', fr: '2 Lions mâles' } },
-      { id: 'python', img: 'python.PNG', count: 0, baseProd: 4400, cost: 800000, names: { nl: 'Python Slang', tr: 'Python Yılanı', en: 'Python Snake', de: 'Python Schlange', fr: 'Serpent Python' } },
-      { id: 'croc', img: 'timsah.PNG', count: 0, baseProd: 9800, cost: 1800000, names: { nl: 'Timsah', tr: 'Timsah', en: 'Crocodile', de: 'Krokodil', fr: 'Crocodile' } },
-      { id: 'blackrhino', img: 'siyah_gergedan.PNG', count: 0, baseProd: 21500, cost: 4000000, names: { nl: 'Zwarte Neushoorn', tr: 'Siyah Gergedan', en: 'Black Rhino', de: 'Schwarzes Nashorn', fr: 'Rhinocéros noir' } },
-      { id: 'whiterhino', img: 'beyaz_gergedan.PNG', count: 0, baseProd: 47000, cost: 9000000, names: { nl: 'Witte Neushoorn', tr: 'Beyaz Gergedan', en: 'White Rhino', de: 'Weißes Nashorn', fr: 'Rhinocéros blanc' } },
-      { id: 'elephant', img: 'fil.PNG', count: 0, baseProd: 102000, cost: 20000000, names: { nl: 'Afrikaanse Olifant', tr: 'Afrika Fili', en: 'African Elephant', de: 'Afrikanischer Elefant', fr: 'Éléphant d’Afrique' } },
-      { id: 'panther', img: 'kara_panter.PNG', count: 0, baseProd: 220000, cost: 45000000, names: { nl: 'Zwarte Panter', tr: 'Kara Panter', en: 'Black Panther', de: 'Schwarzer Panther', fr: 'Panthère noire' } }
+      { id: 'cub', img: 'aslan_yavrusu.PNG', count: 1, baseProd: 2, cost: 200, hp: 50, attack: 10, names: { nl: 'Aslan Yavrusu', tr: 'Aslan Yavrusu', en: 'Lion Cub', de: 'Löwenjungen', fr: 'Lionceau' } },
+      { id: 'vulture', img: 'afrika_akbabasi.PNG', count: 0, baseProd: 5, cost: 600, hp: 60, attack: 15, names: { nl: 'Afrikaanse Akbaba', tr: 'Afrika Akbabası', en: 'African Vulture', de: 'Afrikanischer Geier', fr: 'Vautour africain' } },
+      { id: 'antilope', img: 'antilop.PNG', count: 0, baseProd: 12, cost: 1500, hp: 80, attack: 18, names: { nl: 'Antilope', tr: 'Antilop', en: 'Antelope', de: 'Antilope', fr: 'Antilope' } },
+      { id: 'jaguar', img: 'jaguar.PNG', count: 0, baseProd: 30, cost: 4000, hp: 110, attack: 30, names: { nl: 'Jaguar', tr: 'Jaguar', en: 'Jaguar', de: 'Jaguar', fr: 'Jaguar' } },
+      { id: 'hyena', img: 'sirtlan_surusu.PNG', count: 0, baseProd: 70, cost: 10000, hp: 130, attack: 35, names: { nl: 'Hyenafamilie', tr: 'Sırtlan Sürüsü', en: 'Hyena Pack', de: 'Hyänen-Rudel', fr: 'Meute de hyènes' } },
+      { id: 'jackal', img: 'cakal.PNG', count: 0, baseProd: 160, cost: 25000, hp: 140, attack: 40, names: { nl: 'Jakhals', tr: 'Çakal', en: 'Jackal', de: 'Schakal', fr: 'Chacal' } },
+      { id: 'wolf', img: 'kurt.PNG', count: 0, baseProd: 260, cost: 42000, hp: 160, attack: 45, names: { nl: 'Wolf', tr: 'Kurt', en: 'Wolf', de: 'Wolf', fr: 'Loup' } },
+      { id: 'lion', img: 'kral_aslan.PNG', count: 0, baseProd: 370, cost: 60000, hp: 200, attack: 55, names: { nl: 'Koning Leeuw', tr: 'Kral Aslan', en: 'King Lion', de: 'König Löwe', fr: 'Roi Lion' } },
+      { id: 'cheetah', img: 'cita.PNG', count: 0, baseProd: 850, cost: 150000, hp: 220, attack: 65, names: { nl: 'Cheetah', tr: 'Çita', en: 'Cheetah', de: 'Gepard', fr: 'Guépard' } },
+      { id: 'twolions', img: 'iki_erkek_aslan.PNG', count: 0, baseProd: 1900, cost: 350000, hp: 300, attack: 85, names: { nl: '2 Mannetjesleeuwen', tr: '2 Erkek Aslan', en: '2 Male Lions', de: '2 Männliche Löwen', fr: '2 Lions mâles' } },
+      { id: 'python', img: 'python.PNG', count: 0, baseProd: 4400, cost: 800000, hp: 350, attack: 95, names: { nl: 'Python Slang', tr: 'Python Yılanı', en: 'Python Snake', de: 'Python Schlange', fr: 'Serpent Python' } },
+      { id: 'croc', img: 'timsah.PNG', count: 0, baseProd: 9800, cost: 1800000, hp: 400, attack: 110, names: { nl: 'Timsah', tr: 'Timsah', en: 'Crocodile', de: 'Krokodil', fr: 'Crocodile' } },
+      { id: 'blackrhino', img: 'siyah_gergedan.PNG', count: 0, baseProd: 21500, cost: 4000000, hp: 500, attack: 130, names: { nl: 'Zwarte Neushoorn', tr: 'Siyah Gergedan', en: 'Black Rhino', de: 'Schwarzes Nashorn', fr: 'Rhinocéros noir' } },
+      { id: 'whiterhino', img: 'beyaz_gergedan.PNG', count: 0, baseProd: 47000, cost: 9000000, hp: 600, attack: 150, names: { nl: 'Witte Neushoorn', tr: 'Beyaz Gergedan', en: 'White Rhino', de: 'Weißes Nashorn', fr: 'Rhinocéros blanc' } },
+      { id: 'elephant', img: 'fil.PNG', count: 0, baseProd: 102000, cost: 20000000, hp: 800, attack: 190, names: { nl: 'Afrikaanse Olifant', tr: 'Afrika Fili', en: 'African Elephant', de: 'Afrikanischer Elefant', fr: 'Éléphant d’Afrique' } },
+      { id: 'panther', img: 'kara_panter.PNG', count: 0, baseProd: 220000, cost: 45000000, hp: 950, attack: 240, names: { nl: 'Zwarte Panter', tr: 'Kara Panter', en: 'Black Panther', de: 'Schwarzer Panther', fr: 'Panthère noire' } }
     ];
 
     if (savedAnimals) {
@@ -599,8 +608,6 @@
       localStorage.setItem('dg_promo', promoClaimed);
       localStorage.setItem('dg_promoslots', promoSlots);
       localStorage.setItem('dg_lang', currentLang);
-      localStorage.setItem('dg_freeclaim', lastFreeClaim);
-      localStorage.setItem('dg_spintime', lastSpinTime);
       localStorage.setItem('dg_savannagrid', JSON.stringify(savannaGrid));
       localStorage.setItem('dg_animals', JSON.stringify(animalsData.map(a => a.count)));
     }
@@ -613,14 +620,13 @@
     const translations = {
       nl: {
         hourRate: "/ uur", freeBonus: "Gratis +100", wheel: "Wiel 🥩", wallet: "Wallet", missions: "Missies", lang: "Taal",
-        unlocked: "ONTSLOTEN:", activeMissions: "Actieve Missies", defeatBeasts: "Versla de wilde beesten",
+        unlocked: "ONTSLOTEN:", activeMissions: "Tactische Gevechten", defeatBeasts: "Kies vechter en versla de baas",
         tapToCollect: "PASSIEF CLAIMEN", collectVal: "STEAK KLAAR", mapTitle: "🗺️ Savanne Bouwgrond & Leefgebied",
-        mapDesc: "Bouw en inricht je savanne in game-stijl met interactieve percelen!", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
-        arenaTitle: "🎯 Savanne-Arena & Missies", arenaDesc: "Selecteer je jager en start een dynamische missie!", startMission: "⚔️ STRIJD STARTEN & WIN!",
-        marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Totaal Productie:", walletTitle: "🏦 Wallet, Wissel & Uitbetalen",
-        walletDesc: "Wissel Steak om naar TON of vraag een uitbetaling aan naar je wallet.", exchangeTitle: "🔄 Steak → TON Wisselen",
-        exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Stortingsadres (TON):",
-        langDesc: "Selecteer je taal:", wheelTitle: "🎡 Rad van Fortuin", spinBtn: "DRAAI",
+        mapDesc: "Beheer je habitats, bekijk HP & vechtkracht en upgrade in 3D!", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
+        arenaTitle: "🎯 Tactische Savanne-Arena", marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Totaal Productie:",
+        walletTitle: "🏦 Wallet, Wissel & Uitbetalen", walletDesc: "Wissel Steak om naar TON of vraag een uitbetaling aan.",
+        exchangeTitle: "🔄 Steak → TON Wisselen", exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON",
+        depositAddr: "Stortingsadres (TON):", langDesc: "Selecteer je taal:", wheelTitle: "🎡 Rad van Fortuin", spinBtn: "DRAAI",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
         lionKing: "Kral Aslan", copyBtn: "Kopieer", builderTitle: "🏗️ Bouwgrond & Habitat Percelen:",
         promoTitle: "🐺 PROMO: Eerste 50 Spelers Gratis Wolf!", promoLeft: "Resterende plekken:", promoBtn: "GRATIS CLAIMEN",
@@ -629,14 +635,13 @@
       },
       tr: {
         hourRate: "/ sa", freeBonus: "Ücretsiz +100", wheel: "Çark 🥩", wallet: "Cüzdan", missions: "Görevler", lang: "Dil",
-        unlocked: "AÇILDI:", activeMissions: "Aktif Görevler", defeatBeasts: "Vahşi canavarları alt et",
+        unlocked: "AÇILDI:", activeMissions: "Taktiksel Savaşlar", defeatBeasts: "Avcını seç ve başı alt et",
         tapToCollect: "PASİF TOPLA", collectVal: "BİFTEK HAZIR", mapTitle: "🗺️ Savana İnşaat & Yaşam Alanı",
-        mapDesc: "İnteraktif parsellerle savananı oyun tarzında inşa et!", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
-        arenaTitle: "🎯 Savana Arenası & Görevler", arenaDesc: "Avcını seç ve dinamik bir göreve başla!", startMission: "⚔️ STRİJD STARTEN & WIN!",
-        marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Toplam Üretim:", walletTitle: "🏦 Cüzdan, Takas & Çekim",
-        walletDesc: "Biftekleri TON'a dönüştür veya cüzdanına çekim talebi oluştur.", exchangeTitle: "🔄 Biftek → TON Takası",
-        exchangeInfo: "50.000 Biftek = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Yatırım Adresi (TON):",
-        langDesc: "Dilinizi seçin:", wheelTitle: "🎡 Şans Çarkı", spinBtn: "ÇEVİR",
+        mapDesc: "Habitatları yönet, HP ve dövüş gücünü gör, 3D yükselt!", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
+        arenaTitle: "🎯 Taktiksel Savana Arenası", marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Toplam Üretim:",
+        walletTitle: "🏦 Cüzdan, Takas & Çekim", walletDesc: "Biftekleri TON'a dönüştür veya çekim yap.",
+        exchangeTitle: "🔄 Biftek → TON Takası", exchangeInfo: "50.000 Biftek = 0.01 TON", exchangeBtn: "WISSEL NAAR TON",
+        depositAddr: "Yatırım Adresi (TON):", langDesc: "Dilinizi seçin:", wheelTitle: "🎡 Şans Çarkı", spinBtn: "ÇEVİR",
         home: "Ana Sayfa", animals: "Hayvanlar", arena: "Arena", market: "Mağra", earn: "Cüzdan",
         lionKing: "Kral Aslan", copyBtn: "Kopyala", builderTitle: "🏗️ İnşaat Alanı & Habitat Parselleri:",
         promoTitle: "🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!", promoLeft: "Kalan Hak:", promoBtn: "ALINDI ✅",
@@ -645,14 +650,13 @@
       },
       en: {
         hourRate: "/ hour", freeBonus: "Free +100", wheel: "Wheel 🥩", wallet: "Wallet", missions: "Missions", lang: "Language",
-        unlocked: "UNLOCKED:", activeMissions: "Active Missions", defeatBeasts: "Defeat the wild beasts",
+        unlocked: "UNLOCKED:", activeMissions: "Tactical Battles", defeatBeasts: "Choose fighter and defeat boss",
         tapToCollect: "CLAIM PASSIVE", collectVal: "STEAK READY", mapTitle: "🗺️ Savanna Building & Habitat",
-        mapDesc: "Build and manage your savanna in game style with interactive plots!", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
-        arenaTitle: "🎯 Savanna Arena & Missions", arenaDesc: "Select your fighter and start a dynamic mission!", startMission: "⚔️ START MISSION & WIN!",
-        marketTitle: "🏕️ Cave & Special Offers", totalProd: "Total Production:", walletTitle: "🏦 Wallet, Exchange & Withdraw",
-        walletDesc: "Exchange Steak for TON or request a withdrawal.", exchangeTitle: "🔄 Steak → TON Exchange",
-        exchangeInfo: "50,000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Deposit Address (TON):",
-        langDesc: "Select your language:", wheelTitle: "🎡 Wheel of Fortune", spinBtn: "SPIN",
+        mapDesc: "Manage habitats, check HP & combat power and upgrade in 3D!", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
+        arenaTitle: "🎯 Tactical Savanna Arena", marketTitle: "🏕️ Cave & Special Offers", totalProd: "Total Production:",
+        walletTitle: "🏦 Wallet, Exchange & Withdraw", walletDesc: "Exchange Steak for TON or request withdrawal.",
+        exchangeTitle: "🔄 Steak → TON Exchange", exchangeInfo: "50,000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON",
+        depositAddr: "Deposit Address (TON):", langDesc: "Select your language:", wheelTitle: "🎡 Wheel of Fortune", spinBtn: "SPIN",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
         lionKing: "King Lion", copyBtn: "Copy", builderTitle: "🏗️ Building Plots & Habitats:",
         promoTitle: "🐺 PROMO: Free Wolf for First 50 Players!", promoLeft: "Remaining Slots:", promoBtn: "CLAIM FREE",
@@ -661,14 +665,13 @@
       },
       de: {
         hourRate: "/ Std", freeBonus: "Gratis +100", wheel: "Rad 🥩", wallet: "Wallet", missions: "Missionen", lang: "Sprache",
-        unlocked: "FREIGESCHALTET:", activeMissions: "Aktive Missionen", defeatBeasts: "Besiege die wilden Bestien",
+        unlocked: "FREIGESCHALTET:", activeMissions: "Taktische Kämpfe", defeatBeasts: "Wähle Kämpfer und besiege Boss",
         tapToCollect: "PASSIV SAMMELN", collectVal: "STEAK BEREIT", mapTitle: "🗺️ Savannen Bauplatz & Habitat",
-        mapDesc: "Baut eure Savanne im Spiel-Stil mit interaktiven Parzellen auf!", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
-        arenaTitle: "🎯 Savannen-Arena & Missionen", arenaDesc: "Wähle deinen Jäger und starte eine dynamische Mission!", startMission: "⚔️ STRİJD STARTEN & WIN!",
-        marketTitle: "🏕️ Höhle & Angebote", totalProd: "Gesamtproduktion:", walletTitle: "🏦 Wallet, Tausch & Auszahlung",
-        walletDesc: "Tausche Steak gegen TON oder fordere eine Auszahlung an.", exchangeTitle: "🔄 Steak → TON Tausch",
-        exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Einzahlungsadresse (TON):",
-        langDesc: "Wähle deine Sprache:", wheelTitle: "🎡 Glücksrad", spinBtn: "DREHEN",
+        mapDesc: "Habitate verwalten, HP & Kampfstärke prüfen in 3D!", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
+        arenaTitle: "🎯 Taktische Savannen-Arena", marketTitle: "🏕️ Höhle & Angebote", totalProd: "Gesamtproduktion:",
+        walletTitle: "🏦 Wallet, Tausch & Auszahlung", walletDesc: "Tausche Steak gegen TON.",
+        exchangeTitle: "🔄 Steak → TON Tausch", exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON",
+        depositAddr: "Einzahlungsadresse (TON):", langDesc: "Wähle deine Sprache:", wheelTitle: "🎡 Glücksrad", spinBtn: "DREHEN",
         home: "Home", animals: "Tiere", arena: "Arena", market: "Markt", earn: "Earn",
         lionKing: "König Löwe", copyBtn: "Kopieren", builderTitle: "🏗️ Bauplätze & Habitat-Parzellen:",
         promoTitle: "🐺 PROMO: Kostenloser Wolf für 50 Spieler!", promoLeft: "Verbleibende Plätze:", promoBtn: "KOSTENLOS ANFORDERN",
@@ -677,14 +680,13 @@
       },
       fr: {
         hourRate: "/ heure", freeBonus: "Gratuit +100", wheel: "Roue 🥩", wallet: "Portefeuille", missions: "Missions", lang: "Langue",
-        unlocked: "DÉBLOQUÉ:", activeMissions: "Missions Actives", defeatBeasts: "Vainquez les bêtes sauvages",
+        unlocked: "DÉBLOQUÉ:", activeMissions: "Combats Tactiques", defeatBeasts: "Choisissez le combattant et battez le boss",
         tapToCollect: "RÉCOLTE PASSIVE", collectVal: "STEAK PRÊT", mapTitle: "🗺️ Construction & Habitat",
-        mapDesc: "Construisez et gérez votre savanne avec des parcelles interactives !", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
-        arenaTitle: "🎯 Arène de la Savane & Missions", arenaDesc: "Sélectionnez votre combattant et lancez une mission !", startMission: "⚔️ STRİJD STARTEN & WIN!",
-        marketTitle: "🏕️ Caverne & Offres Spéciales", totalProd: "Production Totale:", walletTitle: "🏦 Portefeuille & Retrait",
-        walletDesc: "Échangez vos Steaks contre des TON ou demandez un retrait.", exchangeTitle: "🔄 Échange Steak → TON",
-        exchangeInfo: "50 000 Steaks = 0,01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Adresse de dépôt (TON):",
-        langDesc: "Sélectionnez votre langue:", wheelTitle: "🎡 Roue de la Fortune", spinBtn: "TOURNER",
+        mapDesc: "Gérez les habitats, vérifiez les HP et la puissance en 3D !", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
+        arenaTitle: "🎯 Arène Tactique", marketTitle: "🏕️ Caverne & Offres", totalProd: "Production Totale:",
+        walletTitle: "🏦 Portefeuille & Retrait", walletDesc: "Échangez vos Steaks contre des TON.",
+        exchangeTitle: "🔄 Échange Steak → TON", exchangeInfo: "50 000 Steaks = 0,01 TON", exchangeBtn: "WISSEL NAAR TON",
+        depositAddr: "Adresse de dépôt (TON):", langDesc: "Sélectionnez votre langue:", wheelTitle: "🎡 Roue de la Fortune", spinBtn: "TOURNER",
         home: "Accueil", animals: "Animaux", arena: "Arène", market: "Marché", earn: "Gagner",
         lionKing: "Roi Lion", copyBtn: "Copier", builderTitle: "🏗️ Parcelles de construction :",
         promoTitle: "🐺 PROMO: Loup gratuit pour 50 joueurs !", promoLeft: "Places restantes :", promoBtn: "RÉCLAMER GRATUIT",
@@ -709,6 +711,43 @@
       saveGame();
     }
 
+    // INSPECTIE MODAL VOOR DIEREN & HABITATS (Met 3D video & stats)
+    function inspectAnimal(animalKey) {
+      let anim = animalsData.find(a => a.id === animalKey);
+      if (!anim) return;
+      if (videoMapping[anim.id]) {
+        setBackgroundVideo(videoMapping[anim.id]);
+      }
+      let name = anim.names[currentLang] || anim.names['en'];
+      let modal = document.getElementById('inspectModalContent');
+      modal.innerHTML = `
+        <div style="font-size: 1rem; font-weight: 900; color: #ffd700;">🦁 3D Inspectie: ${name}</div>
+        <img src="${anim.img}" style="width: 70px; height: 70px; border-radius: 12px; border: 2px solid #ffd700; margin: 0 auto; object-fit: cover;">
+        <div style="background: rgba(0,0,0,0.6); border: 1px solid #ffd700; border-radius: 10px; padding: 8px; text-align: left; font-size: 0.65rem; color: #fff; display: flex; flex-direction: column; gap: 4px;">
+          <div>❤️ <b>HP (Gezondheid):</b> ${anim.hp} HP</div>
+          <div>⚔️ <b>Vechtkracht (Attack):</b> ${anim.attack} CP</div>
+          <div>🥩 <b>Productie:</b> +${anim.baseProd.toLocaleString()} Steak / uur</div>
+          <div>📦 <b>Jouw Bezit:</b> ${anim.count} stuks</div>
+        </div>
+        <button class="cr-buy-btn" style="background: #2ecc71;" onclick="closeInspectModal()">Sluiten & Terug</button>
+      `;
+      document.getElementById('inspectModal').style.display = 'flex';
+      haptic('light');
+    }
+
+    function closeInspectModal() {
+      document.getElementById('inspectModal').style.display = 'none';
+      setBackgroundVideo(videoMapping['default']);
+      haptic('light');
+    }
+
+    function selectAndShowAnimal(animalId) {
+      if (videoMapping[animalId]) {
+        setBackgroundVideo(videoMapping[animalId]);
+        inspectAnimal(animalId);
+      }
+    }
+
     function renderHomeAnimals() {
       let row = document.getElementById('homeAnimalsRow');
       row.innerHTML = '';
@@ -727,17 +766,7 @@
       });
     }
 
-    function selectAndShowAnimal(animalId) {
-      if (videoMapping[animalId]) {
-        setBackgroundVideo(videoMapping[animalId]);
-        let animObj = animalsData.find(a => a.id === animalId);
-        if (animObj) {
-          showToast(`🎬 Achtergrond gewijzigd naar ${animObj.names[currentLang] || animObj.names['en']} video!`);
-        }
-      }
-    }
-
-    // INTERACTIEF GRID BOUWEN (Savanne Plattegrond in Game-Stijl)
+    // SAVANNE GRID BOUWGROND
     function renderSavannaGrid() {
       let container = document.getElementById('savannaGridContainer');
       container.innerHTML = '';
@@ -748,7 +777,7 @@
               <div style="font-size: 1.8rem;">${plot.icon}</div>
               <div style="font-size: 0.7rem; font-weight: 900; color: #ffd700;">${plot.name}</div>
               <div style="font-size: 0.55rem; color: #2ecc71; font-weight: bold;">Lv. ${plot.level} (+${plot.prod} 🥩/u)</div>
-              <div style="font-size: 0.45rem; color: #aaa;">Tik om te upgraden</div>
+              <div style="font-size: 0.45rem; color: #aaa;">❤️ HP: ${plot.hp} | Tik om te upgraden</div>
             </div>
           `;
         } else {
@@ -791,7 +820,8 @@
         name: name,
         icon: icon,
         prod: baseProd,
-        level: 1
+        level: 1,
+        hp: 120
       };
 
       document.getElementById('balance').innerText = balance.toLocaleString();
@@ -803,7 +833,7 @@
       addXP(50);
       saveGame();
       haptic('success');
-      showToast(`🏗️ ${name} succesvol gebouwd! (+${baseProd} 🥩/u)`);
+      showToast(`🏗️ ${name} gebouwd! (+${baseProd} 🥩/u)`);
     }
 
     function upgradePlot(idx) {
@@ -811,11 +841,12 @@
       let cost = plot.level * 400;
       if (balance < cost) {
         haptic('error');
-        showToast(`Onvoldoende Steak saldo! Nodig: ${cost.toLocaleString()} 🥩`);
+        showToast(`Onvoldoende Steak! Nodig: ${cost.toLocaleString()} 🥩`);
         return;
       }
       balance -= cost;
       plot.level++;
+      plot.hp += 50;
       let addedProd = Math.floor(plot.prod * 0.5);
       plot.prod += addedProd;
       hourlyProduction += addedProd;
@@ -828,7 +859,88 @@
       addXP(40);
       saveGame();
       haptic('success');
-      showToast(`🌟 ${plot.name} geüpgraded naar Level ${plot.level}! (+${addedProd} 🥩/u)`);
+      showToast(`🌟 ${plot.name} geüpgraded naar Level ${plot.level} (+${plot.hp} HP)!`);
+    }
+
+    // TACTISCHE ARENA GEVECHTSLOGICA MET HP BALKEN
+    function selectArenaFighter(id, name, hp, attack, el) {
+      document.querySelectorAll('.unit-select-chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedFighter = { id: id, name: name, hp: hp, maxHp: hp, attack: attack };
+      
+      document.getElementById('playerFighterName').innerText = `Jouw Vechter: ${name}`;
+      document.getElementById('playerHpText').innerText = `${hp}/${hp}`;
+      document.getElementById('playerHpBar').style.width = '100%';
+      document.getElementById('battleStatusMsg').innerText = `${name} is klaar voor de strijd!`;
+
+      if (videoMapping[id]) {
+        setBackgroundVideo(videoMapping[id]);
+      }
+      haptic('light');
+    }
+
+    function startTacticalBattle() {
+      if (bossFightActive) return;
+      bossFightActive = true;
+      let btn = document.getElementById('startBattleBtn');
+      btn.disabled = true;
+
+      let bossHp = 500;
+      let bossMaxHp = 500;
+      let playerHp = selectedFighter.hp;
+      let playerMaxHp = selectedFighter.maxHp;
+
+      document.getElementById('bossHpText').innerText = `${bossHp}/${bossMaxHp}`;
+      document.getElementById('bossHpBar').style.width = '100%';
+      document.getElementById('battleStatusMsg').innerText = `⚔️ Gevecht gestart tegen Alpha Buffalo Boss!`;
+      setBackgroundVideo(videoMapping['hunt']);
+      haptic('success');
+
+      let fightInterval = setInterval(() => {
+        // Speler valt baas aan
+        let pDamage = selectedFighter.attack + Math.floor(Math.random() * 15);
+        bossHp = Math.max(0, bossHp - pDamage);
+        let bPct = (bossHp / bossMaxHp) * 100;
+        document.getElementById('bossHpText').innerText = `${bossHp}/${bossMaxHp}`;
+        document.getElementById('bossHpBar').style.width = bPct + '%';
+        document.getElementById('battleStatusMsg').innerText = `💥 ${selectedFighter.name} doet ${pDamage} schade bij Boss!`;
+        haptic('light');
+
+        if (bossHp <= 0) {
+          clearInterval(fightInterval);
+          bossFightActive = false;
+          btn.disabled = false;
+          let reward = 750;
+          balance += reward;
+          document.getElementById('balance').innerText = balance.toLocaleString();
+          addXP(75);
+          saveGame();
+          haptic('success');
+          document.getElementById('battleStatusMsg').innerText = `🏆 GEWONNEN! +${reward} Steak verdiend!`;
+          showToast(`🏆 VICTORY! +${reward} 🥩 gewonnen!`);
+          return;
+        }
+
+        // Baas slaat terug
+        setTimeout(() => {
+          let bDamage = 25 + Math.floor(Math.random() * 20);
+          playerHp = Math.max(0, playerHp - bDamage);
+          let pPct = (playerHp / playerMaxHp) * 100;
+          document.getElementById('playerHpText').innerText = `${playerHp}/${playerMaxHp}`;
+          document.getElementById('playerHpBar').style.width = pPct + '%';
+          document.getElementById('battleStatusMsg').innerText = `⚠️ Boss slaat terug en doet ${bDamage} schade!`;
+
+          if (playerHp <= 0) {
+            clearInterval(fightInterval);
+            bossFightActive = false;
+            btn.disabled = false;
+            haptic('error');
+            document.getElementById('battleStatusMsg').innerText = `❌ Verslagen! Probeer een sterkere vechter.`;
+            showToast("❌ Je vechter is verslagen!");
+          }
+        }, 600);
+
+      }, 1200);
     }
 
     function renderShop() {
@@ -837,11 +949,11 @@
       animalsData.forEach((anim, idx) => {
         let name = anim.names[currentLang] || anim.names['en'];
         grid.innerHTML += `
-          <div class="cr-card" onclick="selectAndShowAnimal('${anim.id}')">
+          <div class="cr-card" onclick="inspectAnimal('${anim.id}')">
             <img src="${anim.img}" class="cr-card-img" alt="${name}">
             <div style="font-size: 0.65rem; font-weight: 900;">${name}</div>
             <div style="font-size: 0.52rem; color: #2ecc71;">+${anim.baseProd.toLocaleString()} 🥩 / sa</div>
-            <div style="font-size: 0.48rem; color: #ffd700; margin: 2px 0;">Bezit: ${anim.count}</div>
+            <div style="font-size: 0.48rem; color: #ffd700; margin: 2px 0;">Bezit: ${anim.count} | ❤️ ${anim.hp}HP</div>
             <button class="cr-buy-btn" onclick="event.stopPropagation(); buyAnimal(${idx})">${anim.cost.toLocaleString()} 🥩</button>
           </div>
         `;
@@ -888,7 +1000,7 @@
       closePaymentModal();
       addXP(50);
       haptic('success');
-      showToast(`🚀 Succesvol $${currentUsdVal} USD pakket gekocht voor ${tonCost.toFixed(3)} TON (+${steakReward.toLocaleString()} 🥩)!`);
+      showToast(`🚀 Succesvol $${currentUsdVal} USD pakket gekocht (+${steakReward.toLocaleString()} 🥩)!`);
     }
 
     function claimPromoWolf() {
@@ -918,7 +1030,7 @@
       addXP(100);
       saveGame();
       haptic('success');
-      showToast("🐺 Gefeliciteerd! Gratis Kurt (Wolf) geclaimed & achtergrond geactiveerd!");
+      showToast("🐺 Gefeliciteerd! Gratis Wolf geclaimed & 3D video geactiveerd!");
     }
 
     function requestWithdrawal() {
@@ -939,7 +1051,7 @@
       document.getElementById('withdrawAddrInput').value = '';
       saveGame();
       haptic('success');
-      showToast(`📤 Uitbetaling van ${withdrawn.toFixed(3)} TON aangevraagd! Dit wordt binnen 3 tot 5 minuten verstuurd.`);
+      showToast(`📤 Uitbetaling van ${withdrawn.toFixed(3)} TON aangevraagd!`);
     }
 
     function setAppLanguage(lang) {
@@ -961,8 +1073,6 @@
       document.getElementById('lblMapDesc').innerText = t.mapDesc;
       document.getElementById('lblUpgradeLion').innerText = t.upgradeLion;
       document.getElementById('lblArenaTitle').innerText = t.arenaTitle;
-      document.getElementById('lblArenaDesc').innerText = t.arenaDesc;
-      document.getElementById('lblStartMission').innerText = t.startMission;
       document.getElementById('lblMarketTitle').innerText = t.marketTitle;
       document.getElementById('lblTotalProd').innerText = t.totalProd;
       document.getElementById('lblWalletTitle').innerText = t.walletTitle;
@@ -994,7 +1104,7 @@
 
       renderShop();
       haptic('success');
-      showToast("🌍 Taal bijgewerkt / Language updated!");
+      showToast("🌍 Taal bijgewerkt!");
       switchTab('ana', null);
     }
 
@@ -1021,7 +1131,7 @@
       addXP(50);
       saveGame();
       haptic('success');
-      showToast(`🎉 ${anim.names[currentLang] || anim.names['en']} aangeschaft & video geactiveerd!`);
+      showToast(`🎉 ${anim.names[currentLang] || anim.names['en']} gekocht & 3D video geactiveerd!`);
     }
 
     function claimPassiveSteak() {
@@ -1038,7 +1148,7 @@
       addXP(10);
       saveGame();
       haptic('success');
-      showToast(`🎉 +${claimed} Steak succesvol geclaimd!`);
+      showToast(`🎉 +${claimed} Steak geclaimd!`);
     }
 
     function copyWalletAddress() {
@@ -1047,13 +1157,13 @@
       input.setSelectionRange(0, 99999);
       navigator.clipboard.writeText(input.value);
       haptic('success');
-      showToast("📋 Stortingsadres gekopieerd naar klembord!");
+      showToast("📋 Adres gekopieerd!");
     }
 
     function exchangeSteakToTon() {
       if (balance < 50000) {
         haptic('error');
-        showToast("Minimaal 50.000 Steak nodig om te wisselen!");
+        showToast("Minimaal 50.000 Steak nodig!");
         return;
       }
       let tonEarned = (balance / 50000) * 0.01;
@@ -1064,13 +1174,7 @@
       addXP(100);
       saveGame();
       haptic('success');
-      showToast(`🎉 Wissel gelukt! +${tonEarned.toFixed(3)} TON toegevoegd.`);
-    }
-
-    function selectFighter(imgSrc, el) {
-      document.querySelectorAll('.unit-select-chip').forEach(c => c.classList.remove('selected'));
-      el.classList.add('selected');
-      haptic('light');
+      showToast(`🎉 Wissel gelukt! +${tonEarned.toFixed(3)} TON.`);
     }
 
     function switchTab(tabName, element) {
@@ -1083,6 +1187,8 @@
         setBackgroundVideo(videoMapping['hunt']);
       } else if (tabName === 'ana') {
         setBackgroundVideo(videoMapping['default']);
+      } else if (tabName === 'kaart') {
+        setBackgroundVideo(videoMapping['lion']);
       }
 
       haptic('light');
@@ -1093,7 +1199,7 @@
       let oneDay = 24 * 3600 * 1000;
       if (now - lastFreeClaim < oneDay && lastFreeClaim !== 0) {
         haptic('error');
-        showToast("⏳ Al geclaimd! Probeer het over 24 uur opnieuw.");
+        showToast("⏳ Al geclaimd! Probeer over 24 uur.");
         return;
       }
       lastFreeClaim = now;
@@ -1102,7 +1208,7 @@
       addXP(15);
       saveGame();
       haptic('success');
-      showToast("🎁 Gratis +100 Steak geclaimd!");
+      showToast("🎁 Gratis +100 Steak!");
     }
 
     function spinWheelSecure() {
@@ -1126,7 +1232,7 @@
         addXP(30);
         saveGame();
         haptic('success');
-        showToast(`🎉 Gefeliciteerd! +${reward} 🥩 gewonnen!`);
+        showToast(`🎉 +${reward} 🥩 gewonnen!`);
         btn.disabled = false;
       }, 3500);
     }
@@ -1146,17 +1252,7 @@
       addXP(60);
       saveGame();
       haptic('success');
-      showToast(`🦁 Koning Leeuw is geüpgraded & Leeuwenvideo geactiveerd!`);
-    }
-
-    function triggerClashHunt() {
-      let reward = 500;
-      balance += reward;
-      document.getElementById('balance').innerText = balance.toLocaleString();
-      addXP(50);
-      saveGame();
-      haptic('success');
-      showToast(`⚔️ Arena Overwinning! +${reward} 🥩 verdiend!`);
+      showToast(`🦁 Koning Leeuw geüpgraded naar Level ${lionLevel}!`);
     }
 
     function showToast(text) {
@@ -1173,7 +1269,7 @@
       saveGame();
     }, 5000);
 
-    // Initialiseer bij laden
+    // Initialiseer app
     document.getElementById('balance').innerText = balance.toLocaleString();
     document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
     document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();

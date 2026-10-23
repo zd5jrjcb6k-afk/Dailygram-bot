@@ -123,13 +123,34 @@
       border-radius: 8px; color: #fff; font-weight: 900; font-size: 0.7rem; cursor: pointer; margin-top: 6px; text-transform: uppercase;
     }
 
-    /* GAME-STYLE SAVANNA BUILDER MAP & SLOTS */
-    .game-builder-container { display: flex; flex-direction: column; gap: 8px; }
-    .habitat-card-game {
-      background: linear-gradient(135deg, #26170a 0%, #120904 100%); border: 2px solid #e6af2e; border-radius: 14px;
-      padding: 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.8); cursor: pointer;
+    /* INTERACTIVE GRID BUILDER STYLING (Zoals in je video!) */
+    .savanna-grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 6px;
     }
-    .habitat-card-game:active { transform: scale(0.98); }
+    .build-plot-card {
+      background: linear-gradient(135deg, #26170a 0%, #120904 100%);
+      border: 2px dashed #e6af2e;
+      border-radius: 14px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+      cursor: pointer;
+      min-height: 110px;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+      transition: transform 0.2s ease;
+    }
+    .build-plot-card:active { transform: scale(0.96); }
+    .build-plot-card.built {
+      border: 2px solid #2ecc71;
+      border-style: solid;
+    }
 
     /* GAME-STYLE ARENA BOARD */
     .game-arena-board {
@@ -140,7 +161,7 @@
       background: rgba(0,0,0,0.6); border: 1.5px solid #e74c3c; border-radius: 12px; padding: 8px; text-align: center; display: flex; align-items: center; justify-content: space-between;
     }
 
-    /* MODAL OVERLAY FOR PAYMENT */
+    /* MODAL OVERLAY FOR PAYMENT / BUILDING */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.85); z-index: 500; display: none; justify-content: center; align-items: center; padding: 20px;
@@ -190,7 +211,7 @@
 </head>
 <body id="appBody">
 
-  <!-- ACHTERGROND VIDEO (Dynamisch gekoppeld aan jouw GitHub MP4 bestanden) -->
+  <!-- ACHTERGROND VIDEO -->
   <video id="bgVideo" class="bg-video" autoplay loop muted playsinline preload="auto">
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
@@ -207,6 +228,21 @@
         <button class="cr-buy-btn" style="background: #e74c3c; margin-top:0;" onclick="closePaymentModal()" id="modalBtnCancel">Annuleren</button>
         <button class="cr-buy-btn" style="background: #2ecc71; margin-top:0;" onclick="confirmPayment()" id="modalBtnConfirm">Betaald & Bevestigen</button>
       </div>
+    </div>
+  </div>
+
+  <!-- BOUWKEUZE MODAL (Voor Grid Bouwen) -->
+  <div class="modal-overlay" id="buildModal">
+    <div class="modal-box">
+      <div style="font-size: 0.9rem; font-weight: 900; color: #ffd700;">🏗️ Kies Habitat / Bouwstijl</div>
+      <div style="font-size: 0.6rem; color: #ccc;">Selecteer wat je wilt bouwen op deze bouwgrond:</div>
+      <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
+        <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="buildStructure('water', 'Waterpoel Oase', '💧', 35, 500)">💧 Waterpoel Oase (500 🥩)</button>
+        <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="buildStructure('tree', 'Acacia Bosje', '🌳', 15, 300)">🌳 Acacia Bosje (300 🥩)</button>
+        <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="buildStructure('lion', 'Leeuwenrots', '🦁', 75, 1000)">🦁 Leeuwenrots (1.000 🥩)</button>
+        <button class="cr-buy-btn" style="background:#2b1a0f;" onclick="buildStructure('elephant', 'Olifantenvallei', '🐘', 150, 2500)">🐘 Olifantenvallei (2.500 🥩)</button>
+      </div>
+      <button class="cr-buy-btn" style="background: #e74c3c; margin-top: 6px;" onclick="closeBuildModal()">Sluiten</button>
     </div>
   </div>
 
@@ -311,19 +347,21 @@
         </div>
       </div>
 
-      <!-- TAB 2: ANIMALS / SAVANNA BUILDER -->
+      <!-- TAB 2: ANIMALS / INTERACTIVE GRID SAVANNA BUILDER -->
       <div id="tab-kaart" class="tab-content">
         <div class="page-box">
-          <div class="page-title" id="lblMapTitle">🗺️ Savanne Habitat & Leefgebied Beheer</div>
-          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Beheer je habitats, bomen en waterplaatsen in game-stijl!</p>
+          <div class="page-title" id="lblMapTitle">🗺️ Savanne Bouwgrond & Leefgebied</div>
+          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Bouw en inricht je savanne in game-stijl met interactieve percelen!</p>
           
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #ffb700; border-radius: 10px; padding: 8px; text-align: center;">
             <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">🦁 <span id="lblLionKing">Kral Aslan</span> - Level <span id="lionLevelDisplay">1</span></div>
             <button class="cr-buy-btn" onclick="upgradeLionLevel()" id="lblUpgradeLion">⬆️ Leeuw Upgraden (500 🥩)</button>
           </div>
 
-          <div style="font-size: 0.65rem; font-weight: bold; color: #ffd700; margin-top: 4px;" id="lblBuilderTitle">🏗️ Actieve Habitatecosystemen:</div>
-          <div class="game-builder-container" id="gameBuilderContainer"></div>
+          <div style="font-size: 0.65rem; font-weight: bold; color: #ffd700; margin-top: 4px;" id="lblBuilderTitle">🏗️ Bouwgrond & Habitat Percelen:</div>
+          
+          <!-- Interactief 2x3 Grid voor Bouwen & Upgraden -->
+          <div class="savanna-grid-container" id="savannaGridContainer"></div>
         </div>
       </div>
 
@@ -468,7 +506,6 @@
       } catch(e) {}
     }
 
-    // ACHTERGROND VIDEO MAPPING OP BASIS VAN JOUW GITHUB BESTANDSNAAM
     const videoMapping = {
       default: 'background_empty.MP4',
       mother: 'background_mother.MP4',
@@ -512,13 +549,17 @@
     let lastSpinTime = parseInt(localStorage.getItem('dg_spintime')) || 0;
     let currentRotation = 0;
     let currentUsdVal = 10;
+    let activeBuildingSlotIndex = null;
 
-    let savedSlots = localStorage.getItem('dg_slots');
-    let savannaSlots = savedSlots ? JSON.parse(savedSlots) : [
-      { id: 1, type: 'habitat', name: 'Acacia Bosje', icon: '🌳', prod: 15, level: 1 },
-      { id: 2, type: 'habitat', name: 'Waterpoel Oase', icon: '💧', prod: 35, level: 1 },
-      { id: 3, type: 'habitat', name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 1 },
-      { id: 4, type: 'habitat', name: 'Olifantenvallei', icon: '🐘', prod: 150, level: 1 }
+    // Savanne Grid Slots (Bouwgrond)
+    let savedSlots = localStorage.getItem('dg_savannagrid');
+    let savannaGrid = savedSlots ? JSON.parse(savedSlots) : [
+      { id: 0, built: true, name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 1 },
+      { id: 1, built: true, name: 'Waterpoel Oase', icon: '💧', prod: 35, level: 1 },
+      { id: 2, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0 },
+      { id: 3, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0 },
+      { id: 4, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0 },
+      { id: 5, built: false, name: 'Bouwgrond', icon: '➕', prod: 0, level: 0 }
     ];
 
     let savedAnimals = localStorage.getItem('dg_animals');
@@ -560,7 +601,7 @@
       localStorage.setItem('dg_lang', currentLang);
       localStorage.setItem('dg_freeclaim', lastFreeClaim);
       localStorage.setItem('dg_spintime', lastSpinTime);
-      localStorage.setItem('dg_slots', JSON.stringify(savannaSlots));
+      localStorage.setItem('dg_savannagrid', JSON.stringify(savannaGrid));
       localStorage.setItem('dg_animals', JSON.stringify(animalsData.map(a => a.count)));
     }
 
@@ -573,15 +614,15 @@
       nl: {
         hourRate: "/ uur", freeBonus: "Gratis +100", wheel: "Wiel 🥩", wallet: "Wallet", missions: "Missies", lang: "Taal",
         unlocked: "ONTSLOTEN:", activeMissions: "Actieve Missies", defeatBeasts: "Versla de wilde beesten",
-        tapToCollect: "PASSIEF CLAIMEN", collectVal: "STEAK KLAAR", mapTitle: "🗺️ Savanne Habitat & Leefgebied Beheer",
-        mapDesc: "Beheer je habitats, bomen en waterplaatsen in game-stijl!", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
+        tapToCollect: "PASSIEF CLAIMEN", collectVal: "STEAK KLAAR", mapTitle: "🗺️ Savanne Bouwgrond & Leefgebied",
+        mapDesc: "Bouw en inricht je savanne in game-stijl met interactieve percelen!", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
         arenaTitle: "🎯 Savanne-Arena & Missies", arenaDesc: "Selecteer je jager en start een dynamische missie!", startMission: "⚔️ STRIJD STARTEN & WIN!",
         marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Totaal Productie:", walletTitle: "🏦 Wallet, Wissel & Uitbetalen",
         walletDesc: "Wissel Steak om naar TON of vraag een uitbetaling aan naar je wallet.", exchangeTitle: "🔄 Steak → TON Wisselen",
         exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Stortingsadres (TON):",
         langDesc: "Selecteer je taal:", wheelTitle: "🎡 Rad van Fortuin", spinBtn: "DRAAI",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
-        lionKing: "Kral Aslan", copyBtn: "Kopieer", builderTitle: "🏗️ Actieve Habitatecosystemen:",
+        lionKing: "Kral Aslan", copyBtn: "Kopieer", builderTitle: "🏗️ Bouwgrond & Habitat Percelen:",
         promoTitle: "🐺 PROMO: Eerste 50 Spelers Gratis Wolf!", promoLeft: "Resterende plekken:", promoBtn: "GRATIS CLAIMEN",
         usdPackTitle: "🚀 Speciale Vlees Kampagne", usdSelect: "Selecteer USD Bedrag:", buyUsdBtn: "PAKETİ SATIN AL",
         withdrawTitle: "📤 TON / GRAM Uitbetaling", withdrawBtn: "Vraag Uitbetaling Aan"
@@ -589,15 +630,15 @@
       tr: {
         hourRate: "/ sa", freeBonus: "Ücretsiz +100", wheel: "Çark 🥩", wallet: "Cüzdan", missions: "Görevler", lang: "Dil",
         unlocked: "AÇILDI:", activeMissions: "Aktif Görevler", defeatBeasts: "Vahşi canavarları alt et",
-        tapToCollect: "PASİF TOPLA", collectVal: "BİFTEK HAZIR", mapTitle: "🗺️ Savana Habitat & Yaşam Alanı",
-        mapDesc: "Habitatları, ağaçları ve su kaynaklarını oyun tarzında yönet!", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
+        tapToCollect: "PASİF TOPLA", collectVal: "BİFTEK HAZIR", mapTitle: "🗺️ Savana İnşaat & Yaşam Alanı",
+        mapDesc: "İnteraktif parsellerle savananı oyun tarzında inşa et!", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
         arenaTitle: "🎯 Savana Arenası & Görevler", arenaDesc: "Avcını seç ve dinamik bir göreve başla!", startMission: "⚔️ STRİJD STARTEN & WIN!",
         marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Toplam Üretim:", walletTitle: "🏦 Cüzdan, Takas & Çekim",
         walletDesc: "Biftekleri TON'a dönüştür veya cüzdanına çekim talebi oluştur.", exchangeTitle: "🔄 Biftek → TON Takası",
         exchangeInfo: "50.000 Biftek = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Yatırım Adresi (TON):",
         langDesc: "Dilinizi seçin:", wheelTitle: "🎡 Şans Çarkı", spinBtn: "ÇEVİR",
         home: "Ana Sayfa", animals: "Hayvanlar", arena: "Arena", market: "Mağra", earn: "Cüzdan",
-        lionKing: "Kral Aslan", copyBtn: "Kopyala", builderTitle: "🏗️ Aktif Habitat Ekosistemleri:",
+        lionKing: "Kral Aslan", copyBtn: "Kopyala", builderTitle: "🏗️ İnşaat Alanı & Habitat Parselleri:",
         promoTitle: "🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!", promoLeft: "Kalan Hak:", promoBtn: "ALINDI ✅",
         usdPackTitle: "🚀 Özel Biftek Kampanyası", usdSelect: "USD Miktarını Seç:", buyUsdBtn: "PAKETİ SATIN AL",
         withdrawTitle: "📤 TON / GRAM Çekim Talebi", withdrawBtn: "Çekim Talebi Oluştur"
@@ -605,15 +646,15 @@
       en: {
         hourRate: "/ hour", freeBonus: "Free +100", wheel: "Wheel 🥩", wallet: "Wallet", missions: "Missions", lang: "Language",
         unlocked: "UNLOCKED:", activeMissions: "Active Missions", defeatBeasts: "Defeat the wild beasts",
-        tapToCollect: "CLAIM PASSIVE", collectVal: "STEAK READY", mapTitle: "🗺️ Savanna Habitat & Management",
-        mapDesc: "Manage your habitats, trees and waterholes in game style!", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
+        tapToCollect: "CLAIM PASSIVE", collectVal: "STEAK READY", mapTitle: "🗺️ Savanna Building & Habitat",
+        mapDesc: "Build and manage your savanna in game style with interactive plots!", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
         arenaTitle: "🎯 Savanna Arena & Missions", arenaDesc: "Select your fighter and start a dynamic mission!", startMission: "⚔️ START MISSION & WIN!",
         marketTitle: "🏕️ Cave & Special Offers", totalProd: "Total Production:", walletTitle: "🏦 Wallet, Exchange & Withdraw",
         walletDesc: "Exchange Steak for TON or request a withdrawal.", exchangeTitle: "🔄 Steak → TON Exchange",
         exchangeInfo: "50,000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Deposit Address (TON):",
         langDesc: "Select your language:", wheelTitle: "🎡 Wheel of Fortune", spinBtn: "SPIN",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
-        lionKing: "King Lion", copyBtn: "Copy", builderTitle: "🏗️ Active Habitat Ecosystems:",
+        lionKing: "King Lion", copyBtn: "Copy", builderTitle: "🏗️ Building Plots & Habitats:",
         promoTitle: "🐺 PROMO: Free Wolf for First 50 Players!", promoLeft: "Remaining Slots:", promoBtn: "CLAIM FREE",
         usdPackTitle: "🚀 Special Steak Campaign", usdSelect: "Select USD Amount:", buyUsdBtn: "BUY PACKAGE",
         withdrawTitle: "📤 TON / GRAM Withdrawal", withdrawBtn: "Request Withdrawal"
@@ -621,15 +662,15 @@
       de: {
         hourRate: "/ Std", freeBonus: "Gratis +100", wheel: "Rad 🥩", wallet: "Wallet", missions: "Missionen", lang: "Sprache",
         unlocked: "FREIGESCHALTET:", activeMissions: "Aktive Missionen", defeatBeasts: "Besiege die wilden Bestien",
-        tapToCollect: "PASSIV SAMMELN", collectVal: "STEAK BEREIT", mapTitle: "🗺️ Savannen Habitat & Management",
-        mapDesc: "Verwalte deine Habitate im Spiel-Stil!", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
+        tapToCollect: "PASSIV SAMMELN", collectVal: "STEAK BEREIT", mapTitle: "🗺️ Savannen Bauplatz & Habitat",
+        mapDesc: "Baut eure Savanne im Spiel-Stil mit interaktiven Parzellen auf!", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
         arenaTitle: "🎯 Savannen-Arena & Missionen", arenaDesc: "Wähle deinen Jäger und starte eine dynamische Mission!", startMission: "⚔️ STRİJD STARTEN & WIN!",
         marketTitle: "🏕️ Höhle & Angebote", totalProd: "Gesamtproduktion:", walletTitle: "🏦 Wallet, Tausch & Auszahlung",
         walletDesc: "Tausche Steak gegen TON oder fordere eine Auszahlung an.", exchangeTitle: "🔄 Steak → TON Tausch",
         exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Einzahlungsadresse (TON):",
         langDesc: "Wähle deine Sprache:", wheelTitle: "🎡 Glücksrad", spinBtn: "DREHEN",
         home: "Home", animals: "Tiere", arena: "Arena", market: "Markt", earn: "Earn",
-        lionKing: "König Löwe", copyBtn: "Kopieren", builderTitle: "🏗️ Aktive Habitat-Ökosysteme:",
+        lionKing: "König Löwe", copyBtn: "Kopieren", builderTitle: "🏗️ Bauplätze & Habitat-Parzellen:",
         promoTitle: "🐺 PROMO: Kostenloser Wolf für 50 Spieler!", promoLeft: "Verbleibende Plätze:", promoBtn: "KOSTENLOS ANFORDERN",
         usdPackTitle: "🚀 Spezielle Steak-Kampagne", usdSelect: "USD-Betrag auswählen:", buyUsdBtn: "PAKET KAUFEN",
         withdrawTitle: "📤 TON / GRAM Auszahlung", withdrawBtn: "Auszahlung anfordern"
@@ -637,15 +678,15 @@
       fr: {
         hourRate: "/ heure", freeBonus: "Gratuit +100", wheel: "Roue 🥩", wallet: "Portefeuille", missions: "Missions", lang: "Langue",
         unlocked: "DÉBLOQUÉ:", activeMissions: "Missions Actives", defeatBeasts: "Vainquez les bêtes sauvages",
-        tapToCollect: "RÉCOLTE PASSIVE", collectVal: "STEAK PRÊT", mapTitle: "🗺️ Habitat & Gestion",
-        mapDesc: "Gérez vos habitats et points d'eau dans le style du jeu !", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
+        tapToCollect: "RÉCOLTE PASSIVE", collectVal: "STEAK PRÊT", mapTitle: "🗺️ Construction & Habitat",
+        mapDesc: "Construisez et gérez votre savanne avec des parcelles interactives !", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
         arenaTitle: "🎯 Arène de la Savane & Missions", arenaDesc: "Sélectionnez votre combattant et lancez une mission !", startMission: "⚔️ STRİJD STARTEN & WIN!",
         marketTitle: "🏕️ Caverne & Offres Spéciales", totalProd: "Production Totale:", walletTitle: "🏦 Portefeuille & Retrait",
         walletDesc: "Échangez vos Steaks contre des TON ou demandez un retrait.", exchangeTitle: "🔄 Échange Steak → TON",
         exchangeInfo: "50 000 Steaks = 0,01 TON", exchangeBtn: "WISSEL NAAR TON", depositAddr: "Adresse de dépôt (TON):",
         langDesc: "Sélectionnez votre langue:", wheelTitle: "🎡 Roue de la Fortune", spinBtn: "TOURNER",
         home: "Accueil", animals: "Animaux", arena: "Arène", market: "Marché", earn: "Gagner",
-        lionKing: "Roi Lion", copyBtn: "Copier", builderTitle: "🏗️ Écosystèmes actifs :",
+        lionKing: "Roi Lion", copyBtn: "Copier", builderTitle: "🏗️ Parcelles de construction :",
         promoTitle: "🐺 PROMO: Loup gratuit pour 50 joueurs !", promoLeft: "Places restantes :", promoBtn: "RÉCLAMER GRATUIT",
         usdPackTitle: "🚀 Campagne Steak Spéciale", usdSelect: "Sélectionnez le montant USD :", buyUsdBtn: "ACHETER LE PACK",
         withdrawTitle: "📤 Retrait TON / GRAM", withdrawBtn: "Demander le retrait"
@@ -686,7 +727,6 @@
       });
     }
 
-    // ZET ACHTERGROND VIDEO OP BASIS VAN DIER / TAB
     function selectAndShowAnimal(animalId) {
       if (videoMapping[animalId]) {
         setBackgroundVideo(videoMapping[animalId]);
@@ -697,47 +737,98 @@
       }
     }
 
-    function renderGameBuilder() {
-      let container = document.getElementById('gameBuilderContainer');
+    // INTERACTIEF GRID BOUWEN (Savanne Plattegrond in Game-Stijl)
+    function renderSavannaGrid() {
+      let container = document.getElementById('savannaGridContainer');
       container.innerHTML = '';
-      savannaSlots.forEach((slot, idx) => {
-        container.innerHTML += `
-          <div class="habitat-card-game" onclick="upgradeHabitat(${idx})">
-            <div style="font-size: 1.6rem; background: rgba(0,0,0,0.5); padding: 8px; border-radius: 10px; border: 1px solid #ffd700;">${slot.icon}</div>
-            <div style="flex-grow: 1;">
-              <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">${slot.name} (Lv. ${slot.level})</div>
-              <div style="font-size: 0.55rem; color: #2ecc71; font-weight: bold;">+${slot.prod.toLocaleString()} 🥩 / uur</div>
-              <div style="font-size: 0.48rem; color: #aaa;">Tik om habitat te upgraden</div>
+      savannaGrid.forEach((plot, idx) => {
+        if (plot.built) {
+          container.innerHTML += `
+            <div class="build-plot-card built" onclick="upgradePlot(${idx})">
+              <div style="font-size: 1.8rem;">${plot.icon}</div>
+              <div style="font-size: 0.7rem; font-weight: 900; color: #ffd700;">${plot.name}</div>
+              <div style="font-size: 0.55rem; color: #2ecc71; font-weight: bold;">Lv. ${plot.level} (+${plot.prod} 🥩/u)</div>
+              <div style="font-size: 0.45rem; color: #aaa;">Tik om te upgraden</div>
             </div>
-            <div style="font-size: 0.8rem; color: #2ecc71; font-weight: bold;">⬆️</div>
-          </div>
-        `;
+          `;
+        } else {
+          container.innerHTML += `
+            <div class="build-plot-card" onclick="openBuildModal(${idx})">
+              <div style="font-size: 1.8rem; color: #e6af2e;">➕</div>
+              <div style="font-size: 0.7rem; font-weight: 900; color: #e6af2e;">Bouwgrond</div>
+              <div style="font-size: 0.5rem; color: #ccc;">Tik om te bouwen</div>
+            </div>
+          `;
+        }
       });
     }
 
-    function upgradeHabitat(idx) {
-      let slot = savannaSlots[idx];
-      let cost = slot.level * 300;
+    function openBuildModal(plotIdx) {
+      activeBuildingSlotIndex = plotIdx;
+      document.getElementById('buildModal').style.display = 'flex';
+      haptic('light');
+    }
+
+    function closeBuildModal() {
+      document.getElementById('buildModal').style.display = 'none';
+      activeBuildingSlotIndex = null;
+      haptic('light');
+    }
+
+    function buildStructure(type, name, icon, baseProd, cost) {
       if (balance < cost) {
         haptic('error');
-        showToast("Onvoldoende Steak saldo om habitat te upgraden!");
+        showToast("Onvoldoende Steak saldo om dit te bouwen!");
+        closeBuildModal();
         return;
       }
       balance -= cost;
-      slot.level++;
-      let addedProd = Math.floor(slot.prod * 0.5);
-      slot.prod += addedProd;
+      hourlyProduction += baseProd;
+
+      savannaGrid[activeBuildingSlotIndex] = {
+        id: activeBuildingSlotIndex,
+        built: true,
+        name: name,
+        icon: icon,
+        prod: baseProd,
+        level: 1
+      };
+
+      document.getElementById('balance').innerText = balance.toLocaleString();
+      document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
+      document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
+
+      renderSavannaGrid();
+      closeBuildModal();
+      addXP(50);
+      saveGame();
+      haptic('success');
+      showToast(`🏗️ ${name} succesvol gebouwd! (+${baseProd} 🥩/u)`);
+    }
+
+    function upgradePlot(idx) {
+      let plot = savannaGrid[idx];
+      let cost = plot.level * 400;
+      if (balance < cost) {
+        haptic('error');
+        showToast(`Onvoldoende Steak saldo! Nodig: ${cost.toLocaleString()} 🥩`);
+        return;
+      }
+      balance -= cost;
+      plot.level++;
+      let addedProd = Math.floor(plot.prod * 0.5);
+      plot.prod += addedProd;
       hourlyProduction += addedProd;
 
       document.getElementById('balance').innerText = balance.toLocaleString();
       document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
       document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
-      
-      renderGameBuilder();
+
+      renderSavannaGrid();
       addXP(40);
       saveGame();
       haptic('success');
-      showToast(`🌟 ${slot.name} geüpgraded naar Level ${slot.level}! (+${addedProd} 🥩/u)`);
+      showToast(`🌟 ${plot.name} geüpgraded naar Level ${plot.level}! (+${addedProd} 🥩/u)`);
     }
 
     function renderShop() {
@@ -821,7 +912,6 @@
       document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
       document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
       
-      // Activeer direct de wolf video!
       setBackgroundVideo(videoMapping['wolf']);
 
       renderShop();
@@ -923,7 +1013,6 @@
       document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
       document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
       
-      // Schakel direct over naar de video van dit gekochte dier!
       if (videoMapping[anim.id]) {
         setBackgroundVideo(videoMapping[anim.id]);
       }
@@ -990,7 +1079,6 @@
       document.getElementById('tab-' + tabName).classList.add('active');
       if (element) element.classList.add('active');
 
-      // Automatische video per tabblad
       if (tabName === 'hunt') {
         setBackgroundVideo(videoMapping['hunt']);
       } else if (tabName === 'ana') {
@@ -1095,7 +1183,7 @@
     if (promoClaimed) document.getElementById('lblPromoBtn').innerText = "ALINDI ✅";
     
     renderShop();
-    renderGameBuilder();
+    renderSavannaGrid();
     renderHomeAnimals();
     addXP(0);
     updateUsdSlider(10);

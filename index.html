@@ -71,12 +71,18 @@
     .tab-content { display: none; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; }
     .tab-content.active { display: flex; }
 
-    /* UNLOCKED BANNER */
-    .unlocked-banner {
-      background: linear-gradient(135deg, #3d2612 0%, #1c1007 100%); border: 2px solid #ffd700; border-radius: 14px;
-      padding: 8px 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.8); margin-bottom: 6px;
+    /* 3D LIVE WORLD VIEWPORT (Immersief venster zoals in Planet Zoo) */
+    .world-viewport-card {
+      background: linear-gradient(135deg, rgba(30,18,8,0.9), rgba(12,6,2,0.95));
+      border: 2px solid #ffd700; border-radius: 16px; padding: 12px;
+      display: flex; flex-direction: column; gap: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+      margin-bottom: 8px; position: relative; overflow: hidden;
     }
-    .unlocked-img { width: 42px; height: 42px; border-radius: 8px; border: 2px solid #ffd700; object-fit: cover; }
+    .world-viewport-header { display: flex; justify-content: space-between; align-items: center; }
+    .world-viewport-video-frame {
+      width: 100%; height: 120px; border-radius: 10px; border: 1.5px solid #2ecc71; overflow: hidden; position: relative; background: #000;
+    }
+    .world-viewport-video-frame video { width: 100%; height: 100%; object-fit: cover; }
 
     /* ANIMAL CARDS HORIZONTAL ROW */
     .animals-row-container {
@@ -204,7 +210,7 @@
 </head>
 <body id="appBody">
 
-  <!-- ACHTERGROND VIDEO (Gekoppeld aan jouw 3D MP4 bestanden) -->
+  <!-- ACHTERGROND VIDEO (Dramatische 3D Savanne Wereld) -->
   <video id="bgVideo" class="bg-video" autoplay loop muted playsinline preload="auto">
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
@@ -239,11 +245,9 @@
     </div>
   </div>
 
-  <!-- DIER / HABITAT STATS & INSPECTIE MODAL -->
+  <!-- DIER / HABITAT STATS & 3D INSPECTIE MODAL -->
   <div class="modal-overlay" id="inspectModal">
-    <div class="modal-box" id="inspectModalContent">
-      <!-- Wordt dynamisch gevuld met HP, Aanval, XP en Video -->
-    </div>
+    <div class="modal-box" id="inspectModalContent"></div>
   </div>
 
   <div class="app-container" id="appContainer">
@@ -307,18 +311,21 @@
       <!-- TAB 1: HOME -->
       <div id="tab-ana" class="tab-content active">
         <div>
-          <!-- Unlocked Banner -->
-          <div class="unlocked-banner" onclick="inspectAnimal('lion')">
-            <img src="kral_aslan.PNG" class="unlocked-img" alt="Majestic Lion">
-            <div>
-              <div style="font-size: 0.55rem; color: #aaa; font-weight: bold;" id="lblUnlocked">ONTSLOTEN:</div>
-              <div style="font-size: 0.75rem; font-weight: 900; color: #ffd700;">MAJESTIC LION!</div>
-              <div style="font-size: 0.58rem; color: #2ecc71; font-weight: bold;">🥩 +100 STEAK PER UUR (Tik voor Stats)</div>
+          <!-- 3D Wereld Viewport (Immersieve dierweergave) -->
+          <div class="world-viewport-card" onclick="inspectAnimal('lion')">
+            <div class="world-viewport-header">
+              <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">🦁 3D Savanne Leefgebied</div>
+              <div style="font-size: 0.52rem; color: #2ecc71; font-weight: bold;">❤️ HP: 200 | CP: 55</div>
             </div>
-            <div style="margin-left: auto; font-size: 1rem; color: #ffd700;">🔍</div>
+            <div class="world-viewport-video-frame">
+              <video autoplay loop muted playsinline>
+                <source src="background_lion.MP4" type="video/mp4">
+              </video>
+            </div>
+            <div style="font-size: 0.55rem; color: #ccc; text-align: center;">Tik om leefgebied en 3D-actie te inspecteren</div>
           </div>
 
-          <!-- Dynamisch Gekoppelde Dieren Rij -->
+          <!-- Dieren Rij -->
           <div class="animals-row-container" id="homeAnimalsRow"></div>
         </div>
 
@@ -363,14 +370,13 @@
         </div>
       </div>
 
-      <!-- TAB 3: TACTICAL ARENA (Met HP & Vechter Kiezen) -->
+      <!-- TAB 3: TACTICAL ARENA -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblArenaTitle">🎯 Tactische Savanne-Arena</div>
           <div class="game-arena-board">
             <div style="font-size: 0.68rem; color: #ffd700; font-weight: bold; text-align: center;">⚔️ Live Gevecht & HP Simulatie</div>
             
-            <!-- Battle HUD (HP Bars) -->
             <div class="battle-hud">
               <div>
                 <div style="font-size: 0.55rem; color: #2ecc71; font-weight: bold;" id="playerFighterName">Jouw Vechter: Aslan</div>
@@ -395,7 +401,7 @@
               <div class="unit-select-chip" onclick="selectArenaFighter('wolf', 'Wolf', 85, 38, this)">🐺 Wolf</div>
             </div>
 
-            <button class="cr-buy-btn" id="startBattleBtn" onclick="startTacticalBattle()" style="padding: 10px; font-size: 0.78rem;" id="lblStartMission">⚔️ START TACTISCH GEVECHT!</button>
+            <button class="cr-buy-btn" id="startBattleBtn" onclick="startTacticalBattle()" style="padding: 10px; font-size: 0.78rem;">⚔️ START TACTISCH GEVECHT!</button>
           </div>
         </div>
       </div>
@@ -406,14 +412,12 @@
           <div class="page-title" id="lblMarketTitle">🏕️ Mağra & Özel Fırsatlar</div>
           <div style="font-size: 0.58rem; color: #aaa; text-align: center;"><span id="lblTotalProd">Totaal Productie:</span> <span id="totalSpeedInfoMarket">157</span> 🥩 / uur</div>
           
-          <!-- PROMO -->
           <div style="background: linear-gradient(135deg, #1b2e18, #0d170b); border: 2px solid #2ecc71; border-radius: 14px; padding: 10px; margin-bottom: 8px; text-align: center;">
             <div style="font-size: 0.72rem; font-weight: bold; color: #2ecc71;" id="lblPromoTitle">🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!</div>
             <div style="font-size: 0.58rem; color: #ccc; margin: 4px 0;" id="lblPromoLeft">Kalan Hak: <span id="promoSlots">49</span> / 50</div>
             <button class="cr-buy-btn" style="background: #2ecc71;" onclick="claimPromoWolf()" id="lblPromoBtn">ÜCRETSİZ AL</button>
           </div>
 
-          <!-- USD KAMPAGNE -->
           <div style="background: linear-gradient(135deg, #2c1a0e, #140b05); border: 2px solid #ffd700; border-radius: 14px; padding: 10px; margin-bottom: 8px; text-align: center;">
             <div style="font-size: 0.72rem; font-weight: bold; color: #ffd700;" id="lblUsdPackTitle">🚀 Özel Biftek Kampanyası</div>
             <div style="font-size: 0.58rem; color: #ccc; margin: 4px 0;" id="lblUsdSelect">USD Miktarını Seç (Max $500):</div>
@@ -439,7 +443,6 @@
             <button class="cr-buy-btn" style="background: #3498db;" onclick="exchangeSteakToTon()" id="lblExchangeBtn">WISSEL NAAR TON</button>
           </div>
 
-          <!-- Uitbetaling -->
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #e74c3c; border-radius: 10px; padding: 8px;">
             <div style="font-size: 0.7rem; font-weight: bold; color: #e74c3c;" id="lblWithdrawTitle">📤 TON / GRAM Uitbetaling</div>
             <input type="text" id="withdrawAddrInput" placeholder="Jouw TON Wallet Adres..." style="background:#111; color:#fff; border:1px solid #704b2e; padding:6px; border-radius:6px; font-size:0.55rem; width:100%; margin-top:4px;">
@@ -510,7 +513,6 @@
       } catch(e) {}
     }
 
-    // Gekoppelde 3D MP4 Video bestandsnamen uit jouw GitHub repository
     const videoMapping = {
       default: 'background_empty.MP4',
       mother: 'background_mother.MP4',
@@ -556,11 +558,10 @@
     let currentUsdVal = 10;
     let activeBuildingSlotIndex = null;
 
-    // Arena Gevechtsstatus
     let selectedFighter = { id: 'lion', name: 'Aslan', hp: 100, maxHp: 100, attack: 35 };
     let bossFightActive = false;
 
-    // Savanne Grid Bouwgrond
+    // Robuust geïnitialiseerde Savanne Grid met gegarandeerde HP en waarden
     let savedSlots = localStorage.getItem('dg_savannagrid');
     let savannaGrid = savedSlots ? JSON.parse(savedSlots) : [
       { id: 0, built: true, name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 1, hp: 150 },
@@ -711,7 +712,7 @@
       saveGame();
     }
 
-    // INSPECTIE MODAL VOOR DIEREN & HABITATS (Met 3D video & stats)
+    // 3D INSPECTIE MODAL VOOR DIEREN
     function inspectAnimal(animalKey) {
       let anim = animalsData.find(a => a.id === animalKey);
       if (!anim) return;
@@ -724,12 +725,39 @@
         <div style="font-size: 1rem; font-weight: 900; color: #ffd700;">🦁 3D Inspectie: ${name}</div>
         <img src="${anim.img}" style="width: 70px; height: 70px; border-radius: 12px; border: 2px solid #ffd700; margin: 0 auto; object-fit: cover;">
         <div style="background: rgba(0,0,0,0.6); border: 1px solid #ffd700; border-radius: 10px; padding: 8px; text-align: left; font-size: 0.65rem; color: #fff; display: flex; flex-direction: column; gap: 4px;">
-          <div>❤️ <b>HP (Gezondheid):</b> ${anim.hp} HP</div>
-          <div>⚔️ <b>Vechtkracht (Attack):</b> ${anim.attack} CP</div>
+          <div>❤️ <b>HP (Gezondheid):</b> ${anim.hp || 100} HP</div>
+          <div>⚔️ <b>Vechtkracht (Attack):</b> ${anim.attack || 25} CP</div>
           <div>🥩 <b>Productie:</b> +${anim.baseProd.toLocaleString()} Steak / uur</div>
           <div>📦 <b>Jouw Bezit:</b> ${anim.count} stuks</div>
         </div>
         <button class="cr-buy-btn" style="background: #2ecc71;" onclick="closeInspectModal()">Sluiten & Terug</button>
+      `;
+      document.getElementById('inspectModal').style.display = 'flex';
+      haptic('light');
+    }
+
+    // INSPECTIE MODAL VOOR HABITAT / BOUWGROND
+    function inspectPlot(plotIdx) {
+      let plot = savannaGrid[plotIdx];
+      if (!plot.built) {
+        openBuildModal(plotIdx);
+        return;
+      }
+      setBackgroundVideo(videoMapping['lion']);
+      let modal = document.getElementById('inspectModalContent');
+      modal.innerHTML = `
+        <div style="font-size: 1rem; font-weight: 900; color: #ffd700;">🏗️ Leefgebied: ${plot.name}</div>
+        <div style="font-size: 2.2rem; margin: 4px 0;">${plot.icon}</div>
+        <div style="background: rgba(0,0,0,0.6); border: 1px solid #ffd700; border-radius: 10px; padding: 8px; text-align: left; font-size: 0.65rem; color: #fff; display: flex; flex-direction: column; gap: 4px;">
+          <div>⭐ <b>Level:</b> ${plot.level}</div>
+          <div>❤️ <b>Habitat HP:</b> ${plot.hp || 150} HP</div>
+          <div>🥩 <b>Productie:</b> +${plot.prod.toLocaleString()} Steak / uur</div>
+          <div>⬆️ <b>Upgrade Kosten:</b> ${(plot.level * 400).toLocaleString()} Steak</div>
+        </div>
+        <div style="display: flex; gap: 6px; margin-top: 6px;">
+          <button class="cr-buy-btn" style="background: #e74c3c; margin-top:0;" onclick="closeInspectModal()">Sluiten</button>
+          <button class="cr-buy-btn" style="background: #2ecc71; margin-top:0;" onclick="closeInspectModal(); upgradePlot(${plotIdx})">Level Up ⬆️</button>
+        </div>
       `;
       document.getElementById('inspectModal').style.display = 'flex';
       haptic('light');
@@ -766,18 +794,17 @@
       });
     }
 
-    // SAVANNE GRID BOUWGROND
     function renderSavannaGrid() {
       let container = document.getElementById('savannaGridContainer');
       container.innerHTML = '';
       savannaGrid.forEach((plot, idx) => {
         if (plot.built) {
           container.innerHTML += `
-            <div class="build-plot-card built" onclick="upgradePlot(${idx})">
+            <div class="build-plot-card built" onclick="inspectPlot(${idx})">
               <div style="font-size: 1.8rem;">${plot.icon}</div>
               <div style="font-size: 0.7rem; font-weight: 900; color: #ffd700;">${plot.name}</div>
               <div style="font-size: 0.55rem; color: #2ecc71; font-weight: bold;">Lv. ${plot.level} (+${plot.prod} 🥩/u)</div>
-              <div style="font-size: 0.45rem; color: #aaa;">❤️ HP: ${plot.hp} | Tik om te upgraden</div>
+              <div style="font-size: 0.45rem; color: #aaa;">❤️ HP: ${plot.hp || 150} | Tik voor 3D Stats</div>
             </div>
           `;
         } else {
@@ -846,7 +873,7 @@
       }
       balance -= cost;
       plot.level++;
-      plot.hp += 50;
+      plot.hp = (plot.hp || 100) + 50;
       let addedProd = Math.floor(plot.prod * 0.5);
       plot.prod += addedProd;
       hourlyProduction += addedProd;
@@ -862,7 +889,6 @@
       showToast(`🌟 ${plot.name} geüpgraded naar Level ${plot.level} (+${plot.hp} HP)!`);
     }
 
-    // TACTISCHE ARENA GEVECHTSLOGICA MET HP BALKEN
     function selectArenaFighter(id, name, hp, attack, el) {
       document.querySelectorAll('.unit-select-chip').forEach(c => c.classList.remove('selected'));
       el.classList.add('selected');
@@ -897,7 +923,6 @@
       haptic('success');
 
       let fightInterval = setInterval(() => {
-        // Speler valt baas aan
         let pDamage = selectedFighter.attack + Math.floor(Math.random() * 15);
         bossHp = Math.max(0, bossHp - pDamage);
         let bPct = (bossHp / bossMaxHp) * 100;
@@ -921,7 +946,6 @@
           return;
         }
 
-        // Baas slaat terug
         setTimeout(() => {
           let bDamage = 25 + Math.floor(Math.random() * 20);
           playerHp = Math.max(0, playerHp - bDamage);

@@ -133,7 +133,7 @@
 
     /* GAME-STYLE ARENA BOARD */
     .game-arena-board {
-      background: linear-gradient(180deg, #1b2e18 0%, #0d170b 100%); border: 2px solid #2ecc71; border-radius: 14px; padding: 12px;
+      background: linear-gradient(135deg, #1b2e18 0%, #0d170b 100%); border: 2px solid #2ecc71; border-radius: 14px; padding: 12px;
       display: flex; flex-direction: column; gap: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.8);
     }
     .arena-enemy-card {
@@ -190,7 +190,7 @@
 </head>
 <body id="appBody">
 
-  <!-- ACHTERGROND VIDEO -->
+  <!-- ACHTERGROND VIDEO (Dynamisch gekoppeld aan jouw GitHub MP4 bestanden) -->
   <video id="bgVideo" class="bg-video" autoplay loop muted playsinline preload="auto">
     <source id="bgVideoSource" src="./background_empty.MP4" type="video/mp4">
   </video>
@@ -311,7 +311,7 @@
         </div>
       </div>
 
-      <!-- TAB 2: ANIMALS / GAME-STYLE SAVANNA BUILDER & HABITAT MAP -->
+      <!-- TAB 2: ANIMALS / SAVANNA BUILDER -->
       <div id="tab-kaart" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblMapTitle">🗺️ Savanne Habitat & Leefgebied Beheer</div>
@@ -327,7 +327,7 @@
         </div>
       </div>
 
-      <!-- TAB 3: ARENA (Game-Style Tactical Board) -->
+      <!-- TAB 3: ARENA -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblArenaTitle">🎯 Savanne-Arena & Missies</div>
@@ -364,14 +364,14 @@
           <div class="page-title" id="lblMarketTitle">🏕️ Mağra & Özel Fırsatlar</div>
           <div style="font-size: 0.58rem; color: #aaa; text-align: center;"><span id="lblTotalProd">Totaal Productie:</span> <span id="totalSpeedInfoMarket">157</span> 🥩 / uur</div>
           
-          <!-- PROMO: İlk 50 Oyuncuya Ücretsiz Kurt! -->
+          <!-- PROMO -->
           <div style="background: linear-gradient(135deg, #1b2e18, #0d170b); border: 2px solid #2ecc71; border-radius: 14px; padding: 10px; margin-bottom: 8px; text-align: center;">
             <div style="font-size: 0.72rem; font-weight: bold; color: #2ecc71;" id="lblPromoTitle">🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!</div>
             <div style="font-size: 0.58rem; color: #ccc; margin: 4px 0;" id="lblPromoLeft">Kalan Hak: <span id="promoSlots">49</span> / 50</div>
             <button class="cr-buy-btn" style="background: #2ecc71;" onclick="claimPromoWolf()" id="lblPromoBtn">ÜCRETSİZ AL</button>
           </div>
 
-          <!-- ÖZEL BİFTEK KAMPANYASI (USD SLIDER TOT $500) -->
+          <!-- USD KAMPAGNE -->
           <div style="background: linear-gradient(135deg, #2c1a0e, #140b05); border: 2px solid #ffd700; border-radius: 14px; padding: 10px; margin-bottom: 8px; text-align: center;">
             <div style="font-size: 0.72rem; font-weight: bold; color: #ffd700;" id="lblUsdPackTitle">🚀 Özel Biftek Kampanyası</div>
             <div style="font-size: 0.58rem; color: #ccc; margin: 4px 0;" id="lblUsdSelect">USD Miktarını Seç (Max $500):</div>
@@ -385,7 +385,7 @@
         </div>
       </div>
 
-      <!-- TAB 5: EARN / WALLET (Gecorrigeerde Knoptekst) -->
+      <!-- TAB 5: EARN / WALLET -->
       <div id="tab-cuzdan" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblWalletTitle">🏦 Wallet, Wissel & Uitbetalen</div>
@@ -466,6 +466,34 @@
           else tg.HapticFeedback.impactOccurred(style);
         }
       } catch(e) {}
+    }
+
+    // ACHTERGROND VIDEO MAPPING OP BASIS VAN JOUW GITHUB BESTANDSNAAM
+    const videoMapping = {
+      default: 'background_empty.MP4',
+      mother: 'background_mother.MP4',
+      hunt: 'background_hunt.MP4',
+      cub: 'background_cub1.MP4',
+      vulture: 'background_vulture.MP4',
+      cheetah: 'background_cheetah.MP4',
+      wolf: 'background_wolf.MP4',
+      lion: 'background_lion.MP4',
+      twolions: 'background_two_lions.MP4',
+      croc: 'background_hyena.MP4',
+      blackrhino: 'BACKGROUND_BLACK_RHINO.MP4',
+      whiterhino: 'background_white_rhino.MP4',
+      elephant: 'background_elephant.MP4',
+      panther: 'background_panther.MP4',
+      jaguar: 'background_jaguar.MP4',
+      jackal: 'background_jackal.MP4'
+    };
+
+    function setBackgroundVideo(videoFileName) {
+      const videoEl = document.getElementById('bgVideo');
+      const sourceEl = document.getElementById('bgVideoSource');
+      sourceEl.src = videoFileName;
+      videoEl.load();
+      videoEl.play().catch(e => {});
     }
 
     let balance = parseInt(localStorage.getItem('dg_balance')) || 500;
@@ -648,7 +676,7 @@
         if (featuredIds.includes(anim.id)) {
           let name = anim.names[currentLang] || anim.names['en'];
           row.innerHTML += `
-            <div class="animal-show-card" onclick="switchTab('market', null)">
+            <div class="animal-show-card" onclick="selectAndShowAnimal('${anim.id}')">
               <img src="${anim.img}" class="animal-card-img" alt="${name}">
               <div style="font-size: 0.52rem; font-weight: 900; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">${name}</div>
               <div style="font-size: 0.46rem; color: ${anim.count > 0 ? '#2ecc71' : '#f1c40f'};">Bezit: ${anim.count}</div>
@@ -656,6 +684,17 @@
           `;
         }
       });
+    }
+
+    // ZET ACHTERGROND VIDEO OP BASIS VAN DIER / TAB
+    function selectAndShowAnimal(animalId) {
+      if (videoMapping[animalId]) {
+        setBackgroundVideo(videoMapping[animalId]);
+        let animObj = animalsData.find(a => a.id === animalId);
+        if (animObj) {
+          showToast(`🎬 Achtergrond gewijzigd naar ${animObj.names[currentLang] || animObj.names['en']} video!`);
+        }
+      }
     }
 
     function renderGameBuilder() {
@@ -707,12 +746,12 @@
       animalsData.forEach((anim, idx) => {
         let name = anim.names[currentLang] || anim.names['en'];
         grid.innerHTML += `
-          <div class="cr-card">
+          <div class="cr-card" onclick="selectAndShowAnimal('${anim.id}')">
             <img src="${anim.img}" class="cr-card-img" alt="${name}">
             <div style="font-size: 0.65rem; font-weight: 900;">${name}</div>
             <div style="font-size: 0.52rem; color: #2ecc71;">+${anim.baseProd.toLocaleString()} 🥩 / sa</div>
             <div style="font-size: 0.48rem; color: #ffd700; margin: 2px 0;">Bezit: ${anim.count}</div>
-            <button class="cr-buy-btn" onclick="buyAnimal(${idx})">${anim.cost.toLocaleString()} 🥩</button>
+            <button class="cr-buy-btn" onclick="event.stopPropagation(); buyAnimal(${idx})">${anim.cost.toLocaleString()} 🥩</button>
           </div>
         `;
       });
@@ -781,11 +820,15 @@
       hourlyProduction += animalsData[6].baseProd;
       document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
       document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
+      
+      // Activeer direct de wolf video!
+      setBackgroundVideo(videoMapping['wolf']);
+
       renderShop();
       addXP(100);
       saveGame();
       haptic('success');
-      showToast("🐺 Gefeliciteerd! Gratis Kurt (Wolf) succesvol geclaimd!");
+      showToast("🐺 Gefeliciteerd! Gratis Kurt (Wolf) geclaimed & achtergrond geactiveerd!");
     }
 
     function requestWithdrawal() {
@@ -880,11 +923,16 @@
       document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
       document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
       
+      // Schakel direct over naar de video van dit gekochte dier!
+      if (videoMapping[anim.id]) {
+        setBackgroundVideo(videoMapping[anim.id]);
+      }
+
       renderShop();
       addXP(50);
       saveGame();
       haptic('success');
-      showToast(`🎉 ${anim.names[currentLang] || anim.names['en']} aangeschaft! +${anim.baseProd} 🥩/u`);
+      showToast(`🎉 ${anim.names[currentLang] || anim.names['en']} aangeschaft & video geactiveerd!`);
     }
 
     function claimPassiveSteak() {
@@ -941,6 +989,14 @@
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
       if (element) element.classList.add('active');
+
+      // Automatische video per tabblad
+      if (tabName === 'hunt') {
+        setBackgroundVideo(videoMapping['hunt']);
+      } else if (tabName === 'ana') {
+        setBackgroundVideo(videoMapping['default']);
+      }
+
       haptic('light');
     }
 
@@ -998,10 +1054,11 @@
       lionLevel++;
       document.getElementById('balance').innerText = balance.toLocaleString();
       document.getElementById('lionLevelDisplay').innerText = lionLevel;
+      setBackgroundVideo(videoMapping['lion']);
       addXP(60);
       saveGame();
       haptic('success');
-      showToast(`🦁 Koning Leeuw is geüpgraded naar Level ${lionLevel}!`);
+      showToast(`🦁 Koning Leeuw is geüpgraded & Leeuwenvideo geactiveerd!`);
     }
 
     function triggerClashHunt() {

@@ -85,7 +85,7 @@
     .animals-row-container::-webkit-scrollbar { display: none; }
 
     .animal-show-card {
-      min-width: 74px; background: linear-gradient(180deg, #2b180d 0%, #120904 100%); border: 2px solid #e6af2e; border-radius: 12px;
+      min-width: 78px; background: linear-gradient(180deg, #2b180d 0%, #120904 100%); border: 2px solid #e6af2e; border-radius: 12px;
       padding: 6px 4px; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.7); flex-shrink: 0; cursor: pointer;
     }
     .animal-card-img { width: 40px; height: 40px; border-radius: 8px; border: 1.5px solid #ffd700; object-fit: cover; margin-bottom: 3px; }
@@ -123,15 +123,14 @@
       border-radius: 8px; color: #fff; font-weight: 900; font-size: 0.7rem; cursor: pointer; margin-top: 6px; text-transform: uppercase;
     }
 
-    /* INTERACTIVE SAVANNA BUILDER GRID */
-    .savanna-builder-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 6px 0;
+    /* INTERACTIVE GAME-STYLE SAVANNA BUILDER MAP */
+    .game-builder-container { display: flex; flex-direction: column; gap: 8px; }
+    .habitat-card-game {
+      background: linear-gradient(135deg, #26170a 0%, #120904 100%); border: 2px solid #e6af2e; border-radius: 14px;
+      padding: 8px 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.8); cursor: pointer;
     }
-    .builder-slot {
-      background: rgba(40, 24, 12, 0.8); border: 1.5px dashed #ffd700; border-radius: 10px; height: 65px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; text-align: center; font-size: 0.55rem; color: #ffd700; gap: 2px;
-    }
-    .builder-slot.occupied { border-style: solid; background: rgba(20, 40, 20, 0.85); border-color: #2ecc71; }
+    .habitat-card-game:active { transform: scale(0.98); }
+    .habitat-img { width: 46px; height: 46px; border-radius: 10px; border: 2px solid #ffd700; object-fit: cover; }
 
     /* MODAL OVERLAY FOR PAYMENT */
     .modal-overlay {
@@ -291,34 +290,8 @@
             <div style="margin-left: auto; font-size: 1rem; color: #2ecc71;">✅</div>
           </div>
 
-          <!-- Animal Cards Row -->
-          <div class="animals-row-container">
-            <div class="animal-show-card" onclick="switchTab('market', null)">
-              <img src="beyaz_gergedan.PNG" class="animal-card-img" alt="White Rhino">
-              <div style="font-size: 0.55rem; font-weight: 900; color: #fff;">White Rhino</div>
-              <div style="font-size: 0.48rem; color: #f1c40f;" id="invCardRhino">Bezit: 0</div>
-            </div>
-            <div class="animal-show-card" onclick="switchTab('market', null)">
-              <img src="fil.PNG" class="animal-card-img" alt="Elephant">
-              <div style="font-size: 0.55rem; font-weight: 900; color: #fff;">Elephant</div>
-              <div style="font-size: 0.48rem; color: #9b59b6;" id="invCardElephant">Bezit: 0</div>
-            </div>
-            <div class="animal-show-card" onclick="switchTab('market', null)">
-              <img src="kara_panter.PNG" class="animal-card-img" alt="Panther">
-              <div style="font-size: 0.55rem; font-weight: 900; color: #fff;">Panther</div>
-              <div style="font-size: 0.48rem; color: #3498db;" id="invCardPanther">Bezit: 0</div>
-            </div>
-            <div class="animal-show-card" onclick="switchTab('market', null)">
-              <img src="cita.PNG" class="animal-card-img" alt="Cheetah">
-              <div style="font-size: 0.55rem; font-weight: 900; color: #fff;">Cheetah</div>
-              <div style="font-size: 0.48rem; color: #2ecc71;" id="invCardCheetah">Bezit: 0</div>
-            </div>
-            <div class="animal-show-card" onclick="switchTab('market', null)">
-              <img src="aslan_yavrusu.PNG" class="animal-card-img" alt="Lion Cub">
-              <div style="font-size: 0.55rem; font-weight: 900; color: #fff;">Lion Cub</div>
-              <div style="font-size: 0.48rem; color: #e67e22;" id="invCardCub">Bezit: 1</div>
-            </div>
-          </div>
+          <!-- Dynamisch Gekoppelde Dieren Rij (Home Scherm) -->
+          <div class="animals-row-container" id="homeAnimalsRow"></div>
         </div>
 
         <!-- Home Bottom Section -->
@@ -346,19 +319,19 @@
         </div>
       </div>
 
-      <!-- TAB 2: ANIMALS / SAVANNE KAART & BOUWER -->
+      <!-- TAB 2: ANIMALS / GAME-STYLE SAVANNA BUILDER & HABITAT MAP -->
       <div id="tab-kaart" class="tab-content">
         <div class="page-box">
-          <div class="page-title" id="lblMapTitle">🗺️ Savanne-Bouwer & Kaart</div>
-          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Plaats bomen, waterplaatsen en dieren op je eigen savanne!</p>
+          <div class="page-title" id="lblMapTitle">🗺️ Savanne Habitat & Leefgebied Beheer</div>
+          <p style="font-size: 0.62rem; color: #ccc; text-align: center;" id="lblMapDesc">Beheer je habitats, bomen en waterplaatsen in game-stijl!</p>
           
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #ffb700; border-radius: 10px; padding: 8px; text-align: center;">
             <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">🦁 <span id="lblLionKing">Kral Aslan</span> - Level <span id="lionLevelDisplay">1</span></div>
             <button class="cr-buy-btn" onclick="upgradeLionLevel()" id="lblUpgradeLion">⬆️ Leeuw Upgraden (500 🥩)</button>
           </div>
 
-          <div style="font-size: 0.65rem; font-weight: bold; color: #ffd700; margin-top: 4px;" id="lblBuilderTitle">🏗️ Savanne Bouwgrond (Tik om te bouwen):</div>
-          <div class="savanna-builder-grid" id="builderGrid"></div>
+          <div style="font-size: 0.65rem; font-weight: bold; color: #ffd700; margin-top: 4px;" id="lblBuilderTitle">🏗️ Actieve Habitatecosystemen:</div>
+          <div class="game-builder-container" id="gameBuilderContainer"></div>
         </div>
       </div>
 
@@ -427,7 +400,7 @@
           <div style="background: rgba(0,0,0,0.6); border: 1.5px solid #3498db; border-radius: 10px; padding: 10px; text-align: center;">
             <div style="font-size: 0.7rem; font-weight: bold; color: #3498db;" id="lblExchangeTitle">🔄 Steak → TON Wisselen</div>
             <div style="font-size: 0.58rem; color: #aaa; margin: 4px 0;" id="lblExchangeInfo">50.000 Steak = 0.01 TON</div>
-            <button class="cr-buy-btn" style="background: #3498db;" onclick="exchangeSteakToTon()" id="lblExchangeBtn">Wissel Naar TON</button>
+            <button class="cr-buy-btn" style="background: #3498db;" onclick="exchangeSteakToTon()" id="lblExchangeBtn">Wissel Naار TON</button>
           </div>
 
           <!-- Uitbetaling Sectie -->
@@ -520,12 +493,10 @@
 
     let savedSlots = localStorage.getItem('dg_slots');
     let savannaSlots = savedSlots ? JSON.parse(savedSlots) : [
-      { id: 1, type: 'empty', name: 'Leeg Veld' },
-      { id: 2, type: 'empty', name: 'Leeg Veld' },
-      { id: 3, type: 'empty', name: 'Leeg Veld' },
-      { id: 4, type: 'empty', name: 'Leeg Veld' },
-      { id: 5, type: 'empty', name: 'Leeg Veld' },
-      { id: 6, type: 'empty', name: 'Leeg Veld' }
+      { id: 1, type: 'habitat', name: 'Acacia Bosje', icon: '🌳', prod: 15, level: 1 },
+      { id: 2, type: 'habitat', name: 'Waterpoel Oase', icon: '💧', prod: 35, level: 1 },
+      { id: 3, type: 'habitat', name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 1 },
+      { id: 4, type: 'habitat', name: 'Olifantenvallei', icon: '🐘', prod: 150, level: 1 }
     ];
 
     let savedAnimals = localStorage.getItem('dg_animals');
@@ -580,15 +551,15 @@
       nl: {
         hourRate: "/ uur", freeBonus: "Gratis +100", wheel: "Wiel 🥩", wallet: "Wallet", missions: "Missies", lang: "Taal",
         unlocked: "ONTSLOTEN:", activeMissions: "Actieve Missies", defeatBeasts: "Versla de wilde beesten",
-        tapToCollect: "PASSIEF CLAIMEN", collectVal: "STEAK KLAAR", mapTitle: "🗺️ Savanne-Bouwer & Kaart",
-        mapDesc: "Plaats bomen, waterplaatsen en dieren op je eigen savanne!", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
+        tapToCollect: "PASSIEF CLAIMEN", collectVal: "STEAK KLAAR", mapTitle: "🗺️ Savanne Habitat & Leefgebied Beheer",
+        mapDesc: "Beheer je habitats, bomen en waterplaatsen in game-stijl!", upgradeLion: "⬆️ Leeuw Upgraden (500 🥩)",
         arenaTitle: "🎯 Savanne-Arena & Missies", arenaDesc: "Selecteer je jager en start een dynamische missie!", startMission: "⚔️ MISSIE STARTEN & JAGEN!",
         marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Totaal Productie:", walletTitle: "🏦 Wallet, Wissel & Uitbetalen",
         walletDesc: "Wissel Steak om naar TON of vraag een uitbetaling aan naar je wallet.", exchangeTitle: "🔄 Steak → TON Wisselen",
         exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "Wissel Naar TON", depositAddr: "Stortingsadres (TON):",
         langDesc: "Selecteer je taal:", wheelTitle: "🎡 Rad van Fortuin", spinBtn: "DRAAI",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
-        lionKing: "Kral Aslan", copyBtn: "Kopieer", builderTitle: "🏗️ Savanne Bouwgrond (Tik om te bouwen):",
+        lionKing: "Kral Aslan", copyBtn: "Kopieer", builderTitle: "🏗️ Actieve Habitatecosystemen:",
         promoTitle: "🐺 PROMO: Eerste 50 Spelers Gratis Wolf!", promoLeft: "Resterende plekken:", promoBtn: "GRATIS CLAIMEN",
         usdPackTitle: "🚀 Speciale Vlees Kampagne", usdSelect: "Selecteer USD Bedrag:", buyUsdBtn: "PAKETİ SATIN AL",
         withdrawTitle: "📤 TON / GRAM Uitbetaling", withdrawBtn: "Vraag Uitbetaling Aan"
@@ -596,15 +567,15 @@
       tr: {
         hourRate: "/ sa", freeBonus: "Ücretsiz +100", wheel: "Çark 🥩", wallet: "Cüzdan", missions: "Görevler", lang: "Dil",
         unlocked: "AÇILDI:", activeMissions: "Aktif Görevler", defeatBeasts: "Vahşi canavarları alt et",
-        tapToCollect: "PASİF TOPLA", collectVal: "BİFTEK HAZIR", mapTitle: "🗺️ Savana Kurucu & Harita",
-        mapDesc: "Kendi savanana ağaçlar, su kaynakları ve hayvanlar yerleştir!", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
+        tapToCollect: "PASİF TOPLA", collectVal: "BİFTEK HAZIR", mapTitle: "🗺️ Savana Habitat & Yaşam Alanı",
+        mapDesc: "Habitatları, ağaçları ve su kaynaklarını oyun tarzında yönet!", upgradeLion: "⬆️ Aslanı Yükselt (500 🥩)",
         arenaTitle: "🎯 Savana Arenası & Görevler", arenaDesc: "Avcını seç ve dinamik bir göreve başla!", startMission: "⚔️ GÖREVİ BAŞLAT & AVLAN!",
         marketTitle: "🏕️ Mağra & Özel Fırsatlar", totalProd: "Toplam Üretim:", walletTitle: "🏦 Cüzdan, Takas & Çekim",
         walletDesc: "Biftekleri TON'a dönüştür veya cüzdanına çekim talebi oluştur.", exchangeTitle: "🔄 Biftek → TON Takası",
         exchangeInfo: "50.000 Biftek = 0.01 TON", exchangeBtn: "TON'a Dönüştür", depositAddr: "Yatırım Adresi (TON):",
         langDesc: "Dilinizi seçin:", wheelTitle: "🎡 Şans Çarkı", spinBtn: "ÇEVİR",
         home: "Ana Sayfa", animals: "Hayvanlar", arena: "Arena", market: "Mağra", earn: "Cüzdan",
-        lionKing: "Kral Aslan", copyBtn: "Kopyala", builderTitle: "🏗️ Savana Arsa (İnşa etmek için dokun):",
+        lionKing: "Kral Aslan", copyBtn: "Kopyala", builderTitle: "🏗️ Aktif Habitat Ekosistemleri:",
         promoTitle: "🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!", promoLeft: "Kalan Hak:", promoBtn: "ALINDI ✅",
         usdPackTitle: "🚀 Özel Biftek Kampanyası", usdSelect: "USD Miktarını Seç:", buyUsdBtn: "PAKETİ SATIN AL",
         withdrawTitle: "📤 TON / GRAM Çekim Talebi", withdrawBtn: "Çekim Talebi Oluştur"
@@ -612,15 +583,15 @@
       en: {
         hourRate: "/ hour", freeBonus: "Free +100", wheel: "Wheel 🥩", wallet: "Wallet", missions: "Missions", lang: "Language",
         unlocked: "UNLOCKED:", activeMissions: "Active Missions", defeatBeasts: "Defeat the wild beasts",
-        tapToCollect: "CLAIM PASSIVE", collectVal: "STEAK READY", mapTitle: "🗺️ Savanna Builder & Map",
-        mapDesc: "Place trees, waterholes, and animals on your custom savanna!", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
+        tapToCollect: "CLAIM PASSIVE", collectVal: "STEAK READY", mapTitle: "🗺️ Savanna Habitat & Management",
+        mapDesc: "Manage your habitats, trees and waterholes in game style!", upgradeLion: "⬆️ Upgrade Lion (500 🥩)",
         arenaTitle: "🎯 Savanna Arena & Missions", arenaDesc: "Select your fighter and start a dynamic mission!", startMission: "⚔️ START MISSION & HUNT!",
         marketTitle: "🏕️ Cave & Special Offers", totalProd: "Total Production:", walletTitle: "🏦 Wallet, Exchange & Withdraw",
         walletDesc: "Exchange Steak for TON or request a withdrawal.", exchangeTitle: "🔄 Steak → TON Exchange",
         exchangeInfo: "50,000 Steak = 0.01 TON", exchangeBtn: "Exchange to TON", depositAddr: "Deposit Address (TON):",
         langDesc: "Select your language:", wheelTitle: "🎡 Wheel of Fortune", spinBtn: "SPIN",
         home: "Home", animals: "Animals", arena: "Arena", market: "Market", earn: "Earn",
-        lionKing: "King Lion", copyBtn: "Copy", builderTitle: "🏗️ Savanna Land (Tap to build):",
+        lionKing: "King Lion", copyBtn: "Copy", builderTitle: "🏗️ Active Habitat Ecosystems:",
         promoTitle: "🐺 PROMO: Free Wolf for First 50 Players!", promoLeft: "Remaining Slots:", promoBtn: "CLAIM FREE",
         usdPackTitle: "🚀 Special Steak Campaign", usdSelect: "Select USD Amount:", buyUsdBtn: "BUY PACKAGE",
         withdrawTitle: "📤 TON / GRAM Withdrawal", withdrawBtn: "Request Withdrawal"
@@ -628,15 +599,15 @@
       de: {
         hourRate: "/ Std", freeBonus: "Gratis +100", wheel: "Rad 🥩", wallet: "Wallet", missions: "Missionen", lang: "Sprache",
         unlocked: "FREIGESCHALTET:", activeMissions: "Aktive Missionen", defeatBeasts: "Besiege die wilden Bestien",
-        tapToCollect: "PASSIV SAMMELN", collectVal: "STEAK BEREIT", mapTitle: "🗺️ Savannen-Builder & Karte",
-        mapDesc: "Platziere Bäume, Wasserlöcher und Tiere auf deiner Savanne!", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
-        arenaTitle: "🎯 Savannen-Arena & Missionen", arenaDesc: "Wähle deinen Jäger und starte eine dynamische Mission!", startMission: "⚔️ MISSION STARTEN & JAGEN!",
+        tapToCollect: "PASSIV SAMMELN", collectVal: "STEAK BEREIT", mapTitle: "🗺️ Savannen Habitat & Management",
+        mapDesc: "Verwalte deine Habitate im Spiel-Stil!", upgradeLion: "⬆️ Löwen upgraden (500 🥩)",
+        arenaTitle: "🎯 Savannen-Arena & Missionen", arenaDesc: "Wähle deinen Jäger und starte eine dynamische Mission!", starMission: "⚔️ MISSION STARTEN & JAGEN!",
         marketTitle: "🏕️ Höhle & Angebote", totalProd: "Gesamtproduktion:", walletTitle: "🏦 Wallet, Tausch & Auszahlung",
         walletDesc: "Tausche Steak gegen TON oder fordere eine Auszahlung an.", exchangeTitle: "🔄 Steak → TON Tausch",
         exchangeInfo: "50.000 Steak = 0.01 TON", exchangeBtn: "In TON tauschen", depositAddr: "Einzahlungsadresse (TON):",
         langDesc: "Wähle deine Sprache:", wheelTitle: "🎡 Glücksrad", spinBtn: "DREHEN",
         home: "Home", animals: "Tiere", arena: "Arena", market: "Markt", earn: "Earn",
-        lionKing: "König Löwe", copyBtn: "Kopieren", builderTitle: "🏗️ Savannenland (Zum Bauen tippen):",
+        lionKing: "König Löwe", copyBtn: "Kopieren", builderTitle: "🏗️ Aktive Habitat-Ökosysteme:",
         promoTitle: "🐺 PROMO: Kostenloser Wolf für 50 Spieler!", promoLeft: "Verbleibende Plätze:", promoBtn: "KOSTENLOS ANFORDERN",
         usdPackTitle: "🚀 Spezielle Steak-Kampagne", usdSelect: "USD-Betrag auswählen:", buyUsdBtn: "PAKET KAUFEN",
         withdrawTitle: "📤 TON / GRAM Auszahlung", withdrawBtn: "Auszahlung anfordern"
@@ -644,15 +615,15 @@
       fr: {
         hourRate: "/ heure", freeBonus: "Gratuit +100", wheel: "Roue 🥩", wallet: "Portefeuille", missions: "Missions", lang: "Langue",
         unlocked: "DÉBLOQUÉ:", activeMissions: "Missions Actives", defeatBeasts: "Vainquez les bêtes sauvages",
-        tapToCollect: "RÉCOLTE PASSIVE", collectVal: "STEAK PRÊT", mapTitle: "🗺️ Constructeur & Carte",
-        mapDesc: "Placez des arbres, points d'eau et animaux sur votre savane !", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
+        tapToCollect: "RÉCOLTE PASSIVE", collectVal: "STEAK PRÊT", mapTitle: "🗺️ Habitat & Gestion",
+        mapDesc: "Gérez vos habitats et points d'eau dans le style du jeu !", upgradeLion: "⬆️ Améliorer le Lion (500 🥩)",
         arenaTitle: "🎯 Arène de la Savane & Missions", arenaDesc: "Sélectionnez votre combattant et lancez une mission !", startMission: "⚔️ LANCER LA MISSION !",
         marketTitle: "🏕️ Caverne & Offres Spéciales", totalProd: "Production Totale:", walletTitle: "🏦 Portefeuille & Retrait",
         walletDesc: "Échangez vos Steaks contre des TON ou demandez un retrait.", exchangeTitle: "🔄 Échange Steak → TON",
         exchangeInfo: "50 000 Steaks = 0,01 TON", exchangeBtn: "Échanger en TON", depositAddr: "Adresse de dépôt (TON):",
         langDesc: "Sélectionnez votre langue:", wheelTitle: "🎡 Roue de la Fortune", spinBtn: "TOURNER",
         home: "Accueil", animals: "Animaux", arena: "Arène", market: "Marché", earn: "Gagner",
-        lionKing: "Roi Lion", copyBtn: "Copier", builderTitle: "🏗️ Terrain (Appuyer pour construire):",
+        lionKing: "Roi Lion", copyBtn: "Copier", builderTitle: "🏗️ Écosystèmes actifs :",
         promoTitle: "🐺 PROMO: Loup gratuit pour 50 joueurs !", promoLeft: "Places restantes :", promoBtn: "RÉCLAMER GRATUIT",
         usdPackTitle: "🚀 Campagne Steak Spéciale", usdSelect: "Sélectionnez le montant USD :", buyUsdBtn: "ACHETER LE PACK",
         withdrawTitle: "📤 Retrait TON / GRAM", withdrawBtn: "Demander le retrait"
@@ -675,54 +646,68 @@
       saveGame();
     }
 
-    function renderBuilder() {
-      let grid = document.getElementById('builderGrid');
-      grid.innerHTML = '';
-      savannaSlots.forEach((slot, idx) => {
-        if (slot.type === 'empty') {
-          grid.innerHTML += `
-            <div class="builder-slot" onclick="openBuildMenu(${idx})">
-              <span>➕</span>
-              <span>Bouwgrond</span>
-            </div>
-          `;
-        } else {
-          grid.innerHTML += `
-            <div class="builder-slot occupied" onclick="interactSlot(${idx})">
-              <span>${slot.icon}</span>
-              <span>${slot.name}</span>
+    // DYNAMISCHE HOME DIEREN RIJ (Gekoppeld aan echte aankopen!)
+    function renderHomeAnimals() {
+      let row = document.getElementById('homeAnimalsRow');
+      row.innerHTML = '';
+      // Toon de belangrijkste dieren (bijv. rhino, elephant, panther, cheetah, cub)
+      let featuredIds = ['whiterhino', 'elephant', 'panther', 'cheetah', 'cub', 'blackrhino'];
+      animalsData.forEach(anim => {
+        if (featuredIds.includes(anim.id)) {
+          let name = anim.names[currentLang] || anim.names['en'];
+          row.innerHTML += `
+            <div class="animal-show-card" onclick="switchTab('market', null)">
+              <img src="${anim.img}" class="animal-card-img" alt="${name}">
+              <div style="font-size: 0.52rem; font-weight: 900; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">${name}</div>
+              <div style="font-size: 0.46rem; color: ${anim.count > 0 ? '#2ecc71' : '#f1c40f'};">Bezit: ${anim.count}</div>
             </div>
           `;
         }
       });
     }
 
-    function openBuildMenu(idx) {
-      let choice = prompt("Kies wat je wilt bouwen:\n1. Acacia Boom 🌳 (+10 🥩/u)\n2. Waterplaats 💧 (+25 🥩/u)\n3. Welpen Speelplaats 🦁 (+50 🥩/u)", "1");
-      if (choice === "1") {
-        savannaSlots[idx] = { type: 'building', name: 'Acacia Boom', icon: '🌳', prod: 10 };
-        hourlyProduction += 10;
-      } else if (choice === "2") {
-        savannaSlots[idx] = { type: 'building', name: 'Waterplaats', icon: '💧', prod: 25 };
-        hourlyProduction += 25;
-      } else if (choice === "3") {
-        savannaSlots[idx] = { type: 'building', name: 'Welpen Plek', icon: '🦁', prod: 50 };
-        hourlyProduction += 50;
-      } else {
-        return;
-      }
-      document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
-      document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
-      renderBuilder();
-      addXP(25);
-      saveGame();
-      haptic('success');
-      showToast("🏗️ Succesvol gebouwd op je savanne!");
+    // GAME-STYLE HABITAT & SAVANNA MAP RENDERER
+    function renderGameBuilder() {
+      let container = document.getElementById('gameBuilderContainer');
+      container.innerHTML = '';
+      savannaSlots.forEach((slot, idx) => {
+        container.innerHTML += `
+          <div class="habitat-card-game" onclick="upgradeHabitat(${idx})">
+            <div style="font-size: 1.6rem; background: rgba(0,0,0,0.5); padding: 8px; border-radius: 10px; border: 1px solid #ffd700;">${slot.icon}</div>
+            <div style="flex-grow: 1;">
+              <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;">${slot.name} (Lv. ${slot.level})</div>
+              <div style="font-size: 0.55rem; color: #2ecc71; font-weight: bold;">+${slot.prod.toLocaleString()} 🥩 / uur</div>
+              <div style="font-size: 0.48rem; color: #aaa;">Tik om habitat te upgraden</div>
+            </div>
+            <div style="font-size: 0.8rem; color: #2ecc71; font-weight: bold;">⬆️</div>
+          </div>
+        `;
+      });
     }
 
-    function interactSlot(idx) {
-      haptic('light');
-      showToast(`✨ Dit is je ${savannaSlots[idx].name}. Het produceert extra Steak!`);
+    function upgradeHabitat(idx) {
+      let slot = savannaSlots[idx];
+      let cost = slot.level * 300;
+      if (balance < cost) {
+        haptic('error');
+        showToast("Onvoldoende Steak saldo om habitat te upgraden!");
+        return;
+      }
+      balance -= cost;
+      slot.level++;
+      let addedProd = Math.floor(slot.prod * 0.5);
+      slot.prod += addedProd;
+      hourlyProduction += addedProd;
+
+      document.getElementById('balance').innerText = balance.toLocaleString();
+      document.getElementById('totalProductionDisplay').innerText = hourlyProduction.toLocaleString();
+      document.getElementById('totalSpeedInfoMarket').innerText = hourlyProduction.toLocaleString();
+      
+      renderGameBuilder();
+      addXP(40);
+      saveGame();
+      haptic('success');
+      showToast(`🌟 ${slot.name} geüpgraded naar Level ${slot.level}! (+${addedProd} 🥩/u)`);
     }
 
     function renderShop() {
@@ -740,6 +725,7 @@
           </div>
         `;
       });
+      renderHomeAnimals();
     }
 
     function updateUsdSlider(val) {
@@ -1062,7 +1048,8 @@
     if (promoClaimed) document.getElementById('lblPromoBtn').innerText = "ALINDI ✅";
     
     renderShop();
-    renderBuilder();
+    renderGameBuilder();
+    renderHomeAnimals();
     addXP(0);
     updateUsdSlider(10);
   </script>

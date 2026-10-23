@@ -71,7 +71,7 @@
     .tab-content { display: none; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; }
     .tab-content.active { display: flex; }
 
-    /* 3D LIVE WORLD VIEWPORT (Met Video Kiezer) */
+    /* 3D LIVE WORLD VIEWPORT */
     .world-viewport-card {
       background: linear-gradient(135deg, rgba(30,18,8,0.92), rgba(12,6,2,0.96));
       border: 2px solid #ffd700; border-radius: 16px; padding: 10px;
@@ -109,7 +109,7 @@
     }
     .tap-collect-btn:active { transform: scale(0.97); }
 
-    /* PAGE BOX & STRATEGY UPGRADE TILES (Zoals in je laatste screenshot!) */
+    /* PAGE BOX & STRATEGY UPGRADE TILES */
     .page-box {
       background: rgba(18, 10, 5, 0.96); border: 2px solid #8a5a22; border-radius: 18px; padding: 12px;
       max-height: 100%; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 10px;
@@ -171,7 +171,7 @@
       border-radius: 8px; color: #fff; font-weight: 900; font-size: 0.7rem; cursor: pointer; margin-top: 6px; text-transform: uppercase;
     }
 
-    /* TACTICAL ARENA BOARD (Gebalanceerd & Winbaar!) */
+    /* TACTICAL ARENA BOARD */
     .game-arena-board {
       background: linear-gradient(135deg, #1b2e18 0%, #0d170b 100%); border: 2px solid #2ecc71; border-radius: 14px; padding: 12px;
       display: flex; flex-direction: column; gap: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.8);
@@ -259,11 +259,6 @@
     </div>
   </div>
 
-  <!-- DIER / HABITAT STATS & 3D INSPECTIE MODAL -->
-  <div class="modal-overlay" id="inspectModal">
-    <div class="modal-box" id="inspectModalContent"></div>
-  </div>
-
   <div class="app-container" id="appContainer">
     <div id="toast" class="toast-notification"></div>
 
@@ -322,10 +317,10 @@
     <!-- CONTENT AREA -->
     <div class="overlay-content">
 
-      <!-- TAB 1: HOME (Met Video Kiezer & Dierenlijst) -->
+      <!-- TAB 1: HOME -->
       <div id="tab-ana" class="tab-content active">
         <div>
-          <!-- 3D Wereld Viewport (Speelt direct de gekozen dier-video af) -->
+          <!-- 3D Wereld Viewport -->
           <div class="world-viewport-card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
               <div style="font-size: 0.72rem; font-weight: 900; color: #ffd700;" id="activeVideoTitle">🦁 3D Savanne Wereld (Leeuw)</div>
@@ -339,7 +334,7 @@
             <div style="font-size: 0.52rem; color: #ccc; text-align: center; margin-top: 2px;">Tik hieronder op een dier om direct de video te wisselen!</div>
           </div>
 
-          <!-- Dieren Rij om video's te kiezen -->
+          <!-- Dieren Rij -->
           <div class="animals-row-container" id="homeAnimalsRow"></div>
         </div>
 
@@ -368,7 +363,7 @@
         </div>
       </div>
 
-      <!-- TAB 2: ANIMALS / STRATEGIE UPGRADE TAB (Zoals in je laatste screenshot!) -->
+      <!-- TAB 2: ANIMALS / STRATEGIE UPGRADE TAB -->
       <div id="tab-kaart" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblMapTitle">🗺️ Savanne Strategie & Leefgebieden</div>
@@ -380,13 +375,11 @@
           </div>
 
           <div style="font-size: 0.65rem; font-weight: bold; color: #ffd700; margin-top: 4px;" id="lblBuilderTitle">🏗️ Actieve Leefgebieden & Upgrade Kaarten:</div>
-          
-          <!-- Strategie Upgrade Kaarten Grid -->
           <div id="strategyGridContainer" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;"></div>
         </div>
       </div>
 
-      <!-- TAB 3: TACTICAL ARENA (Nu perfect gebalanceerd en winbaar!) -->
+      <!-- TAB 3: TACTICAL ARENA -->
       <div id="tab-hunt" class="tab-content">
         <div class="page-box">
           <div class="page-title" id="lblArenaTitle">🎯 Tactische Savanne-Arena</div>
@@ -554,7 +547,6 @@
       videoEl.load();
       videoEl.play().catch(e => {});
 
-      // Ook direct in de home viewport video bijwerken
       const homeVid = document.getElementById('homeViewportVideo');
       if (homeVid) {
         homeVid.src = videoFileName;
@@ -735,7 +727,6 @@
       saveGame();
     }
 
-    // Direct video afspelen als je op een dier tikt op de homepagina
     function playAnimalVideo(animalId) {
       let anim = animalsData.find(a => a.id === animalId);
       if (anim && videoMapping[anim.id]) {
@@ -761,7 +752,6 @@
       });
     }
 
-    // Strategie Upgrade Tab (Precies zoals in je laatste screenshot met upgrade balken en knoppen!)
     function renderStrategyGrid() {
       let container = document.getElementById('strategyGridContainer');
       container.innerHTML = '';
@@ -822,7 +812,6 @@
       showToast(`🌟 ${plot.name} succesvol geüpgraded naar Level ${plot.level}!`);
     }
 
-    // GEBALANCEERDE & WINBARE ARENA GEVECHTEN
     function selectArenaFighter(id, name, hp, attack, el) {
       document.querySelectorAll('.unit-select-chip').forEach(c => c.classList.remove('selected'));
       el.classList.add('selected');
@@ -845,7 +834,6 @@
       let btn = document.getElementById('startBattleBtn');
       btn.disabled = true;
 
-      // Perfect gebalanceerd: Boss heeft 200 HP en jouw beest doet 65-80 schade per tik, dus je wint altijd!
       let bossHp = 200;
       let bossMaxHp = 200;
       let playerHp = selectedFighter.hp;
@@ -854,7 +842,7 @@
       document.getElementById('bossHpText').innerText = `${bossHp}/${bossMaxHp}`;
       document.getElementById('bossHpBar').style.width = '100%';
       document.getElementById('battleStatusMsg').innerText = `⚔️ Aanval gestart op Alpha Buffalo Boss!`;
-      setBackgroundVideo(videoMapping['hunt'], 'Arena Gevecht');
+      setBackgroundVideo(videoMapping['hunt'], 'Arena');
       haptic('success');
 
       let fightInterval = setInterval(() => {
@@ -920,10 +908,15 @@
     }
 
     function openPaymentModal() {
+      let tonCost = currentUsdVal * 0.005;
+      if (tonBalance < tonCost) {
+        haptic('error');
+        showToast("❌ Onvoldoende TON saldo in je wallet!");
+        return;
+      }
       let steakReward = currentUsdVal * 2500;
-      let tonCost = (currentUsdVal * 0.005).toFixed(3);
       document.getElementById('modalPackageInfo').innerText = `Pakket: $${currentUsdVal} USD (${steakReward.toLocaleString()} Steak)`;
-      document.getElementById('modalTonCost').innerText = `Kosten: ${tonCost} TON`;
+      document.getElementById('modalTonCost').innerText = `Kosten: ${tonCost.toFixed(3)} TON`;
       document.getElementById('paymentModal').style.display = 'flex';
       haptic('light');
     }
@@ -1212,11 +1205,15 @@
       setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
 
+    // Passief genereren MET een maximale limiet van 12 uur zodat het nooit ongecontroleerd door blijft lopen
     setInterval(() => {
-      let inc = Math.max(1, Math.floor(hourlyProduction / 720));
-      unclaimedSteak += inc;
-      document.getElementById('lblCollectVal').innerText = `+${unclaimedSteak} STEAK KLAAR`;
-      saveGame();
+      let maxCap = hourlyProduction * 12;
+      if (unclaimedSteak < maxCap) {
+        let inc = Math.max(1, Math.floor(hourlyProduction / 720));
+        unclaimedSteak = Math.min(maxCap, unclaimedSteak + inc);
+        document.getElementById('lblCollectVal').innerText = `+${unclaimedSteak} STEAK KLAAR`;
+        saveGame();
+      }
     }, 5000);
 
     // Initialiseer app

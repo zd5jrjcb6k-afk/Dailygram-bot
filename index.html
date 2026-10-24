@@ -43,29 +43,30 @@
             z-index: 1;
         }
 
-        .tab-content { display: none; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; position: absolute; top: 0; left: 0; padding-top: 85px; padding-bottom: 110px; overflow-y: auto; z-index: 10; pointer-events: none; }
+        .tab-content { display: none; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; position: absolute; top: 0; left: 0; padding-top: 85px; padding-bottom: 125px; overflow-y: auto; z-index: 10; pointer-events: none; }
         .tab-content.active { display: flex; }
         .interactive-layer { pointer-events: auto; }
 
         /* Game knoppen styling */
         .game-btn {
             background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
-            border: 3px solid #e0f2fe;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            border-radius: 16px;
+            border: 2px solid #e0f2fe;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            border-radius: 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 900;
-            font-size: 11px;
+            font-size: 10px;
             cursor: pointer;
             transition: transform 0.1s ease;
         }
         .game-btn:active { transform: scale(0.95); }
-        .game-btn-orange { background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%); border: 3px solid #fef3c7; }
-        .game-btn-red { background: linear-gradient(180deg, #f87171 0%, #dc2626 100%); border: 3px solid #fee2e2; }
+        .game-btn-orange { background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%); border: 2px solid #fef3c7; }
+        .game-btn-red { background: linear-gradient(180deg, #f87171 0%, #dc2626 100%); border: 2px solid #fee2e2; }
+        .game-btn-green { background: linear-gradient(180deg, #4ade80 0%, #15803d 100%); border: 2px solid #dcfce7; }
 
         /* Popups & Modals */
         .modal-overlay {
@@ -100,7 +101,7 @@
             <div style="font-size: 0.55rem; color: #3498db;" id="modalTonCost">Kosten: 0.05 TON</div>
             <div style="display: flex; gap: 6px; margin-top: 6px;">
                 <button class="game-btn game-btn-red py-2 px-4 text-xs" onclick="closePaymentModal()">Annuleren</button>
-                <button class="game-btn py-2 px-4 text-xs" onclick="confirmPayment()" style="background:#2ecc71; border-color:#dcfce7;">Bevestigen</button>
+                <button class="game-btn game-btn-green py-2 px-4 text-xs" onclick="confirmPayment()">Bevestigen</button>
             </div>
         </div>
     </div>
@@ -108,49 +109,49 @@
     <div class="phone-frame">
         
         <!-- ================= BOVENSTE HEADER UI ================= -->
-        <div class="pt-3 px-3 flex justify-between items-start z-30 interactive-layer">
+        <div class="pt-2 px-3 flex justify-between items-center z-30 interactive-layer">
             
             <!-- Profiel & Level (Links) -->
-            <div class="flex items-center gap-2 bg-black/60 backdrop-blur-md p-1.5 rounded-2xl pr-3 text-white border border-amber-400/60 shadow-lg cursor-pointer" onclick="switchTab('kaart')">
+            <div class="flex items-center gap-1.5 bg-black/70 backdrop-blur-md p-1.5 rounded-2xl pr-2.5 text-white border border-amber-400/60 shadow-lg cursor-pointer" onclick="switchTab('kaart')">
                 <div class="relative">
-                    <div class="w-10 h-10 rounded-full bg-amber-600 flex items-center justify-center font-bold border-2 border-amber-300 text-base shadow overflow-hidden">
+                    <div class="w-9 h-9 rounded-full bg-amber-600 flex items-center justify-center font-bold border-2 border-amber-300 text-sm shadow overflow-hidden">
                         🦁
                     </div>
-                    <div class="absolute -bottom-1 -right-1 bg-emerald-600 text-white text-[9px] font-black px-1 rounded-full border border-white" id="hudLevelBadge">
+                    <div class="absolute -bottom-1 -right-1 bg-emerald-600 text-white text-[8px] font-black px-1 rounded-full border border-white" id="hudLevelBadge">
                         1
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <div class="text-[11px] font-black text-amber-300 leading-tight" id="hudLevelText">Level 1</div>
-                    <div class="text-xs font-bold text-white leading-tight" id="playerNameDisplay">Speler</div>
-                    <div class="w-20 bg-black/60 h-2 rounded-full overflow-hidden border border-amber-400/40 mt-1">
+                    <div class="text-[10px] font-black text-amber-300 leading-tight" id="hudLevelText">Level 1</div>
+                    <div class="text-[11px] font-bold text-white leading-tight truncate max-w-[70px]" id="playerNameDisplay">Ahmet</div>
+                    <div class="w-16 bg-black/60 h-1.5 rounded-full overflow-hidden border border-amber-400/40 mt-0.5">
                         <div class="bg-gradient-to-r from-amber-400 to-emerald-400 h-full w-[0%]" id="xpBarFill"></div>
                     </div>
-                    <span class="text-[8px] text-gray-200" id="xpTextOverlay">0/100 XP</span>
                 </div>
             </div>
 
-            <!-- Titel: SAVANNAH WILD (Midden) -->
-            <div class="text-center font-black text-amber-300 text-xl tracking-wider italic drop-shadow-[0_4px_4px_rgba(0,0,0,0.9)]" style="text-shadow: 2px 2px 0px #78350f, -1px -1px 0px #f59e0b;">
-                SAVANNAH<br>WILD
+            <!-- Subtiele App Naam in het midden -->
+            <div class="text-center">
+                <div class="text-xs font-black tracking-widest text-amber-300 uppercase drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)]">Savannah Wild</div>
+                <div class="text-[9px] text-gray-200 font-bold">Dailygram Miner</div>
             </div>
 
-            <!-- Actuele Valuta (Rechtsboven) -->
-            <div class="flex flex-col gap-1 items-end cursor-pointer" onclick="switchTab('cuzdan')">
-                <div class="bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-white text-xs font-black flex items-center gap-1.5 border border-amber-400/70 shadow">
-                    <span id="balance">500</span> <span class="text-amber-400 text-sm">🥩</span>
+            <!-- Actuele Valuta (Rechtsboven - Strak en Duidelijk) -->
+            <div class="flex flex-col gap-1 items-end">
+                <div class="bg-black/80 backdrop-blur-md px-2.5 py-0.5 rounded-full text-white text-xs font-black flex items-center gap-1 border border-amber-400 shadow">
+                    <span id="balance" class="text-amber-300 text-xs">26.171</span> <span>🥩</span>
                 </div>
-                <div class="bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-white text-xs font-black flex items-center gap-1.5 border border-cyan-400/70 shadow">
-                    <span id="gramBalance">0.245</span> <span class="text-cyan-400 text-sm">💎 TON</span>
+                <div class="bg-black/80 backdrop-blur-md px-2.5 py-0.5 rounded-full text-white text-xs font-black flex items-center gap-1 border border-cyan-400 shadow">
+                    <span id="gramBalance" class="text-cyan-300 text-xs">1.404</span> <span class="text-cyan-400 text-[10px]">💎 TON</span>
                 </div>
             </div>
         </div>
 
         <!-- HABITAT STATUS & DAILY GOALS (RECHTSBOVEN) -->
-        <div class="absolute.top-16 right-3 absolute top-16 right-3 bg-emerald-950/90 backdrop-blur-md border-2 border-emerald-500/80 rounded-2xl p-2.5 text-white text-[10px] shadow-2xl z-30 w-48 interactive-layer">
+        <div class="absolute top-16 right-3 bg-emerald-950/90 backdrop-blur-md border-2 border-emerald-500/80 rounded-2xl p-2 text-white text-[10px] shadow-2xl z-30 w-44 interactive-layer">
             <div class="flex justify-between">🌿 Habitat Health: <span class="text-emerald-300 font-black">98%</span></div>
             <div class="flex justify-between">❤️ Animal Happiness: <span class="text-emerald-300 font-black">95%</span></div>
-            <div class="mt-1.5 pt-1.5 border-t border-emerald-500/40 font-black text-amber-300 flex items-center gap-1">
+            <div class="mt-1 pt-1 border-t border-emerald-500/40 font-black text-amber-300 flex items-center gap-1">
                 <span>⚠️</span> DAILY GOALS
             </div>
             <div class="text-[9px] text-gray-200 mt-0.5">1. Feed Giraffes (0/5)</div>
@@ -161,12 +162,12 @@
 
         <!-- ================= TABS INHOUD ================= -->
 
-        <!-- TAB 1: HOME (Achtergrond met Leefgebied) -->
+        <!-- TAB 1: HOME (Hoofdscherm) -->
         <div id="tab-ana" class="tab-content active">
             <div class="my-auto"></div>
         </div>
 
-        <!-- TAB 2: ANIMALS / LEEGBIEDEN (Level & Upgrades) -->
+        <!-- TAB 2: ANIMALS / LEEGBIEDEN -->
         <div id="tab-kaart" class="tab-content px-3 overflow-y-auto interactive-layer">
             <div class="bg-black/90 border-2 border-amber-600 rounded-2xl p-3 backdrop-blur-md flex flex-col gap-3">
                 <div class="text-center font-black text-amber-400 text-sm">🗺️ Leefgebieden & Bomen & Vijvers</div>
@@ -233,44 +234,47 @@
         </div>
 
 
-        <!-- ================= ONDERSTE BALK (EXACT ZOALS FOTO 2) ================= -->
-        <div class="p-3 pb-4 flex flex-col justify-end z-30 interactive-layer bg-gradient-to-t from-black/95 via-black/60 to-transparent">
+        <!-- ================= ONDERSTE BALK (MET HOME-KNOP EN 6-UURS CLAIM) ================= -->
+        <div class="p-2.5 pb-3 flex flex-col justify-end z-30 interactive-layer bg-gradient-to-t from-black/95 via-black/70 to-transparent">
             
-            <!-- Passief Claimen Banner -->
-            <div class="mb-2">
-                <div class="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 border-2 border-white rounded-2xl p-2.5 text-center shadow-xl cursor-pointer active:scale-95 flex items-center justify-between px-5" onclick="claimPassiveSteak()">
-                    <span class="text-xl">🥩</span>
+            <!-- Passief Claimen Banner (6 Uur Timer) -->
+            <div class="mb-1.5">
+                <div class="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 border-2 border-white rounded-2xl p-2 text-center shadow-xl cursor-pointer active:scale-95 flex items-center justify-between px-4" onclick="claimPassiveSteak()">
+                    <span class="text-lg">🥩</span>
                     <div class="text-center">
-                        <div class="text-[10px] font-black text-amber-950 uppercase tracking-wider">PASSIEF CLAIMEN</div>
+                        <div class="text-[9px] font-black text-amber-950 uppercase tracking-wider">PASSIEF CLAIMEN (6 UUR)</div>
                         <div class="text-xs font-black text-white" id="lblCollectVal">+157 STEAK KLAAR</div>
                     </div>
-                    <span class="text-lg">📥</span>
+                    <span class="text-base">📥</span>
                 </div>
             </div>
 
             <!-- Grote BUILD Knop -->
-            <div class="flex justify-center mb-2.5">
-                <button onclick="switchTab('kaart')" class="bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 text-white font-black text-lg px-16 py-2.5 rounded-2xl shadow-[0_6px_20px_rgba(14,165,233,0.7)] border-3 border-white active:scale-95 transition cursor-pointer tracking-widest uppercase">
+            <div class="flex justify-center mb-2">
+                <button onclick="switchTab('kaart')" class="bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 text-white font-black text-base px-14 py-2 rounded-2xl shadow-[0_5px_15px_rgba(14,165,233,0.7)] border-2 border-white active:scale-95 transition cursor-pointer tracking-widest uppercase">
                     BUILD
                 </button>
             </div>
 
-            <!-- Onderste Knoppenraster (Quests, Storage, Shop, Invent., Animals) -->
-            <div class="grid grid-cols-5 gap-1.5">
-                <button onclick="switchTab('hunt')" class="game-btn py-2">
-                    <span class="text-sm mb-0.5">📋</span> Quests
+            <!-- Onderste Knoppenraster (Inclusief Home-knop) -->
+            <div class="grid grid-cols-6 gap-1">
+                <button onclick="switchTab('ana')" class="game-btn game-btn-orange py-1.5">
+                    <span class="text-xs mb-0.5">🏠</span> Home
                 </button>
-                <button onclick="switchTab('cuzdan')" class="game-btn game-btn-orange py-2">
-                    <span class="text-sm mb-0.5">📦</span> Storage
+                <button onclick="switchTab('hunt')" class="game-btn py-1.5">
+                    <span class="text-xs mb-0.5">📋</span> Quests
                 </button>
-                <button onclick="switchTab('market')" class="game-btn game-btn-red py-2">
-                    <span class="text-sm mb-0.5">🏗️</span> Shop
+                <button onclick="switchTab('cuzdan')" class="game-btn game-btn-orange py-1.5">
+                    <span class="text-xs mb-0.5">📦</span> Storage
                 </button>
-                <button onclick="switchTab('cuzdan')" class="game-btn game-btn-orange py-2">
-                    <span class="text-sm mb-0.5">🎒</span> Invent.
+                <button onclick="switchTab('market')" class="game-btn game-btn-red py-1.5">
+                    <span class="text-xs mb-0.5">🏗️</span> Shop
                 </button>
-                <button onclick="switchTab('kaart')" class="game-btn py-2">
-                    <span class="text-sm mb-0.5">🦁</span> Animals
+                <button onclick="switchTab('cuzdan')" class="game-btn game-btn-orange py-1.5">
+                    <span class="text-xs mb-0.5">🎒</span> Invent.
+                </button>
+                <button onclick="switchTab('kaart')" class="game-btn py-1.5">
+                    <span class="text-xs mb-0.5">🦁</span> Animals
                 </button>
             </div>
         </div>
@@ -280,7 +284,7 @@
     <script>
         const tg = window.Telegram?.WebApp;
         const telegramUser = tg?.initDataUnsafe?.user;
-        const playerName = telegramUser?.first_name || 'Speler';
+        const playerName = telegramUser?.first_name || 'Ahmet';
         document.getElementById('playerNameDisplay').innerText = playerName;
 
         function haptic(style) {
@@ -292,23 +296,19 @@
             } catch(e) {}
         }
 
-        let balance = parseInt(localStorage.getItem('dg_balance')) || 500;
-        let tonBalance = parseFloat(localStorage.getItem('dg_ton')) || 0.245;
+        let balance = parseInt(localStorage.getItem('dg_balance')) || 26171;
+        let tonBalance = parseFloat(localStorage.getItem('dg_ton')) || 1.404;
         let unclaimedSteak = parseInt(localStorage.getItem('dg_unclaimed')) || 157;
-        let hourlyProduction = parseInt(localStorage.getItem('dg_prod')) || 157;
-        let playerLevel = parseInt(localStorage.getItem('dg_level')) || 1;
-        let playerXP = parseInt(localStorage.getItem('dg_xp')) || 0;
-        let xpNeeded = parseInt(localStorage.getItem('dg_xpneeded')) || 100;
+        let playerLevel = parseInt(localStorage.getItem('dg_level')) || 11;
         let lionLevel = parseInt(localStorage.getItem('dg_lion')) || 1;
-
-        let selectedFighter = { id: 'lion', name: 'Aslan', hp: 150, maxHp: 150, attack: 65 };
-        let bossFightActive = false;
-        let currentUsdVal = 10;
+        
+        // 6-uurs passief claim systeem
+        let lastClaimTime = parseInt(localStorage.getItem('dg_lastclaim')) || Date.now();
+        const CLAIM_INTERVAL = 6 * 60 * 60 * 1000; // 6 uur in milliseconden
 
         let savannaGrid = JSON.parse(localStorage.getItem('dg_savannagrid')) || [
-            { id: 0, name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 1, hp: 200 },
-            { id: 1, name: 'Waterpoel Oase', icon: '💧', prod: 35, level: 1, hp: 150 },
-            { id: 2, name: 'Acacia Bosje', icon: '🌳', prod: 45, level: 1, hp: 120 }
+            { id: 0, name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 1 },
+            { id: 1, name: 'Waterpoel Oase', icon: '💧', prod: 35, level: 1 }
         ];
 
         let animalsData = [
@@ -320,11 +320,9 @@
             localStorage.setItem('dg_balance', balance);
             localStorage.setItem('dg_ton', tonBalance);
             localStorage.setItem('dg_unclaimed', unclaimedSteak);
-            localStorage.setItem('dg_prod', hourlyProduction);
             localStorage.setItem('dg_level', playerLevel);
-            localStorage.setItem('dg_xp', playerXP);
-            localStorage.setItem('dg_xpneeded', xpNeeded);
             localStorage.setItem('dg_lion', lionLevel);
+            localStorage.setItem('dg_lastclaim', lastClaimTime);
             localStorage.setItem('dg_savannagrid', JSON.stringify(savannaGrid));
         }
 
@@ -332,6 +330,29 @@
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.getElementById('tab-' + tabName).classList.add('active');
             haptic('light');
+        }
+
+        function checkPassiveTimer() {
+            let now = Date.now();
+            let elapsed = now - lastClaimTime;
+            if (elapsed >= CLAIM_INTERVAL) {
+                unclaimedSteak += 150; // Vlees opgespaard na 6 uur
+                lastClaimTime = now;
+                saveGame();
+            }
+            document.getElementById('lblCollectVal').innerText = `+${unclaimedSteak} STEAK KLAAR`;
+        }
+
+        function claimPassiveSteak() {
+            if (unclaimedSteak <= 0) { showToast("Nog geen vlees klaar om te claimen!"); return; }
+            balance += unclaimedSteak;
+            unclaimedSteak = 0;
+            lastClaimTime = Date.now();
+            document.getElementById('balance').innerText = balance.toLocaleString();
+            document.getElementById('lblCollectVal').innerText = "+0 STEAK KLAAR";
+            saveGame();
+            haptic('success');
+            showToast("🥩 Vlees succesvol geclaimd!");
         }
 
         function renderStrategyGrid() {
@@ -390,16 +411,6 @@
             showToast("Dier gekocht!");
         }
 
-        function claimPassiveSteak() {
-            if (unclaimedSteak <= 0) { showToast("Nog niks klaar!"); return; }
-            balance += unclaimedSteak;
-            unclaimedSteak = 0;
-            document.getElementById('balance').innerText = balance.toLocaleString();
-            document.getElementById('lblCollectVal').innerText = "+0 STEAK KLAAR";
-            saveGame();
-            showToast("Steak geclaimd!");
-        }
-
         function exchangeSteakToTon() {
             if (balance < 50000) { showToast("Minimaal 50.000 Steak nodig!"); return; }
             let earned = (balance / 50000) * 0.01;
@@ -423,8 +434,6 @@
         }
 
         function startTacticalBattle() {
-            if (bossFightActive) return;
-            bossFightActive = true;
             let bossHp = 200;
             let interval = setInterval(() => {
                 bossHp -= 50;
@@ -432,7 +441,6 @@
                 document.getElementById('bossHpBar').style.width = `${(bossHp/200)*100}%`;
                 if (bossHp <= 0) {
                     clearInterval(interval);
-                    bossFightActive = false;
                     balance += 1000;
                     document.getElementById('balance').innerText = balance.toLocaleString();
                     saveGame();
@@ -442,18 +450,15 @@
         }
 
         function updateUsdSlider(val) {
-            currentUsdVal = parseInt(val);
-            document.getElementById('usdDisplay').innerText = `$${currentUsdVal} USD`;
-            document.getElementById('usdRewardText').innerText = `Alacağın: ${(currentUsdVal * 2500).toLocaleString()} 🥩`;
+            document.getElementById('usdDisplay').innerText = `$${val} USD`;
+            document.getElementById('usdRewardText').innerText = `Alacağın: ${(val * 2500).toLocaleString()} 🥩`;
         }
 
         function openPaymentModal() { document.getElementById('paymentModal').style.display = 'flex'; }
         function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; }
         function confirmPayment() {
-            let cost = currentUsdVal * 0.005;
-            if (tonBalance < cost) { showToast("Onvoldoende TON!"); closePaymentModal(); return; }
-            tonBalance -= cost;
-            balance += currentUsdVal * 2500;
+            tonBalance -= 0.05;
+            balance += 25000;
             document.getElementById('balance').innerText = balance.toLocaleString();
             document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
             saveGame();
@@ -485,6 +490,7 @@
         document.getElementById('hudLevelBadge').innerText = playerLevel;
         document.getElementById('hudLevelText').innerText = `Level ${playerLevel}`;
         document.getElementById('lionLevelDisplay').innerText = lionLevel;
+        checkPassiveTimer();
         renderStrategyGrid();
         renderShop();
     </script>

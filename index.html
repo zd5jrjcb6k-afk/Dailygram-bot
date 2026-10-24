@@ -3,314 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Savannah Wild - Dailygram Miner</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Savannah Wild - Habitat Concept</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #000;
+            background-color: #0f172a;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             overflow: hidden;
             user-select: none;
             -webkit-user-select: none;
         }
 
-        .bg-video {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; background-color: #000; z-index: 1;
-            transition: filter 0.5s ease;
-        }
-        body.night-mode .bg-video { filter: brightness(0.5) sepia(0.3) hue-rotate(180deg); }
-
+        /* Telefoon scherm container in exacte stijl */
         .phone-frame {
-            width: 100%; max-width: 480px; height: 100vh;
-            background: linear-gradient(to bottom, rgba(124, 211, 247, 0.4), rgba(203, 232, 186, 0.4));
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            width: 100%; max-width: 410px; height: 100vh; max-height: 880px;
+            background: linear-gradient(180deg, #7ad2f6 0%, #a4e3b5 35%, #d1bc88 100%);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
             overflow: hidden;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            z-index: 10;
+            border: 6px solid #222;
+            border-radius: 36px;
         }
 
-        .tab-content { display: none; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; position: absolute; top: 0; left: 0; padding-top: 75px; padding-bottom: 75px; overflow-y: auto; z-index: 5; }
-        .tab-content.active { display: flex; }
-
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.88); z-index: 500; display: none; justify-content: center; align-items: center; padding: 20px;
+        /* Subtiele animatie voor elementen op de savanne */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
         }
-        .modal-box {
-            background: linear-gradient(135deg, #2c1a0e, #140b05); border: 2px solid #ffd700; border-radius: 16px;
-            padding: 16px; width: 100%; max-width: 340px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.9); display: flex; flex-direction: column; gap: 10px;
-        }
-
-        .toast-notification {
-            position: absolute; top: 120px; left: 50%; transform: translateX(-50%);
-            background: rgba(18, 10, 5, 0.96); border: 2px solid #ffd700; color: #ffd700; padding: 6px 14px;
-            border-radius: 16px; font-size: 0.75rem; font-weight: bold; z-index: 600; display: none; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-        }
-
-        .animals-row-container {
-            display: flex; gap: 8px; overflow-x: auto; padding: 4px 8px; width: 100%; scrollbar-width: none;
-        }
-        .animals-row-container::-webkit-scrollbar { display: none; }
-        .animal-show-card {
-            min-width: 72px; background: rgba(20, 10, 5, 0.85); border: 1.5px solid #e6af2e; border-radius: 12px;
-            padding: 6px 4px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; flex-shrink: 0;
-        }
-        .cr-buy-btn {
-            width: 100%; background: linear-gradient(135deg, #2ecc71, #27ae60); border: 1px solid #fff; padding: 6px;
-            border-radius: 8px; color: #fff; font-weight: 900; font-size: 0.7rem; cursor: pointer; text-transform: uppercase;
-        }
+        .savanna-element { animation: floatSlow 4s ease-in-out infinite; }
     </style>
 </head>
-<body id="appBody">
-
-    <!-- ACHTERGROND VIDEO -->
-    <video id="bgVideo" class="bg-video" autoplay loop muted playsinline preload="auto">
-        <source id="bgVideoSource" src="./background_lion.MP4" type="video/mp4">
-    </video>
-
-    <!-- TOAST NOTIFICATIE -->
-    <div id="toast" class="toast-notification"></div>
-
-    <!-- BETALINGSMODAL -->
-    <div class="modal-overlay" id="paymentModal">
-        <div class="modal-box">
-            <div style="font-size: 0.9rem; font-weight: 900; color: #ffd700;">💳 Betalingsbevestiging</div>
-            <div style="font-size: 0.65rem; color: #ccc;" id="modalDesc">Bevestig de aankoop met je TON-saldo:</div>
-            <div style="font-size: 0.6rem; color: #2ecc71; font-weight: bold;" id="modalPackageInfo">Pakket: $10 USD (25.000 Steak)</div>
-            <div style="font-size: 0.55rem; color: #3498db;" id="modalTonCost">Kosten: 0.05 TON</div>
-            <div style="display: flex; gap: 6px; margin-top: 6px;">
-                <button class="cr-buy-btn" style="background: #e74c3c;" onclick="closePaymentModal()">Annuleren</button>
-                <button class="cr-buy-btn" style="background: #2ecc71;" onclick="confirmPayment()">Bevestigen</button>
-            </div>
-        </div>
-    </div>
+<body>
 
     <div class="phone-frame">
         
-        <!-- Bovenste statusbalk (Header zoals screenshot) -->
-        <div class="absolute top-0 left-0 w-full p-3 flex justify-between items-center z-20 bg-gradient-to-b from-black/70 via-black/40 to-transparent">
+        <!-- ================= BOVENSTE STATUSBALK (HEADER) ================= -->
+        <div class="pt-3 px-3 flex justify-between items-center z-20">
             <!-- Profiel & Level -->
-            <div class="flex items-center gap-2 bg-black/40 backdrop-blur-md p-1.5 rounded-full pr-3 text-white cursor-pointer border border-amber-500/50" onclick="switchTab('kaart', null)">
-                <div class="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center font-bold border-2 border-amber-300">
-                    🦁
+            <div class="flex items-center gap-2 bg-black/30 backdrop-blur-md p-1 rounded-full pr-3 text-white border border-amber-400/60 shadow-lg cursor-pointer" onclick="toonMelding('Profiel & Level 14')">
+                <div class="w-9 h-9 rounded-full bg-amber-500 flex items-center justify-center font-bold border-2 border-amber-200 text-sm shadow">
+                    👩🏽‍🦰
                 </div>
                 <div>
-                    <div class="text-xs font-bold text-amber-300" id="hudLevelText">Level 14</div>
-                    <div class="text-xs text-white">SafariAnne</div>
+                    <div class="text-[10px] font-black text-amber-300 leading-tight">Level 14</div>
+                    <div class="text-[11px] font-bold text-white leading-tight">SafariAnne</div>
                 </div>
             </div>
 
-            <!-- Titel -->
-            <div class="text-center font-black text-amber-400 text-base tracking-wider drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] italic">
+            <!-- Titel: SAVANNAH WILD -->
+            <div class="text-center font-black text-amber-300 text-lg tracking-widest italic drop-shadow-[0_3px_3px_rgba(0,0,0,0.8)]" style="text-shadow: 2px 2px 0px #78350f, -1px -1px 0px #f59e0b;">
                 SAVANNAH WILD
             </div>
 
             <!-- Valuta (Munten & Diamanten) -->
-            <div class="flex flex-col gap-1 items-end cursor-pointer" onclick="switchTab('cuzdan', null)">
-                <div class="bg-black/40 backdrop-blur-md px-2.5 py-0.5 rounded-full text-white text-xs font-bold flex items-center gap-1 border border-amber-500/50">
-                    <span id="balance">124.5K</span> <span class="text-amber-400">🥩</span>
+            <div class="flex flex-col gap-1 items-end">
+                <div class="bg-black/40 backdrop-blur-md px-2.5 py-0.5 rounded-full text-white text-xs font-black flex items-center gap-1 border border-amber-400/60 shadow">
+                    <span>124.5K</span> <span class="text-amber-400">🪙</span>
                 </div>
-                <div class="bg-black/40 backdrop-blur-md px-2.5 py-0.5 rounded-full text-white text-xs font-bold flex items-center gap-1 border border-cyan-500/50">
-                    <span id="gramBalance">78</span> <span class="text-cyan-400">💎 TON</span>
+                <div class="bg-black/40 backdrop-blur-md px-2.5 py-0.5 rounded-full text-white text-xs font-black flex items-center gap-1 border border-cyan-400/60 shadow">
+                    <span>78</span> <span class="text-cyan-400">💎</span>
                 </div>
             </div>
         </div>
 
-        <!-- Habitat Status & Daily Goals (Rechtsboven) -->
-        <div class="absolute top-16 right-3 bg-emerald-950/90 backdrop-blur-md border border-emerald-500/50 rounded-xl p-2 text-white text-[10px] shadow-lg z-20 w-44">
-            <div>🌿 Habitat Health: <span class="text-emerald-300 font-bold">98%</span></div>
-            <div>❤️ Animal Happiness: <span class="text-emerald-300 font-bold">95%</span></div>
-            <div class="mt-1 pt-1 border-t border-emerald-500/30 font-bold text-amber-300">🎯 DAILY GOALS</div>
+        <!-- ================= HABITAT STATUS & DAILY GOALS (RECHTSBOVEN) ================= -->
+        <div class="absolute top-16 right-3 bg-emerald-950/85 backdrop-blur-md border-2 border-emerald-500/60 rounded-xl p-2 text-white text-[10px] shadow-xl z-20 w-44">
+            <div class="flex justify-between">🌿 Habitat Health: <span class="text-emerald-300 font-black">98%</span></div>
+            <div class="flex justify-between">❤️ Animal Happiness: <span class="text-emerald-300 font-black">95%</span></div>
+            <div class="mt-1 pt-1 border-t border-emerald-500/40 font-black text-amber-300 flex items-center gap-1">
+                <span>⚠️</span> DAILY GOALS
+            </div>
             <div class="text-[9px] text-gray-200">1. Feed Giraffes (0/5)</div>
             <div class="text-[9px] text-gray-200">2. Place Acacia Tree (0/1)</div>
+            <div class="text-[9px] text-gray-200">3. Expand Habitat!</div>
         </div>
 
-        <!-- ================= TAB 1: HOME ================= -->
-        <div id="tab-ana" class="tab-content active px-3">
-            <!-- Midden: 3D Wereld Viewport met Video Kiezer -->
-            <div class="my-auto flex flex-col items-center gap-2">
-                <div class="w-full bg-black/60 border-2 border-amber-500 rounded-2xl p-2 shadow-xl backdrop-blur-sm">
-                    <div class="text-xs font-bold text-amber-300 mb-1 px-1" id="activeVideoTitle">🦁 3D Savanne Wereld (Leeuw)</div>
-                    <div class="w-full h-44 rounded-xl border border-emerald-500 overflow-hidden relative bg-black">
-                        <video id="homeViewportVideo" class="w-full h-full object-cover" autoplay loop muted playsinline>
-                            <source src="background_lion.MP4" type="video/mp4">
-                        </video>
-                    </div>
-                </div>
-
-                <!-- Dieren Rij om video's direct te kiezen -->
-                <div class="animals-row-container" id="homeAnimalsRow"></div>
-            </div>
-
-            <!-- Passief Claimen knop onderaan -->
-            <div class="mb-2">
-                <div class="bg-gradient-to-r from-amber-400 to-amber-600 border-2 border-white rounded-2xl p-3 text-center shadow-xl cursor-pointer active:scale-95 flex items-center justify-between px-6" onclick="claimPassiveSteak()">
-                    <span class="text-2xl">🥩</span>
-                    <div class="text-left">
-                        <div class="text-xs font-black text-amber-950 uppercase">PASSIEF CLAIMEN</div>
-                        <div class="text-sm font-black text-white" id="lblCollectVal">+157 STEAK KLAAR</div>
-                    </div>
-                    <span class="text-xl">📥</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= TAB 2: ANIMALS / LEEGBIEDEN ================= -->
-        <div id="tab-kaart" class="tab-content px-3 overflow-y-auto">
-            <div class="bg-black/80 border-2 border-amber-600 rounded-2xl p-3 backdrop-blur-md flex flex-col gap-3">
-                <div class="text-center font-black text-amber-400 text-sm">🗺️ Leefgebieden & Bomen & Vijvers</div>
+        <!-- ================= MIDDEN: DE CENTRALE SAVANNE PLATTEGROND / LEEGBIED ================= -->
+        <div class="absolute inset-0 flex items-center justify-center overflow-hidden z-10 pointer-events-none">
+            <!-- Achtergrond Illustratie / Layout van de Savanne -->
+            <div class="relative w-full h-full">
                 
-                <div class="bg-amber-950/80 border border-amber-500 rounded-xl p-2 text-center">
-                    <div class="text-xs font-bold text-amber-300">🦁 <span id="lblLionKing">Kral Aslan</span> - Level <span id="lionLevelDisplay">1</span></div>
-                    <button onclick="upgradeLionLevel()" class="mt-1 w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-xs py-1.5 rounded-lg">⬆️ LEEUW UPGRADEN (500 🥩)</button>
+                <!-- Verre horizon & bomen (Bovenste helft) -->
+                <div class="absolute top-24 left-1/2 -translate-x-1/2 w-full text-center opacity-75 text-xs font-bold text-amber-900 tracking-widest">
+                    🌳 ☁️ 🌳 ☁️ 🌳 (Savanne Horizon) 🌳 ☁️ 🌳
                 </div>
 
-                <div class="text-xs font-bold text-amber-300">🏗️ Actieve Leefgebieden & Upgrade Knoppen:</div>
-                <div id="strategyGridContainer" class="flex flex-col gap-2"></div>
+                <!-- Centrale Gebouw / Toren (Level 8) -->
+                <div class="absolute top-36 left-1/2 -translate-x-1/2 bg-amber-800/90 border-2 border-amber-600 rounded-xl p-2 text-white text-center shadow-2xl savanna-element pointer-events-auto cursor-pointer" onclick="toonMelding('Hoofdgebouw - Level 8')">
+                    <span class="text-xl">🏡</span>
+                    <span class="text-[10px] block font-black text-amber-300">Level 8 Toren</span>
+                </div>
+
+                <!-- Waterpoel met Zebra's -->
+                <div class="absolute top-64 left-8 w-44 h-28 bg-blue-400/70 rounded-full border-4 border-blue-600/60 shadow-inner flex items-center justify-center text-xl savanna-element pointer-events-auto cursor-pointer" onclick="toonMelding('Waterpoel Oase (Zebra\'s & Rhino)')" style="transform: rotate(-10deg);">
+                    💧🦓🦏
+                </div>
+
+                <!-- Giraffen Familie (Links) -->
+                <div class="absolute top-48 left-16 text-3xl savanna-element pointer-events-auto cursor-pointer" onclick="toonMelding('Giraffen Leefgebied')">
+                    🦒🦒
+                </div>
+
+                <!-- Leeuwenrots & Leeuwen (Rechtsmidden) -->
+                <div class="absolute top-56 right-10 bg-amber-900/60 border border-amber-500 rounded-xl p-2 text-center shadow-lg savanna-element pointer-events-auto cursor-pointer" onclick="toonMelding('Leeuwenrots & Troep')">
+                    🦁🦁<span class="text-[9px] block text-amber-300 font-bold">Koning Leeuw</span>
+                </div>
+
+                <!-- Olifanten (Rechtsonder) -->
+                <div class="absolute bottom-48 right-12 text-3xl savanna-element pointer-events-auto cursor-pointer" onclick="toonMelding('Olifantenvallei')">
+                    🐘🐘
+                </div>
+
+                <!-- Omheiningen / Houten Prikkkeldraad Decoratie (Onderste helft) -->
+                <div class="absolute bottom-36 left-12 right-12 h-24 border-2 border-amber-900/40 rounded-3xl bg-amber-700/10 backdrop-blur-[1px] flex items-center justify-center pointer-events-auto cursor-pointer" onclick="toonMelding('Omheinde Savanne Sector')">
+                    <span class="text-xs font-black text-amber-900 bg-amber-200/80 px-3 py-1 rounded-full shadow border border-amber-500">
+                        ✨ Hoofdleefgebied (Tik om te beheren) ✨
+                    </span>
+                </div>
+
             </div>
         </div>
 
-        <!-- ================= TAB 3: TACTICAL ARENA ================= -->
-        <div id="tab-hunt" class="tab-content px-3 overflow-y-auto">
-            <div class="bg-black/85 border-2 border-emerald-500 rounded-2xl p-3 flex flex-col gap-3 backdrop-blur-md">
-                <div class="text-center font-black text-amber-400 text-sm">🎯 Tactische Savanne-Arena</div>
-                
-                <div class="bg-black/70 border border-emerald-500 rounded-xl p-2.5 flex justify-between items-center text-xs">
-                    <div>
-                        <div class="text-emerald-400 font-bold" id="playerFighterName">Aslan</div>
-                        <div class="text-gray-300 text-[10px]">HP: <span id="playerHpText">150/150</span></div>
-                        <div class="w-20 bg-gray-700 h-2 rounded overflow-hidden mt-1"><div class="bg-emerald-500 h-full" id="playerHpBar" style="width: 100%;"></div></div>
-                    </div>
-                    <div class="text-red-500 font-black text-sm">VS</div>
-                    <div class="text-right">
-                        <div class="text-red-400 font-bold">Alpha Buffalo Boss</div>
-                        <div class="text-gray-300 text-[10px]">HP: <span id="bossHpText">200/200</span></div>
-                        <div class="w-20 bg-gray-700 h-2 rounded overflow-hidden mt-1 ml-auto"><div class="bg-red-500 h-full" id="bossHpBar" style="width: 100%;"></div></div>
-                    </div>
-                </div>
-
-                <div class="text-[11px] text-amber-300 text-center font-bold" id="battleStatusMsg">Selecteer vechter en start gevecht!</div>
-
-                <div class="flex gap-2 overflow-x-auto py-1" id="arenaFighterSelector">
-                    <div class="bg-amber-900/80 border border-amber-400 rounded-lg p-2 text-amber-300 text-xs cursor-pointer font-bold selected" onclick="selectArenaFighter('lion', 'Aslan', 150, 65, this)">🦁 Aslan</div>
-                    <div class="bg-amber-900/80 border border-amber-400 rounded-lg p-2 text-amber-300 text-xs cursor-pointer font-bold" onclick="selectArenaFighter('panther', 'Panter', 130, 70, this)">🐈‍⬛ Panter</div>
-                    <div class="bg-amber-900/80 border border-amber-400 rounded-lg p-2 text-amber-300 text-xs cursor-pointer font-bold" onclick="selectArenaFighter('cheetah', 'Cheetah', 120, 75, this)">🐆 Cheetah</div>
-                    <div class="bg-amber-900/80 border border-amber-400 rounded-lg p-2 text-amber-300 text-xs cursor-pointer font-bold" onclick="selectArenaFighter('elephant', 'Olifant', 300, 90, this)">🐘 Olifant</div>
-                </div>
-
-                <button id="startBattleBtn" onclick="startTacticalBattle()" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 text-white font-black py-2 rounded-xl text-xs uppercase shadow">⚔️ Start Gevecht & Win!</button>
-            </div>
-        </div>
-
-        <!-- ================= TAB 4: MARKET / SHOP ================= -->
-        <div id="tab-market" class="tab-content px-3 overflow-y-auto">
-            <div class="bg-black/85 border-2 border-amber-600 rounded-2xl p-3 flex flex-col gap-3 backdrop-blur-md">
-                <div class="text-center font-black text-amber-400 text-sm">🏕️ Mağra & Özel Fırsatlar</div>
-                
-                <div class="bg-emerald-950/80 border border-emerald-500 rounded-xl p-2.5 text-center">
-                    <div class="text-xs font-bold text-emerald-400">🐺 PROMO: İlk 50 Oyuncuya Ücretsiz Kurt!</div>
-                    <div class="text-[11px] text-gray-300 my-1">Kalan Hak: <span id="promoSlots">49</span> / 50</div>
-                    <button class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-1.5 rounded-lg" onclick="claimPromoWolf()" id="lblPromoBtn">ÜCRETSİZ AL</button>
-                </div>
-
-                <div class="bg-amber-950/80 border border-amber-500 rounded-xl p-2.5 text-center">
-                    <div class="text-xs font-bold text-amber-300">🚀 Özel Biftek Kampanyası</div>
-                    <div class="text-base font-black text-white my-1" id="usdDisplay">$10 USD</div>
-                    <input type="range" id="usdSlider" min="5" max="500" step="5" value="10" class="w-full accent-amber-400 cursor-pointer" oninput="updateUsdSlider(this.value)">
-                    <div class="text-[11px] text-emerald-400 font-bold my-1" id="usdRewardText">Alacağın: 25,000 🥩</div>
-                    <button class="w-full bg-amber-500 text-black font-bold text-xs py-1.5 rounded-lg" onclick="openPaymentModal()">PAKETİ SATIN AL</button>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2" id="animalShopGrid"></div>
-            </div>
-        </div>
-
-        <!-- ================= TAB 5: EARN / WALLET ================= -->
-        <div id="tab-cuzdan" class="tab-content px-3 overflow-y-auto">
-            <div class="bg-black/85 border-2 border-cyan-600 rounded-2xl p-3 flex flex-col gap-3 backdrop-blur-md">
-                <div class="text-center font-black text-cyan-400 text-sm">🏦 Wallet, Wissel & Uitbetalen</div>
-                
-                <div class="bg-cyan-950/70 border border-cyan-500 rounded-xl p-2.5 text-center">
-                    <div class="text-xs font-bold text-cyan-300">🔄 Steak → TON Wisselen</div>
-                    <div class="text-[10px] text-gray-300 my-1">50.000 Steak = 0.01 TON</div>
-                    <button class="w-full bg-cyan-600 text-white font-bold text-xs py-1.5 rounded-lg" onclick="exchangeSteakToTon()">WISSEL NAAR TON</button>
-                </div>
-
-                <div class="bg-red-950/70 border border-red-500 rounded-xl p-2.5">
-                    <div class="text-xs font-bold text-red-400">📤 Eigen Bedrag TON Uitbetalen</div>
-                    <input type="text" id="withdrawAmountInput" placeholder="Aantal TON (bijv. 0.1)..." class="w-full bg-black/80 text-white border border-red-500/50 p-1.5 rounded text-xs mt-1">
-                    <input type="text" id="withdrawAddrInput" placeholder="Jouw TON Wallet Adres..." class="w-full bg-black/80 text-white border border-red-500/50 p-1.5 rounded text-xs mt-1">
-                    <button class="w-full bg-red-600 text-white font-bold text-xs py-1.5 rounded-lg mt-2" onclick="requestWithdrawalCustom()">Vraag Uitbetaling Aan</button>
-                </div>
-
-                <div class="bg-amber-950/70 border border-amber-500 rounded-xl p-2.5">
-                    <div class="text-xs font-bold text-amber-300 mb-1">📜 Uitbetalingsvoortgang & Historie:</div>
-                    <div id="withdrawalHistoryContainer" class="flex flex-col gap-1 max-h-24 overflow-y-auto text-[11px]"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SETTINGS / LANGUAGE TAB -->
-        <div id="tab-language" class="tab-content px-3 overflow-y-auto">
-            <div class="bg-black/85 border-2 border-amber-500 rounded-2xl p-4 text-center backdrop-blur-md">
-                <div class="text-amber-400 font-bold text-sm mb-3">🌍 Selecteer je taal / Language</div>
-                <div class="flex flex-col gap-2">
-                    <button class="bg-amber-900/80 border border-amber-400 text-white text-xs py-2 rounded-xl font-bold" onclick="setAppLanguage('nl')">🇳🇱 Nederlands</button>
-                    <button class="bg-amber-900/80 border border-amber-400 text-white text-xs py-2 rounded-xl font-bold" onclick="setAppLanguage('tr')">🇹🇷 Türkçe</button>
-                    <button class="bg-amber-900/80 border border-amber-400 text-white text-xs py-2 rounded-xl font-bold" onclick="setAppLanguage('en')">🇬🇧 English</button>
-                    <button class="bg-amber-900/80 border border-amber-400 text-white text-xs py-2 rounded-xl font-bold" onclick="setAppLanguage('de')">🇩🇪 Deutsch</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- SPIN WHEEL TAB -->
-        <div id="tab-spin" class="tab-content px-3 text-center overflow-y-auto">
-            <div class="bg-black/85 border-2 border-amber-500 rounded-2xl p-4 backdrop-blur-md my-auto">
-                <div class="text-amber-400 font-bold text-sm mb-2">🎡 Rad van Fortuin</div>
-                <div class="relative w-36 h-36 mx-auto my-3 flex items-center justify-center">
-                    <div class="absolute -top-2 w-0 h-0 border-x-8 border-x-transparent border-t-[14px] border-t-white z-30"></div>
-                    <div class="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-900">
-                        <div id="wheel" class="w-full h-full rounded-full bg-[conic-gradient(#222_0deg_90deg,#444_90deg_180deg,#111_180deg_270deg,#555_270deg_360deg)] transition-transform duration-[3500ms] cubic-bezier(0.15,0.9,0.15,1)"></div>
-                    </div>
-                </div>
-                <button id="spinBtn" onclick="spinWheelSecure()" class="bg-white text-black font-black px-6 py-2 rounded-xl text-xs">DRAAI</button>
-            </div>
-        </div>
-
-        <!-- Onderste UI en Actieknop (Strak zoals de user screenshot) -->
-        <div class="absolute bottom-0 left-0 w-full p-3 flex flex-col justify-end z-20 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+        <!-- ================= ONDERSTE UI EN ACTIEKNOPPEN (ZOA OP DE FOTO) ================= -->
+        <div class="p-3 pb-5 flex flex-col justify-end z-20 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
             
             <!-- Hoofd Bouw-Knop (BUILD) -->
             <div class="flex justify-center mb-3">
-                <button onclick="switchTab('kaart', null)" class="bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-lg px-14 py-2.5 rounded-2xl shadow-xl border-2 border-amber-200 active:scale-95 transition cursor-pointer tracking-wider uppercase">
+                <button onclick="toonBouwMenu()" class="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-black font-black text-xl px-16 py-3 rounded-2xl shadow-[0_8px_20px_rgba(245,158,11,0.5)] border-4 border-amber-100 active:scale-95 transition cursor-pointer tracking-widest uppercase">
                     BUILD
                 </button>
             </div>
 
-            <!-- Onderste Navigatie Knoppen (Quests, Storage, Inventory, Animals) -->
-            <div class="grid grid-cols-4 gap-1.5">
-                <button onclick="switchTab('hunt', null)" class="bg-sky-500/90 hover:bg-sky-400 text-white text-[11px] font-bold py-2 px-1 rounded-xl shadow border border-sky-300 flex flex-col items-center">
+            <!-- Onderste Navigatie Knoppen in Stijl (Quests, Storage, Inventory, Shop/Settings, Animals) -->
+            <div class="grid grid-cols-5 gap-1.5">
+                <button onclick="toonMelding('Quests Openen 📜')" class="bg-sky-500 hover:bg-sky-400 text-white text-[10px] font-black py-2 px-0.5 rounded-xl shadow-lg border-2 border-sky-200 flex flex-col items-center active:scale-95 transition">
                     <span class="text-sm">📜</span> Quests
                 </button>
-                <button onclick="switchTab('cuzdan', null)" class="bg-amber-600/90 hover:bg-amber-500 text-white text-[11px] font-bold py-2 px-1 rounded-xl shadow border border-amber-400 flex flex-col items-center">
+                <button onclick="toonMelding('Storage Openen 📦')" class="bg-amber-600 hover:bg-amber-500 text-white text-[10px] font-black py-2 px-0.5 rounded-xl shadow-lg border-2 border-amber-300 flex flex-col items-center active:scale-95 transition">
                     <span class="text-sm">📦</span> Storage
                 </button>
-                <button onclick="switchTab('market', null)" class="bg-amber-500/90 hover:bg-amber-400 text-white text-[11px] font-bold py-2 px-1 rounded-xl shadow border border-amber-300 flex flex-col items-center">
-                    <span class="text-sm">🎒</span> Inventory
+                <button onclick="toonMelding('Shop & Build Openen 🏗️')" class="bg-red-600 hover:bg-red-500 text-white text-[10px] font-black py-2 px-0.5 rounded-xl shadow-lg border-2 border-red-300 flex flex-col items-center active:scale-95 transition">
+                    <span class="text-sm">🏗️</span> Shop
                 </button>
-                <button onclick="switchTab('kaart', null)" class="bg-amber-600/90 hover:bg-amber-500 text-white text-[11px] font-bold py-2 px-1 rounded-xl shadow border border-amber-400 flex flex-col items-center">
+                <button onclick="toonMelding('Inventory Openen 🎒')" class="bg-amber-500 hover:bg-amber-400 text-white text-[10px] font-black py-2 px-0.5 rounded-xl shadow-lg border-2 border-amber-200 flex flex-col items-center active:scale-95 transition">
+                    <span class="text-sm">🎒</span> Invent.
+                </button>
+                <button onclick="toonMelding('Animals Openen 🦁')" class="bg-amber-700 hover:bg-amber-600 text-white text-[10px] font-black py-2 px-0.5 rounded-xl shadow-lg border-2 border-amber-400 flex flex-col items-center active:scale-95 transition">
                     <span class="text-sm">🦁</span> Animals
                 </button>
             </div>
@@ -318,491 +164,25 @@
 
     </div>
 
+    <!-- Melding Modal voor interactie -->
+    <div id="toast" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/90 border-2 border-amber-400 text-amber-300 px-6 py-3 rounded-2xl text-sm font-bold shadow-2xl z-50 hidden text-center">
+        Melding tekst
+    </div>
+
     <script>
-        const tg = window.Telegram?.WebApp;
-        function haptic(style) {
-            try {
-                if (tg && tg.HapticFeedback) {
-                    if (style === 'success' || style === 'error') tg.HapticFeedback.notificationOccurred(style);
-                    else tg.HapticFeedback.impactOccurred(style);
-                }
-            } catch(e) {}
-        }
-
-        const videoMapping = {
-            default: 'background_empty.MP4',
-            mother: 'background_mother.MP4',
-            hunt: 'background_hunt.MP4',
-            cub: 'background_cub1.MP4',
-            vulture: 'background_vulture.MP4',
-            cheetah: 'background_cheetah.MP4',
-            wolf: 'background_wolf.MP4',
-            lion: 'background_lion.MP4',
-            twolions: 'background_two_lions.MP4',
-            croc: 'background_hyena.MP4',
-            blackrhino: 'BACKGROUND_BLACK_RHINO.MP4',
-            whiterhino: 'background_white_rhino.MP4',
-            elephant: 'background_elephant.MP4',
-            panther: 'background_panther.MP4',
-            jaguar: 'background_jaguar.MP4',
-            jackal: 'background_jackal.MP4'
-        };
-
-        function setBackgroundVideo(videoFileName, animalTitle = '') {
-            const videoEl = document.getElementById('bgVideo');
-            const sourceEl = document.getElementById('bgVideoSource');
-            sourceEl.src = videoFileName;
-            videoEl.load();
-            videoEl.play().catch(e => {});
-
-            const homeVid = document.getElementById('homeViewportVideo');
-            if (homeVid) {
-                homeVid.src = videoFileName;
-                homeVid.load();
-                homeVid.play().catch(e => {});
-            }
-            if (animalTitle) {
-                let titleEl = document.getElementById('activeVideoTitle');
-                if (titleEl) titleEl.innerText = `🦁 3D Wereld: ${animalTitle}`;
-            }
-        }
-
-        let balance = parseInt(localStorage.getItem('dg_balance')) || 124500;
-        let tonBalance = parseFloat(localStorage.getItem('dg_ton')) || 78.0;
-        let unclaimedSteak = parseInt(localStorage.getItem('dg_unclaimed')) || 157;
-        let hourlyProduction = parseInt(localStorage.getItem('dg_prod')) || 431;
-        let playerLevel = parseInt(localStorage.getItem('dg_level')) || 14;
-        let playerXP = parseInt(localStorage.getItem('dg_xp')) || 3450;
-        let xpNeeded = parseInt(localStorage.getItem('dg_xpneeded')) || 5000;
-        let lionLevel = parseInt(localStorage.getItem('dg_lion')) || 8;
-        let promoClaimed = localStorage.getItem('dg_promo') === 'true';
-        let promoSlots = parseInt(localStorage.getItem('dg_promoslots')) || 49;
-        let currentLang = localStorage.getItem('dg_lang') || 'nl';
-
-        let lastFreeClaim = parseInt(localStorage.getItem('dg_freeclaim')) || 0;
-        let lastSpinTime = parseInt(localStorage.getItem('dg_spintime')) || 0;
-        let currentRotation = 0;
-        let currentUsdVal = 10;
-
-        let selectedFighter = { id: 'lion', name: 'Aslan', hp: 150, maxHp: 150, attack: 65 };
-        let bossFightActive = false;
-
-        let savedSlots = localStorage.getItem('dg_savannagrid');
-        let savannaGrid = savedSlots ? JSON.parse(savedSlots) : [
-            { id: 0, name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 8, hp: 200 },
-            { id: 1, name: 'Waterpoel Oase', icon: '💧', prod: 35, level: 3, hp: 150 },
-            { id: 2, name: 'Acacia Bosje', icon: '🌳', prod: 45, level: 2, hp: 120 },
-            { id: 3, name: 'Olifantenvallei', icon: '🐘', prod: 150, level: 1, hp: 300 }
-        ];
-
-        let savedWithdrawals = localStorage.getItem('dg_withdrawals');
-        let withdrawalHistory = savedWithdrawals ? JSON.parse(savedWithdrawals) : [
-            { amount: 0.5, status: 'Verzonden ✅', date: 'Gisteren' }
-        ];
-
-        let savedAnimals = localStorage.getItem('dg_animals');
-        let animalsData = [
-            { id: 'cub', img: 'aslan_yavrusu.PNG', count: 1, baseProd: 2, cost: 200, hp: 50, attack: 10, names: { nl: 'Aslan Yavrusu', tr: 'Aslan Yavrusu', en: 'Lion Cub' } },
-            { id: 'vulture', img: 'afrika_akbabasi.PNG', count: 2, baseProd: 5, cost: 600, hp: 60, attack: 15, names: { nl: 'Afrikaanse Akbaba', tr: 'Afrika Akbabası', en: 'African Vulture' } },
-            { id: 'antilope', img: 'antilop.PNG', count: 4, baseProd: 12, cost: 1500, hp: 80, attack: 18, names: { nl: 'Antilope', tr: 'Antilop', en: 'Antelope' } },
-            { id: 'jaguar', img: 'jaguar.PNG', count: 1, baseProd: 30, cost: 4000, hp: 110, attack: 30, names: { nl: 'Jaguar', tr: 'Jaguar', en: 'Jaguar' } }
-        ];
-
-        if (savedAnimals) {
-            let parsedCounts = JSON.parse(savedAnimals);
-            animalsData.forEach((a, i) => { if (parsedCounts[i] !== undefined) a.count = parsedCounts[i]; });
-        }
-
-        function saveGame() {
-            localStorage.setItem('dg_balance', balance);
-            localStorage.setItem('dg_ton', tonBalance);
-            localStorage.setItem('dg_unclaimed', unclaimedSteak);
-            localStorage.setItem('dg_prod', hourlyProduction);
-            localStorage.setItem('dg_level', playerLevel);
-            localStorage.setItem('dg_xp', playerXP);
-            localStorage.setItem('dg_xpneeded', xpNeeded);
-            localStorage.setItem('dg_lion', lionLevel);
-            localStorage.setItem('dg_promo', promoClaimed);
-            localStorage.setItem('dg_promoslots', promoSlots);
-            localStorage.setItem('dg_lang', currentLang);
-            localStorage.setItem('dg_savannagrid', JSON.stringify(savannaGrid));
-            localStorage.setItem('dg_withdrawals', JSON.stringify(withdrawalHistory));
-            localStorage.setItem('dg_animals', JSON.stringify(animalsData.map(a => a.count)));
-        }
-
-        function playAnimalVideo(animalId) {
-            let anim = animalsData.find(a => a.id === animalId);
-            if (anim && videoMapping[anim.id]) {
-                let name = anim.names[currentLang] || anim.names['en'];
-                setBackgroundVideo(videoMapping[anim.id], name);
-                haptic('light');
-                showToast(`🎬 Video: ${name}!`);
-            }
-        }
-
-        function renderHomeAnimals() {
-            let row = document.getElementById('homeAnimalsRow');
-            if(!row) return;
-            row.innerHTML = '';
-            animalsData.forEach(anim => {
-                let name = anim.names[currentLang] || anim.names['en'];
-                row.innerHTML += `
-                    <div class="animal-show-card" onclick="playAnimalVideo('${anim.id}')">
-                        <div class="w-9 h-9 mx-auto rounded-full bg-amber-600 flex items-center justify-center text-sm font-bold border border-amber-300 mb-1">🦁</div>
-                        <div style="font-size: 0.5rem; font-weight: 900; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">${name}</div>
-                        <div style="font-size: 0.45rem; color: #2ecc71;">Bezit: ${anim.count}</div>
-                    </div>
-                `;
-            });
-        }
-
-        function renderStrategyGrid() {
-            let container = document.getElementById('strategyGridContainer');
-            if(!container) return;
-            container.innerHTML = '';
-            savannaGrid.forEach((plot, idx) => {
-                let cost = plot.level * 400;
-                let nextLevel = plot.level + 1;
-                container.innerHTML += `
-                    <div class="bg-amber-950/90 border border-amber-500 rounded-xl p-2.5 flex flex-col gap-2">
-                        <div class="flex justify-between items-center text-xs">
-                            <div class="flex items-center gap-2">
-                                <span class="text-xl">${plot.icon}</span>
-                                <div>
-                                    <div class="font-bold text-amber-300">${plot.name}</div>
-                                    <div class="text-[10px] text-emerald-400">Level ${plot.level} ➔ ${nextLevel}</div>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-[10px] text-gray-300">❤️ ${plot.hp || 150} HP</div>
-                                <div class="text-[11px] font-bold text-amber-400">+${plot.prod} 🥩/u</div>
-                            </div>
-                        </div>
-                        <button onclick="upgradePlot(${idx})" class="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-xs py-1.5 rounded-lg uppercase shadow">
-                            ⬆️ Upgrade naar Lvl ${nextLevel} (${cost.toLocaleString()} 🥩)
-                        </button>
-                    </div>
-                `;
-            });
-        }
-
-        function upgradePlot(idx) {
-            let plot = savannaGrid[idx];
-            let cost = plot.level * 400;
-            if (balance < cost) {
-                haptic('error');
-                showToast(`Onvoldoende Steak! Nodig: ${cost.toLocaleString()} 🥩`);
-                return;
-            }
-            balance -= cost;
-            plot.level++;
-            plot.hp = (plot.hp || 150) + 60;
-            plot.prod += Math.floor(plot.prod * 0.5);
-            hourlyProduction += Math.floor(plot.prod * 0.5);
-
-            document.getElementById('balance').innerText = balance.toLocaleString();
-            document.getElementById('totalProductionDisplay')?.innerText = hourlyProduction.toLocaleString();
-
-            renderStrategyGrid();
-            saveGame();
-            haptic('success');
-            showToast(`🌟 ${plot.name} geüpgraded naar Level ${plot.level}!`);
-        }
-
-        function selectArenaFighter(id, name, hp, attack, el) {
-            document.querySelectorAll('#arenaFighterSelector > div').forEach(c => c.classList.remove('border-amber-400', 'bg-amber-700'));
-            el.classList.add('border-amber-400', 'bg-amber-700');
-            selectedFighter = { id: id, name: name, hp: hp, maxHp: hp, attack: attack };
-            
-            document.getElementById('playerFighterName').innerText = name;
-            document.getElementById('playerHpText').innerText = `${hp}/${hp}`;
-            document.getElementById('playerHpBar').style.width = '100%';
-            document.getElementById('battleStatusMsg').innerText = `${name} is klaar om te winnen!`;
-
-            if (videoMapping[id]) setBackgroundVideo(videoMapping[id], name);
-            haptic('light');
-        }
-
-        function startTacticalBattle() {
-            if (bossFightActive) return;
-            bossFightActive = true;
-            let btn = document.getElementById('startBattleBtn');
-            btn.disabled = true;
-
-            let bossHp = 200, bossMaxHp = 200;
-            let playerHp = selectedFighter.hp, playerMaxHp = selectedFighter.maxHp;
-
-            document.getElementById('bossHpText').innerText = `${bossHp}/${bossMaxHp}`;
-            document.getElementById('bossHpBar').style.width = '100%';
-            document.getElementById('battleStatusMsg').innerText = `⚔️ Aanval gestart op Boss!`;
-            setBackgroundVideo(videoMapping['hunt'], 'Arena');
-            haptic('success');
-
-            let fightInterval = setInterval(() => {
-                let pDamage = selectedFighter.attack + Math.floor(Math.random() * 15);
-                bossHp = Math.max(0, bossHp - pDamage);
-                document.getElementById('bossHpText').innerText = `${bossHp}/${bossMaxHp}`;
-                document.getElementById('bossHpBar').style.width = `${(bossHp/bossMaxHp)*100}%`;
-
-                if (bossHp <= 0) {
-                    clearInterval(fightInterval);
-                    bossFightActive = false;
-                    btn.disabled = false;
-                    balance += 1000;
-                    document.getElementById('balance').innerText = balance.toLocaleString();
-                    saveGame();
-                    haptic('success');
-                    showToast(`🏆 VICTORY! +1000 🥩 gewonnen!`);
-                    return;
-                }
-
-                setTimeout(() => {
-                    let bDamage = 15 + Math.floor(Math.random() * 10);
-                    playerHp = Math.max(0, playerHp - bDamage);
-                    document.getElementById('playerHpText').innerText = `${playerHp}/${playerMaxHp}`;
-                    document.getElementById('playerHpBar').style.width = `${(playerHp/playerMaxHp)*100}%`;
-                }, 400);
-            }, 900);
-        }
-
-        function renderShop() {
-            let grid = document.getElementById('animalShopGrid');
-            if(!grid) return;
-            grid.innerHTML = '';
-            animalsData.forEach((anim, idx) => {
-                let name = anim.names[currentLang] || anim.names['en'];
-                grid.innerHTML += `
-                    <div class="bg-amber-950/80 border border-amber-600 rounded-xl p-2 text-center cursor-pointer" onclick="playAnimalVideo('${anim.id}')">
-                        <div class="w-10 h-10 mx-auto rounded-full bg-amber-600 flex items-center justify-center text-sm font-bold border border-amber-300 mb-1">🦁</div>
-                        <div class="text-xs font-bold text-white">${name}</div>
-                        <div class="text-[10px] text-emerald-400">+${anim.baseProd} 🥩/u</div>
-                        <button class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px] py-1 rounded mt-1" onclick="event.stopPropagation(); buyAnimal(${idx})">${anim.cost} 🥩</button>
-                    </div>
-                `;
-            });
-            renderHomeAnimals();
-        }
-
-        function buyAnimal(index) {
-            let anim = animalsData[index];
-            if (balance < anim.cost) {
-                haptic('error');
-                showToast("Onvoldoende Steak saldo!");
-                return;
-            }
-            balance -= anim.cost;
-            anim.count++;
-            hourlyProduction += anim.baseProd;
-
-            document.getElementById('balance').innerText = balance.toLocaleString();
-            renderShop();
-            saveGame();
-            haptic('success');
-            showToast(`🎉 ${anim.names[currentLang] || anim.names['en']} aangeschaft!`);
-        }
-
-        function updateUsdSlider(val) {
-            currentUsdVal = parseInt(val);
-            document.getElementById('usdDisplay').innerText = `$${currentUsdVal} USD`;
-            document.getElementById('usdRewardText').innerText = `Alacağın: ${(currentUsdVal * 2500).toLocaleString()} 🥩 (Kosten: ${(currentUsdVal * 0.005).toFixed(3)} TON)`;
-        }
-
-        function openPaymentModal() {
-            let tonCost = currentUsdVal * 0.005;
-            if (tonBalance < tonCost) {
-                haptic('error');
-                showToast("❌ Onvoldoende TON saldo in je wallet!");
-                return;
-            }
-            document.getElementById('modalPackageInfo').innerText = `Pakket: $${currentUsdVal} USD (${(currentUsdVal * 2500).toLocaleString()} Steak)`;
-            document.getElementById('modalTonCost').innerText = `Kosten: ${tonCost.toFixed(3)} TON`;
-            document.getElementById('paymentModal').style.display = 'flex';
-            haptic('light');
-        }
-
-        function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; }
-
-        function confirmPayment() {
-            let tonCost = currentUsdVal * 0.005;
-            if (tonBalance < tonCost) {
-                haptic('error');
-                showToast("❌ Onvoldoende TON!");
-                closePaymentModal();
-                return;
-            }
-            tonBalance -= tonCost;
-            balance += currentUsdVal * 2500;
-            document.getElementById('balance').innerText = balance.toLocaleString();
-            document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
-            saveGame();
-            closePaymentModal();
-            haptic('success');
-            showToast(`🚀 Succesvol $${currentUsdVal} USD pakket gekocht!`);
-        }
-
-        function claimPromoWolf() {
-            if (promoClaimed || promoSlots <= 0) {
-                haptic('error');
-                showToast("Reeds geclaimd of geen plekken meer!");
-                return;
-            }
-            promoClaimed = true;
-            promoSlots--;
-            document.getElementById('promoSlots').innerText = promoSlots;
-            document.getElementById('lblPromoBtn').innerText = "ALINDI ✅";
-            balance += 5000;
-            document.getElementById('balance').innerText = balance.toLocaleString();
-            saveGame();
-            haptic('success');
-            showToast("🐺 Gratis beloning geclaimd!");
-        }
-
-        function requestWithdrawalCustom() {
-            let amount = parseFloat(document.getElementById('withdrawAmountInput').value.trim());
-            let addr = document.getElementById('withdrawAddrInput').value.trim();
-            if (isNaN(amount) || amount <= 0 || !addr) {
-                haptic('error');
-                showToast("Vul een geldig bedrag en adres in!");
-                return;
-            }
-            if (tonBalance < amount) {
-                haptic('error');
-                showToast("Onvoldoende TON saldo!");
-                return;
-            }
-            tonBalance -= amount;
-            document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
-            document.getElementById('withdrawAmountInput').value = '';
-            document.getElementById('withdrawAddrInput').value = '';
-
-            withdrawalHistory.unshift({ amount: amount, status: 'In behandeling ⏳', date: 'Zojuist' });
-            renderWithdrawalHistory();
-            saveGame();
-            haptic('success');
-            showToast(`📤 Uitbetaling van ${amount.toFixed(3)} TON aangevraagd!`);
-        }
-
-        function renderWithdrawalHistory() {
-            let container = document.getElementById('withdrawalHistoryContainer');
-            if (!container) return;
-            container.innerHTML = '';
-            withdrawalHistory.forEach(item => {
-                container.innerHTML += `<div class="bg-black/50 p-1 rounded flex justify-between"><span>💎 ${item.amount} TON</span><span class="text-emerald-400">${item.status}</span></div>`;
-            });
-        }
-
-        function claimPassiveSteak() {
-            if (unclaimedSteak <= 0) {
-                haptic('warning');
-                showToast("Nog geen Steak opgespaard!");
-                return;
-            }
-            balance += unclaimedSteak;
-            let claimed = unclaimedSteak;
-            unclaimedSteak = 0;
-            document.getElementById('balance').innerText = balance.toLocaleString();
-            document.getElementById('lblCollectVal').innerText = `0 STEAK KLAAR`;
-            saveGame();
-            haptic('success');
-            showToast(`🎉 +${claimed} Steak geclaimd!`);
-        }
-
-        function exchangeSteakToTon() {
-            if (balance < 50000) {
-                haptic('error');
-                showToast("Minimaal 50.000 Steak nodig!");
-                return;
-            }
-            let earned = (balance / 50000) * 0.01;
-            tonBalance += earned;
-            balance = 0;
-            document.getElementById('balance').innerText = balance.toLocaleString();
-            document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
-            saveGame();
-            haptic('success');
-            showToast(`🎉 Wissel gelukt! +${earned.toFixed(3)} TON.`);
-        }
-
-        function switchTab(tabName, element) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.getElementById('tab-' + tabName).classList.add('active');
-
-            if (tabName === 'hunt') setBackgroundVideo(videoMapping['hunt'], 'Arena');
-            else if (tabName === 'ana') setBackgroundVideo(videoMapping['lion'], 'Leeuw');
-            else if (tabName === 'kaart') setBackgroundVideo(videoMapping['elephant'], 'Habitat');
-            haptic('light');
-        }
-
-        function spinWheelSecure() {
-            let now = Date.now();
-            if (now - lastSpinTime < 86400000 && lastSpinTime !== 0) {
-                haptic('error');
-                showToast("⏳ Kom morgen terug voor een nieuwe draai!");
-                return;
-            }
-            let btn = document.getElementById('spinBtn');
-            btn.disabled = true;
-            currentRotation += 1800 + Math.floor(Math.random() * 360);
-            document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
-
+        function toonMelding(tekst) {
+            let toast = document.getElementById('toast');
+            toast.innerText = tekst;
+            toast.style.display = 'block';
             setTimeout(() => {
-                balance += 250;
-                document.getElementById('balance').innerText = balance.toLocaleString();
-                lastSpinTime = Date.now();
-                saveGame();
-                haptic('success');
-                showToast(`🎉 +250 🥩 gewonnen!`);
-                btn.disabled = false;
-            }, 3500);
+                toast.style.display = 'none';
+            }, 2000);
         }
 
-        function upgradeLionLevel() {
-            let cost = lionLevel * 500;
-            if (balance < cost) {
-                haptic('error');
-                showToast("Onvoldoende Steak saldo!");
-                return;
-            }
-            balance -= cost;
-            lionLevel++;
-            document.getElementById('balance').innerText = balance.toLocaleString();
-            document.getElementById('lionLevelDisplay').innerText = lionLevel;
-            saveGame();
-            haptic('success');
-            showToast(`🦁 Leeuw geüpgraded naar Level ${lionLevel}!`);
+        function toonBouwMenu() {
+            toonMelding("🏗️ Bouwmenu geopend! Kies bomen, waterpoelen of dieren om te plaatsen.");
         }
-
-        function showToast(text) {
-            let t = document.getElementById('toast');
-            t.innerText = text;
-            t.style.display = 'block';
-            setTimeout(() => { t.style.display = 'none'; }, 3000);
-        }
-
-        // Passief genereren gemaximeerd op 12 uur
-        setInterval(() => {
-            let maxCap = hourlyProduction * 12;
-            if (unclaimedSteak < maxCap) {
-                let inc = Math.max(1, Math.floor(hourlyProduction / 720));
-                unclaimedSteak = Math.min(maxCap, unclaimedSteak + inc);
-                let lbl = document.getElementById('lblCollectVal');
-                if(lbl) lbl.innerText = `+${unclaimedSteak} STEAK KLAAR`;
-                saveGame();
-            }
-        }, 5000);
-
-        // Initialisatie
-        document.getElementById('balance').innerText = balance.toLocaleString();
-        document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
-        document.getElementById('lionLevelDisplay').innerText = lionLevel;
-        document.getElementById('promoSlots').innerText = promoSlots;
-        if (promoClaimed) document.getElementById('lblPromoBtn').innerText = "ALINDI ✅";
-
-        renderShop();
-        renderStrategyGrid();
-        renderHomeAnimals();
-        renderWithdrawalHistory();
-        updateUsdSlider(10);
     </script>
+
 </body>
 </html>

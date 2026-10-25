@@ -43,7 +43,7 @@
             z-index: 1;
         }
 
-        .tab-content { display: none; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; position: absolute; top: 0; left: 0; padding-top: 85px; padding-bottom: 135px; overflow-y: auto; z-index: 10; pointer-events: none; }
+        .tab-content { display: none; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; position: absolute; top: 0; left: 0; padding-top: 75px; padding-bottom: 135px; overflow-y: auto; z-index: 10; pointer-events: none; }
         .tab-content.active { display: flex; }
         .interactive-layer { pointer-events: auto; }
 
@@ -112,12 +112,6 @@
                 </div>
             </div>
 
-            <!-- Subtiele App Naam in het midden -->
-            <div class="text-center bg-black/50 px-3 py-1 rounded-xl border border-amber-400/40 backdrop-blur-sm">
-                <div class="text-xs font-black tracking-wider text-amber-300 uppercase">Savannah Wild</div>
-                <div class="text-[8px] text-gray-300 font-bold">Dailygram Miner</div>
-            </div>
-
             <!-- Actuele Valuta (Rechtsboven - Strak en Duidelijk) -->
             <div class="flex flex-col gap-1 items-end">
                 <div class="bg-black/85 backdrop-blur-md px-3 py-0.5 rounded-full text-white text-xs font-black flex items-center gap-1 border border-amber-400 shadow">
@@ -127,18 +121,6 @@
                     <span id="gramBalance" class="text-cyan-300 text-xs font-black">1.404</span> <span class="text-cyan-400 text-[10px]">💎 TON</span>
                 </div>
             </div>
-        </div>
-
-        <!-- HABITAT STATUS & DAILY GOALS (RECHTSBOVEN) -->
-        <div class="absolute top-16 right-3 bg-emerald-950/90 backdrop-blur-md border-2 border-emerald-500/80 rounded-2xl p-2 text-white text-[10px] shadow-2xl z-30 w-44 interactive-layer">
-            <div class="flex justify-between"><span id="txtHabitat">Habitat Health:</span> <span class="text-emerald-300 font-black">98%</span></div>
-            <div class="flex justify-between"><span id="txtHappy">Animal Happiness:</span> <span class="text-emerald-300 font-black">95%</span></div>
-            <div class="mt-1 pt-1 border-t border-emerald-500/40 font-black text-amber-300 flex items-center gap-1">
-                <span>⚠️</span> <span id="txtGoalsHeader">DAILY GOALS</span>
-            </div>
-            <div class="text-[9px] text-gray-200 mt-0.5" id="txtGoal1">1. Feed Giraffes (0/5)</div>
-            <div class="text-[9px] text-gray-200" id="txtGoal2">2. Place Acacia Tree (0/1)</div>
-            <div class="text-[9px] text-gray-200" id="txtGoal3">3. Expand Habitat!</div>
         </div>
 
 
@@ -166,7 +148,7 @@
                         <div class="w-20 bg-gray-700 h-2 rounded overflow-hidden mt-1 ml-auto"><div class="bg-red-500 h-full" id="bossHpBar" style="width: 100%;"></div></div>
                     </div>
                 </div>
-                <button id="startBattleBtn" onclick="startTacticalBattle()" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 text-white font-black py-2 rounded-xl text-xs uppercase shadow" id="btnBattle">⚔️ Start Gevecht & Win!</button>
+                <button id="startBattleBtn" onclick="startTacticalBattle()" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 text-white font-black py-2 rounded-xl text-xs uppercase shadow">⚔️ Start Gevecht & Win!</button>
             </div>
         </div>
 
@@ -241,7 +223,7 @@
         </div>
 
 
-        <!-- ================= ONDERSTE BALK (EXACT ZOALS FOTO 3 / FOTO 2) ================= -->
+        <!-- ================= ONDERSTE BALK ================= -->
         <div class="p-2 pb-2.5 flex flex-col justify-end z-30 interactive-layer bg-gradient-to-t from-black/95 via-black/80 to-transparent">
             
             <!-- Passief Claimen Banner (6 Uur Timer) -->
@@ -263,25 +245,28 @@
                 </button>
             </div>
 
-            <!-- Onderste Knoppenraster (3 links, 3 rechts zoals gevraagd + Settings knop ergens of via Animals) -->
-            <div class="grid grid-cols-6 gap-1">
+            <!-- Onderste Knoppenraster (3 links, 3 rechts + Home linksboven/onder) -->
+            <div class="grid grid-cols-7 gap-1">
                 <button onclick="switchTab('home')" class="game-btn game-btn-orange py-1.5">
-                    <span class="text-xs mb-0.5">🏠</span> <span id="navHome">Home</span>
+                    <span class="text-[10px] mb-0.5">🏠</span> <span id="navHome">Home</span>
                 </button>
                 <button onclick="switchTab('quests')" class="game-btn py-1.5">
-                    <span class="text-xs mb-0.5">📋</span> <span id="navQuests">Quests</span>
+                    <span class="text-[10px] mb-0.5">📋</span> <span id="navQuests">Quests</span>
                 </button>
                 <button onclick="switchTab('storage')" class="game-btn game-btn-orange py-1.5">
-                    <span class="text-xs mb-0.5">📦</span> <span id="navStorage">Storage</span>
+                    <span class="text-[10px] mb-0.5">📦</span> <span id="navStorage">Storage</span>
                 </button>
                 <button onclick="switchTab('shop')" class="game-btn game-btn-red py-1.5">
-                    <span class="text-xs mb-0.5">🏗️</span> <span id="navShop">Shop</span>
+                    <span class="text-[10px] mb-0.5">🏗️</span> <span id="navShop">Shop</span>
                 </button>
                 <button onclick="switchTab('inventory')" class="game-btn game-btn-orange py-1.5">
-                    <span class="text-xs mb-0.5">🎒</span> <span id="navInvent">Invent.</span>
+                    <span class="text-[10px] mb-0.5">🎒</span> <span id="navInvent">Invent.</span>
                 </button>
                 <button onclick="switchTab('animals')" class="game-btn py-1.5">
-                    <span class="text-xs mb-0.5">🦁</span> <span id="navAnimals">Animals</span>
+                    <span class="text-[10px] mb-0.5">🦁</span> <span id="navAnimals">Animals</span>
+                </button>
+                <button onclick="switchTab('settings')" class="game-btn bg-gray-700 py-1.5">
+                    <span class="text-[10px] mb-0.5">⚙️</span> <span id="navSettings">Set.</span>
                 </button>
             </div>
         </div>
@@ -296,39 +281,35 @@
 
         const translations = {
             en: {
-                home: "Home", quests: "Quests", storage: "Storage", shop: "Shop", invent: "Invent.", animals: "Animals",
-                claimHeader: "CLAIM PASSIVE (6H)", steakReady: "STEAK READY", habitat: "Habitat Health:", happy: "Animal Happiness:",
-                goalsHeader: "DAILY GOALS", g1: "1. Feed Giraffes (0/5)", g2: "2. Place Acacia Tree (0/1)", g3: "3. Expand Habitat!",
+                home: "Home", quests: "Quests", storage: "Storage", shop: "Shop", invent: "Invent.", animals: "Animals", settings: "Set.",
+                claimHeader: "CLAIM PASSIVE (6H)", steakReady: "STEAK READY",
                 questTitle: "🎯 Quests & Tactical Arena", battleBtn: "⚔️ Start Battle & Win!",
                 storageTitle: "📦 Storage & Wallet", exchangeLbl: "🔄 Steak → TON Exchange (50k = 0.01)", btnExchange: "EXCHANGE TO TON",
                 withdrawLbl: "📤 TON Withdrawal", btnWithdraw: "Request Withdrawal", shopTitleText: "🏕️ Shop & Special Offers",
                 btnBuyPkg: "BUY PACKAGE", invTitle: "🎒 Inventory items", invEmpty: "No items in inventory. Play quests and battles to collect items!",
-                animalsTitle: "🦁 Habitats & Animals", upgradeLion: "UPGRADE (500 🥩)", settingsTitle: "⚙️ Settings & Languages", langLbl: "Select Language / Dil Seçin:"
+                animalsTitle: "🦁 Habitats & Animals", upgradeLion: "UPGRADE (500 🥩)", settingsTitle: "⚙️ Settings & Languages", langLbl: "Select Language:"
             },
             nl: {
-                home: "Home", quests: "Quests", storage: "Storage", shop: "Shop", invent: "Invent.", animals: "Animals",
-                claimHeader: "PASSIEF CLAIMEN (6 UUR)", steakReady: "STEAK KLAAR", habitat: "Habitat Gezondheid:", happy: "Dier Geluk:",
-                goalsHeader: "DAGELIJKE DOELEN", g1: "1. Voer Giraffen (0/5)", g2: "2. Plaats Acacia Boom (0/1)", g3: "3. Breid Habitat uit!",
+                home: "Home", quests: "Quests", storage: "Storage", shop: "Shop", invent: "Invent.", animals: "Animals", settings: "Set.",
+                claimHeader: "PASSIEF CLAIMEN (6 UUR)", steakReady: "STEAK KLAAR",
                 questTitle: "🎯 Quests & Tactische Arena", battleBtn: "⚔️ Start Gevecht & Win!",
                 storageTitle: "📦 Storage & Wallet", exchangeLbl: "🔄 Steak → TON Wisselen (50k = 0.01)", btnExchange: "WISSEL NAAR TON",
                 withdrawLbl: "📤 TON Uitbetalen", btnWithdraw: "Vraag Uitbetaling Aan", shopTitleText: "🏕️ Shop & Aanbiedingen",
                 btnBuyPkg: "PAKETİ SATIN AL", invTitle: "🎒 Inventaris items", invEmpty: "Geen items in inventaris. Speel quests en win gevechten!",
-                animalsTitle: "🦁 Leefgebieden & Dieren", upgradeLion: "UPGRADEN (500 🥩)", settingsTitle: "⚙️ Instellingen & Talen", langLbl: "Selecteer Taal / Dil Seçin:"
+                animalsTitle: "🦁 Leefgebieden & Dieren", upgradeLion: "UPGRADEN (500 🥩)", settingsTitle: "⚙️ Instellingen & Talen", langLbl: "Selecteer Taal:"
             },
             tr: {
-                home: "Ana Sayfa", quests: "Görevler", storage: "Depo", shop: "Mağaza", invent: "Envanter", animals: "Hayvanlar",
-                claimHeader: "PASİF TOPLA (6 SAAT)", steakReady: "BİFTEK HAZIR", habitat: "Yaşam Alanı Sağlığı:", happy: "Hayvan Mutluluğu:",
-                goalsHeader: "GÜNLÜK HEDEFLER", g1: "1. Zürafaları Besle (0/5)", g2: "2. Akasya Ağacı Yerleştir (0/1)", g3: "3. Habitatı Genişlet!",
+                home: "Ana Sayfa", quests: "Görevler", storage: "Depo", shop: "Mağaza", invent: "Envanter", animals: "Hayvanlar", settings: "Ayarlar",
+                claimHeader: "PASİF TOPLA (6 SAAT)", steakReady: "BİFTEK HAZIR",
                 questTitle: "🎯 Görevler & Taktiksel Arena", battleBtn: "⚔️ Savaşı Başlat & Kazan!",
                 storageTitle: "📦 Depo & Cüzdan", exchangeLbl: "🔄 Biftek → TON Takası (50k = 0.01)", btnExchange: "TON'A ÇEVİR",
                 withdrawLbl: "📤 TON Çekim Talebi", btnWithdraw: "Çekim Talebi Oluştur", shopTitleText: "🏕️ Mağaza & Fırsatlar",
                 btnBuyPkg: "PAKETİ SATIN AL", invTitle: "🎒 Envanter Ögeleri", invEmpty: "Envanterde öge yok. Görevleri ve savaşları tamamla!",
-                animalsTitle: "🦁 Habitatlar & Hayvanlar", upgradeLion: "YÜKSELT (500 🥩)", settingsTitle: "⚙️ Ayarlar & Diller", langLbl: "Dil Seçin / Select Language:"
+                animalsTitle: "🦁 Habitatlar & Hayvanlar", upgradeLion: "YÜKSELT (500 🥩)", settingsTitle: "⚙️ Ayarlar & Diller", langLbl: "Dil Seçin:"
             },
             de: {
-                home: "Home", quests: "Quests", storage: "Lager", shop: "Shop", invent: "Invent.", animals: "Tiere",
-                claimHeader: "PASSIV SAMMELN (6 STD)", steakReady: "STEAK BEREIT", habitat: "Habitat-Gesundheit:", happy: "Tier-Zufriedenheit:",
-                goalsHeader: "TAGESZIELE", g1: "1. Giraffen füttern (0/5)", g2: "2. Akazienbaum platzieren (0/1)", g3: "3. Habitat erweitern!",
+                home: "Home", quests: "Quests", storage: "Lager", shop: "Shop", invent: "Invent.", animals: "Tiere", settings: "Set.",
+                claimHeader: "PASSIV SAMMELN (6 STD)", steakReady: "STEAK BEREIT",
                 questTitle: "🎯 Quests & Taktische Arena", battleBtn: "⚔️ Kampf starten & gewinnen!",
                 storageTitle: "📦 Lager & Wallet", exchangeLbl: "🔄 Steak → TON Tausch (50k = 0.01)", btnExchange: "IN TON TAUSCHEN",
                 withdrawLbl: "📤 TON Auszahlung", btnWithdraw: "Auszahlung anfordern", shopTitleText: "🏕️ Shop & Angebote",
@@ -336,9 +317,8 @@
                 animalsTitle: "🦁 Habitate & Tiere", upgradeLion: "UPGRADEN (500 🥩)", settingsTitle: "⚙️ Einstellungen & Sprachen", langLbl: "Sprache wählen:"
             },
             fr: {
-                home: "Accueil", quests: "Quêtes", storage: "Stockage", shop: "Boutique", invent: "Invent.", animals: "Animaux",
-                claimHeader: "RÉCOLTE PASSIVE (6H)", steakReady: "STEAK PRÊT", habitat: "Santé de l'habitat:", happy: "Bonheur des animaux:",
-                goalsHeader: "OBJECTIFS DU JOUR", g1: "1. Nourrir les girafes (0/5)", g2: "2. Placer un acacia (0/1)", g3: "3. Agrandir l'habitat !",
+                home: "Accueil", quests: "Quêtes", storage: "Stockage", shop: "Boutique", invent: "Invent.", animals: "Animaux", settings: "Param.",
+                claimHeader: "RÉCOLTE PASSIVE (6H)", steakReady: "STEAK PRÊT",
                 questTitle: "🎯 Quêtes & Arène Tactique", battleBtn: "⚔️ Lancer le combat !",
                 storageTitle: "📦 Stockage & Portefeuille", exchangeLbl: "🔄 Échange Steak → TON (50k = 0.01)", btnExchange: "ÉCHANGER CONTRE TON",
                 withdrawLbl: "📤 Retrait TON", btnWithdraw: "Demander le retrait", shopTitleText: "🏕️ Boutique & Offres",
@@ -346,9 +326,8 @@
                 animalsTitle: "🦁 Habitats & Animaux", upgradeLion: "AMÉLIORER (500 🥩)", settingsTitle: "⚙️ Paramètres & Langues", langLbl: "Sélectionner la langue :"
             },
             es: {
-                home: "Inicio", quests: "Misiones", storage: "Almacén", shop: "Tienda", invent: "Invent.", animals: "Animales",
-                claimHeader: "RECLAMO PASIVO (6H)", steakReady: "CARNE LISTA", habitat: "Salud del Hábitat:", happy: "Felicidad Animal:",
-                goalsHeader: "OBJETIVOS DIARIOS", g1: "1. Alimentar jirafas (0/5)", g2: "2. Colocar árbol de acacia (0/1)", g3: "3. ¡Ampliar hábitat!",
+                home: "Inicio", quests: "Misiones", storage: "Almacén", shop: "Tienda", invent: "Invent.", animals: "Animales", settings: "Ajust.",
+                claimHeader: "RECLAMO PASIVO (6H)", steakReady: "CARNE LISTA",
                 questTitle: "🎯 Misiones y Arena", battleBtn: "⚔️ ¡Iniciar Batalla!",
                 storageTitle: "📦 Almacén y Wallet", exchangeLbl: "🔄 Canje Carne → TON (50k = 0.01)", btnExchange: "CANJEAR A TON",
                 withdrawLbl: "📤 Retiro de TON", btnWithdraw: "Solicitar Retiro", shopTitleText: "🏕️ Tienda y Ofertas",
@@ -366,13 +345,8 @@
             document.getElementById('navShop').innerText = t.shop;
             document.getElementById('navInvent').innerText = t.invent;
             document.getElementById('navAnimals').innerText = t.animals;
+            document.getElementById('navSettings').innerText = t.settings;
             document.getElementById('lblClaimHeader').innerText = t.claimHeader;
-            document.getElementById('txtHabitat').innerText = t.habitat;
-            document.getElementById('txtHappy').innerText = t.happy;
-            document.getElementById('txtGoalsHeader').innerText = t.goalsHeader;
-            document.getElementById('txtGoal1').innerText = t.g1;
-            document.getElementById('txtGoal2').innerText = t.g2;
-            document.getElementById('txtGoal3').innerText = t.g3;
             document.getElementById('questTitle').innerText = t.questTitle;
             document.getElementById('startBattleBtn').innerText = t.battleBtn;
             document.getElementById('storageTitle').innerText = t.storageTitle;
@@ -388,7 +362,6 @@
             document.getElementById('btnUpgradeLion').innerText = t.upgradeLion;
             document.getElementById('settingsTitle').innerText = t.settingsTitle;
             document.getElementById('langSelectLabel').innerText = t.langLbl;
-            showToast("🌍 Language updated!");
         }
 
         let balance = parseInt(localStorage.getItem('dg_balance')) || 26171;

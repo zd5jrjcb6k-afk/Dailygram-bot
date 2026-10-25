@@ -80,7 +80,7 @@
             background: linear-gradient(135deg, #1f160a 0%, #100b05 100%);
             border: 2px solid #d97706;
             border-radius: 16px;
-            padding: 8px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -95,7 +95,7 @@
     <div class="game-background"></div>
     <div id="toast" class="toast-notification"></div>
 
-    <!-- ================= HONEY FARM STIJL BETALINGSMODAL ================= -->
+    <!-- ================= BETALINGSMODAL (Kripto seç & Adresler) ================= -->
     <div id="paymentModal" class="feature-modal" style="z-index: 300; justify-content: center; align-items: center;">
         <div class="bg-gradient-to-b from-[#2a1b0c] to-[#110803] border-2 border-amber-500 rounded-2xl p-4 w-full max-w-[340px] text-center shadow-2xl flex flex-col gap-3 pointer-events-auto">
             <div class="flex justify-between items-center border-b border-amber-500/40 pb-2">
@@ -104,30 +104,30 @@
             </div>
             
             <div id="cryptoSelectStep" class="flex flex-col gap-2">
-                <button onclick="selectCrypto('TRX', 'TRX20', 10)" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
-                    <span>🔥 TRX (TRC20)</span> <span class="text-emerald-400">$<span id="trxPrice">10</span> USD</span>
+                <button onclick="selectCrypto('TRX', 'TYMjsqWoQURtLUtReHF2TWk9xmiqg78rtm')" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
+                    <span>🔥 TRX (TRC20)</span> <span class="text-emerald-400">$<span class="crypto-price-tag">10</span> USD</span>
                 </button>
-                <button onclick="selectCrypto('BNB', 'BEP20', 10)" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
-                    <span>🟡 BNB (BEP20)</span> <span class="text-emerald-400">$<span id="bnbPrice">10</span> USD</span>
+                <button onclick="selectCrypto('BNB', '0x6235B283028c65f806fCB326B7CC7646F894D5a')" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
+                    <span>🟡 BNB (BEP20)</span> <span class="text-emerald-400">$<span class="crypto-price-tag">10</span> USD</span>
                 </button>
-                <button onclick="selectCrypto('GRAM', 'TON', 10)" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
-                    <span>💎 GRAM (TON)</span> <span class="text-emerald-400">$<span id="gramPrice">10</span> USD</span>
+                <button onclick="selectCrypto('GRAM', 'UQAZ_SAVANNAH_WILD_GRAM_WALLET_TON')" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
+                    <span>💎 GRAM (TON)</span> <span class="text-emerald-400">$<span class="crypto-price-tag">10</span> USD</span>
                 </button>
-                <button onclick="selectCrypto('LTC', 'Litecoin', 10)" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
-                    <span>🥈 LTC (Litecoin)</span> <span class="text-emerald-400">$<span id="ltcPrice">10</span> USD</span>
+                <button onclick="selectCrypto('LTC', 'ltc1q9mdtj4jhl3ghnjw3kds73nz2ahswqz4q52c2t')" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
+                    <span>🥈 LTC (Litecoin)</span> <span class="text-emerald-400">$<span class="crypto-price-tag">10</span> USD</span>
                 </button>
-                <button onclick="selectCrypto('BTC', 'Bitcoin', 10)" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
-                    <span>₿ BTC (Bitcoin)</span> <span class="text-emerald-400">$<span id="btcPrice">10</span> USD</span>
+                <button onclick="selectCrypto('BTC', 'bc1qxaaxtnup5znuydrpsyr9scdgjh09rfts7euxw')" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
+                    <span>₿ BTC (Bitcoin)</span> <span class="text-emerald-400">$<span class="crypto-price-tag">10</span> USD</span>
                 </button>
             </div>
 
             <div id="cryptoTransferStep" class="flex flex-col gap-2.5 hidden">
                 <div class="text-xs text-amber-300 font-bold">Gönderilecek miktar:</div>
-                <div class="bg-black/90 border border-amber-500/60 p-2 rounded-xl text-emerald-400 font-mono text-xs font-bold" id="transferAmount">35.689633 GRAM</div>
+                <div class="bg-black/90 border border-amber-500/60 p-2 rounded-xl text-emerald-400 font-mono text-xs font-bold" id="transferAmount">0.00</div>
                 <button onclick="copyToClipboard(document.getElementById('transferAmount').innerText)" class="w-full bg-amber-600 hover:bg-amber-500 text-black font-bold text-xs py-1.5 rounded-lg cursor-pointer">Kopyala</button>
 
                 <div class="text-xs text-amber-300 font-bold mt-1">Gönderilecek cüzdan:</div>
-                <div class="bg-black/90 border border-amber-500/60 p-2 rounded-xl text-cyan-300 font-mono text-[10px] break-all" id="transferWallet">UQDJZFM-PgXaF69EknWpUnN9tKUI5EV...</div>
+                <div class="bg-black/90 border border-amber-500/60 p-2 rounded-xl text-cyan-300 font-mono text-[10px] break-all" id="transferWallet">...</div>
                 <button onclick="copyToClipboard(document.getElementById('transferWallet').innerText)" class="w-full bg-amber-600 hover:bg-amber-500 text-black font-bold text-xs py-1.5 rounded-lg cursor-pointer">Kopyala</button>
 
                 <div class="text-[10px] text-gray-300 bg-black/50 p-2 rounded-xl border border-amber-500/30">
@@ -228,7 +228,7 @@
                 </div>
 
                 <div class="text-xs font-black text-amber-300 text-center uppercase tracking-wider mt-1">🦁 Hayvan Satın Al</div>
-                <div class="grid grid-cols-2 gap-2.5 pb-4" id="animalShopGrid"></div>
+                <div class="grid grid-cols-2 gap-3 pb-6" id="animalShopGrid"></div>
             </div>
         </div>
 
@@ -549,6 +549,11 @@
             currentUsd = parseInt(val);
             document.getElementById('usdValDisplay').innerText = currentUsd;
             document.getElementById('usdRewardText').innerText = (currentUsd * 2500).toLocaleString() + " 🥩";
+            
+            // Update prijzen in de krypto selectie lijst dynamisch
+            document.querySelectorAll('.crypto-price-tag').forEach(tag => {
+                tag.innerText = currentUsd;
+            });
         }
 
         function openPaymentModal() {
@@ -561,13 +566,14 @@
             document.getElementById('paymentModal').style.display = 'none';
         }
 
-        function selectCrypto(coin, network, usd) {
+        function selectCrypto(coin, walletAddress) {
             document.getElementById('cryptoSelectStep').classList.add('hidden');
             document.getElementById('cryptoTransferStep').classList.remove('hidden');
             
-            let amountVal = (currentUsd * 2.5).toFixed(6) + " " + coin;
+            let multiplier = (coin === 'TRX' ? 3.5 : (coin === 'BTC' ? 0.00011 : (coin === 'ETH' || coin === 'BNB' ? 0.015 : (coin === 'GRAM' ? 0.4 : 0.012))));
+            let amountVal = (currentUsd * multiplier).toFixed(6) + " " + coin;
             document.getElementById('transferAmount').innerText = amountVal;
-            document.getElementById('transferWallet').innerText = "UQDJZFM-PgXaF69EknWpUnN9tKUI5EV_" + coin + "_WALLET";
+            document.getElementById('transferWallet').innerText = walletAddress;
         }
 
         function backToCryptoOrClose() {

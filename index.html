@@ -72,7 +72,6 @@
             border-radius: 16px; font-size: 0.75rem; font-weight: bold; z-index: 600; display: none; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
         }
 
-        /* Stijlvolle dier-kaartjes geïnspireerd op foto 3 */
         .animal-card {
             background: linear-gradient(135deg, #1f160a 0%, #100b05 100%);
             border: 2px solid #d97706;
@@ -92,23 +91,52 @@
     <div class="game-background"></div>
     <div id="toast" class="toast-notification"></div>
 
-    <!-- BETALINGSMODAL (Crypto/Geld aankoop met wallet adres & terugknop) -->
-    <div id="paymentModal" class="feature-modal" style="z-index: 200; justify-content: center; align-items: center;">
-        <div class="bg-gradient-to-b from-[#221508] to-[#0c0804] border-2 border-amber-500 rounded-2xl p-4 w-full max-w-[340px] text-center shadow-2xl flex flex-col gap-3">
+    <!-- ================= HONEY FARM STIJL BETALINGSMODAL ================= -->
+    <div id="paymentModal" class="feature-modal" style="z-index: 300; justify-content: center; align-items: center;">
+        <div class="bg-gradient-to-b from-[#2a1b0c] to-[#110803] border-2 border-amber-500 rounded-2xl p-4 w-full max-w-[340px] text-center shadow-2xl flex flex-col gap-3">
             <div class="flex justify-between items-center border-b border-amber-500/40 pb-2">
-                <span class="text-amber-400 font-black text-sm">💳 Vlees / Pakket Satın Al</span>
+                <span class="text-amber-400 font-black text-sm">Kripto para seç</span>
                 <button onclick="closePaymentModal()" class="w-7 h-7 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-xs cursor-pointer">✕</button>
             </div>
-            <div class="text-xs text-amber-200 font-bold" id="payModalInfo">Tutar: $10 USD (0.05 TON)</div>
-            <div class="bg-black/90 border border-amber-500/50 rounded-xl p-3 text-left text-[11px] text-gray-300">
-                <div class="font-bold text-amber-300 mb-1">📥 Resmi TON Cüzdan Adresi:</div>
-                <div class="bg-black p-2 rounded border border-amber-400/40 font-mono text-[10px] text-cyan-300 break-all select-all">UQAZ_SAVANNAH_WILD_OFFICIAL_WALLET_9999</div>
-                <div class="text-[9px] text-gray-400 mt-1.5">💡 İşlem açıklamasına Telegram kullanıcı adınızı yazın, otomatik olarak et hesabınıza eklenecektir!</div>
+            
+            <!-- Stap 1: Kies Crypto -->
+            <div id="cryptoSelectStep" class="flex flex-col gap-2">
+                <button onclick="selectCrypto('TRX', 'TRX20', 10)" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
+                    <span>🔥 TRX (TRC20)</span> <span class="text-emerald-400">$<span id="trxPrice">10</span> USD</span>
+                </button>
+                <button onclick="selectCrypto('BNB', 'BEP20', 10)" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
+                    <span>🟡 BNB (BEP20)</span> <span class="text-emerald-400">$<span id="bnbPrice">10</span> USD</span>
+                </button>
+                <button onclick="selectCrypto('GRAM', 'TON', 10)" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
+                    <span>💎 GRAM (TON)</span> <span class="text-emerald-400">$<span id="gramPrice">10</span> USD</span>
+                </button>
+                <button onclick="selectCrypto('LTC', 'Litecoin', 10)" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
+                    <span>🥈 LTC (Litecoin)</span> <span class="text-emerald-400">$<span id="ltcPrice">10</span> USD</span>
+                </button>
+                <button onclick="selectCrypto('BTC', 'Bitcoin', 10)" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
+                    <span>₿ BTC (Bitcoin)</span> <span class="text-emerald-400">$<span id="btcPrice">10</span> USD</span>
+                </button>
             </div>
-            <button onclick="simulateSuccessfulPayment()" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 text-white font-bold py-2 rounded-xl text-xs shadow cursor-pointer">✅ Ödemeyi Tamamla & Eti Al</button>
-            <button onclick="closePaymentModal()" class="w-full bg-amber-900/80 hover:bg-amber-900 text-amber-200 font-bold py-1.5 rounded-xl text-xs cursor-pointer border border-amber-600">Ana Sayfaya / Mağazaya Dön</button>
+
+            <!-- Stap 2: Wallet & Bedrag Overzicht (Exact zoals Honey Farm video) -->
+            <div id="cryptoTransferStep" class="flex flex-col gap-2.5 hidden">
+                <div class="text-xs text-amber-300 font-bold" id="transferTitle">Gönderilecek miktar:</div>
+                <div class="bg-black/90 border border-amber-500/60 p-2 rounded-xl text-emerald-400 font-mono text-xs font-bold" id="transferAmount">35.689633 GRAM</div>
+                <button onclick="copyToClipboard(document.getElementById('transferAmount').innerText)" class="w-full bg-amber-600 hover:bg-amber-500 text-black font-bold text-xs py-1.5 rounded-lg cursor-pointer">Kopyala</button>
+
+                <div class="text-xs text-amber-300 font-bold mt-1">Gönderilecek cüzdan:</div>
+                <div class="bg-black/90 border border-amber-500/60 p-2 rounded-xl text-cyan-300 font-mono text-[10px] break-all" id="transferWallet">UQDJZFM-PgXaF69EknWpUnN9tKUI5EV...</div>
+                <button onclick="copyToClipboard(document.getElementById('transferWallet').innerText)" class="w-full bg-amber-600 hover:bg-amber-500 text-black font-bold text-xs py-1.5 rounded-lg cursor-pointer">Kopyala</button>
+
+                <div class="text-[10px] text-gray-300 bg-black/50 p-2 rounded-xl border border-amber-500/30">
+                    İşlem tamamlanır tamamlanmaz tutar bakiyenize aktarılacaktır.
+                </div>
+            </div>
+
+            <button onclick="backToCryptoOrClose()" class="w-full bg-amber-900/80 hover:bg-amber-900 text-amber-200 font-bold py-2 rounded-xl text-xs cursor-pointer border border-amber-600">Geri</button>
         </div>
     </div>
+
 
     <div class="phone-frame">
         
@@ -138,7 +166,7 @@
 
         <!-- ================= FUNCTIE SCHERMEN (MODALS) ================= -->
 
-        <!-- 1. GÖREVLER / QUESTS -->
+        <!-- 1. GÖREVLER -->
         <div id="modal-quests" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
                 <h2 class="text-amber-400 font-black text-base">🎯 Günlük Görevler & Ödüller</h2>
@@ -159,17 +187,10 @@
                     </div>
                     <button onclick="claimQuestReward(5000, this)" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow cursor-pointer">CLAIM</button>
                 </div>
-                <div class="bg-black/80 border border-amber-500/60 rounded-2xl p-3 flex justify-between items-center">
-                    <div>
-                        <div class="text-xs font-bold text-amber-200">🚀 İlk $5 Yatırım Yap</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+25.000 🥩 Vlees Beloning</div>
-                    </div>
-                    <button onclick="openModal('shop')" class="bg-amber-500 text-black text-xs font-bold px-3 py-1.5 rounded-xl shadow cursor-pointer">MAĞAZA</button>
-                </div>
             </div>
         </div>
 
-        <!-- 2. DEPO / STORAGE -->
+        <!-- 2. DEPO -->
         <div id="modal-storage" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-cyan-500/40 pb-2">
                 <h2 class="text-cyan-400 font-black text-base">📦 Depo & Cüzdan</h2>
@@ -189,22 +210,23 @@
             </div>
         </div>
 
-        <!-- 3. MAĞAZA & HAYVAN PAZARI (Stijl van Foto 3 - Grid met Dieren en Yükselt/Satın Al) -->
+        <!-- 3. MAĞAZA & HAYVAN PAZARI (Honey Farm Stijl Slider & ÖDE knop) -->
         <div id="modal-shop" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
                 <h2 class="text-amber-400 font-black text-base">🏕️ Mağaza & Hayvan Pazarı</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="flex flex-col gap-3">
-                <!-- Vlees met Geld/Crypto kopen -->
-                <div class="bg-amber-950/85 border border-amber-500 rounded-2xl p-3 text-center shadow-lg">
-                    <div class="text-xs font-bold text-amber-300 mb-1">🚀 Özel Biftek Kampanyası ($ / TON)</div>
-                    <input type="range" id="usdSlider" min="5" max="100" step="5" value="10" class="w-full accent-amber-400 cursor-pointer my-1" oninput="updateUsdSlider(this.value)">
-                    <div class="text-xs text-emerald-400 font-bold mb-2" id="usdRewardText">Alacağın: 25.000 🥩</div>
-                    <button class="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-xs py-2 rounded-xl shadow cursor-pointer" onclick="openPaymentModal()">PAKETİ SATIN AL ($10)</button>
+                <!-- Honey Farm Slider Container -->
+                <div class="bg-gradient-to-b from-[#2a1b0c] to-[#120904] border-2 border-amber-600 rounded-2xl p-3 text-center shadow-lg">
+                    <div class="text-xs font-bold text-amber-300 mb-1">Ödediğin USD: $<span id="usdValDisplay">10</span></div>
+                    <input type="range" id="usdSlider" min="3" max="500" step="1" value="10" class="w-full accent-amber-400 cursor-pointer my-2" oninput="updateUsdSlider(this.value)">
+                    <div class="text-xs font-bold text-gray-300">Alacağın:</div>
+                    <div class="text-sm font-black text-emerald-400 mb-2" id="usdRewardText">25.000 🥩</div>
+                    <button class="w-full bg-gradient-to-r from-amber-500 to-amber-700 text-black font-black text-xs py-2.5 rounded-xl shadow cursor-pointer uppercase tracking-widest" onclick="openPaymentModal()">ÖDE</button>
                 </div>
+
                 <div class="text-xs font-black text-amber-300 text-center uppercase tracking-wider mt-1">🦁 Hayvan Satın Al</div>
-                <!-- Prachtige 2-koloms grid in stijl van foto 3 -->
                 <div class="grid grid-cols-2 gap-2.5 pb-4" id="animalShopGrid"></div>
             </div>
         </div>
@@ -221,27 +243,16 @@
                     <span class="text-[10px] font-bold text-amber-200">Özel Et</span>
                     <span class="text-[9px] text-emerald-400">x14 Adet</span>
                 </div>
-                <div class="bg-amber-950/80 border border-amber-500/60 rounded-2xl p-3 text-center flex flex-col items-center justify-center gap-1">
-                    <span class="text-2xl">🛡️</span>
-                    <span class="text-[10px] font-bold text-amber-200">Kalkan</span>
-                    <span class="text-[9px] text-emerald-400">Level 2</span>
-                </div>
-                <div class="bg-amber-950/80 border border-amber-500/60 rounded-2xl p-3 text-center flex flex-col items-center justify-center gap-1">
-                    <span class="text-2xl">🧪</span>
-                    <span class="text-[10px] font-bold text-amber-200">İksir</span>
-                    <span class="text-[9px] text-emerald-400">3 Aktif</span>
-                </div>
             </div>
         </div>
 
-        <!-- 5. HAYVANLAR & HABITATLAR (Strakke layout in stijl van foto 3) -->
+        <!-- 5. HAYVANLAR & HABITATLAR -->
         <div id="modal-animals" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
                 <h2 class="text-amber-400 font-black text-base">🦁 Hayvanlarım & Habitatlar</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="flex flex-col gap-3">
-                <!-- Kral Aslan Yükselt Kartı -->
                 <div class="bg-gradient-to-br from-amber-950 to-black border-2 border-amber-500 rounded-2xl p-3 text-center text-white shadow-xl">
                     <div class="text-xs font-bold text-amber-300">Kral Aslan - Seviye <span id="lionLevelDisplay">11</span></div>
                     <button onclick="upgradeLionLevel()" class="mt-2 w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-xs py-2 rounded-xl shadow cursor-pointer">⬆️ YÜKSELT (500 🥩)</button>
@@ -262,12 +273,8 @@
             <div class="bg-black/90 border border-amber-500/60 rounded-2xl p-4 flex flex-col gap-3 text-center">
                 <div class="text-xs text-gray-300 font-bold">Dil Seçin / Select Language:</div>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="setLanguage('en')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇬🇧 English</button>
                     <button onclick="setLanguage('nl')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇳🇱 Nederlands</button>
                     <button onclick="setLanguage('tr')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇹🇷 Türkçe</button>
-                    <button onclick="setLanguage('de')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇩🇪 Deutsch</button>
-                    <button onclick="setLanguage('fr')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇫🇷 Français</button>
-                    <button onclick="setLanguage('es')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇪🇸 Español</button>
                 </div>
             </div>
         </div>
@@ -299,15 +306,20 @@
             </button>
         </div>
 
+        <!-- Onderste Midden: Passief Claim met Voortgangsbalk (volle 6 uur timer) -->
         <div class="p-2 pb-3 flex flex-col items-center justify-end z-30 bg-gradient-to-t from-black/95 via-black/80 to-transparent">
             <div class="w-full px-8 mb-1.5">
-                <div class="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 border-2 border-white rounded-2xl py-1.5 px-3 text-center shadow-xl cursor-pointer active:scale-95 flex items-center justify-between" onclick="claimPassiveSteak()">
-                    <span class="text-base">🥩</span>
-                    <div class="text-center">
-                        <div class="text-[8px] font-black text-amber-950 uppercase tracking-wider">PASİF TOPLA (6 SAAT)</div>
-                        <div class="text-[10px] font-black text-white" id="lblCollectVal">+157 STEAK KLAAR</div>
+                <div class="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 border-2 border-white rounded-2xl py-1.5 px-3 text-center shadow-xl cursor-pointer active:scale-95 flex flex-col justify-between relative overflow-hidden" onclick="claimPassiveSteak()">
+                    <div class="flex items-center justify-between z-10">
+                        <span class="text-base">🥩</span>
+                        <div class="text-center">
+                            <div class="text-[8px] font-black text-amber-950 uppercase tracking-wider">PASİF TOPLA (6 SAAT)</div>
+                            <div class="text-[10px] font-black text-white" id="lblCollectVal">+157 STEAK KLAAR</div>
+                        </div>
+                        <span class="text-base">📥</span>
                     </div>
-                    <span class="text-base">📥</span>
+                    <!-- Dunne streep onderin die geleidelijk volloopt in 6 uur -->
+                    <div class="absolute bottom-0 left-0 h-1 bg-emerald-500 transition-all duration-500 z-0" id="passiveProgressBar" style="width: 0%;"></div>
                 </div>
             </div>
 
@@ -326,20 +338,13 @@
         const playerName = telegramUser?.first_name || 'Ahmet';
         document.getElementById('playerNameDisplay').innerText = playerName;
 
-        let balance = parseInt(localStorage.getItem('dg_balance'));
-        if (isNaN(balance)) balance = 12699;
-
-        let tonBalance = parseFloat(localStorage.getItem('dg_ton'));
-        if (isNaN(tonBalance)) tonBalance = 1.404;
-
-        let unclaimedSteak = parseInt(localStorage.getItem('dg_unclaimed'));
-        if (isNaN(unclaimedSteak)) unclaimedSteak = 157;
-
-        let lionLevel = parseInt(localStorage.getItem('dg_lion'));
-        if (isNaN(lionLevel)) lionLevel = 11;
+        let balance = parseInt(localStorage.getItem('dg_balance')) || 12699;
+        let tonBalance = parseFloat(localStorage.getItem('dg_ton')) || 1.404;
+        let unclaimedSteak = parseInt(localStorage.getItem('dg_unclaimed')) || 157;
+        let lionLevel = parseInt(localStorage.getItem('dg_lion')) || 11;
         
         let lastClaimTime = parseInt(localStorage.getItem('dg_lastclaim')) || Date.now();
-        const CLAIM_INTERVAL = 6 * 60 * 60 * 1000;
+        const CLAIM_INTERVAL = 6 * 60 * 60 * 1000; // 6 uur
 
         let savannaGrid = JSON.parse(localStorage.getItem('dg_savannagrid')) || [
             { id: 0, name: 'Leeuwenrots', icon: '🦁', prod: 14543, level: 15 },
@@ -348,7 +353,6 @@
             { id: 3, name: 'Olifantenvallei', icon: '🐘', prod: 3829, level: 9 }
         ];
 
-        // Volledige lijst met alle dieren, correcte namen, produktie en prijzen zonder undefined
         let animalsData = [
             { id: 'kral_aslan', name: 'Aslan', img: 'kral_aslan.PNG', baseProd: 8500, cost: 500, level: 15, count: 1 },
             { id: 'fil', name: 'Fil', img: 'fil.PNG', baseProd: 4200, cost: 1000, level: 12, count: 0 },
@@ -359,9 +363,7 @@
             { id: 'cakal', name: 'Çakal', img: 'cakal.PNG', baseProd: 1200, cost: 320, level: 6, count: 0 },
             { id: 'kurt', name: 'Kurt', img: 'kurt.PNG', baseProd: 980, cost: 300, level: 5, count: 0 },
             { id: 'aslan_yavrusu', name: 'Aslan Yavrusu', img: 'aslan_yavrusu.PNG', baseProd: 720, cost: 200, level: 4, count: 1 },
-            { id: 'akbaba', name: 'Akbaba', img: 'afrika_akbabasi.PNG', baseProd: 650, cost: 250, level: 4, count: 0 },
-            { id: 'antilop', name: 'Antilop', img: 'antilop.PNG', baseProd: 520, cost: 280, level: 3, count: 0 },
-            { id: 'jaguar', name: 'Jaguar', img: 'jaguar.PNG', baseProd: 480, cost: 400, level: 3, count: 0 }
+            { id: 'akbaba', name: 'Akbaba', img: 'afrika_akbabasi.PNG', baseProd: 650, cost: 250, level: 4, count: 0 }
         ];
 
         let savedAnim = localStorage.getItem('dg_animals');
@@ -386,6 +388,22 @@
             document.getElementById('lionLevelDisplay').innerText = lionLevel;
             document.getElementById('headerLionLevel').innerText = `Lv ${lionLevel}`;
         }
+
+        // Timer en voortgangsbalk voor passief vlees (6 uur)
+        function checkPassiveTimer() {
+            let now = Date.now();
+            let elapsed = now - lastClaimTime;
+            let progress = Math.min(100, (elapsed / CLAIM_INTERVAL) * 100);
+            document.getElementById('passiveProgressBar').style.width = progress + '%';
+
+            if (elapsed >= CLAIM_INTERVAL) {
+                unclaimedSteak += 250;
+                lastClaimTime = now;
+                saveGame();
+            }
+            document.getElementById('lblCollectVal.innerText` || (document.getElementById('lblCollectVal').innerText = `+${unclaimedSteak} STEAK KLAAR`);
+        }
+        setInterval(checkPassiveTimer, 1000);
 
         function openModal(modalName) {
             document.querySelectorAll('.feature-modal').forEach(m => m.classList.remove('active'));
@@ -439,21 +457,17 @@
 
             ownedContainer.innerHTML = '';
             let activeAnimals = animalsData.filter(a => a.count > 0);
-            if(activeAnimals.length === 0) {
-                ownedContainer.innerHTML = `<div class="text-gray-400 text-[11px] text-center italic col-span-2">Henüz hiç hayvan satın almadınız.</div>`;
-            } else {
-                activeAnimals.forEach((anim, idx) => {
-                    ownedContainer.innerHTML += `
-                        <div class="animal-card">
-                            <img src="${anim.img}" class="w-12 h-12 rounded-full object-cover border-2 border-amber-400 mb-1" onerror="this.src='kral_aslan.PNG'">
-                            <div class="text-[11px] font-bold text-amber-200 truncate w-full">${anim.name}</div>
-                            <div class="text-[9px] text-gray-400">Lv ${anim.level} (x${anim.count})</div>
-                            <div class="text-[10px] text-emerald-400 font-bold my-1">+${(anim.baseProd * anim.count).toLocaleString()} 🥩/s</div>
-                            <button onclick="upgradeOwnedAnimal(${idx})" class="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-[10px] py-1 rounded-lg shadow cursor-pointer">Yükselt (${anim.cost * 2})</button>
-                        </div>
-                    `;
-                });
-            }
+            activeAnimals.forEach((anim, idx) => {
+                ownedContainer.innerHTML += `
+                    <div class="animal-card">
+                        <img src="${anim.img}" class="w-12 h-12 rounded-full object-cover border-2 border-amber-400 mb-1" onerror="this.src='kral_aslan.PNG'">
+                        <div class="text-[11px] font-bold text-amber-200 truncate w-full">${anim.name}</div>
+                        <div class="text-[9px] text-gray-400">Lv ${anim.level} (x${anim.count})</div>
+                        <div class="text-[10px] text-emerald-400 font-bold my-1">+${(anim.baseProd * anim.count).toLocaleString()} 🥩/s</div>
+                        <button onclick="upgradeOwnedAnimal(${idx})" class="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-[10px] py-1 rounded-lg shadow cursor-pointer">Yükselt</button>
+                    </div>
+                `;
+            });
         }
 
         function upgradePlot(idx) {
@@ -493,7 +507,7 @@
                         <div class="text-[11px] font-bold text-amber-200 truncate w-full">${anim.name}</div>
                         <div class="text-[9px] text-gray-400">Lv ${anim.level}</div>
                         <div class="text-[10px] text-emerald-400 font-bold my-1">+${anim.baseProd.toLocaleString()} 🥩/s</div>
-                        <button class="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-[10px] py-1.5 rounded-lg shadow cursor-pointer mt-1" onclick="buyAnimal(${idx})">Yükselt / Satın Al (${anim.cost} 🥩)</button>
+                        <button class="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-[10px] py-1.5 rounded-lg shadow cursor-pointer mt-1" onclick="buyAnimal(${idx})">Satın Al (${anim.cost} 🥩)</button>
                     </div>
                 `;
             });
@@ -534,23 +548,42 @@
         let currentUsd = 10;
         function updateUsdSlider(val) {
             currentUsd = parseInt(val);
-            document.getElementById('payModalInfo').innerText = `Tutar: $${currentUsd} USD (${(currentUsd * 0.005).toFixed(2)} TON)`;
-            document.getElementById('usdRewardText').innerText = `Alacağın: ${(currentUsd * 2500).toLocaleString()} 🥩`;
+            document.getElementById('usdValDisplay').innerText = currentUsd;
+            document.getElementById('usdRewardText').innerText = (currentUsd * 2500).toLocaleString() + " 🥩";
         }
 
         function openPaymentModal() {
+            document.getElementById('cryptoSelectStep').classList.remove('hidden');
+            document.getElementById('cryptoTransferStep').classList.add('hidden');
             document.getElementById('paymentModal').style.display = 'flex';
         }
+
         function closePaymentModal() {
             document.getElementById('paymentModal').style.display = 'none';
         }
-        function simulateSuccessfulPayment() {
-            let meatEarned = currentUsd * 2500;
-            balance += meatEarned;
-            updateUI();
-            saveGame();
-            closePaymentModal();
-            showToast(`🎉 Başarılı! +${meatEarned.toLocaleString()} 🥩 eklendi!`);
+
+        function selectCrypto(coin, network, usd) {
+            document.getElementById('cryptoSelectStep').classList.add('hidden');
+            document.getElementById('cryptoTransferStep').classList.remove('hidden');
+            
+            let amountVal = (currentUsd * 2.5).toFixed(6) + " " + coin;
+            document.getElementById('transferAmount').innerText = amountVal;
+            document.getElementById('transferWallet').innerText = "UQDJZFM-PgXaF69EknWpUnN9tKUI5EV_" + coin + "_WALLET";
+        }
+
+        function backToCryptoOrClose() {
+            let transferStep = document.getElementById('cryptoTransferStep');
+            if(!transferStep.classList.contains('hidden')) {
+                transferStep.classList.add('hidden');
+                document.getElementById('cryptoSelectStep').classList.remove('hidden');
+            } else {
+                closePaymentModal();
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            showToast("📋 Kopiéér gelukt!");
         }
 
         function upgradeLionLevel() {

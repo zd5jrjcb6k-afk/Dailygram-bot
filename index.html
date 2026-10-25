@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Savannah Wild - Dailygram Miner</title>
+    <title>Savannah Wild</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
@@ -33,7 +33,6 @@
             border-radius: 36px;
         }
 
-        /* Jouw exacte achtergrondafbeelding uit GitHub */
         .game-background {
             position: absolute;
             inset: 0;
@@ -43,11 +42,13 @@
             z-index: 1;
         }
 
-        .tab-content { display: none; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; position: absolute; top: 0; left: 0; padding-top: 75px; padding-bottom: 120px; overflow-y: auto; z-index: 10; pointer-events: none; }
-        .tab-content.active { display: flex; }
-        .interactive-layer { pointer-events: auto; }
+        /* Volledig scherm functie overlay (modals met kruisje) */
+        .feature-modal {
+            position: absolute; inset: 0; background: rgba(5, 8, 17, 0.94); backdrop-filter: blur(8px);
+            z-index: 100; display: none; flex-direction: column; padding: 20px 15px 120px 15px; overflow-y: auto; color: white;
+        }
+        .feature-modal.active { display: flex; }
 
-        /* Strakke vierkante knoppen aan de zijkanten */
         .side-btn {
             width: 52px; height: 52px;
             background: linear-gradient(135deg, #d97706, #b45309);
@@ -66,167 +67,171 @@
         }
         .side-btn:active { transform: scale(0.92); }
 
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 500; display: none; justify-content: center; align-items: center; padding: 20px;
-        }
-        .modal-box {
-            background: linear-gradient(135deg, #2c1a0e, #140b05); border: 2px solid #ffd700; border-radius: 16px;
-            padding: 16px; width: 100%; max-width: 340px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.9); color: #fff; display: flex; flex-direction: column; gap: 10px;
-        }
         .toast-notification {
-            position: absolute; top: 120px; left: 50%; transform: translateX(-50%);
+            position: absolute; top: 110px; left: 50%; transform: translateX(-50%);
             background: rgba(18, 10, 5, 0.95); border: 2px solid #ffd700; color: #ffd700; padding: 6px 14px;
             border-radius: 16px; font-size: 0.75rem; font-weight: bold; z-index: 600; display: none; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
         }
     </style>
 </head>
-<body id="appBody">
+<body>
 
     <div class="game-background"></div>
     <div id="toast" class="toast-notification"></div>
 
-    <!-- BETALINGSMODAL -->
-    <div class="modal-overlay" id="paymentModal">
-        <div class="modal-box">
-            <div style="font-size: 0.9rem; font-weight: 900; color: #ffd700;">💳 Betalingsbevestiging</div>
-            <div style="font-size: 0.65rem; color: #ccc;" id="modalDesc">Bevestig de aankoop met je TON-saldo:</div>
-            <div style="font-size: 0.6rem; color: #2ecc71; font-weight: bold;" id="modalPackageInfo">Pakket: $10 USD (25.000 Steak)</div>
-            <div style="font-size: 0.55rem; color: #3498db;" id="modalTonCost">Kosten: 0.05 TON</div>
-            <div style="display: flex; gap: 6px; margin-top: 6px;">
-                <button class="side-btn" style="width:100%; background:#dc2626;" onclick="closePaymentModal()">İptal</button>
-                <button class="side-btn" style="width:100%; background:#16a34a;" onclick="confirmPayment()">Onayla</button>
-            </div>
-        </div>
-    </div>
-
     <div class="phone-frame">
         
         <!-- ================= BOVENSTE HEADER UI ================= -->
-        <div class="pt-2 px-3 flex justify-between items-center z-30 interactive-layer">
+        <div class="pt-2 px-3 flex justify-between items-center z-30">
             
             <!-- Profiel & Level (Links) -->
-            <div class="flex items-center gap-1.5 bg-black/70 backdrop-blur-md p-1.5 rounded-2xl pr-2.5 text-white border border-amber-400/60 shadow-lg cursor-pointer" onclick="switchTab('animals')">
+            <div class="flex items-center gap-1.5 bg-black/80 backdrop-blur-md p-1.5 rounded-2xl pr-2.5 text-white border border-amber-400/60 shadow-lg cursor-pointer" onclick="openModal('animals')">
                 <div class="relative">
                     <div class="w-9 h-9 rounded-full bg-amber-600 flex items-center justify-center font-bold border-2 border-amber-300 text-sm shadow overflow-hidden">
                         🦁
                     </div>
                     <div class="absolute -bottom-1 -right-1 bg-emerald-600 text-white text-[8px] font-black px-1 rounded-full border border-white" id="hudLevelBadge">
-                        1
+                        11
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <div class="text-[10px] font-black text-amber-300 leading-tight" id="hudLevelText">Level 1</div>
+                    <div class="text-[10px] font-black text-amber-300 leading-tight">Level 11</div>
                     <div class="text-[11px] font-bold text-white leading-tight truncate max-w-[70px]" id="playerNameDisplay">Ahmet</div>
                 </div>
             </div>
 
-            <!-- Actuele Valuta (Rechtsboven - Strak en Duidelijk) -->
+            <!-- Actuele Valuta (Rechtsboven - Extra Duidelijk) -->
             <div class="flex flex-col gap-1 items-end">
-                <div class="bg-black/85 backdrop-blur-md px-3 py-0.5 rounded-full text-white text-xs font-black flex items-center gap-1 border border-amber-400 shadow">
-                    <span id="balance" class="text-amber-300 text-xs font-black">26.171</span> <span>🥩</span>
+                <div class="bg-black/95 backdrop-blur-md px-3 py-1 rounded-full text-white text-xs font-black flex items-center gap-1.5 border-2 border-amber-400 shadow-xl">
+                    <span id="balance" class="text-amber-300 text-sm font-black">12.699</span> <span class="text-base">🥩</span>
                 </div>
-                <div class="bg-black/85 backdrop-blur-md px-3 py-0.5 rounded-full text-white text-xs font-black flex items-center gap-1 border border-cyan-400 shadow">
-                    <span id="gramBalance" class="text-cyan-300 text-xs font-black">1.404</span> <span class="text-cyan-400 text-[10px]">💎 TON</span>
+                <div class="bg-black/95 backdrop-blur-md px-3 py-1 rounded-full text-white text-xs font-black flex items-center gap-1.5 border-2 border-cyan-400 shadow-xl">
+                    <span id="gramBalance" class="text-cyan-300 text-sm font-black">1.404</span> <span class="text-cyan-400 text-xs">💎 TON</span>
                 </div>
             </div>
         </div>
 
 
-        <!-- ================= TABS INHOUD ================= -->
+        <!-- ================= FUNCTIE SCHERMEN (MODALS MET KRUISJE) ================= -->
 
-        <!-- TAB 1: HOME -->
-        <div id="tab-home" class="tab-content active">
-            <div class="my-auto"></div>
-        </div>
-
-        <!-- TAB 2: QUESTS -->
-        <div id="tab-quests" class="tab-content px-4 overflow-y-auto interactive-layer">
-            <div class="bg-black/90 border-2 border-emerald-500 rounded-2xl p-3 flex flex-col gap-3 backdrop-blur-md text-white shadow-2xl">
-                <div class="text-center font-black text-amber-400 text-sm" id="questTitle">🎯 Quests & Tactische Arena</div>
-                <div class="bg-black/70 border border-emerald-500 rounded-xl p-2.5 flex justify-between items-center text-xs">
+        <!-- 1. QUESTS -->
+        <div id="modal-quests" class="feature-modal">
+            <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
+                <h2 class="text-amber-400 font-black text-base" id="questTitle">🎯 Quests & Tactische Arena</h2>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+            </div>
+            <div class="bg-black/80 border border-emerald-500 rounded-2xl p-3 flex flex-col gap-3 shadow-xl">
+                <div class="flex justify-between items-center text-xs">
                     <div>
                         <div class="text-emerald-400 font-bold">Aslan</div>
                         <div class="text-gray-300 text-[10px]">HP: <span id="playerHpText">150/150</span></div>
-                        <div class="w-20 bg-gray-700 h-2 rounded overflow-hidden mt-1"><div class="bg-emerald-500 h-full" id="playerHpBar" style="width: 100%;"></div></div>
+                        <div class="w-24 bg-gray-700 h-2 rounded overflow-hidden mt-1"><div class="bg-emerald-500 h-full" id="playerHpBar" style="width: 100%;"></div></div>
                     </div>
                     <div class="text-red-500 font-black text-sm">VS</div>
                     <div class="text-right">
-                        <div class="text-red-400 font-bold">Alpha Buffalo Boss</div>
+                        <div class="text-red-400 font-bold">Alpha Buffalo</div>
                         <div class="text-gray-300 text-[10px]">HP: <span id="bossHpText">200/200</span></div>
-                        <div class="w-20 bg-gray-700 h-2 rounded overflow-hidden mt-1 ml-auto"><div class="bg-red-500 h-full" id="bossHpBar" style="width: 100%;"></div></div>
+                        <div class="w-24 bg-gray-700 h-2 rounded overflow-hidden mt-1 ml-auto"><div class="bg-red-500 h-full" id="bossHpBar" style="width: 100%;"></div></div>
                     </div>
                 </div>
-                <button id="startBattleBtn" onclick="startTacticalBattle()" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 text-white font-black py-2 rounded-xl text-xs uppercase shadow">⚔️ Start Gevecht & Win!</button>
+                <button onclick="startTacticalBattle()" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 text-white font-black py-2.5 rounded-xl text-xs uppercase shadow cursor-pointer">⚔️ Start Gevecht & Win!</button>
             </div>
         </div>
 
-        <!-- TAB 3: STORAGE -->
-        <div id="tab-storage" class="tab-content px-4 overflow-y-auto interactive-layer">
-            <div class="bg-black/90 border-2 border-cyan-600 rounded-2xl p-3 flex flex-col gap-3 backdrop-blur-md text-white shadow-2xl">
-                <div class="text-center font-black text-cyan-400 text-sm" id="storageTitle">📦 Storage & Wallet</div>
-                <div class="bg-cyan-950/70 border border-cyan-500 rounded-xl p-2.5 text-center">
-                    <div class="text-xs font-bold text-cyan-300" id="exchangeLabel">🔄 Steak → TON (50k = 0.01)</div>
-                    <button class="w-full bg-cyan-600 text-white font-bold text-xs py-1.5 rounded-lg mt-1" onclick="exchangeSteakToTon()" id="btnExchange">WISSEL NAAR TON</button>
+        <!-- 2. STORAGE (DEPO) -->
+        <div id="modal-storage" class="feature-modal">
+            <div class="flex justify-between items-center mb-3 border-b border-cyan-500/40 pb-2">
+                <h2 class="text-cyan-400 font-black text-base" id="storageTitle">📦 Depo & Wallet</h2>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+            </div>
+            <div class="flex flex-col gap-3">
+                <div class="bg-cyan-950/80 border border-cyan-500 rounded-2xl p-3 text-center">
+                    <div class="text-xs font-bold text-cyan-300 mb-1" id="exchangeLabel">🔄 Steak → TON (50k = 0.01)</div>
+                    <button class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs py-2 rounded-xl shadow" onclick="exchangeSteakToTon()" id="btnExchange">WISSEL NAAR TON</button>
                 </div>
-                <div class="bg-red-950/70 border border-red-500 rounded-xl p-2.5">
+                <div class="bg-red-950/80 border border-red-500 rounded-2xl p-3 flex flex-col gap-2">
                     <div class="text-xs font-bold text-red-400" id="withdrawLabel">📤 TON Uitbetalen</div>
-                    <input type="text" id="withdrawAmountInput" placeholder="Aantal TON..." class="w-full bg-black/80 text-white border border-red-500/50 p-1.5 rounded text-xs mt-1">
-                    <input type="text" id="withdrawAddrInput" placeholder="Jouw TON Wallet Adres..." class="w-full bg-black/80 text-white border border-red-500/50 p-1.5 rounded text-xs mt-1">
-                    <button class="w-full bg-red-600 text-white font-bold text-xs py-1.5 rounded-lg mt-2" onclick="requestWithdrawalCustom()" id="btnWithdraw">Vraag Uitbetaling Aan</button>
+                    <input type="text" id="withdrawAmountInput" placeholder="Aantal TON..." class="w-full bg-black/90 text-white border border-red-500/50 p-2 rounded-xl text-xs">
+                    <input type="text" id="withdrawAddrInput" placeholder="Jouw TON Wallet Adres..." class="w-full bg-black/90 text-white border border-red-500/50 p-2 rounded-xl text-xs">
+                    <button class="w-full bg-red-600 hover:bg-red-500 text-white font-bold text-xs py-2 rounded-xl shadow mt-1" onclick="requestWithdrawalCustom()" id="btnWithdraw">Vraag Uitbetaling Aan</button>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 4: SHOP / MAĞAZA (Met alle dieren en foto's) -->
-        <div id="tab-shop" class="tab-content px-4 overflow-y-auto interactive-layer">
-            <div class="bg-black/90 border-2 border-amber-600 rounded-2xl p-3 flex flex-col gap-3 backdrop-blur-md text-white shadow-2xl">
-                <div class="text-center font-black text-amber-400 text-sm" id="shopTitleText">🏕️ Mağaza & Özel Fırsatlar</div>
-                <div class="bg-amber-950/80 border border-amber-500 rounded-xl p-2 text-center">
-                    <div class="text-[11px] font-bold text-amber-300">🚀 Özel Biftek Kampanyası ($10 USD)</div>
+        <!-- 3. SHOP / MAĞAZA (Met alle dieren en foto's) -->
+        <div id="modal-shop" class="feature-modal">
+            <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
+                <h2 class="text-amber-400 font-black text-base" id="shopTitleText">🏕️ Mağaza & Hayvan Market</h2>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+            </div>
+            <div class="flex flex-col gap-3">
+                <div class="bg-amber-950/85 border border-amber-500 rounded-2xl p-2.5 text-center">
+                    <div class="text-xs font-bold text-amber-300 mb-1">🚀 Özel Biftek Kampanyası ($10 USD)</div>
                     <input type="range" id="usdSlider" min="5" max="500" step="5" value="10" class="w-full accent-amber-400 cursor-pointer my-1" oninput="updateUsdSlider(this.value)">
-                    <div class="text-[10px] text-emerald-400 font-bold mb-1" id="usdRewardText">Alacağın: 25,000 🥩</div>
-                    <button class="w-full bg-amber-500 text-black font-bold text-xs py-1 rounded-lg" onclick="openPaymentModal()" id="btnBuyPkg">PAKETİ SATIN AL</button>
+                    <div class="text-[11px] text-emerald-400 font-bold mb-2" id="usdRewardText">Alacağın: 25,000 🥩</div>
+                    <button class="w-full bg-amber-500 text-black font-bold text-xs py-1.5 rounded-xl shadow" onclick="openPaymentModal()" id="btnBuyPkg">PAKETİ SATIN AL</button>
                 </div>
-                <div class="text-xs font-black text-amber-300 text-center">🦁 Hayvan Market</div>
-                <div class="grid grid-cols-2 gap-2" id="animalShopGrid"></div>
+                <div class="text-xs font-black text-amber-300 text-center uppercase tracking-wider">🦁 Beschikbare Dieren</div>
+                <div class="grid grid-cols-2 gap-2.5 pb-4" id="animalShopGrid"></div>
             </div>
         </div>
 
-        <!-- TAB 5: INVENTORY -->
-        <div id="tab-inventory" class="tab-content px-4 overflow-y-auto interactive-layer">
-            <div class="bg-black/90 border-2 border-amber-500 rounded-2xl p-3 flex flex-col gap-3 backdrop-blur-md text-white shadow-2xl">
-                <div class="text-center font-black text-amber-400 text-sm" id="invTitle">🎒 Inventory items</div>
-                <div class="bg-amber-950/70 border border-amber-500/50 p-3 rounded-xl text-xs text-center" id="invContent">
-                    Geen items in inventaris. Speel quests en win gevechten om items te verzamelen!
+        <!-- 4. INVENTARIS -->
+        <div id="modal-inventory" class="feature-modal">
+            <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
+                <h2 class="text-amber-400 font-black text-base" id="invTitle">🎒 Envanter & Eşyalar</h2>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+            </div>
+            <div class="grid grid-cols-3 gap-2.5">
+                <div class="bg-amber-950/8ode border border-amber-500/60 rounded-2xl p-3 text-center flex flex-col items-center justify-center gap-1">
+                    <span class="text-2xl">🥩</span>
+                    <span class="text-[10px] font-bold text-amber-200">Zeldzaam Vlees</span>
+                    <span class="text-[9px] text-emerald-400">x14 Stuks</span>
+                </div>
+                <div class="bg-amber-950/80 border border-amber-500/60 rounded-2xl p-3 text-center flex flex-col items-center justify-center gap-1">
+                    <span class="text-2xl">🛡️</span>
+                    <span class="text-[10px] font-bold text-amber-200">Schild</span>
+                    <span class="text-[9px] text-emerald-400">Level 2</span>
+                </div>
+                <div class="bg-amber-950/80 border border-amber-500/60 rounded-2xl p-3 text-center flex flex-col items-center justify-center gap-1">
+                    <span class="text-2xl">🧪</span>
+                    <span class="text-[10px] font-bold text-amber-200">Boost Elixer</span>
+                    <span class="text-[9px] text-emerald-400">x3 Aktif</span>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 6: ANIMALS -->
-        <div id="tab-animals" class="tab-content px-4 overflow-y-auto interactive-layer">
-            <div class="bg-black/90 border-2 border-amber-600 rounded-2xl p-3 backdrop-blur-md flex flex-col gap-3 text-white shadow-2xl">
-                <div class="text-center font-black text-amber-400 text-sm" id="animalsTitle">🦁 Leefgebieden & Dieren</div>
-                <div class="bg-amber-950/80 border border-amber-500 rounded-xl p-2 text-center">
-                    <div class="text-xs font-bold text-amber-300">Kral Aslan - Level <span id="lionLevelDisplay">1</span></div>
-                    <button onclick="upgradeLionLevel()" class="mt-1 w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-xs py-1.5 rounded-lg" id="btnUpgradeLion">UPGRADEN (500 🥩)</button>
+        <!-- 5. ANIMALS & HABITAT (Gekochte Dieren & Upgrades) -->
+        <div id="modal-animals" class="feature-modal">
+            <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
+                <h2 class="text-amber-400 font-black text-base" id="animalsTitle">🦁 Habitatlar & Hayvanlarım</h2>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+            </div>
+            <div class="flex flex-col gap-3">
+                <div class="bg-amber-950/90 border border-amber-500 rounded-2xl p-3 text-center text-white shadow-lg">
+                    <div class="text-xs font-bold text-amber-300">Kral Aslan - Level <span id="lionLevelDisplay">10</span></div>
+                    <button onclick="upgradeLionLevel()" class="mt-2 w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-xs py-2 rounded-xl shadow">⬆️ YÜKSELT (500 🥩)</button>
                 </div>
-                <div id="strategyGridContainer" class="flex flex-col gap-2"></div>
+                <div class="text-xs font-black text-amber-300 uppercase tracking-wider">🌟 Satın Aldığın Dirlik & Habitatlar</div>
+                <div id="strategyGridContainer" class="flex flex-col gap-2 pb-4"></div>
             </div>
         </div>
 
-        <!-- TAB 7: SETTINGS & LANGUAGES -->
-        <div id="tab-settings" class="tab-content px-4 overflow-y-auto interactive-layer">
-            <div class="bg-black/90 border-2 border-amber-500 rounded-2xl p-3 flex flex-col gap-3 backdrop-blur-md text-white text-center shadow-2xl">
-                <div class="text-amber-400 font-black text-sm" id="settingsTitle">⚙️ Settings & Languages</div>
-                <div class="text-xs text-gray-300" id="langSelectLabel">Select Language / Dil Seçin:</div>
+        <!-- 6. SETTINGS & LANGUAGES -->
+        <div id="modal-settings" class="feature-modal">
+            <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
+                <h2 class="text-amber-400 font-black text-base" id="settingsTitle">⚙️ Settings & Languages</h2>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+            </div>
+            <div class="bg-black/90 border border-amber-500/60 rounded-2xl p-4 flex flex-col gap-3 text-center">
+                <div class="text-xs text-gray-300 font-bold" id="langSelectLabel">Select Language / Dil Seçin:</div>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="setLanguage('en')" class="bg-amber-900 border border-amber-400 py-2 rounded-xl text-xs font-bold">🇬🇧 English</button>
-                    <button onclick="setLanguage('nl')" class="bg-amber-900 border border-amber-400 py-2 rounded-xl text-xs font-bold">🇳🇱 Nederlands</button>
-                    <button onclick="setLanguage('tr')" class="bg-amber-900 border border-amber-400 py-2 rounded-xl text-xs font-bold">🇹🇷 Türkçe</button>
-                    <button onclick="setLanguage('de')" class="bg-amber-900 border border-amber-400 py-2 rounded-xl text-xs font-bold">🇩🇪 Deutsch</button>
-                    <button onclick="setLanguage('fr')" class="bg-amber-900 border border-amber-400 py-2 rounded-xl text-xs font-bold">🇫🇷 Français</button>
-                    <button onclick="setLanguage('es')" class="bg-amber-900 border border-amber-400 py-2 rounded-xl text-xs font-bold">🇪🇸 Español</button>
+                    <button onclick="setLanguage('en')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇬🇧 English</button>
+                    <button onclick="setLanguage('nl')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇳🇱 Nederlands</button>
+                    <button onclick="setLanguage('tr')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇹🇷 Türkçe</button>
+                    <button onclick="setLanguage('de')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇩🇪 Deutsch</button>
+                    <button onclick="setLanguage('fr')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇫🇷 Français</button>
+                    <button onclick="setLanguage('es')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇪🇸 Español</button>
                 </div>
             </div>
         </div>
@@ -234,54 +239,51 @@
 
         <!-- ================= ZIJ-KNOPPEN (3 LINKS, 3 RECHTS) & BUILD ONDERIN ================= -->
         
-        <!-- Linker 3 Knoppen (Home, Quests, Storage) -->
-        <div class="absolute left-3 bottom-20 flex flex-col gap-2 z-30 interactive-layer">
-            <button onclick="switchTab('home')" class="side-btn">
-                <span class="text-base mb-0.5">🏠</span> <span id="navHome">Home</span>
-            </button>
-            <button onclick="switchTab('quests')" class="side-btn">
+        <!-- Linker 3 Knoppen (Quests, Storage, Settings) -->
+        <div class="absolute left-3 bottom-24 flex flex-col gap-2.5 z-30">
+            <button onclick="openModal('quests')" class="side-btn">
                 <span class="text-base mb-0.5">📋</span> <span id="navQuests">Quests</span>
             </button>
-            <button onclick="switchTab('storage')" class="side-btn">
+            <button onclick="openModal('storage')" class="side-btn">
                 <span class="text-base mb-0.5">📦</span> <span id="navStorage">Storage</span>
+            </button>
+            <button onclick="openModal('settings')" class="side-btn" style="background: linear-gradient(135deg, #475569, #1e293b);">
+                <span class="text-base mb-0.5">⚙️</span> <span id="navSettings">Set.</span>
             </button>
         </div>
 
-        <!-- Rechter 3 Knoppen (Shop, Invent., Animals + Settings via Animals of apart) -->
-        <div class="absolute right-3 bottom-20 flex flex-col gap-2 z-30 interactive-layer">
-            <button onclick="switchTab('shop')" class="side-btn" style="background: linear-gradient(135deg, #dc2626, #991b1b);">
+        <!-- Rechter 3 Knoppen (Shop, Invent., Animals) -->
+        <div class="absolute right-3 bottom-24 flex flex-col gap-2.5 z-30">
+            <button onclick="openModal('shop')" class="side-btn" style="background: linear-gradient(135deg, #dc2626, #991b1b);">
                 <span class="text-base mb-0.5">🏗️</span> <span id="navShop">Shop</span>
             </button>
-            <button onclick="switchTab('inventory')" class="side-btn">
+            <button onclick="openModal('inventory')" class="side-btn">
                 <span class="text-base mb-0.5">🎒</span> <span id="navInvent">Invent.</span>
             </button>
-            <button onclick="switchTab('animals')" class="side-btn" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
+            <button onclick="openModal('animals')" class="side-btn" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
                 <span class="text-base mb-0.5">🦁</span> <span id="navAnimals">Animals</span>
             </button>
         </div>
 
         <!-- Onderste Midden: Passief Claim + BUILD -->
-        <div class="p-2 pb-3 flex flex-col items-center justify-end z-30 interactive-layer bg-gradient-to-t from-black/95 via-black/80 to-transparent">
+        <div class="p-2 pb-3 flex flex-col items-center justify-end z-30 bg-gradient-to-t from-black/95 via-black/80 to-transparent">
             
             <!-- Passief Claimen Banner -->
-            <div class="w-full px-8 mb-1">
-                <div class="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 border-2 border-white rounded-xl py-1 px-3 text-center shadow-xl cursor-pointer active:scale-95 flex items-center justify-between" onclick="claimPassiveSteak()">
-                    <span class="text-sm">🥩</span>
+            <div class="w-full px-8 mb-1.5">
+                <div class="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 border-2 border-white rounded-2xl py-1.5 px-3 text-center shadow-xl cursor-pointer active:scale-95 flex items-center justify-between" onclick="claimPassiveSteak()">
+                    <span class="text-base">🥩</span>
                     <div class="text-center">
                         <div class="text-[8px] font-black text-amber-950 uppercase tracking-wider" id="lblClaimHeader">PASSIEF CLAIMEN (6H)</div>
                         <div class="text-[10px] font-black text-white" id="lblCollectVal">+157 STEAK KLAAR</div>
                     </div>
-                    <span class="text-sm">📥</span>
+                    <span class="text-base">📥</span>
                 </div>
             </div>
 
             <!-- Grote BUILD Knop in het Midden -->
             <div class="flex items-center gap-2">
-                <button onclick="switchTab('animals')" class="bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 text-white font-black text-base px-14 py-2 rounded-2xl shadow-[0_5px_15px_rgba(14,165,233,0.7)] border-2 border-white active:scale-95 transition cursor-pointer tracking-widest uppercase">
+                <button onclick="openModal('animals')" class="bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 text-white font-black text-base px-16 py-2 rounded-2xl shadow-[0_5px_15px_rgba(14,165,233,0.7)] border-2 border-white active:scale-95 transition cursor-pointer tracking-widest uppercase">
                     BUILD
-                </button>
-                <button onclick="switchTab('settings')" class="w-10 h-10 bg-gray-800 border-2 border-white rounded-2xl flex items-center justify-center text-white shadow-lg active:scale-95">
-                    ⚙️
                 </button>
             </div>
         </div>
@@ -296,64 +298,58 @@
 
         const translations = {
             en: {
-                home: "Home", quests: "Quests", storage: "Storage", shop: "Shop", invent: "Invent.", animals: "Animals",
+                quests: "Quests", storage: "Storage", shop: "Shop", invent: "Invent.", animals: "Animals", settings: "Set.",
                 claimHeader: "CLAIM PASSIVE (6H)", questTitle: "🎯 Quests & Tactical Arena",
                 storageTitle: "📦 Storage & Wallet", exchangeLbl: "🔄 Steak → TON (50k = 0.01)", btnExchange: "EXCHANGE TO TON",
-                withdrawLbl: "📤 TON Withdrawal", btnWithdraw: "Request Withdrawal", shopTitleText: "🏕️ Shop & Special Offers",
-                btnBuyPkg: "BUY PACKAGE", invTitle: "🎒 Inventory items", invEmpty: "No items in inventory. Play quests and battles!",
-                animalsTitle: "🦁 Habitats & Animals", upgradeLion: "UPGRADE (500 🥩)", settingsTitle: "⚙️ Settings & Languages", langLbl: "Select Language:"
+                withdrawLbl: "📤 TON Withdrawal", btnWithdraw: "Request Withdrawal", shopTitleText: "🏕️ Shop & Animals Market",
+                btnBuyPkg: "BUY PACKAGE", invTitle: "🎒 Inventory items", animalsTitle: "🦁 Habitats & Animals", upgradeLion: "UPGRADE (500 🥩)", settingsTitle: "⚙️ Settings & Languages"
             },
             nl: {
-                home: "Home", quests: "Quests", storage: "Storage", shop: "Shop", invent: "Invent.", animals: "Animals",
+                quests: "Quests", storage: "Storage", shop: "Shop", invent: "Invent.", animals: "Animals", settings: "Set.",
                 claimHeader: "PASSIEF CLAIMEN (6U)", questTitle: "🎯 Quests & Tactische Arena",
                 storageTitle: "📦 Storage & Wallet", exchangeLbl: "🔄 Steak → TON Wisselen (50k = 0.01)", btnExchange: "WISSEL NAAR TON",
-                withdrawLbl: "📤 TON Uitbetalen", btnWithdraw: "Vraag Uitbetaling Aan", shopTitleText: "🏕️ Shop & Aanbiedingen",
-                btnBuyPkg: "PAKETİ SATIN AL", invTitle: "🎒 Inventaris items", invEmpty: "Geen items in inventaris. Speel quests en win!",
-                animalsTitle: "🦁 Leefgebieden & Dieren", upgradeLion: "UPGRADEN (500 🥩)", settingsTitle: "⚙️ Instellingen & Talen", langLbl: "Selecteer Taal:"
+                withdrawLbl: "📤 TON Uitbetalen", btnWithdraw: "Vraag Uitbetaling Aan", shopTitleText: "🏕️ Shop & Dieren Market",
+                btnBuyPkg: "PAKETİ SATIN AL", invTitle: "🎒 Inventaris items", animalsTitle: "🦁 Leefgebieden & Dieren", upgradeLion: "UPGRADEN (500 🥩)", settingsTitle: "⚙️ Instellingen & Talen"
             },
             tr: {
-                home: "Ana Sayfa", quests: "Görevler", storage: "Depo", shop: "Mağaza", invent: "Envanter", animals: "Hayvanlar",
+                quests: "Görevler", storage: "Depo", shop: "Mağaza", invent: "Envanter", animals: "Hayvanlar", settings: "Ayarlar",
                 claimHeader: "PASİF TOPLA (6S)", questTitle: "🎯 Görevler & Taktiksel Arena",
                 storageTitle: "📦 Depo & Cüzdan", exchangeLbl: "🔄 Biftek → TON Takası (50k = 0.01)", btnExchange: "TON'A ÇEVİR",
-                withdrawLbl: "📤 TON Çekim Talebi", btnWithdraw: "Çekim Talebi Oluştur", shopTitleText: "🏕️ Mağaza & Fırsatlar",
-                btnBuyPkg: "PAKETİ SATIN AL", invTitle: "🎒 Envanter Ögeleri", invEmpty: "Envanterde öge yok. Görevleri ve savaşları tamamla!",
-                animalsTitle: "🦁 Habitatlar & Hayvanlar", upgradeLion: "YÜKSELT (500 🥩)", settingsTitle: "⚙️ Ayarlar & Diller", langLbl: "Dil Seçin:"
+                withdrawLbl: "📤 TON Çekim Talebi", btnWithdraw: "Çekim Talebi Oluştur", shopTitleText: "🏕️ Mağaza & Hayvan Pazarı",
+                btnBuyPkg: "PAKETİ SATIN AL", invTitle: "🎒 Envanter Ögeleri", animalsTitle: "🦁 Habitatlar & Hayvanlarım", upgradeLion: "YÜKSELT (500 🥩)", settingsTitle: "⚙️ Ayarlar & Diller"
             },
             de: {
-                home: "Home", quests: "Quests", storage: "Lager", shop: "Shop", invent: "Invent.", animals: "Tiere",
+                quests: "Quests", storage: "Lager", shop: "Shop", invent: "Invent.", animals: "Tiere", settings: "Set.",
                 claimHeader: "PASSIV (6H)", questTitle: "🎯 Quests & Taktische Arena",
                 storageTitle: "📦 Lager & Wallet", exchangeLbl: "🔄 Steak → TON Tausch (50k = 0.01)", btnExchange: "IN TON TAUSCHEN",
-                withdrawLbl: "📤 TON Auszahlung", btnWithdraw: "Auszahlung anfordern", shopTitleText: "🏕️ Shop & Angebote",
-                btnBuyPkg: "PAKET KAUFEN", invTitle: "🎒 Inventar-Gegenstände", invEmpty: "Keine Gegenstände im Inventar.",
-                animalsTitle: "🦁 Habitate & Tiere", upgradeLion: "UPGRADEN (500 🥩)", settingsTitle: "⚙️ Einstellungen & Sprachen", langLbl: "Sprache wählen:"
+                withdrawLbl: "📤 TON Auszahlung", btnWithdraw: "Auszahlung anfordern", shopTitleText: "🏕️ Shop & Tiere Market",
+                btnBuyPkg: "PAKET KAUFEN", invTitle: "🎒 Inventar-Gegenstände", animalsTitle: "🦁 Habitate & Tiere", upgradeLion: "UPGRADEN (500 🥩)", settingsTitle: "⚙️ Einstellungen & Sprachen"
             },
             fr: {
-                home: "Accueil", quests: "Quêtes", storage: "Stockage", shop: "Boutique", invent: "Invent.", animals: "Animaux",
+                quests: "Quêtes", storage: "Stockage", shop: "Boutique", invent: "Invent.", animals: "Animaux", settings: "Param.",
                 claimHeader: "RÉCOLTE (6H)", questTitle: "🎯 Quêtes & Arène Tactique",
                 storageTitle: "📦 Stockage & Portefeuille", exchangeLbl: "🔄 Échange Steak → TON (50k = 0.01)", btnExchange: "ÉCHANGER",
-                withdrawLbl: "📤 Retrait TON", btnWithdraw: "Demander le retrait", shopTitleText: "🏕️ Boutique & Offres",
-                btnBuyPkg: "ACHETER LE PACK", invTitle: "🎒 Objets d'inventaire", invEmpty: "Aucun objet.",
-                animalsTitle: "🦁 Habitats & Animaux", upgradeLion: "AMÉLIORER (500 🥩)", settingsTitle: "⚙️ Paramètres & Langues", langLbl: "Sélectionner la langue :"
+                withdrawLbl: "📤 Retrait TON", btnWithdraw: "Demander le retrait", shopTitleText: "🏕️ Boutique & Marché",
+                btnBuyPkg: "ACHETER LE PACK", invTitle: "🎒 Objets d'inventaire", animalsTitle: "🦁 Habitats & Animaux", upgradeLion: "AMÉLIORER (500 🥩)", settingsTitle: "⚙️ Paramètres & Langues"
             },
             es: {
-                home: "Inicio", quests: "Misiones", storage: "Almacén", shop: "Tienda", invent: "Invent.", animals: "Animales",
+                quests: "Misiones", storage: "Almacén", shop: "Tienda", invent: "Invent.", animals: "Animales", settings: "Ajust.",
                 claimHeader: "PASIVO (6H)", questTitle: "🎯 Misiones y Arena",
                 storageTitle: "📦 Almacén y Wallet", exchangeLbl: "🔄 Canje Carne → TON (50k = 0.01)", btnExchange: "CANJEAR A TON",
-                withdrawLbl: "📤 Retiro de TON", btnWithdraw: "Solicitar Retiro", shopTitleText: "🏕️ Tienda y Ofertas",
-                btnBuyPkg: "COMPRAR PAQUETE", invTitle: "🎒 Inventario", invEmpty: "Sin objetos en el inventario.",
-                animalsTitle: "🦁 Hábitats y Animales", upgradeLion: "MEJORAR (500 🥩)", settingsTitle: "⚙️ Ajustes e Idiomas", langLbl: "Seleccionar Idioma:"
+                withdrawLbl: "📤 Retiro de TON", btnWithdraw: "Solicitar Retiro", shopTitleText: "🏕️ Tienda y Mercado",
+                btnBuyPkg: "COMPRAR PAQUETE", invTitle: "🎒 Inventario", animalsTitle: "🦁 Hábitats y Animales", upgradeLion: "MEJORAR (500 🥩)", settingsTitle: "⚙️ Ajustes e Idiomas"
             }
         };
 
         function setLanguage(lang) {
             localStorage.setItem('dg_lang', lang);
             let t = translations[lang] || translations['en'];
-            document.getElementById('navHome').innerText = t.home;
             document.getElementById('navQuests').innerText = t.quests;
             document.getElementById('navStorage').innerText = t.storage;
             document.getElementById('navShop').innerText = t.shop;
             document.getElementById('navInvent').innerText = t.invent;
             document.getElementById('navAnimals').innerText = t.animals;
+            document.getElementById('navSettings').innerText = t.settings;
             document.getElementById('lblClaimHeader').innerText = t.claimHeader;
             document.getElementById('questTitle').innerText = t.questTitle;
             document.getElementById('storageTitle').innerText = t.storageTitle;
@@ -364,53 +360,66 @@
             document.getElementById('shopTitleText').innerText = t.shopTitleText;
             document.getElementById('btnBuyPkg').innerText = t.btnBuyPkg;
             document.getElementById('invTitle').innerText = t.invTitle;
-            document.getElementById('invContent').innerText = t.invEmpty;
             document.getElementById('animalsTitle').innerText = t.animalsTitle;
             document.getElementById('btnUpgradeLion').innerText = t.upgradeLion;
             document.getElementById('settingsTitle').innerText = t.settingsTitle;
-            document.getElementById('langSelectLabel').innerText = t.langLbl;
         }
 
-        let balance = parseInt(localStorage.getItem('dg_balance')) || 26171;
+        let balance = parseInt(localStorage.getItem('dg_balance')) || 12699;
         let tonBalance = parseFloat(localStorage.getItem('dg_ton')) || 1.404;
         let unclaimedSteak = parseInt(localStorage.getItem('dg_unclaimed')) || 157;
-        let playerLevel = parseInt(localStorage.getItem('dg_level')) || 11;
-        let lionLevel = parseInt(localStorage.getItem('dg_lion')) || 1;
+        let lionLevel = parseInt(localStorage.getItem('dg_lion')) || 10;
         
         let lastClaimTime = parseInt(localStorage.getItem('dg_lastclaim')) || Date.now();
         const CLAIM_INTERVAL = 6 * 60 * 60 * 1000;
 
         let savannaGrid = JSON.parse(localStorage.getItem('dg_savannagrid')) || [
-            { id: 0, name: 'Leeuwenrots', icon: '🦁', prod: 75, level: 1 },
-            { id: 1, name: 'Waterpoel Oase', icon: '💧', prod: 35, level: 1 }
+            { id: 0, name: 'Leeuwenrots', icon: '🦁', prod: 14543, level: 15 },
+            { id: 1, name: 'Waterpoel Oase', icon: '💧', prod: 589, level: 8 },
+            { id: 2, name: 'Acacia Bosje', icon: '🌳', prod: 188, level: 8 },
+            { id: 3, name: 'Olifantenvallei', icon: '🐘', prod: 3829, level: 9 }
         ];
 
-        // Volledige lijst met alle dieren en hun bestandsafbeeldingen uit GitHub
+        // Volledige lijst met alle dieren uit GitHub
         let animalsData = [
-            { id: 'lion', name: 'Kral Aslan', img: 'kral_aslan.PNG', baseProd: 75, cost: 500, count: 1 },
+            { id: 'kral_aslan', name: 'Kral Aslan', img: 'kral_aslan.PNG', baseProd: 75, cost: 500, count: 1 },
             { id: 'jaguar', name: 'Jaguar', img: 'jaguar.PNG', baseProd: 30, cost: 400, count: 0 },
-            { id: 'panther', name: 'Panter', img: 'panter.PNG', baseProd: 25, cost: 350, count: 0 },
+            { id: 'panter', name: 'Panter', img: 'panter.PNG', baseProd: 25, cost: 350, count: 0 },
             { id: 'kara_panter', name: 'Kara Panter', img: 'kara_panter.PNG', baseProd: 40, cost: 600, count: 0 },
             { id: 'kurt', name: 'Kurt', img: 'kurt.PNG', baseProd: 20, cost: 300, count: 0 },
             { id: 'sirtlan', name: 'Sırtlan Sürüsü', img: 'sirtlan_surusu.PNG', baseProd: 35, cost: 450, count: 0 },
-            { id: 'gergedan', name: 'Siyah Gergedan', img: 'siyah_gergedan.PNG', baseProd: 60, cost: 800, count: 0 },
-            { id: 'timsah', name: 'Timsah', img: 'timsah.PNG', baseProd: 50, cost: 700, count: 0 }
+            { id: 'siyah_gergedan', name: 'Siyah Gergedan', img: 'siyah_gergedan.PNG', baseProd: 60, cost: 800, count: 0 },
+            { id: 'timsah', name: 'Timsah', img: 'timsah.PNG', baseProd: 50, cost: 700, count: 0 },
+            { id: 'afrika_akbabasi', name: 'Afrika Akbabası', img: 'afrika_akbabasi.PNG', baseProd: 15, cost: 250, count: 0 },
+            { id: 'antilop', name: 'Antilop', img: 'antilop.PNG', baseProd: 18, cost: 280, count: 0 },
+            { id: 'aslan_yavrusu', name: 'Aslan Yavrusu', img: 'aslan_yavrusu.PNG', baseProd: 10, cost: 200, count: 1 },
+            { id: 'beyaz_gergedan', name: 'Beyaz Gergedan', img: 'beyaz_gergedan.PNG', baseProd: 65, cost: 850, count: 0 },
+            { id: 'cakal', name: 'Çakal', img: 'cakal.PNG', baseProd: 22, cost: 320, count: 0 },
+            { id: 'cita', name: 'Çita', img: 'cita.PNG', baseProd: 35, cost: 420, count: 0 },
+            { id: 'fil', name: 'Fil', img: 'fil.PNG', baseProd: 80, cost: 1000, count: 0 },
+            { id: 'iki_erkek_aslan', name: 'İki Erkek Aslan', img: 'iki_erkek_aslan.PNG', baseProd: 90, cost: 1200, count: 0 }
         ];
 
         function saveGame() {
             localStorage.setItem('dg_balance', balance);
             localStorage.setItem('dg_ton', tonBalance);
             localStorage.setItem('dg_unclaimed', unclaimedSteak);
-            localStorage.setItem('dg_level', playerLevel);
             localStorage.setItem('dg_lion', lionLevel);
             localStorage.setItem('dg_lastclaim', lastClaimTime);
             localStorage.setItem('dg_savannagrid', JSON.stringify(savannaGrid));
+            localStorage.setItem('dg_animals', JSON.stringify(animalsData));
         }
 
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.getElementById('tab-' + tabName).classList.add('active');
-            haptic('light');
+        let savedAnim = localStorage.getItem('dg_animals');
+        if(savedAnim) { animalsData = JSON.parse(savedAnim); }
+
+        function openModal(modalName) {
+            document.querySelectorAll('.feature-modal').forEach(m => m.classList.remove('active'));
+            document.getElementById('modal-' + modalName).classList.add('active');
+        }
+
+        function closeModals() {
+            document.querySelectorAll('.feature-modal').forEach(m => m.classList.remove('active'));
         }
 
         function checkPassiveTimer() {
@@ -432,7 +441,6 @@
             document.getElementById('balance').innerText = balance.toLocaleString();
             document.getElementById('lblCollectVal').innerText = "+0 STEAK KLAAR";
             saveGame();
-            haptic('success');
             showToast("🥩 Vlees geclaimd!");
         }
 
@@ -440,15 +448,33 @@
             let container = document.getElementById('strategyGridContainer');
             if(!container) return;
             container.innerHTML = '';
+            
+            // Toon habitat upgrades
             savannaGrid.forEach((plot, idx) => {
                 let cost = plot.level * 400;
                 container.innerHTML += `
-                    <div class="bg-amber-950/90 border border-amber-500 rounded-xl p-2.5 flex justify-between items-center text-xs text-white">
+                    <div class="bg-amber-950/80 border border-amber-500 rounded-xl p-2.5 flex justify-between items-center text-xs text-white">
                         <div>
                             <div class="font-bold text-amber-300">${plot.icon} ${plot.name} (Lvl ${plot.level})</div>
                             <div class="text-[10px] text-emerald-400">+${plot.prod} 🥩/u</div>
                         </div>
-                        <button onclick="upgradePlot(${idx})" class="bg-amber-500 text-black font-black px-3 py-1.5 rounded-lg text-[10px]">UPGRADE (${cost} 🥩)</button>
+                        <button onclick="upgradePlot(${idx})" class="bg-amber-500 text-black font-black px-2.5 py-1 rounded-lg text-[10px]">UPGRADE (${cost})</button>
+                    </div>
+                `;
+            });
+
+            // Toon ook de gekochte dieren
+            animalsData.filter(a => a.count > 0).forEach((anim) => {
+                container.innerHTML += `
+                    <div class="bg-amber-950/80 border border-emerald-500 rounded-xl p-2.5 flex justify-between items-center text-xs text-white">
+                        <div class="flex items-center gap-2">
+                            <img src="${anim.img}" class="w-8 h-8 rounded-full object-cover border border-emerald-400" onerror="this.src='kral_aslan.PNG'">
+                            <div>
+                                <div class="font-bold text-emerald-300">${anim.name} (x${anim.count})</div>
+                                <div class="text-[10px] text-emerald-400">+${anim.baseProd * anim.count} 🥩/u</div>
+                            </div>
+                        </div>
+                        <span class="text-[10px] bg-emerald-900 text-emerald-300 px-2 py-1 rounded font-bold">Aktif ✅</span>
                     </div>
                 `;
             });
@@ -479,7 +505,7 @@
                             <div class="text-[11px] font-bold text-amber-200">${anim.name}</div>
                             <div class="text-[10px] text-emerald-400">+${anim.baseProd} 🥩/u</div>
                         </div>
-                        <button class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px] py-1 rounded mt-1 shadow" onclick="buyAnimal(${idx})">${anim.cost} 🥩</button>
+                        <button class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px] py-1 rounded mt-1 shadow cursor-pointer" onclick="buyAnimal(${idx})">${anim.cost} 🥩</button>
                     </div>
                 `;
             });
@@ -492,6 +518,7 @@
             anim.count++;
             document.getElementById('balance').innerText = balance.toLocaleString();
             saveGame();
+            renderStrategyGrid();
             showToast(`🎉 ${anim.name} aangeschaft!`);
         }
 
@@ -534,20 +561,7 @@
         }
 
         function updateUsdSlider(val) {
-            document.getElementById('usdDisplay').innerText = `$${val} USD`;
             document.getElementById('usdRewardText').innerText = `Alacağın: ${(val * 2500).toLocaleString()} 🥩`;
-        }
-
-        function openPaymentModal() { document.getElementById('paymentModal').style.display = 'flex'; }
-        function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; }
-        function confirmPayment() {
-            tonBalance -= 0.05;
-            balance += 25000;
-            document.getElementById('balance').innerText = balance.toLocaleString();
-            document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
-            saveGame();
-            closePaymentModal();
-            showToast("Aankoop geslaagd!");
         }
 
         function upgradeLionLevel() {
@@ -571,8 +585,6 @@
         // Init UI values
         document.getElementById('balance').innerText = balance.toLocaleString();
         document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
-        document.getElementById('hudLevelBadge').innerText = playerLevel;
-        document.getElementById('hudLevelText').innerText = `Level ${playerLevel}`;
         document.getElementById('lionLevelDisplay').innerText = lionLevel;
         checkPassiveTimer();
         renderStrategyGrid();

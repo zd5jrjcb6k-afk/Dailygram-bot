@@ -40,11 +40,13 @@
             background-size: cover;
             background-position: center;
             z-index: 1;
+            pointer-events: none;
         }
 
         .feature-modal {
             position: absolute; inset: 0; background: rgba(8, 6, 3, 0.96); backdrop-filter: blur(10px);
             z-index: 100; display: none; flex-direction: column; padding: 20px 12px 110px 12px; overflow-y: auto; color: white;
+            pointer-events: auto;
         }
         .feature-modal.active { display: flex; }
 
@@ -63,6 +65,7 @@
             font-size: 9px;
             cursor: pointer;
             transition: transform 0.1s ease;
+            pointer-events: auto;
         }
         .side-btn:active { transform: scale(0.92); }
 
@@ -70,6 +73,7 @@
             position: absolute; top: 110px; left: 50%; transform: translateX(-50%);
             background: rgba(18, 10, 5, 0.95); border: 2px solid #ffd700; color: #ffd700; padding: 6px 14px;
             border-radius: 16px; font-size: 0.75rem; font-weight: bold; z-index: 600; display: none; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            pointer-events: none;
         }
 
         .animal-card {
@@ -93,13 +97,12 @@
 
     <!-- ================= HONEY FARM STIJL BETALINGSMODAL ================= -->
     <div id="paymentModal" class="feature-modal" style="z-index: 300; justify-content: center; align-items: center;">
-        <div class="bg-gradient-to-b from-[#2a1b0c] to-[#110803] border-2 border-amber-500 rounded-2xl p-4 w-full max-w-[340px] text-center shadow-2xl flex flex-col gap-3">
+        <div class="bg-gradient-to-b from-[#2a1b0c] to-[#110803] border-2 border-amber-500 rounded-2xl p-4 w-full max-w-[340px] text-center shadow-2xl flex flex-col gap-3 pointer-events-auto">
             <div class="flex justify-between items-center border-b border-amber-500/40 pb-2">
                 <span class="text-amber-400 font-black text-sm">Kripto para seç</span>
                 <button onclick="closePaymentModal()" class="w-7 h-7 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-xs cursor-pointer">✕</button>
             </div>
             
-            <!-- Stap 1: Kies Crypto -->
             <div id="cryptoSelectStep" class="flex flex-col gap-2">
                 <button onclick="selectCrypto('TRX', 'TRX20', 10)" class="bg-[#3a220d] hover:bg-[#4a2e12] border border-amber-500/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-bold text-amber-200 cursor-pointer">
                     <span>🔥 TRX (TRC20)</span> <span class="text-emerald-400">$<span id="trxPrice">10</span> USD</span>
@@ -118,9 +121,8 @@
                 </button>
             </div>
 
-            <!-- Stap 2: Wallet & Bedrag Overzicht (Exact zoals Honey Farm video) -->
             <div id="cryptoTransferStep" class="flex flex-col gap-2.5 hidden">
-                <div class="text-xs text-amber-300 font-bold" id="transferTitle">Gönderilecek miktar:</div>
+                <div class="text-xs text-amber-300 font-bold">Gönderilecek miktar:</div>
                 <div class="bg-black/90 border border-amber-500/60 p-2 rounded-xl text-emerald-400 font-mono text-xs font-bold" id="transferAmount">35.689633 GRAM</div>
                 <button onclick="copyToClipboard(document.getElementById('transferAmount').innerText)" class="w-full bg-amber-600 hover:bg-amber-500 text-black font-bold text-xs py-1.5 rounded-lg cursor-pointer">Kopyala</button>
 
@@ -141,7 +143,7 @@
     <div class="phone-frame">
         
         <!-- ================= HEADER UI ================= -->
-        <div class="pt-2 px-3 flex justify-between items-center z-30">
+        <div class="pt-2 px-3 flex justify-between items-center z-40 relative pointer-events-auto">
             <div class="flex items-center gap-1.5 bg-black/80 backdrop-blur-md p-1.5 rounded-2xl pr-2.5 text-white border border-amber-400/60 shadow-lg cursor-pointer" onclick="openModal('animals')">
                 <div class="relative">
                     <div class="w-9 h-9 rounded-full bg-amber-600 flex items-center justify-center font-bold border-2 border-amber-300 text-sm shadow overflow-hidden">🦁</div>
@@ -210,14 +212,13 @@
             </div>
         </div>
 
-        <!-- 3. MAĞAZA & HAYVAN PAZARI (Honey Farm Stijl Slider & ÖDE knop) -->
+        <!-- 3. MAĞAZA & HAYVAN PAZARI -->
         <div id="modal-shop" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
                 <h2 class="text-amber-400 font-black text-base">🏕️ Mağaza & Hayvan Pazarı</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="flex flex-col gap-3">
-                <!-- Honey Farm Slider Container -->
                 <div class="bg-gradient-to-b from-[#2a1b0c] to-[#120904] border-2 border-amber-600 rounded-2xl p-3 text-center shadow-lg">
                     <div class="text-xs font-bold text-amber-300 mb-1">Ödediğin USD: $<span id="usdValDisplay">10</span></div>
                     <input type="range" id="usdSlider" min="3" max="500" step="1" value="10" class="w-full accent-amber-400 cursor-pointer my-2" oninput="updateUsdSlider(this.value)">
@@ -282,7 +283,7 @@
 
         <!-- ================= ZIJ-KNOPPEN & BUILD ================= -->
         
-        <div class="absolute left-3 bottom-24 flex flex-col gap-2.5 z-30">
+        <div class="absolute left-3 bottom-24 flex flex-col gap-2.5 z-40 pointer-events-auto">
             <button onclick="openModal('quests')" class="side-btn">
                 <span class="text-base mb-0.5">📋</span> <span>Görev</span>
             </button>
@@ -294,7 +295,7 @@
             </button>
         </div>
 
-        <div class="absolute right-3 bottom-24 flex flex-col gap-2.5 z-30">
+        <div class="absolute right-3 bottom-24 flex flex-col gap-2.5 z-40 pointer-events-auto">
             <button onclick="openModal('shop')" class="side-btn" style="background: linear-gradient(135deg, #dc2626, #991b1b);">
                 <span class="text-base mb-0.5">🏗️</span> <span>Mağaza</span>
             </button>
@@ -306,8 +307,8 @@
             </button>
         </div>
 
-        <!-- Onderste Midden: Passief Claim met Voortgangsbalk (volle 6 uur timer) -->
-        <div class="p-2 pb-3 flex flex-col items-center justify-end z-30 bg-gradient-to-t from-black/95 via-black/80 to-transparent">
+        <!-- Onderste Midden: Passief Claim met Voortgangsbalk -->
+        <div class="p-2 pb-3 flex flex-col items-center justify-end z-40 relative pointer-events-auto bg-gradient-to-t from-black/95 via-black/80 to-transparent">
             <div class="w-full px-8 mb-1.5">
                 <div class="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 border-2 border-white rounded-2xl py-1.5 px-3 text-center shadow-xl cursor-pointer active:scale-95 flex flex-col justify-between relative overflow-hidden" onclick="claimPassiveSteak()">
                     <div class="flex items-center justify-between z-10">
@@ -318,7 +319,6 @@
                         </div>
                         <span class="text-base">📥</span>
                     </div>
-                    <!-- Dunne streep onderin die geleidelijk volloopt in 6 uur -->
                     <div class="absolute bottom-0 left-0 h-1 bg-emerald-500 transition-all duration-500 z-0" id="passiveProgressBar" style="width: 0%;"></div>
                 </div>
             </div>
@@ -344,7 +344,7 @@
         let lionLevel = parseInt(localStorage.getItem('dg_lion')) || 11;
         
         let lastClaimTime = parseInt(localStorage.getItem('dg_lastclaim')) || Date.now();
-        const CLAIM_INTERVAL = 6 * 60 * 60 * 1000; // 6 uur
+        const CLAIM_INTERVAL = 6 * 60 * 60 * 1000;
 
         let savannaGrid = JSON.parse(localStorage.getItem('dg_savannagrid')) || [
             { id: 0, name: 'Leeuwenrots', icon: '🦁', prod: 14543, level: 15 },
@@ -389,7 +389,6 @@
             document.getElementById('headerLionLevel').innerText = `Lv ${lionLevel}`;
         }
 
-        // Timer en voortgangsbalk voor passief vlees (6 uur)
         function checkPassiveTimer() {
             let now = Date.now();
             let elapsed = now - lastClaimTime;
@@ -401,7 +400,7 @@
                 lastClaimTime = now;
                 saveGame();
             }
-            document.getElementById('lblCollectVal.innerText` || (document.getElementById('lblCollectVal').innerText = `+${unclaimedSteak} STEAK KLAAR`);
+            document.getElementById('lblCollectVal').innerText = `+${unclaimedSteak} STEAK KLAAR`;
         }
         setInterval(checkPassiveTimer, 1000);
 

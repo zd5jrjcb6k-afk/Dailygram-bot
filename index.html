@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Savannah Wild</title>
+    <title>Savannah Wild - Dailygram Miner</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
@@ -43,15 +43,15 @@
         }
 
         .feature-modal {
-            position: absolute; inset: 0; background: rgba(5, 8, 17, 0.95); backdrop-filter: blur(8px);
-            z-index: 100; display: none; flex-direction: column; padding: 20px 15px 120px 15px; overflow-y: auto; color: white;
+            position: absolute; inset: 0; background: rgba(8, 6, 3, 0.96); backdrop-filter: blur(10px);
+            z-index: 100; display: none; flex-direction: column; padding: 20px 12px 110px 12px; overflow-y: auto; color: white;
         }
         .feature-modal.active { display: flex; }
 
         .side-btn {
             width: 52px; height: 52px;
             background: linear-gradient(135deg, #d97706, #b45309);
-            border: 2.5px solid #fef3c7;
+            border: 2px solid #fef3c7;
             box-shadow: 0 4px 12px rgba(0,0,0,0.6);
             border-radius: 16px;
             display: flex;
@@ -71,6 +71,20 @@
             background: rgba(18, 10, 5, 0.95); border: 2px solid #ffd700; color: #ffd700; padding: 6px 14px;
             border-radius: 16px; font-size: 0.75rem; font-weight: bold; z-index: 600; display: none; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
         }
+
+        /* Stijlvolle dier-kaartjes geïnspireerd op foto 3 */
+        .animal-card {
+            background: linear-gradient(135deg, #1f160a 0%, #100b05 100%);
+            border: 2px solid #d97706;
+            border-radius: 16px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+        }
     </style>
 </head>
 <body>
@@ -78,35 +92,35 @@
     <div class="game-background"></div>
     <div id="toast" class="toast-notification"></div>
 
-    <!-- BETALINGSMODAL (Echte crypto/geld aankoop met wallet adres) -->
+    <!-- BETALINGSMODAL (Crypto/Geld aankoop met wallet adres & terugknop) -->
     <div id="paymentModal" class="feature-modal" style="z-index: 200; justify-content: center; align-items: center;">
-        <div class="bg-black/95 border-2 border-amber-500 rounded-2xl p-4 w-full max-w-[340px] text-center shadow-2xl flex flex-col gap-3">
+        <div class="bg-gradient-to-b from-[#221508] to-[#0c0804] border-2 border-amber-500 rounded-2xl p-4 w-full max-w-[340px] text-center shadow-2xl flex flex-col gap-3">
             <div class="flex justify-between items-center border-b border-amber-500/40 pb-2">
-                <span class="text-amber-400 font-black text-sm">💳 Vlees / Pakket Kopen</span>
-                <button onclick="closePaymentModal()" class="w-7 h-7 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-xs">✕</button>
+                <span class="text-amber-400 font-black text-sm">💳 Vlees / Pakket Satın Al</span>
+                <button onclick="closePaymentModal()" class="w-7 h-7 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-xs cursor-pointer">✕</button>
             </div>
-            <div class="text-xs text-gray-300" id="payModalInfo">Te betalen: $10 USD (0.05 TON)</div>
-            <div class="bg-amber-950/60 border border-amber-500/50 rounded-xl p-2.5 text-left text-[11px] text-amber-200">
-                <div class="font-bold mb-1">📥 Stuur TON naar dit officiële Wallet Adres:</div>
-                <div class="bg-black/90 p-2 rounded border border-amber-400/40 font-mono text-[10px] text-cyan-300 break-all select-all">UQAZ...SAVANNAH_OFFICIAL_WALLET_9999</div>
-                <div class="text-[9px] text-gray-400 mt-1">💡 Vermeld je Telegram username in de transactie-memo voor automatische bijschrijving!</div>
+            <div class="text-xs text-amber-200 font-bold" id="payModalInfo">Tutar: $10 USD (0.05 TON)</div>
+            <div class="bg-black/90 border border-amber-500/50 rounded-xl p-3 text-left text-[11px] text-gray-300">
+                <div class="font-bold text-amber-300 mb-1">📥 Resmi TON Cüzdan Adresi:</div>
+                <div class="bg-black p-2 rounded border border-amber-400/40 font-mono text-[10px] text-cyan-300 break-all select-all">UQAZ_SAVANNAH_WILD_OFFICIAL_WALLET_9999</div>
+                <div class="text-[9px] text-gray-400 mt-1.5">💡 İşlem açıklamasına Telegram kullanıcı adınızı yazın, otomatik olarak et hesabınıza eklenecektir!</div>
             </div>
-            <button onclick="simulateSuccessfulPayment()" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 text-white font-bold py-2 rounded-xl text-xs shadow cursor-pointer">✅ Transactie Voltooid & Claim Vlees</button>
-            <button onclick="closePaymentModal()" class="w-full bg-gray-800 text-gray-300 font-bold py-1.5 rounded-xl text-xs cursor-pointer">Terug naar Winkel</button>
+            <button onclick="simulateSuccessfulPayment()" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 text-white font-bold py-2 rounded-xl text-xs shadow cursor-pointer">✅ Ödemeyi Tamamla & Eti Al</button>
+            <button onclick="closePaymentModal()" class="w-full bg-amber-900/80 hover:bg-amber-900 text-amber-200 font-bold py-1.5 rounded-xl text-xs cursor-pointer border border-amber-600">Ana Sayfaya / Mağazaya Dön</button>
         </div>
     </div>
 
     <div class="phone-frame">
         
-        <!-- ================= BOVENSTE HEADER UI ================= -->
+        <!-- ================= HEADER UI ================= -->
         <div class="pt-2 px-3 flex justify-between items-center z-30">
             <div class="flex items-center gap-1.5 bg-black/80 backdrop-blur-md p-1.5 rounded-2xl pr-2.5 text-white border border-amber-400/60 shadow-lg cursor-pointer" onclick="openModal('animals')">
                 <div class="relative">
                     <div class="w-9 h-9 rounded-full bg-amber-600 flex items-center justify-center font-bold border-2 border-amber-300 text-sm shadow overflow-hidden">🦁</div>
-                    <div class="absolute -bottom-1 -right-1 bg-emerald-600 text-white text-[8px] font-black px-1 rounded-full border border-white">11</div>
+                    <div class="absolute -bottom-1 -right-1 bg-emerald-600 text-white text-[8px] font-black px-1 rounded-full border border-white" id="headerLionLevel">Lv 11</div>
                 </div>
                 <div class="flex flex-col">
-                    <div class="text-[10px] font-black text-amber-300 leading-tight">Level 11</div>
+                    <div class="text-[10px] font-black text-amber-300 leading-tight">Savanna Empire</div>
                     <div class="text-[11px] font-bold text-white leading-tight truncate max-w-[70px]" id="playerNameDisplay">Ahmet</div>
                 </div>
             </div>
@@ -122,74 +136,75 @@
         </div>
 
 
-        <!-- ================= FUNCTIE SCHERMEN ================= -->
+        <!-- ================= FUNCTIE SCHERMEN (MODALS) ================= -->
 
-        <!-- 1. MISSIES / QUESTS (Geen arena meer, wel beloningen) -->
+        <!-- 1. GÖREVLER / QUESTS -->
         <div id="modal-quests" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
                 <h2 class="text-amber-400 font-black text-base">🎯 Günlük Görevler & Ödüller</h2>
-                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="flex flex-col gap-2.5">
                 <div class="bg-black/80 border border-amber-500/60 rounded-2xl p-3 flex justify-between items-center">
                     <div>
-                        <div class="text-xs font-bold text-amber-200">📢 Sosyal Medya Sayfamızı Takip Et</div>
+                        <div class="text-xs font-bold text-amber-200">📢 Kanalımızı Takip Et</div>
                         <div class="text-[10px] text-emerald-400 font-bold">+1.000 🥩 Vlees Beloning</div>
                     </div>
-                    <button onclick="claimQuestReward(1000, this)" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow">CLAIM</button>
+                    <button onclick="claimQuestReward(1000, this)" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow cursor-pointer">CLAIM</button>
                 </div>
                 <div class="bg-black/80 border border-amber-500/60 rounded-2xl p-3 flex justify-between items-center">
                     <div>
                         <div class="text-xs font-bold text-amber-200">👥 5 Arkadaşını Davet Et</div>
                         <div class="text-[10px] text-emerald-400 font-bold">+5.000 🥩 Vlees Beloning</div>
                     </div>
-                    <button onclick="claimQuestReward(5000, this)" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow">CLAIM</button>
+                    <button onclick="claimQuestReward(5000, this)" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow cursor-pointer">CLAIM</button>
                 </div>
                 <div class="bg-black/80 border border-amber-500/60 rounded-2xl p-3 flex justify-between items-center">
                     <div>
-                        <div class="text-xs font-bold text-amber-200">🚀 İlk $5 Acenta/Paket Alımı Yap</div>
+                        <div class="text-xs font-bold text-amber-200">🚀 İlk $5 Yatırım Yap</div>
                         <div class="text-[10px] text-emerald-400 font-bold">+25.000 🥩 Vlees Beloning</div>
                     </div>
-                    <button onclick="openModal('shop')" class="bg-amber-500 text-black text-xs font-bold px-3 py-1.5 rounded-xl shadow">SHOP</button>
+                    <button onclick="openModal('shop')" class="bg-amber-500 text-black text-xs font-bold px-3 py-1.5 rounded-xl shadow cursor-pointer">MAĞAZA</button>
                 </div>
             </div>
         </div>
 
-        <!-- 2. STORAGE / DEPO -->
+        <!-- 2. DEPO / STORAGE -->
         <div id="modal-storage" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-cyan-500/40 pb-2">
                 <h2 class="text-cyan-400 font-black text-base">📦 Depo & Cüzdan</h2>
-                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="flex flex-col gap-3">
                 <div class="bg-cyan-950/80 border border-cyan-500 rounded-2xl p-3 text-center">
                     <div class="text-xs font-bold text-cyan-300 mb-1">🔄 Steak → TON Takası (50k = 0.01)</div>
-                    <button class="w-full bg-cyan-600 text-white font-bold text-xs py-2 rounded-xl shadow" onclick="exchangeSteakToTon()">TON'A ÇEVİR</button>
+                    <button class="w-full bg-cyan-600 text-white font-bold text-xs py-2 rounded-xl shadow cursor-pointer" onclick="exchangeSteakToTon()">TON'A ÇEVİR</button>
                 </div>
                 <div class="bg-red-950/80 border border-red-500 rounded-2xl p-3 flex flex-col gap-2">
                     <div class="text-xs font-bold text-red-400">📤 TON Çekim Talebi</div>
                     <input type="text" id="withdrawAmountInput" placeholder="Miktar (TON)..." class="w-full bg-black/90 text-white border border-red-500/50 p-2 rounded-xl text-xs">
                     <input type="text" id="withdrawAddrInput" placeholder="Cüzdan Adresiniz..." class="w-full bg-black/90 text-white border border-red-500/50 p-2 rounded-xl text-xs">
-                    <button class="w-full bg-red-600 text-white font-bold text-xs py-2 rounded-xl shadow mt-1" onclick="requestWithdrawalCustom()">Çekim Talebi Oluştur</button>
+                    <button class="w-full bg-red-600 text-white font-bold text-xs py-2 rounded-xl shadow mt-1 cursor-pointer" onclick="requestWithdrawalCustom()">Çekim Talebi Oluştur</button>
                 </div>
             </div>
         </div>
 
-        <!-- 3. SHOP / MAĞAZA (Dieren & Vlees met Geld kopen) -->
+        <!-- 3. MAĞAZA & HAYVAN PAZARI (Stijl van Foto 3 - Grid met Dieren en Yükselt/Satın Al) -->
         <div id="modal-shop" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
                 <h2 class="text-amber-400 font-black text-base">🏕️ Mağaza & Hayvan Pazarı</h2>
-                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="flex flex-col gap-3">
-                <!-- Vlees met Geld kopen slider -->
+                <!-- Vlees met Geld/Crypto kopen -->
                 <div class="bg-amber-950/85 border border-amber-500 rounded-2xl p-3 text-center shadow-lg">
                     <div class="text-xs font-bold text-amber-300 mb-1">🚀 Özel Biftek Kampanyası ($ / TON)</div>
                     <input type="range" id="usdSlider" min="5" max="100" step="5" value="10" class="w-full accent-amber-400 cursor-pointer my-1" oninput="updateUsdSlider(this.value)">
                     <div class="text-xs text-emerald-400 font-bold mb-2" id="usdRewardText">Alacağın: 25.000 🥩</div>
-                    <button class="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-xs py-2 rounded-xl shadow" onclick="openPaymentModal()">PAKETİ SATIN AL ($10)</button>
+                    <button class="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-xs py-2 rounded-xl shadow cursor-pointer" onclick="openPaymentModal()">PAKETİ SATIN AL ($10)</button>
                 </div>
                 <div class="text-xs font-black text-amber-300 text-center uppercase tracking-wider mt-1">🦁 Hayvan Satın Al</div>
+                <!-- Prachtige 2-koloms grid in stijl van foto 3 -->
                 <div class="grid grid-cols-2 gap-2.5 pb-4" id="animalShopGrid"></div>
             </div>
         </div>
@@ -198,7 +213,7 @@
         <div id="modal-inventory" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
                 <h2 class="text-amber-400 font-black text-base">🎒 Envanter & Eşyalar</h2>
-                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="grid grid-cols-3 gap-2.5">
                 <div class="bg-amber-950/80 border border-amber-500/60 rounded-2xl p-3 text-center flex flex-col items-center justify-center gap-1">
@@ -219,39 +234,40 @@
             </div>
         </div>
 
-        <!-- 5. ANIMALS & HABITAT (Strakker en duidelijker overzicht van gekochte dieren en leefgebieden) -->
+        <!-- 5. HAYVANLAR & HABITATLAR (Strakke layout in stijl van foto 3) -->
         <div id="modal-animals" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
-                <h2 class="text-amber-400 font-black text-base">🦁 Habitatlar & Sahip Olunan Hayvanlar</h2>
-                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+                <h2 class="text-amber-400 font-black text-base">🦁 Hayvanlarım & Habitatlar</h2>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="flex flex-col gap-3">
-                <div class="bg-amber-950/90 border border-amber-500 rounded-2xl p-3 text-center text-white shadow-lg">
-                    <div class="text-xs font-bold text-amber-300">Kral Aslan - Level <span id="lionLevelDisplay">11</span></div>
-                    <button onclick="upgradeLionLevel()" class="mt-2 w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-xs py-2 rounded-xl shadow">⬆️ YÜKSELT (500 🥩)</button>
+                <!-- Kral Aslan Yükselt Kartı -->
+                <div class="bg-gradient-to-br from-amber-950 to-black border-2 border-amber-500 rounded-2xl p-3 text-center text-white shadow-xl">
+                    <div class="text-xs font-bold text-amber-300">Kral Aslan - Seviye <span id="lionLevelDisplay">11</span></div>
+                    <button onclick="upgradeLionLevel()" class="mt-2 w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-xs py-2 rounded-xl shadow cursor-pointer">⬆️ YÜKSELT (500 🥩)</button>
                 </div>
                 <div class="text-xs font-black text-amber-300 uppercase tracking-wider">🌟 Habitatlar & Üretim</div>
-                <div id="strategyGridContainer" class="flex flex-col gap-2 pb-2"></div>
+                <div id="strategyGridContainer" class="flex flex-col gap-2"></div>
                 <div class="text-xs font-black text-emerald-400 uppercase tracking-wider mt-2">🐾 Satın Alınan Hayvanlar</div>
-                <div id="ownedAnimalsContainer" class="flex flex-col gap-2 pb-4"></div>
+                <div id="ownedAnimalsContainer" class="grid grid-cols-2 gap-2.5 pb-4"></div>
             </div>
         </div>
 
-        <!-- 6. SETTINGS -->
+        <!-- 6. AYARLAR -->
         <div id="modal-settings" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-500/40 pb-2">
                 <h2 class="text-amber-400 font-black text-base">⚙️ Ayarlar & Diller</h2>
-                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow">✕</button>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="bg-black/90 border border-amber-500/60 rounded-2xl p-4 flex flex-col gap-3 text-center">
                 <div class="text-xs text-gray-300 font-bold">Dil Seçin / Select Language:</div>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="setLanguage('en')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇬🇧 English</button>
-                    <button onclick="setLanguage('nl')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇳🇱 Nederlands</button>
-                    <button onclick="setLanguage('tr')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇹🇷 Türkçe</button>
-                    <button onclick="setLanguage('de')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇩🇪 Deutsch</button>
-                    <button onclick="setLanguage('fr')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇫🇷 Français</button>
-                    <button onclick="setLanguage('es')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold">🇪🇸 Español</button>
+                    <button onclick="setLanguage('en')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇬🇧 English</button>
+                    <button onclick="setLanguage('nl')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇳🇱 Nederlands</button>
+                    <button onclick="setLanguage('tr')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇹🇷 Türkçe</button>
+                    <button onclick="setLanguage('de')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇩🇪 Deutsch</button>
+                    <button onclick="setLanguage('fr')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇫🇷 Français</button>
+                    <button onclick="setLanguage('es')" class="bg-amber-900 border border-amber-400 py-2.5 rounded-xl text-xs font-bold cursor-pointer">🇪🇸 Español</button>
                 </div>
             </div>
         </div>
@@ -310,7 +326,6 @@
         const playerName = telegramUser?.first_name || 'Ahmet';
         document.getElementById('playerNameDisplay').innerText = playerName;
 
-        // Veilige initialisatie van variabelen om NaN te voorkomen
         let balance = parseInt(localStorage.getItem('dg_balance'));
         if (isNaN(balance)) balance = 12699;
 
@@ -333,23 +348,20 @@
             { id: 3, name: 'Olifantenvallei', icon: '🐘', prod: 3829, level: 9 }
         ];
 
+        // Volledige lijst met alle dieren, correcte namen, produktie en prijzen zonder undefined
         let animalsData = [
-            { id: 'kral_aslan', name: 'Kral Aslan', img: 'kral_aslan.PNG', baseProd: 75, cost: 500, count: 1 },
-            { id: 'jaguar', name: 'Jaguar', img: 'jaguar.PNG', baseProd: 30, cost: 400, count: 0 },
-            { id: 'panter', name: 'Panter', img: 'panter.PNG', baseProd: 25, cost: 350, count: 0 },
-            { id: 'kara_panter', name: 'Kara Panter', img: 'kara_panter.PNG', baseProd: 40, cost: 600, count: 0 },
-            { id: 'kurt', name: 'Kurt', img: 'kurt.PNG', baseProd: 20, cost: 300, count: 0 },
-            { id: 'sirtlan', name: 'Sırtlan Sürüsü', img: 'sirtlan_surusu.PNG', baseProd: 35, cost: 450, count: 0 },
-            { id: 'siyah_gergedan', name: 'Siyah Gergedan', img: 'siyah_gergedan.PNG', baseProd: 60, cost: 800, count: 0 },
-            { id: 'timsah', name: 'Timsah', img: 'timsah.PNG', baseProd: 50, cost: 700, count: 0 },
-            { id: 'afrika_akbabasi', name: 'Afrika Akbabası', img: 'afrika_akbabasi.PNG', baseProd: 15, cost: 250, count: 0 },
-            { id: 'antilop', name: 'Antilop', img: 'antilop.PNG', baseProd: 18, cost: 280, count: 0 },
-            { id: 'aslan_yavrusu', name: 'Aslan Yavrusu', img: 'aslan_yavrusu.PNG', baseProd: 10, cost: 200, count: 1 },
-            { id: 'beyaz_gergedan', name: 'Beyaz Gergedan', img: 'beyaz_gergedan.PNG', baseProd: 65, cost: 850, count: 0 },
-            { id: 'cakal', name: 'Çakal', img: 'cakal.PNG', baseProd: 22, cost: 320, count: 0 },
-            { id: 'cita', name: 'Çita', img: 'cita.PNG', baseProd: 35, cost: 420, count: 0 },
-            { id: 'fil', name: 'Fil', img: 'fil.PNG', baseProd: 80, cost: 1000, count: 0 },
-            { id: 'iki_erkek_aslan', name: 'İki Erkek Aslan', img: 'iki_erkek_aslan.PNG', baseProd: 90, cost: 1200, count: 0 }
+            { id: 'kral_aslan', name: 'Aslan', img: 'kral_aslan.PNG', baseProd: 8500, cost: 500, level: 15, count: 1 },
+            { id: 'fil', name: 'Fil', img: 'fil.PNG', baseProd: 4200, cost: 1000, level: 12, count: 0 },
+            { id: 'beyaz_gergedan', name: 'Beyaz Gergedan', img: 'beyaz_gergedan.PNG', baseProd: 2800, cost: 850, level: 10, count: 0 },
+            { id: 'kara_panter', name: 'Kara Panter', img: 'kara_panter.PNG', baseProd: 2400, cost: 600, level: 9, count: 0 },
+            { id: 'cita', name: 'Çita', img: 'cita.PNG', baseProd: 1900, cost: 420, level: 8, count: 0 },
+            { id: 'sirtlan', name: 'Sırtlan Sürüsü', img: 'sirtlan_surusu.PNG', baseProd: 1500, cost: 450, level: 7, count: 0 },
+            { id: 'cakal', name: 'Çakal', img: 'cakal.PNG', baseProd: 1200, cost: 320, level: 6, count: 0 },
+            { id: 'kurt', name: 'Kurt', img: 'kurt.PNG', baseProd: 980, cost: 300, level: 5, count: 0 },
+            { id: 'aslan_yavrusu', name: 'Aslan Yavrusu', img: 'aslan_yavrusu.PNG', baseProd: 720, cost: 200, level: 4, count: 1 },
+            { id: 'akbaba', name: 'Akbaba', img: 'afrika_akbabasi.PNG', baseProd: 650, cost: 250, level: 4, count: 0 },
+            { id: 'antilop', name: 'Antilop', img: 'antilop.PNG', baseProd: 520, cost: 280, level: 3, count: 0 },
+            { id: 'jaguar', name: 'Jaguar', img: 'jaguar.PNG', baseProd: 480, cost: 400, level: 3, count: 0 }
         ];
 
         let savedAnim = localStorage.getItem('dg_animals');
@@ -372,6 +384,7 @@
             document.getElementById('balance').innerText = balance.toLocaleString();
             document.getElementById('gramBalance').innerText = tonBalance.toFixed(3);
             document.getElementById('lionLevelDisplay').innerText = lionLevel;
+            document.getElementById('headerLionLevel').innerText = `Lv ${lionLevel}`;
         }
 
         function openModal(modalName) {
@@ -416,10 +429,10 @@
                 container.innerHTML += `
                     <div class="bg-amber-950/80 border border-amber-500 rounded-xl p-2.5 flex justify-between items-center text-xs text-white">
                         <div>
-                            <div class="font-bold text-amber-300">${plot.icon} ${plot.name} (Lvl ${plot.level})</div>
-                            <div class="text-[10px] text-emerald-400">+${plot.prod.toLocaleString()} 🥩/u</div>
+                            <div class="font-bold text-amber-300">${plot.icon} ${plot.name} (Lv ${plot.level})</div>
+                            <div class="text-[10px] text-emerald-400">+${plot.prod.toLocaleString()} 🥩/s</div>
                         </div>
-                        <button onclick="upgradePlot(${idx})" class="bg-amber-500 text-black font-black px-2.5 py-1 rounded-lg text-[10px]">UPGRADE (${cost})</button>
+                        <button onclick="upgradePlot(${idx})" class="bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black px-3 py-1.5 rounded-lg text-[10px] shadow cursor-pointer">Yükselt (${cost})</button>
                     </div>
                 `;
             });
@@ -427,19 +440,16 @@
             ownedContainer.innerHTML = '';
             let activeAnimals = animalsData.filter(a => a.count > 0);
             if(activeAnimals.length === 0) {
-                ownedContainer.innerHTML = `<div class="text-gray-400 text-[11px] text-center italic">Henüz hiç hayvan satın almadınız. Mağazadan satın alabilirsiniz!</div>`;
+                ownedContainer.innerHTML = `<div class="text-gray-400 text-[11px] text-center italic col-span-2">Henüz hiç hayvan satın almadınız.</div>`;
             } else {
-                activeAnimals.forEach((anim) => {
+                activeAnimals.forEach((anim, idx) => {
                     ownedContainer.innerHTML += `
-                        <div class="bg-amber-950/80 border border-emerald-500/80 rounded-xl p-2.5 flex justify-between items-center text-xs text-white">
-                            <div class="flex items-center gap-2">
-                                <img src="${anim.img}" class="w-8 h-8 rounded-full object-cover border border-emerald-400" onerror="this.src='kral_aslan.PNG'">
-                                <div>
-                                    <div class="font-bold text-emerald-300">${anim.name} (x${anim.count})</div>
-                                    <div class="text-[10px] text-emerald-400">Üretim: +${(anim.baseProd * anim.count)} 🥩/u</div>
-                                </div>
-                            </div>
-                            <span class="text-[10px] bg-emerald-900 text-emerald-300 px-2.5 py-1 rounded font-bold">Aktif ✅</span>
+                        <div class="animal-card">
+                            <img src="${anim.img}" class="w-12 h-12 rounded-full object-cover border-2 border-amber-400 mb-1" onerror="this.src='kral_aslan.PNG'">
+                            <div class="text-[11px] font-bold text-amber-200 truncate w-full">${anim.name}</div>
+                            <div class="text-[9px] text-gray-400">Lv ${anim.level} (x${anim.count})</div>
+                            <div class="text-[10px] text-emerald-400 font-bold my-1">+${(anim.baseProd * anim.count).toLocaleString()} 🥩/s</div>
+                            <button onclick="upgradeOwnedAnimal(${idx})" class="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-[10px] py-1 rounded-lg shadow cursor-pointer">Yükselt (${anim.cost * 2})</button>
                         </div>
                     `;
                 });
@@ -452,11 +462,24 @@
             if (balance < cost) { showToast("Onvoldoende Steak!"); return; }
             balance -= cost;
             plot.level++;
-            plot.prod += 25;
+            plot.prod += 250;
             updateUI();
             renderStrategyGrid();
             saveGame();
-            showToast("Upgrade gelukt!");
+            showToast("Habitat Yükseltildi!");
+        }
+
+        function upgradeOwnedAnimal(idx) {
+            let anim = animalsData[idx];
+            let cost = anim.cost * 2;
+            if (balance < cost) { showToast("Onvoldoende Steak!"); return; }
+            balance -= cost;
+            anim.level++;
+            anim.baseProd += 150;
+            updateUI();
+            renderStrategyGrid();
+            saveGame();
+            showToast(`${anim.name} yükseltildi!`);
         }
 
         function renderShop() {
@@ -465,13 +488,12 @@
             grid.innerHTML = '';
             animalsData.forEach((anim, idx) => {
                 grid.innerHTML += `
-                    <div class="bg-amber-950/85 border border-amber-600 rounded-xl p-2.5 text-center text-white flex flex-col justify-between shadow-md">
-                        <div>
-                            <img src="${anim.img}" class="w-12 h-12 mx-auto rounded-full object-cover border border-amber-400 mb-1" onerror="this.src='kral_aslan.PNG'">
-                            <div class="text-[11px] font-bold text-amber-200">${anim.name}</div>
-                            <div class="text-[10px] text-emerald-400">+${anim.baseProd} 🥩/u</div>
-                        </div>
-                        <button class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px] py-1.5 rounded-lg mt-1.5 shadow cursor-pointer" onclick="buyAnimal(${idx})">Satın Al (${anim.cost} 🥩)</button>
+                    <div class="animal-card">
+                        <img src="${anim.img}" class="w-12 h-12 rounded-full object-cover border-2 border-amber-400 mb-1" onerror="this.src='kral_aslan.PNG'">
+                        <div class="text-[11px] font-bold text-amber-200 truncate w-full">${anim.name}</div>
+                        <div class="text-[9px] text-gray-400">Lv ${anim.level}</div>
+                        <div class="text-[10px] text-emerald-400 font-bold my-1">+${anim.baseProd.toLocaleString()} 🥩/s</div>
+                        <button class="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-black text-[10px] py-1.5 rounded-lg shadow cursor-pointer mt-1" onclick="buyAnimal(${idx})">Yükselt / Satın Al (${anim.cost} 🥩)</button>
                     </div>
                 `;
             });
@@ -512,11 +534,11 @@
         let currentUsd = 10;
         function updateUsdSlider(val) {
             currentUsd = parseInt(val);
+            document.getElementById('payModalInfo').innerText = `Tutar: $${currentUsd} USD (${(currentUsd * 0.005).toFixed(2)} TON)`;
             document.getElementById('usdRewardText').innerText = `Alacağın: ${(currentUsd * 2500).toLocaleString()} 🥩`;
         }
 
         function openPaymentModal() {
-            document.getElementById('payModalInfo').innerText = `Te betalen: $${currentUsd} USD (${(currentUsd * 0.005).toFixed(2)} TON)`;
             document.getElementById('paymentModal').style.display = 'flex';
         }
         function closePaymentModal() {

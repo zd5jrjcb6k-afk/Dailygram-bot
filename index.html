@@ -319,7 +319,7 @@
     </div>
 
     <script>
-        // Uitgebreide vertalingen voor 8 talen
+        // Volledige vertalingen voor 8 talen
         const translations = {
             tr: {
                 level: "SEVİYE",
@@ -631,17 +631,20 @@
         let lastClaimTime = parseInt(localStorage.getItem('dg_lastclaim')) || Date.now();
         const CLAIM_INTERVAL = 6 * 60 * 60 * 1000;
 
+        // 12 Juiste Savannedieren met vaste eigenschappen (zonder ontbrekende foto errors)
         let animalsData = [
-            { id: 'kral_aslan', name: 'Aslan', img: 'kral_aslan.PNG', baseProd: 8500, costCash: 250, level: 15, count: 1 },
-            { id: 'fil', name: 'Fil', img: 'fil.PNG', baseProd: 4200, costCash: 500, level: 12, count: 0 },
-            { id: 'beyaz_gergedan', name: 'Beyaz Gergedan', img: 'beyaz_gergedan.PNG', baseProd: 2800, costCash: 400, level: 10, count: 0 },
-            { id: 'kara_panter', name: 'Kara Panter', img: 'kara_panter.PNG', baseProd: 2400, costCash: 300, level: 9, count: 0 },
-            { id: 'cita', name: 'Çita', img: 'cita.PNG', baseProd: 1900, costCash: 200, level: 8, count: 0 },
-            { id: 'sirtlan', name: 'Sırtlan Sürüsü', img: 'sirtlan_surusu.PNG', baseProd: 1500, costCash: 180, level: 7, count: 0 },
-            { id: 'cakal', name: 'Çakal', img: 'cakal.PNG', baseProd: 1200, costCash: 150, level: 6, count: 0 },
-            { id: 'kurt', name: 'Kurt', img: 'kurt.PNG', baseProd: 980, costCash: 120, level: 5, count: 0 },
-            { id: 'aslan_yavrusu', name: 'Aslan Yavrusu', img: 'aslan_yavrusu.PNG', baseProd: 720, costCash: 90, level: 4, count: 1 },
-            { id: 'akbaba', name: 'Akbaba', img: 'afrika_akbabasi.PNG', baseProd: 650, costCash: 75, level: 4, count: 0 }
+            { id: 'kral_aslan', name: 'Kral Aslan', icon: '🦁', baseProd: 8500, costCash: 250, level: 15, count: 1 },
+            { id: 'iki_erkek_aslan', name: 'Çift Aslan', icon: '🦁🦁', baseProd: 6500, costCash: 400, level: 14, count: 0 },
+            { id: 'fil', name: 'Afrika Fili', icon: '🐘', baseProd: 5000, costCash: 500, level: 12, count: 0 },
+            { id: 'siyah_gergedan', name: 'Siyah Gergedan', icon: '🦏', baseProd: 3800, costCash: 450, level: 11, count: 0 },
+            { id: 'beyaz_gergedan', name: 'Beyaz Gergedan', icon: '🦏', baseProd: 3200, costCash: 400, level: 10, count: 0 },
+            { id: 'timsah', name: 'Nil Timsahı', icon: '🐊', baseProd: 2800, costCash: 350, level: 9, count: 0 },
+            { id: 'jaguar', name: 'Jaguar', icon: '🐆', baseProd: 2500, costCash: 320, level: 9, count: 0 },
+            { id: 'kara_panter', name: 'Kara Panter', icon: '🐈‍⬛', baseProd: 2400, costCash: 300, level: 8, count: 0 },
+            { id: 'cita', name: 'Çita', icon: '🐆', baseProd: 1900, costCash: 200, level: 7, count: 0 },
+            { id: 'sirtlan', name: 'Sırtlan Sürüsü', icon: '🐺', baseProd: 1500, costCash: 180, level: 6, count: 0 },
+            { id: 'kurt', name: 'Afrika Kurdu', icon: '🐕', baseProd: 980, costCash: 120, level: 5, count: 0 },
+            { id: 'aslan_yavrusu', name: 'Aslan Yavrusu', icon: '🐱', baseProd: 720, costCash: 90, level: 4, count: 1 }
         ];
 
         let savedAnim = localStorage.getItem('dg_animals');
@@ -702,7 +705,7 @@
             showToast("🥩 Vlees geclaimd!");
         }
 
-        // Takasçı MAX ve Hesaplama
+        // Takasçı MAX en berekening
         function setTakasMax() {
             document.getElementById('takasInput').value = balance;
             calculateTakas();
@@ -727,7 +730,7 @@
             document.getElementById('takasOutput').innerText = "0.00 💵";
         }
 
-        // Bakiye Çek MAX ve Hesaplama
+        // Bakiye Çek MAX en berekening
         function setWithdrawMax() {
             document.getElementById('withdrawAmountInput').value = balance;
             calculateGram();
@@ -758,7 +761,7 @@
                 let btnText = (translations[currentLang] && translations[currentLang]['claim_btn']) || 'AL';
                 grid.innerHTML += `
                     <div class="animal-card">
-                        <img src="${anim.img}" class="w-14 h-14 rounded-full object-cover border-2 border-amber-400 mb-2 shadow" onerror="this.src='kral_aslan.PNG'">
+                        <div class="w-14 h-14 rounded-full bg-amber-600/50 flex items-center justify-center text-2xl border-2 border-amber-400 mb-2 shadow">${anim.icon}</div>
                         <div class="text-xs font-black text-amber-200 truncate w-full">${anim.name}</div>
                         <div class="text-[10px] text-gray-400">Lv ${anim.level} (+${anim.baseProd} 🥩/sn)</div>
                         <button onclick="buyAnimalWithCash(${idx})" class="honey-btn w-full py-2 text-xs mt-2">${btnText} (${anim.costCash} 💵)</button>
@@ -786,7 +789,7 @@
             active.forEach(anim => {
                 container.innerHTML += `
                     <div class="animal-card">
-                        <img src="${anim.img}" class="w-12 h-12 rounded-full object-cover border-2 border-emerald-400 mb-1" onerror="this.src='kral_aslan.PNG'">
+                        <div class="w-12 h-12 rounded-full bg-emerald-600/50 flex items-center justify-center text-xl border-2 border-emerald-400 mb-1">${anim.icon}</div>
                         <div class="text-xs font-black text-emerald-300">${anim.name} (x${anim.count})</div>
                         <div class="text-[10px] text-gray-300">+${(anim.baseProd * anim.count)} 🥩/sn</div>
                     </div>

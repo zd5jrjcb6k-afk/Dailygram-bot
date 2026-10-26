@@ -108,12 +108,33 @@
             position: relative;
             box-shadow: 0 6px 18px rgba(0,0,0,0.8);
         }
+
+        /* Pay Modal Overlay */
+        #payment-overlay {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px;
+        }
     </style>
 </head>
 <body>
 
     <div class="game-background"></div>
     <div id="toast" class="toast-notification"></div>
+
+    <!-- BEVEILIGDE BETALINGSPOPUP (CONTROLE & BEVESTIGING) -->
+    <div id="payment-overlay">
+        <div class="honey-box w-full max-w-xs flex flex-col gap-3 text-center">
+            <div class="text-amber-400 font-black text-sm" data-i18n="pay_title">🔒 TonConnect / Güvenli Ödeme</div>
+            <div class="text-xs text-gray-300" id="payDesc">İşlem tutarı onaylanıyor...</div>
+            <div class="bg-black/80 p-3 rounded-xl border border-amber-600/50">
+                <div class="text-xs text-amber-300 font-bold" id="payAmountLabel">Tutar: $10</div>
+                <div class="text-sm font-black text-emerald-400" id="payRewardLabel">Alınacak: 25.000 💵</div>
+            </div>
+            <div class="flex gap-2 mt-2">
+                <button onclick="closePaymentModal()" class="w-1/2 py-2 bg-red-700 rounded-xl text-xs font-bold text-white cursor-pointer" data-i18n="cancel">İptal</button>
+                <button onclick="confirmPayment()" class="w-1/2 py-2 bg-emerald-600 rounded-xl text-xs font-bold text-white cursor-pointer" data-i18n="confirm">Onayla & Öde</button>
+            </div>
+        </div>
+    </div>
 
     <div class="phone-frame">
         
@@ -319,7 +340,7 @@
     </div>
 
     <script>
-        // Volledige vertalingen voor 8 talen
+        // Vertalingen voor alle 8 talen (inclusief correcte dierennamen)
         const translations = {
             tr: {
                 level: "SEVİYE",
@@ -354,7 +375,10 @@
                 btn_bakiye: "Bakiye",
                 btn_settings: "Ayarlar",
                 passive_title: "PASİF TOPLA (6 SAAT)",
-                btn_buy_animal: "HAYVAN AL / MARKET"
+                btn_buy_animal: "HAYVAN AL / MARKET",
+                pay_title: "🔒 Güvenli Ödeme Onayı",
+                cancel: "İptal",
+                confirm: "Onayla & Öde"
             },
             nl: {
                 level: "NIVEAU",
@@ -389,7 +413,10 @@
                 btn_bakiye: "Saldo",
                 btn_settings: "Instell.",
                 passive_title: "PASSIEF CLAIMEN (6 UUR)",
-                btn_buy_animal: "DIER KOPEN / WINKEL"
+                btn_buy_animal: "DIER KOPEN / WINKEL",
+                pay_title: "🔒 Veilige Betaling Bevestigen",
+                cancel: "Annuleren",
+                confirm: "Bevestig & Betaal"
             },
             en: {
                 level: "LEVEL",
@@ -424,7 +451,10 @@
                 btn_bakiye: "Wallet",
                 btn_settings: "Settings",
                 passive_title: "PASSIVE CLAIM (6 HOURS)",
-                btn_buy_animal: "BUY ANIMAL / SHOP"
+                btn_buy_animal: "BUY ANIMAL / SHOP",
+                pay_title: "🔒 Secure Payment Confirmation",
+                cancel: "Cancel",
+                confirm: "Confirm & Pay"
             },
             ru: {
                 level: "УРОВЕНЬ",
@@ -459,7 +489,10 @@
                 btn_bakiye: "Баланс",
                 btn_settings: "Настр.",
                 passive_title: "ПАССИВ (6 ЧАСОВ)",
-                btn_buy_animal: "КУПИТЬ ЖИВОТНОЕ"
+                btn_buy_animal: "КУПИТЬ ЖИВОТНОЕ",
+                pay_title: "🔒 Подтверждение платежа",
+                cancel: "Отмена",
+                confirm: "Подтвердить"
             },
             es: {
                 level: "NIVEL",
@@ -494,7 +527,10 @@
                 btn_bakiye: "Saldo",
                 btn_settings: "Ajustes",
                 passive_title: "RECOLECCIÓN (6 HORAS)",
-                btn_buy_animal: "COMPRAR ANIMAL"
+                btn_buy_animal: "COMPRAR ANIMAL",
+                pay_title: "🔒 Confirmación de Pago",
+                cancel: "Cancelar",
+                confirm: "Confirmar"
             },
             fr: {
                 level: "NIVEAU",
@@ -529,7 +565,10 @@
                 btn_bakiye: "Solde",
                 btn_settings: "Param.",
                 passive_title: "PASSIF (6 HEURES)",
-                btn_buy_animal: "ACHETER ANIMAL"
+                btn_buy_animal: "ACHETER ANIMAL",
+                pay_title: "🔒 Confirmation de Paiement",
+                cancel: "Annuler",
+                confirm: "Confirmer"
             },
             de: {
                 level: "LEVEL",
@@ -564,7 +603,10 @@
                 btn_bakiye: "Guthaben",
                 btn_settings: "Einst.",
                 passive_title: "PASSIV (6 STUNDEN)",
-                btn_buy_animal: "TIER KAUFEN"
+                btn_buy_animal: "TIER KAUFEN",
+                pay_title: "🔒 Zahlungsbestätigung",
+                cancel: "Abbrechen",
+                confirm: "Bestätigen"
             },
             pt: {
                 level: "NÍVEL",
@@ -581,7 +623,7 @@
                 withdraw_btn: "CRIAR SAQUE",
                 shop_title: "🏕️ Loja & Mercado",
                 usd_paid: "USD Pagos",
-                get_cash: "A Receber:",
+                    get_cash: "A Receber:",
                 pay_crypto: "PAGAR COM CRIPTO",
                 buy_animal: "🦁 Comprar Animais (💵)",
                 my_animals: "🦁 Meus Animais",
@@ -599,8 +641,32 @@
                 btn_bakiye: "Saldo",
                 btn_settings: "Ajustes",
                 passive_title: "PASSIVO (6 HORAS)",
-                btn_buy_animal: "COMPRAR ANIMAL"
+                btn_buy_animal: "COMPRAR ANIMAL",
+                pay_title: "🔒 Confirmação de Pagamento",
+                cancel: "Cancelar",
+                confirm: "Confirmar"
             }
+        };
+
+        // Vertaalwoordenboek voor de 17 exacte dieren in alle 8 talen
+        const animalNames = {
+            kral_aslan: { tr: "Kral Aslan", nl: "Koning Leeuw", en: "King Lion", ru: "Королевский лев", es: "León Rey", fr: "Roi Lion", de: "Königlicher Löwe", pt: "Leão Rei" },
+            iki_erkek_aslan: { tr: "İki Erkek Aslan", nl: "Twee Mannetjes Leeuwen", en: "Two Male Lions", ru: "Два самца льва", es: "Dos Leones Machos", fr: "Deux Lions Mâles", de: "Zwei Männliche Löwen", pt: "Dois Leões Machos" },
+            fil: { tr: "Fil", nl: "Olifant", en: "Elephant", ru: "Слон", es: "Elefante", fr: "Éléphant", de: "Elefant", pt: "Elefante" },
+            siyah_gergedan: { tr: "Siyah Gergedan", nl: "Zwarte Neushoorn", en: "Black Rhino", ru: "Черный носорог", es: "Rinoceronte Negro", fr: "Rhinocéros Noir", de: "Schwarzes Nashorn", pt: "Rinoceronte Negro" },
+            beyaz_gergedan: { tr: "Beyaz Gergedan", nl: "Witte Neushoorn", en: "White Rhino", ru: "Белый носорог", es: "Rinoceronte Blanco", fr: "Rhinocéros Blanc", de: "Weißes Nashorn", pt: "Rinoceronte Branco" },
+            timsah: { tr: "Timsah", nl: "Krokodil", en: "Crocodile", ru: "Крокодил", es: "Cocodrilo", fr: "Crocodile", de: "Krokodil", pt: "Crocodilo" },
+            jaguar: { tr: "Jaguar", nl: "Jaguar", en: "Jaguar", ru: "Ягуар", es: "Jaguar", fr: "Jaguar", de: "Jaguar", pt: "Jaguar" },
+            kara_panter: { tr: "Kara Panter", nl: "Zwarte Panter", en: "Black Panther", ru: "Черная пантера", es: "Pantera Negra", fr: "Panthère Noire", de: "Schwarzer Panther", pt: "Pantera Negra" },
+            panter: { tr: "Panter", nl: "Panter", en: "Panther", ru: "Пантера", es: "Pantera", fr: "Panthère", de: "Panther", pt: "Pantera" },
+            cita: { tr: "Çita", nl: "Jachtluipaard", en: "Cheetah", ru: "Гепард", es: "Chita", fr: "Guépard", de: "Gepard", pt: "Guepardo" },
+            sirtlan_surusu: { tr: "Sırtlan Sürüsü", nl: "Hyletroep", en: "Hyena Pack", ru: "Стая гиен", es: "Manada de Hienas", fr: "Meute de Hyènes", de: "Hyänen-Rudel", pt: "Matilha de Hienas" },
+            kurt: { tr: "Kurt", nl: "Wolf", en: "Wolf", ru: "Волк", es: "Lobo", fr: "Loup", de: "Wolf", pt: "Lobo" },
+            python: { tr: "Python", nl: "Python", en: "Python", ru: "Питон", es: "Pitón", fr: "Python", de: "Python", pt: "Python" },
+            aslan_yavrusu: { tr: "Aslan Yavrusu", nl: "Leeuwenwelp", en: "Lion Cub", ru: "Львенок", es: "Cachorro de León", fr: "Lionceau", de: "Löwenbaby", pt: "Filhote de Leão" },
+            afrika_akbabasi: { tr: "Afrika Akbabası", nl: "Afrikaanse Gier", en: "African Vulture", ru: "Африканский стервятник", es: "Buitre Africano", fr: "Vautour Africain", de: "Afrikanischer Geier", pt: "Abutre Africano" },
+            antilop: { tr: "Antilop", nl: "Antilope", en: "Antelope", ru: "Антилопа", es: "Antílope", fr: "Antilope", de: "Antilope", pt: "Antílope" },
+            cakal: { tr: "Çakal", nl: "Jakhals", en: "Jackal", ru: "Шакал", es: "Chacal", fr: "Chacal", de: "Schakal", pt: "Chacal" }
         };
 
         let currentLang = localStorage.getItem('dg_lang') || 'tr';
@@ -615,6 +681,7 @@
                 }
             });
             renderShop();
+            renderOwnedAnimals();
             showToast(lang === 'nl' ? "🌍 Taal gewijzigd!" : (lang === 'en' ? "🌍 Language updated!" : "🌍 Dil güncellendi!"));
         }
 
@@ -631,20 +698,25 @@
         let lastClaimTime = parseInt(localStorage.getItem('dg_lastclaim')) || Date.now();
         const CLAIM_INTERVAL = 6 * 60 * 60 * 1000;
 
-        // 12 Juiste Savannedieren met vaste eigenschappen (zonder ontbrekende foto errors)
+        // Exacte 17 dieren met bestandsnamen en veilige emoji-fallback
         let animalsData = [
-            { id: 'kral_aslan', name: 'Kral Aslan', icon: '🦁', baseProd: 8500, costCash: 250, level: 15, count: 1 },
-            { id: 'iki_erkek_aslan', name: 'Çift Aslan', icon: '🦁🦁', baseProd: 6500, costCash: 400, level: 14, count: 0 },
-            { id: 'fil', name: 'Afrika Fili', icon: '🐘', baseProd: 5000, costCash: 500, level: 12, count: 0 },
-            { id: 'siyah_gergedan', name: 'Siyah Gergedan', icon: '🦏', baseProd: 3800, costCash: 450, level: 11, count: 0 },
-            { id: 'beyaz_gergedan', name: 'Beyaz Gergedan', icon: '🦏', baseProd: 3200, costCash: 400, level: 10, count: 0 },
-            { id: 'timsah', name: 'Nil Timsahı', icon: '🐊', baseProd: 2800, costCash: 350, level: 9, count: 0 },
-            { id: 'jaguar', name: 'Jaguar', icon: '🐆', baseProd: 2500, costCash: 320, level: 9, count: 0 },
-            { id: 'kara_panter', name: 'Kara Panter', icon: '🐈‍⬛', baseProd: 2400, costCash: 300, level: 8, count: 0 },
-            { id: 'cita', name: 'Çita', icon: '🐆', baseProd: 1900, costCash: 200, level: 7, count: 0 },
-            { id: 'sirtlan', name: 'Sırtlan Sürüsü', icon: '🐺', baseProd: 1500, costCash: 180, level: 6, count: 0 },
-            { id: 'kurt', name: 'Afrika Kurdu', icon: '🐕', baseProd: 980, costCash: 120, level: 5, count: 0 },
-            { id: 'aslan_yavrusu', name: 'Aslan Yavrusu', icon: '🐱', baseProd: 720, costCash: 90, level: 4, count: 1 }
+            { id: 'kral_aslan', file: 'kral_aslan.PNG', icon: '🦁', baseProd: 8500, costCash: 250, level: 15, count: 1 },
+            { id: 'iki_erkek_aslan', file: 'iki_erkek_aslan.PNG', icon: '🦁🦁', baseProd: 6500, costCash: 400, level: 14, count: 0 },
+            { id: 'fil', file: 'fil.PNG', icon: '🐘', baseProd: 5000, costCash: 500, level: 12, count: 0 },
+            { id: 'siyah_gergedan', file: 'siyah_gergedan.PNG', icon: '🦏', baseProd: 3800, costCash: 450, level: 11, count: 0 },
+            { id: 'beyaz_gergedan', file: 'beyaz_gergedan.PNG', icon: '🦏', baseProd: 3200, costCash: 400, level: 10, count: 0 },
+            { id: 'timsah', file: 'timsah.PNG', icon: '🐊', baseProd: 2800, costCash: 350, level: 9, count: 0 },
+            { id: 'jaguar', file: 'jaguar.PNG', icon: '🐆', baseProd: 2500, costCash: 320, level: 9, count: 0 },
+            { id: 'kara_panter', file: 'kara_panter.PNG', icon: '🐈‍⬛', baseProd: 2400, costCash: 300, level: 8, count: 0 },
+            { id: 'panter', file: 'panter.PNG', icon: '🐆', baseProd: 2100, costCash: 280, level: 8, count: 0 },
+            { id: 'cita', file: 'cita.PNG', icon: '🐆', baseProd: 1900, costCash: 200, level: 7, count: 0 },
+            { id: 'sirtlan_surusu', file: 'sirtlan_surusu.PNG', icon: '🐺', baseProd: 1500, costCash: 180, level: 6, count: 0 },
+            { id: 'kurt', file: 'kurt.PNG', icon: '🐕', baseProd: 980, costCash: 120, level: 5, count: 0 },
+            { id: 'python', file: 'python.PNG', icon: '🐍', baseProd: 850, costCash: 100, level: 4, count: 0 },
+            { id: 'aslan_yavrusu', file: 'aslan_yavrusu.PNG', icon: '🐱', baseProd: 720, costCash: 90, level: 4, count: 1 },
+            { id: 'afrika_akbabasi', file: 'afrika_akbabasi.PNG', icon: '🦅', baseProd: 650, costCash: 75, level: 3, count: 0 },
+            { id: 'antilop', file: 'antilop.PNG', icon: '🦌', baseProd: 500, costCash: 60, level: 3, count: 0 },
+            { id: 'cakal', file: 'cakal.PNG', icon: '🦊', baseProd: 400, costCash: 50, level: 2, count: 0 }
         ];
 
         let savedAnim = localStorage.getItem('dg_animals');
@@ -705,7 +777,6 @@
             showToast("🥩 Vlees geclaimd!");
         }
 
-        // Takasçı MAX en berekening
         function setTakasMax() {
             document.getElementById('takasInput').value = balance;
             calculateTakas();
@@ -730,7 +801,6 @@
             document.getElementById('takasOutput').innerText = "0.00 💵";
         }
 
-        // Bakiye Çek MAX en berekening
         function setWithdrawMax() {
             document.getElementById('withdrawAmountInput').value = balance;
             calculateGram();
@@ -753,16 +823,27 @@
             showToast("📤 Çekim talebi oluşturuldu!");
         }
 
+        function getAnimalLocalizedName(id) {
+            if (animalNames[id] && animalNames[id][currentLang]) {
+                return animalNames[id][currentLang];
+            }
+            return id;
+        }
+
         function renderShop() {
             let grid = document.getElementById('animalShopGrid');
             if(!grid) return;
             grid.innerHTML = '';
             animalsData.forEach((anim, idx) => {
+                let name = getAnimalLocalizedName(anim.id);
                 let btnText = (translations[currentLang] && translations[currentLang]['claim_btn']) || 'AL';
                 grid.innerHTML += `
                     <div class="animal-card">
-                        <div class="w-14 h-14 rounded-full bg-amber-600/50 flex items-center justify-center text-2xl border-2 border-amber-400 mb-2 shadow">${anim.icon}</div>
-                        <div class="text-xs font-black text-amber-200 truncate w-full">${anim.name}</div>
+                        <div class="w-14 h-14 rounded-full bg-amber-600/50 flex items-center justify-center text-2xl border-2 border-amber-400 mb-2 shadow overflow-hidden relative">
+                            <img src="${anim.file}" class="w-full h-full object-cover absolute inset-0" onerror="this.style.display='none'">
+                            <span class="relative z-10">${anim.icon}</span>
+                        </div>
+                        <div class="text-xs font-black text-amber-200 truncate w-full">${name}</div>
                         <div class="text-[10px] text-gray-400">Lv ${anim.level} (+${anim.baseProd} 🥩/sn)</div>
                         <button onclick="buyAnimalWithCash(${idx})" class="honey-btn w-full py-2 text-xs mt-2">${btnText} (${anim.costCash} 💵)</button>
                     </div>
@@ -778,7 +859,7 @@
             updateUI();
             saveGame();
             renderShop();
-            showToast(`🎉 ${anim.name} satın alındı!`);
+            showToast(`🎉 ${getAnimalLocalizedName(anim.id)} satın alındı!`);
         }
 
         function renderOwnedAnimals() {
@@ -787,10 +868,14 @@
             container.innerHTML = '';
             let active = animalsData.filter(a => a.count > 0);
             active.forEach(anim => {
+                let name = getAnimalLocalizedName(anim.id);
                 container.innerHTML += `
                     <div class="animal-card">
-                        <div class="w-12 h-12 rounded-full bg-emerald-600/50 flex items-center justify-center text-xl border-2 border-emerald-400 mb-1">${anim.icon}</div>
-                        <div class="text-xs font-black text-emerald-300">${anim.name} (x${anim.count})</div>
+                        <div class="w-12 h-12 rounded-full bg-emerald-600/50 flex items-center justify-center text-xl border-2 border-emerald-400 mb-1 overflow-hidden relative">
+                            <img src="${anim.file}" class="w-full h-full object-cover absolute inset-0" onerror="this.style.display='none'">
+                            <span class="relative z-10">${anim.icon}</span>
+                        </div>
+                        <div class="text-xs font-black text-emerald-300 truncate w-full">${name} (x${anim.count})</div>
                         <div class="text-[10px] text-gray-300">+${(anim.baseProd * anim.count)} 🥩/sn</div>
                     </div>
                 `;
@@ -805,10 +890,21 @@
         }
 
         function openPaymentModal() {
+            document.getElementById('payAmountLabel').innerText = `Tutar: $${currentUsd}`;
+            document.getElementById('payRewardLabel').innerText = `Alınacak: ${(currentUsd * 250).toLocaleString()} 💵`;
+            document.getElementById('payment-overlay').style.display = 'flex';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('payment-overlay').style.display = 'none';
+        }
+
+        function confirmPayment() {
+            closePaymentModal();
             cashBalance += currentUsd * 250;
             updateUI();
             saveGame();
-            showToast(`🎉 $${currentUsd} yatırım yapıldı! +${(currentUsd * 250)} 💵 eklendi.`);
+            showToast(`🎉 $${currentUsd} ödeme onaylandı! +${(currentUsd * 250)} 💵 eklendi.`);
         }
 
         function claimQuest(amount, btn) {
@@ -837,7 +933,7 @@
             setTimeout(() => { t.style.display = 'none'; }, 2500);
         }
 
-        // Init opgeslagen taal
+        // Init
         updateUI();
         setLanguage(currentLang);
         renderShop();

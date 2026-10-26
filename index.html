@@ -44,7 +44,7 @@
         }
 
         .feature-modal {
-            position: absolute; inset: 0; background: rgba(15, 10, 5, 0.95); backdrop-filter: blur(12px);
+            position: absolute; inset: 0; background: rgba(15, 10, 5, 0.96); backdrop-filter: blur(12px);
             z-index: 100; display: none; flex-direction: column; padding: 25px 16px 110px 16px; overflow-y: auto; color: white;
             pointer-events: auto;
         }
@@ -149,7 +149,10 @@
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="honey-box flex flex-col gap-4">
-                <div class="text-xs text-amber-200 font-bold" data-i18n="takas_given">🥩 Verdiğin Vlees Miktarı:</div>
+                <div class="flex justify-between items-center text-xs text-amber-200 font-bold">
+                    <span data-i18n="takas_given">🥩 Verdiğin Vlees Miktarı:</span>
+                    <button onclick="setTakasMax()" class="bg-amber-600 text-black text-[10px] font-black px-2 py-0.5 rounded cursor-pointer">MAX</button>
+                </div>
                 <input type="number" id="takasInput" placeholder="0" class="w-full bg-black/80 text-amber-300 text-lg font-black border-2 border-amber-600 p-3 rounded-xl text-center" oninput="calculateTakas()">
                 
                 <div class="text-xs text-emerald-300 font-bold" data-i18n="takas_get">💵 Alacağın Nakit Para (+%10 Bonus Dahil):</div>
@@ -175,11 +178,14 @@
                 <div class="text-xs text-cyan-300 font-bold" data-i18n="memo">Memo (İsteğe bağlı):</div>
                 <input type="text" id="withdrawMemoInput" placeholder="12345678" class="w-full bg-black/80 text-white text-xs border-2 border-cyan-600 p-3 rounded-xl">
 
-                <div class="text-xs text-cyan-300 font-bold" data-i18n="amount_gir">Miktar gir (Vlees / Nakit):</div>
-                <input type="number" id="withdrawAmountInput" placeholder="20000" class="w-full bg-black/80 text-white text-sm font-bold border-2 border-cyan-600 p-3 rounded-xl" oninput="calculateGram()">
+                <div class="flex justify-between items-center text-xs text-cyan-300 font-bold">
+                    <span data-i18n="amount_gir">Miktar gir (Vlees / Nakit):</span>
+                    <button onclick="setWithdrawMax()" class="bg-cyan-600 text-black text-[10px] font-black px-2 py-0.5 rounded cursor-pointer">MAX</button>
+                </div>
+                <input type="number" id="withdrawAmountInput" placeholder="" class="w-full bg-black/80 text-white text-sm font-bold border-2 border-cyan-600 p-3 rounded-xl" oninput="calculateGram()">
 
                 <div class="text-xs text-cyan-300 font-bold" data-i18n="gram_tutar">Gram (TON) cinsinden tutar:</div>
-                <div class="w-full bg-black/80 text-cyan-400 text-lg font-black border-2 border-cyan-600 p-3 rounded-xl text-center" id="gramOutput">1.477191 GRAM</div>
+                <div class="w-full bg-black/80 text-cyan-400 text-lg font-black border-2 border-cyan-600 p-3 rounded-xl text-center" id="gramOutput">0.00 GRAM</div>
 
                 <button onclick="requestWithdrawal()" class="honey-btn w-full py-3 text-sm uppercase tracking-widest mt-2" style="background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%); border-color: #38bdf8;" data-i18n="withdraw_btn">ÇEKİM TALEBİ OLUŞTUR</button>
             </div>
@@ -196,7 +202,7 @@
                 <div class="text-xs font-bold text-amber-300 mb-1"><span data-i18n="usd_paid">Ödediğin USD</span>: $<span id="usdValDisplay">10</span></div>
                 <input type="range" id="usdSlider" min="3" max="500" step="1" value="10" class="w-full accent-amber-400 cursor-pointer my-2" oninput="updateUsdSlider(this.value)">
                 <div class="text-xs font-bold text-gray-300" data-i18n="get_cash">Alacağın Nakit / Vlees:</div>
-                <div class="text-sm font-black text-emerald-400 mb-3" id="usdRewardText">25.000 🥩</div>
+                <div class="text-sm font-black text-emerald-400 mb-3" id="usdRewardText">25.000 💵</div>
                 <button onclick="openPaymentModal()" class="honey-btn w-full py-2.5 text-xs uppercase tracking-widest" data-i18n="pay_crypto">KRİPTO İLE SATIN AL (ÖDE)</button>
             </div>
 
@@ -218,16 +224,24 @@
             <div id="ownedAnimalsContainer" class="grid grid-cols-2 gap-3 pb-6"></div>
         </div>
 
-        <!-- 5. AYARLAR & DİLLER -->
+        <!-- 5. AYARLAR & DİLLER (8 Talen) -->
         <div id="modal-settings" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
                 <h2 class="text-amber-400 font-black text-lg" data-i18n="settings_title">⚙️ Ayarlar & Diller</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
-            <div class="honey-box flex flex-col gap-3 text-center">
+            <div class="honey-box flex flex-col gap-2.5 text-center">
                 <div class="text-sm text-amber-200 font-bold mb-1" data-i18n="select_lang">Dil Seçin / Select Language:</div>
-                <button onclick="setLanguage('nl')" class="honey-btn py-3 text-sm">🇳🇱 Nederlands</button>
-                <button onclick="setLanguage('tr')" class="honey-btn py-3 text-sm">🇹🇷 Türkçe</button>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="setLanguage('tr')" class="honey-btn py-2.5 text-xs">🇹🇷 Türkçe</button>
+                    <button onclick="setLanguage('nl')" class="honey-btn py-2.5 text-xs">🇳🇱 Nederlands</button>
+                    <button onclick="setLanguage('en')" class="honey-btn py-2.5 text-xs">🇬🇧 English</button>
+                    <button onclick="setLanguage('ru')" class="honey-btn py-2.5 text-xs">🇷🇺 Русский</button>
+                    <button onclick="setLanguage('es')" class="honey-btn py-2.5 text-xs">🇪🇸 Español</button>
+                    <button onclick="setLanguage('fr')" class="honey-btn py-2.5 text-xs">🇫🇷 Français</button>
+                    <button onclick="setLanguage('de')" class="honey-btn py-2.5 text-xs">🇩🇪 Deutsch</button>
+                    <button onclick="setLanguage('pt')" class="honey-btn py-2.5 text-xs">🇵🇹 Português</button>
+                </div>
             </div>
         </div>
 
@@ -296,8 +310,8 @@
             </div>
 
             <div class="flex items-center gap-2">
-                <button onclick="openModal('shop')" class="honey-btn px-14 py-2.5 text-sm uppercase tracking-widest" data-i18n="btn_buy_bee">
-                    ARİ AL / MARKET
+                <button onclick="openModal('shop')" class="honey-btn px-14 py-2.5 text-sm uppercase tracking-widest" data-i18n="btn_buy_animal">
+                    HAYVAN AL / MARKET
                 </button>
             </div>
         </div>
@@ -305,7 +319,7 @@
     </div>
 
     <script>
-        // Taalvertalingen (Nederlands & Türkçe)
+        // Uitgebreide vertalingen voor 8 talen
         const translations = {
             tr: {
                 level: "SEVİYE",
@@ -340,11 +354,11 @@
                 btn_bakiye: "Bakiye",
                 btn_settings: "Ayarlar",
                 passive_title: "PASİF TOPLA (6 SAAT)",
-                btn_buy_bee: "ARİ AL / MARKET"
+                btn_buy_animal: "HAYVAN AL / MARKET"
             },
             nl: {
                 level: "NIVEAU",
-                takas_title: "🔄 Wisselkantoor (Takasçı)",
+                takas_title: "🔄 Wisselkantoor",
                 takas_given: "🥩 In te leveren Vlees:",
                 takas_get: "💵 Ontvang Nakit Geld (Inclusief +10% Bonus):",
                 takas_btn: "WISSELEN",
@@ -375,7 +389,217 @@
                 btn_bakiye: "Saldo",
                 btn_settings: "Instell.",
                 passive_title: "PASSIEF CLAIMEN (6 UUR)",
-                btn_buy_bee: "DIER KOPEN / WINKEL"
+                btn_buy_animal: "DIER KOPEN / WINKEL"
+            },
+            en: {
+                level: "LEVEL",
+                takas_title: "🔄 Exchange",
+                takas_given: "🥩 Meat Amount to Give:",
+                takas_get: "💵 Cash to Receive (Includes +10% Bonus):",
+                takas_btn: "EXCHANGE",
+                takas_tip: "✨ Get +10% bonus when exchanging Meat for Cash!",
+                withdraw_title: "📤 Withdraw Balance (Wallet)",
+                wallet_addr: "Your Wallet Address:",
+                memo: "Memo (Optional):",
+                amount_gir: "Enter Amount (Meat / Cash):",
+                gram_tutar: "Amount in Gram (TON):",
+                withdraw_btn: "CREATE WITHDRAWAL",
+                shop_title: "🏕️ Shop & Animal Market",
+                usd_paid: "Paid USD",
+                get_cash: "Cash / Meat to Receive:",
+                pay_crypto: "PAY WITH CRYPTO",
+                buy_animal: "🦁 Buy Animals (Cash 💵)",
+                my_animals: "🦁 My Animals & Levels",
+                upgrade_lvl: "UPGRADE LEVEL (500 🥩)",
+                owned_animals: "🐾 Owned Animals",
+                settings_title: "⚙️ Settings & Languages",
+                select_lang: "Select Language:",
+                quests_title: "🎯 Daily Quests",
+                quest_1: "📢 Follow our Channel",
+                quest_2: "👥 Invite 5 Friends",
+                claim_btn: "CLAIM",
+                btn_quest: "Quests",
+                btn_takas: "Exchange",
+                btn_market: "Market",
+                btn_bakiye: "Wallet",
+                btn_settings: "Settings",
+                passive_title: "PASSIVE CLAIM (6 HOURS)",
+                btn_buy_animal: "BUY ANIMAL / SHOP"
+            },
+            ru: {
+                level: "УРОВЕНЬ",
+                takas_title: "🔄 Обменник",
+                takas_given: "🥩 Количество мяса для обмена:",
+                takas_get: "💵 Получить наличные (+10% бонус):",
+                takas_btn: "ОБМЕНЯТЬ",
+                takas_tip: "✨ Получите бонус +10% при обмене мяса на наличные!",
+                withdraw_title: "📤 Вывод средств (Кошелек)",
+                wallet_addr: "Адрес кошелька:",
+                memo: "Мемо (Необязательно):",
+                amount_gir: "Введите сумму:",
+                gram_tutar: "Сумма в Gram (TON):",
+                withdraw_btn: "СОЗДАТЬ ЗАЯВКУ",
+                shop_title: "🏕️ Магазин и рынок",
+                usd_paid: "Оплачено USD",
+                get_cash: "К получению:",
+                pay_crypto: "ОПЛАТИТЬ КРИПТОЙ",
+                buy_animal: "🦁 Купить животных (💵)",
+                my_animals: "🦁 Мои животные",
+                upgrade_lvl: "УЛУЧШИТЬ УРОВЕНЬ (500 🥩)",
+                owned_animals: "🐾 Купленные животные",
+                settings_title: "⚙️ Настройки и язык",
+                select_lang: "Выберите язык:",
+                quests_title: "🎯 Задания",
+                quest_1: "📢 Подписаться на канал",
+                quest_2: "👥 Пригласить 5 друзей",
+                claim_btn: "ЗАБРАТЬ",
+                btn_quest: "Задания",
+                btn_takas: "Обмен",
+                btn_market: "Рынок",
+                btn_bakiye: "Баланс",
+                btn_settings: "Настр.",
+                passive_title: "ПАССИВ (6 ЧАСОВ)",
+                btn_buy_animal: "КУПИТЬ ЖИВОТНОЕ"
+            },
+            es: {
+                level: "NIVEL",
+                takas_title: "🔄 Intercambio",
+                takas_given: "🥩 Carne a entregar:",
+                takas_get: "💵 Efectivo a recibir (+10% Bono):",
+                takas_btn: "INTERCAMBIAR",
+                takas_tip: "✨ ¡Gana un 10% extra al cambiar carne por efectivo!",
+                withdraw_title: "📤 Retirar Saldo (Billetera)",
+                wallet_addr: "Tu Dirección de Billetera:",
+                memo: "Memo (Opcional):",
+                amount_gir: "Ingresar Cantidad:",
+                gram_tutar: "Cantidad en Gram (TON):",
+                withdraw_btn: "CREAR SOLICITUD",
+                shop_title: "🏕️ Tienda y Mercado",
+                usd_paid: "USD Pagados",
+                get_cash: "A Recibir:",
+                pay_crypto: "PAGAR CON CRIPTO",
+                buy_animal: "🦁 Comprar Animales (💵)",
+                my_animals: "🦁 Mis Animales",
+                upgrade_lvl: "SUBIR NIVEL (500 🥩)",
+                owned_animals: "🐾 Animales Adquiridos",
+                settings_title: "⚙️ Ajustes e Idioma",
+                select_lang: "Seleccionar Idioma:",
+                quests_title: "🎯 Misiones Diarias",
+                quest_1: "📢 Sigue nuestro canal",
+                quest_2: "👥 Invita 5 amigos",
+                claim_btn: "RECLAMAR",
+                btn_quest: "Misiones",
+                btn_takas: "Cambio",
+                btn_market: "Tienda",
+                btn_bakiye: "Saldo",
+                btn_settings: "Ajustes",
+                passive_title: "RECOLECCIÓN (6 HORAS)",
+                btn_buy_animal: "COMPRAR ANIMAL"
+            },
+            fr: {
+                level: "NIVEAU",
+                takas_title: "🔄 Échange",
+                takas_given: "🥩 Viande à donner :",
+                takas_get: "💵 Argent à recevoir (+10% Bonus) :",
+                takas_btn: "ÉCHANGER",
+                takas_tip: "✨ Obtenez 10% de bonus en échangeant de la viande contre de l'argent !",
+                withdraw_title: "📤 Retirer (Portefeuille)",
+                wallet_addr: "Adresse du portefeuille :",
+                memo: "Mémo (Facultatif) :",
+                amount_gir: "Entrer le montant :",
+                gram_tutar: "Montant en Gram (TON) :",
+                withdraw_btn: "FAIRE UNE DEMANDE",
+                shop_title: "🏕️ Boutique & Marché",
+                usd_paid: "USD Payés",
+                get_cash: "À recevoir :",
+                pay_crypto: "PAYER EN CRYPTO",
+                buy_animal: "🦁 Acheter des animaux (💵)",
+                my_animals: "🦁 Mes animaux",
+                upgrade_lvl: "AMÉLIORER (500 🥩)",
+                owned_animals: "🐾 Animaux possédés",
+                settings_title: "⚙️ Paramètres & Langue",
+                select_lang: "Choisir la langue :",
+                quests_title: "🎯 Quêtes Quotidiennes",
+                quest_1: "📢 Suivre notre canal",
+                quest_2: "👥 Inviter 5 amis",
+                claim_btn: "RÉCUPÉRER",
+                btn_quest: "Quêtes",
+                btn_takas: "Échange",
+                btn_market: "Boutique",
+                btn_bakiye: "Solde",
+                btn_settings: "Param.",
+                passive_title: "PASSIF (6 HEURES)",
+                btn_buy_animal: "ACHETER ANIMAL"
+            },
+            de: {
+                level: "LEVEL",
+                takas_title: "🔄 Tausch",
+                takas_given: "🥩 Fleisch zum Tauschen:",
+                takas_get: "💵 Bargeld erhalten (inkl. +10% Bonus):",
+                takas_btn: "TAUSCHEN",
+                takas_tip: "✨ Erhalte +10% Bonus beim Tausch von Fleisch in Bargeld!",
+                withdraw_title: "📤 Auszahlung (Wallet)",
+                wallet_addr: "Deine Wallet-Adresse:",
+                memo: "Memo (Optional):",
+                amount_gir: "Betrag eingeben:",
+                gram_tutar: "Betrag in Gram (TON):",
+                withdraw_btn: "AUSZAHLUNG ANFORDERN",
+                shop_title: "🏕️ Shop & Tier-Markt",
+                usd_paid: "Gezahlte USD",
+                get_cash: "Zu erhalten:",
+                pay_crypto: "MIT KRIPTO BEZAHLEN",
+                buy_animal: "🦁 Tiere kaufen (💵)",
+                my_animals: "🦁 Meine Tiere",
+                upgrade_lvl: "LEVEL ERHÖHEN (500 🥩)",
+                owned_animals: "🐾 Gekaufte Tiere",
+                settings_title: "⚙️ Einstellungen & Sprache",
+                select_lang: "Sprache wählen:",
+                quests_title: "🎯 Tägliche Quests",
+                quest_1: "📢 Kanal abonnieren",
+                quest_2: "👥 5 Freunde einladen",
+                claim_btn: "HOLEN",
+                btn_quest: "Quests",
+                btn_takas: "Tausch",
+                btn_market: "Shop",
+                btn_bakiye: "Guthaben",
+                btn_settings: "Einst.",
+                passive_title: "PASSIV (6 STUNDEN)",
+                btn_buy_animal: "TIER KAUFEN"
+            },
+            pt: {
+                level: "NÍVEL",
+                takas_title: "🔄 Câmbio",
+                takas_given: "🥩 Carne para dar:",
+                takas_get: "💵 Dinheiro a receber (+10% Bônus):",
+                takas_btn: "TROCAR",
+                takas_tip: "✨ Ganhe 10% de bônus ao trocar carne por dinheiro!",
+                withdraw_title: "📤 Sacar Saldo (Carteira)",
+                wallet_addr: "Endereço da Carteira:",
+                memo: "Memo (Opcional):",
+                amount_gir: "Digitar Quantidade:",
+                gram_tutar: "Valor em Gram (TON):",
+                withdraw_btn: "CRIAR SAQUE",
+                shop_title: "🏕️ Loja & Mercado",
+                usd_paid: "USD Pagos",
+                get_cash: "A Receber:",
+                pay_crypto: "PAGAR COM CRIPTO",
+                buy_animal: "🦁 Comprar Animais (💵)",
+                my_animals: "🦁 Meus Animais",
+                upgrade_lvl: "EVOLUIR NÍVEL (500 🥩)",
+                owned_animals: "🐾 Animais Adquiridos",
+                settings_title: "⚙️ Configurações & Idioma",
+                select_lang: "Selecionar Idioma:",
+                quests_title: "🎯 Missões Diárias",
+                quest_1: "📢 Siga nosso canal",
+                quest_2: "👥 Convide 5 amigos",
+                claim_btn: "RESGATAR",
+                btn_quest: "Missões",
+                btn_takas: "Câmbio",
+                btn_market: "Loja",
+                btn_bakiye: "Saldo",
+                btn_settings: "Ajustes",
+                passive_title: "PASSIVO (6 HORAS)",
+                btn_buy_animal: "COMPRAR ANIMAL"
             }
         };
 
@@ -386,11 +610,12 @@
             localStorage.setItem('dg_lang', lang);
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 let key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
+                if (translations[lang] && translations[lang][key]) {
                     el.innerText = translations[lang][key];
                 }
             });
-            showToast(lang === 'nl' ? "🌍 Taal gewijzigd naar Nederlands!" : "🌍 Dil Türkçe olarak güncellendi!");
+            renderShop();
+            showToast(lang === 'nl' ? "🌍 Taal gewijzigd!" : (lang === 'en' ? "🌍 Language updated!" : "🌍 Dil güncellendi!"));
         }
 
         const tg = window.Telegram?.WebApp;
@@ -468,13 +693,19 @@
         }
 
         function claimPassiveSteak() {
-            if (unclaimedSteak <= 0) { showToast(currentLang === 'nl' ? "Nog geen vlees klaar!" : "Henüz hazır et yok!"); return; }
+            if (unclaimedSteak <= 0) { showToast("Nog geen vlees klaar!"); return; }
             balance += unclaimedSteak;
             unclaimedSteak = 0;
             lastClaimTime = Date.now();
             updateUI();
             saveGame();
-            showToast(currentLang === 'nl' ? "🥩 Vlees geclaimd!" : "🥩 Et toplandı!");
+            showToast("🥩 Vlees geclaimd!");
+        }
+
+        // Takasçı MAX ve Hesaplama
+        function setTakasMax() {
+            document.getElementById('takasInput').value = balance;
+            calculateTakas();
         }
 
         function calculateTakas() {
@@ -485,15 +716,21 @@
 
         function executeTakas() {
             let val = parseInt(document.getElementById('takasInput').value) || 0;
-            if (val <= 0 || balance < val) { showToast(currentLang === 'nl' ? "Onvoldoende Vlees!" : "Yetersiz Vlees!"); return; }
+            if (val <= 0 || balance < val) { showToast("Yetersiz Vlees!"); return; }
             balance -= val;
             let earnedCash = Math.floor((val / 1000) * 1.10);
             cashBalance += earnedCash;
             updateUI();
             saveGame();
-            showToast(currentLang === 'nl' ? `🔄 Wissel gelukt! +${earnedCash} 💵` : `🔄 Takas başarılı! +${earnedCash} 💵`);
+            showToast(`🔄 Takas başarılı! +${earnedCash} 💵 eklendi.`);
             document.getElementById('takasInput').value = '';
             document.getElementById('takasOutput').innerText = "0.00 💵";
+        }
+
+        // Bakiye Çek MAX ve Hesaplama
+        function setWithdrawMax() {
+            document.getElementById('withdrawAmountInput').value = balance;
+            calculateGram();
         }
 
         function calculateGram() {
@@ -505,12 +742,12 @@
         function requestWithdrawal() {
             let addr = document.getElementById('withdrawAddrInput').value;
             let val = parseInt(document.getElementById('withdrawAmountInput').value) || 0;
-            if(!addr || val <= 0) { showToast(currentLang === 'nl' ? "Vul adres en bedrag in!" : "Cüzdan adresi ve miktar girin!"); return; }
-            if(balance < val) { showToast(currentLang === 'nl' ? "Onvoldoende saldo!" : "Yetersiz bakiye!"); return; }
+            if(!addr || val <= 0) { showToast("Cüzdan adresi ve miktar girin!"); return; }
+            if(balance < val) { showToast("Yetersiz bakiye!"); return; }
             balance -= val;
             updateUI();
             saveGame();
-            showToast(currentLang === 'nl' ? "📤 Uitbetaling aangevraagd!" : "📤 Çekim talebi oluşturuldu!");
+            showToast("📤 Çekim talebi oluşturuldu!");
         }
 
         function renderShop() {
@@ -518,12 +755,13 @@
             if(!grid) return;
             grid.innerHTML = '';
             animalsData.forEach((anim, idx) => {
+                let btnText = (translations[currentLang] && translations[currentLang]['claim_btn']) || 'AL';
                 grid.innerHTML += `
                     <div class="animal-card">
                         <img src="${anim.img}" class="w-14 h-14 rounded-full object-cover border-2 border-amber-400 mb-2 shadow" onerror="this.src='kral_aslan.PNG'">
                         <div class="text-xs font-black text-amber-200 truncate w-full">${anim.name}</div>
                         <div class="text-[10px] text-gray-400">Lv ${anim.level} (+${anim.baseProd} 🥩/sn)</div>
-                        <button onclick="buyAnimalWithCash(${idx})" class="honey-btn w-full py-2 text-xs mt-2">${currentLang === 'nl' ? 'KOPEN' : 'AL'} (${anim.costCash} 💵)</button>
+                        <button onclick="buyAnimalWithCash(${idx})" class="honey-btn w-full py-2 text-xs mt-2">${btnText} (${anim.costCash} 💵)</button>
                     </div>
                 `;
             });
@@ -531,13 +769,13 @@
 
         function buyAnimalWithCash(idx) {
             let anim = animalsData[idx];
-            if (cashBalance < anim.costCash) { showToast(currentLang === 'nl' ? "Onvoldoende Nakit Geld (💵)!" : "Yetersiz Nakit Para (💵)!"); return; }
+            if (cashBalance < anim.costCash) { showToast("Yetersiz Nakit Para (💵)!"); return; }
             cashBalance -= anim.costCash;
             anim.count++;
             updateUI();
             saveGame();
             renderShop();
-            showToast(currentLang === 'nl' ? `🎉 ${anim.name} aangeschaft!` : `🎉 ${anim.name} satın alındı!`);
+            showToast(`🎉 ${anim.name} satın alındı!`);
         }
 
         function renderOwnedAnimals() {
@@ -567,7 +805,7 @@
             cashBalance += currentUsd * 250;
             updateUI();
             saveGame();
-            showToast(currentLang === 'nl' ? `🎉 $${currentUsd} gestort! +${(currentUsd * 250)} 💵` : `🎉 $${currentUsd} yatırım yapıldı! +${(currentUsd * 250)} 💵`);
+            showToast(`🎉 $${currentUsd} yatırım yapıldı! +${(currentUsd * 250)} 💵 eklendi.`);
         }
 
         function claimQuest(amount, btn) {
@@ -576,17 +814,17 @@
             saveGame();
             btn.innerText = "ALINDI ✅";
             btn.disabled = true;
-            showToast(currentLang === 'nl' ? `🎉 +${amount} Vlees ontvangen!` : `🎉 +${amount} Vlees eklendi!`);
+            showToast(`🎉 +${amount} Vlees eklendi!`);
         }
 
         function upgradeLionLevel() {
             let cost = lionLevel * 500;
-            if (balance < cost) { showToast(currentLang === 'nl' ? "Onvoldoende Vlees!" : "Yetersiz Vlees!"); return; }
+            if (balance < cost) { showToast("Yetersiz Vlees!"); return; }
             balance -= cost;
             lionLevel++;
             updateUI();
             saveGame();
-            showToast(currentLang === 'nl' ? "Niveau verhoogd!" : "Seviye yükseltildi!");
+            showToast("Seviye yükseltildi!");
         }
 
         function showToast(text) {

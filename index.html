@@ -109,7 +109,6 @@
             box-shadow: 0 6px 18px rgba(0,0,0,0.8);
         }
 
-        /* Pay Modal Overlay */
         #payment-overlay {
             position: absolute; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px;
         }
@@ -120,10 +119,10 @@
     <div class="game-background"></div>
     <div id="toast" class="toast-notification"></div>
 
-    <!-- BEVEILIGDE BETALINGSPOPUP (CONTROLE & BEVESTIGING) -->
+    <!-- BEVEILIGDE BETALINGSPOPUP -->
     <div id="payment-overlay">
         <div class="honey-box w-full max-w-xs flex flex-col gap-3 text-center">
-            <div class="text-amber-400 font-black text-sm" data-i18n="pay_title">🔒 TonConnect / Güvenli Ödeme</div>
+            <div class="text-amber-400 font-black text-sm" data-i18n="pay_title">🔒 Güvenli Ödeme Onayı</div>
             <div class="text-xs text-gray-300" id="payDesc">İşlem tutarı onaylanıyor...</div>
             <div class="bg-black/80 p-3 rounded-xl border border-amber-600/50">
                 <div class="text-xs text-amber-300 font-bold" id="payAmountLabel">Tutar: $10</div>
@@ -340,7 +339,6 @@
     </div>
 
     <script>
-        // Vertalingen voor alle 8 talen (inclusief correcte dierennamen)
         const translations = {
             tr: {
                 level: "SEVİYE",
@@ -623,7 +621,7 @@
                 withdraw_btn: "CRIAR SAQUE",
                 shop_title: "🏕️ Loja & Mercado",
                 usd_paid: "USD Pagos",
-                    get_cash: "A Receber:",
+                get_cash: "A Receber:",
                 pay_crypto: "PAGAR COM CRIPTO",
                 buy_animal: "🦁 Comprar Animais (💵)",
                 my_animals: "🦁 Meus Animais",
@@ -648,7 +646,6 @@
             }
         };
 
-        // Vertaalwoordenboek voor de 17 exacte dieren in alle 8 talen
         const animalNames = {
             kral_aslan: { tr: "Kral Aslan", nl: "Koning Leeuw", en: "King Lion", ru: "Королевский лев", es: "León Rey", fr: "Roi Lion", de: "Königlicher Löwe", pt: "Leão Rei" },
             iki_erkek_aslan: { tr: "İki Erkek Aslan", nl: "Twee Mannetjes Leeuwen", en: "Two Male Lions", ru: "Два самца льва", es: "Dos Leones Machos", fr: "Deux Lions Mâles", de: "Zwei Männliche Löwen", pt: "Dois Leões Machos" },
@@ -698,8 +695,8 @@
         let lastClaimTime = parseInt(localStorage.getItem('dg_lastclaim')) || Date.now();
         const CLAIM_INTERVAL = 6 * 60 * 60 * 1000;
 
-        // Exacte 17 dieren met bestandsnamen en veilige emoji-fallback
-        let animalsData = [
+        // 17 Correcte dieren met veilige fallbacks en bestandsnamen
+        let defaultAnimals = [
             { id: 'kral_aslan', file: 'kral_aslan.PNG', icon: '🦁', baseProd: 8500, costCash: 250, level: 15, count: 1 },
             { id: 'iki_erkek_aslan', file: 'iki_erkek_aslan.PNG', icon: '🦁🦁', baseProd: 6500, costCash: 400, level: 14, count: 0 },
             { id: 'fil', file: 'fil.PNG', icon: '🐘', baseProd: 5000, costCash: 500, level: 12, count: 0 },
@@ -719,9 +716,18 @@
             { id: 'cakal', file: 'cakal.PNG', icon: '🦊', baseProd: 400, costCash: 50, level: 2, count: 0 }
         ];
 
+        let animalsData = JSON.parse(JSON.stringify(defaultAnimals));
         let savedAnim = localStorage.getItem('dg_animals');
         if(savedAnim) {
-            try { animalsData = JSON.parse(savedAnim); } catch(e){}
+            try {
+                let parsed = JSON.parse(savedAnim);
+                animalsData.forEach(def => {
+                    let found = parsed.find(p => p.id === def.id);
+                    if(found && typeof found.count === 'number') {
+                        def.count = found.count;
+                    }
+                });
+            } catch(e){}
         }
 
         function saveGame() {

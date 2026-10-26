@@ -45,7 +45,7 @@
 
         .feature-modal {
             position: absolute; inset: 0; background: rgba(15, 10, 5, 0.96); backdrop-filter: blur(12px);
-            z-index: 100; display: none; flex-direction: column; padding: 25px 16px 110px 16px; overflow-y: auto; color: white;
+            z-index: 100; display: none; flex-direction: column; padding: 25px 16px 30px 16px; overflow-y: auto; color: white;
             pointer-events: auto;
         }
         .feature-modal.active { display: flex; }
@@ -122,15 +122,15 @@
     <!-- BEVEILIGDE BETALINGSPOPUP -->
     <div id="payment-overlay">
         <div class="honey-box w-full max-w-xs flex flex-col gap-3 text-center">
-            <div class="text-amber-400 font-black text-sm" data-i18n="pay_title">🔒 Güvenli Ödeme Onayı</div>
-            <div class="text-xs text-gray-300" id="payDesc">İşlem tutarı onaylanıyor...</div>
+            <div class="text-amber-400 font-black text-sm" data-i18n="pay_title">Güvenli Ödeme</div>
+            <div class="text-xs text-gray-300">İşlem onaylanıyor...</div>
             <div class="bg-black/80 p-3 rounded-xl border border-amber-600/50">
                 <div class="text-xs text-amber-300 font-bold" id="payAmountLabel">Tutar: $10</div>
-                <div class="text-sm font-black text-emerald-400" id="payRewardLabel">Alınacak: 25.000 💵</div>
+                <div class="text-sm font-black text-emerald-400" id="payRewardLabel">Alınacak: 25.000</div>
             </div>
             <div class="flex gap-2 mt-2">
                 <button onclick="closePaymentModal()" class="w-1/2 py-2 bg-red-700 rounded-xl text-xs font-bold text-white cursor-pointer" data-i18n="cancel">İptal</button>
-                <button onclick="confirmPayment()" class="w-1/2 py-2 bg-emerald-600 rounded-xl text-xs font-bold text-white cursor-pointer" data-i18n="confirm">Onayla & Öde</button>
+                <button onclick="confirmPayment()" class="w-1/2 py-2 bg-emerald-600 rounded-xl text-xs font-bold text-white cursor-pointer" data-i18n="confirm">Onayla</button>
             </div>
         </div>
     </div>
@@ -151,10 +151,10 @@
 
             <div class="flex flex-col gap-1 items-end">
                 <div class="bg-[#201308] px-3 py-1 rounded-full text-white text-xs font-black flex items-center gap-2 border-2 border-amber-500 shadow-xl">
-                    <span class="text-base">🥩</span> <span id="balance" class="text-amber-300 text-sm font-black">12.699</span>
+                    <span>🥩</span> <span id="balance" class="text-amber-300 text-sm font-black">12.699</span>
                 </div>
                 <div class="bg-[#201308] px-3 py-1 rounded-full text-white text-xs font-black flex items-center gap-2 border-2 border-emerald-500 shadow-xl">
-                    <span class="text-base">💵</span> <span id="cashBalance" class="text-emerald-400 text-sm font-black">5.540</span>
+                    <span>💵</span> <span id="cashBalance" class="text-emerald-400 text-sm font-black">5.540</span>
                 </div>
             </div>
         </div>
@@ -162,96 +162,121 @@
 
         <!-- MODALS -->
 
+        <!-- 0. MADEN & ÜRETİM MONITOR -->
+        <div id="modal-mining" class="feature-modal">
+            <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
+                <h2 class="text-amber-400 font-black text-lg" data-i18n="mining_title">Maden</h2>
+                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
+            </div>
+            <div class="honey-box flex flex-col gap-4 text-center">
+                <div class="text-xs text-amber-200 font-bold" data-i18n="mining_subtitle">Anlık Üretim Hızı</div>
+                <div class="text-2xl font-black text-amber-400" id="totalProdSpeedDisplay">+0 / sn</div>
+                
+                <div class="bg-black/70 p-4 rounded-2xl border border-amber-600/40 flex flex-col gap-2">
+                    <div class="flex justify-between text-xs font-bold text-gray-300">
+                        <span data-i18n="progress_bar">Doluluk</span>
+                        <span id="miningPercent">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-800 h-4 rounded-full overflow-hidden border border-amber-600">
+                        <div id="miningProgressBar" class="bg-gradient-to-r from-amber-500 to-emerald-500 h-full transition-all duration-300" style="width: 0%;"></div>
+                    </div>
+                    <div class="text-[11px] text-emerald-400 font-bold mt-1" id="accumulatedSteakDisplay">+0 birikti</div>
+                </div>
+
+                <button onclick="collectMinedSteak()" class="honey-btn w-full py-3 text-sm uppercase tracking-widest" data-i18n="collect_btn">TOPLA</button>
+            </div>
+        </div>
+
         <!-- 1. TAKASÇI -->
         <div id="modal-takasci" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
-                <h2 class="text-amber-400 font-black text-lg" data-i18n="takas_title">🔄 Takasçı</h2>
+                <h2 class="text-amber-400 font-black text-lg" data-i18n="takas_title">Takas</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="honey-box flex flex-col gap-4">
                 <div class="flex justify-between items-center text-xs text-amber-200 font-bold">
-                    <span data-i18n="takas_given">🥩 Verdiğin Vlees Miktarı:</span>
+                    <span data-i18n="takas_given">Verilen Miktar:</span>
                     <button onclick="setTakasMax()" class="bg-amber-600 text-black text-[10px] font-black px-2 py-0.5 rounded cursor-pointer">MAX</button>
                 </div>
                 <input type="number" id="takasInput" placeholder="0" class="w-full bg-black/80 text-amber-300 text-lg font-black border-2 border-amber-600 p-3 rounded-xl text-center" oninput="calculateTakas()">
                 
-                <div class="text-xs text-emerald-300 font-bold" data-i18n="takas_get">💵 Alacağın Nakit Para (+%10 Bonus Dahil):</div>
-                <div class="w-full bg-black/80 text-emerald-400 text-xl font-black border-2 border-emerald-600 p-3 rounded-xl text-center" id="takasOutput">0.00 💵</div>
+                <div class="text-xs text-emerald-300 font-bold" data-i18n="takas_get">Alınacak Tutar (+%10 Bonus):</div>
+                <div class="w-full bg-black/80 text-emerald-400 text-xl font-black border-2 border-emerald-600 p-3 rounded-xl text-center" id="takasOutput">0.00</div>
 
                 <button onclick="executeTakas()" class="honey-btn w-full py-3 text-sm uppercase tracking-widest mt-2" data-i18n="takas_btn">TAKAS ET</button>
             </div>
             <div class="mt-4 bg-emerald-950/80 border-2 border-emerald-600 rounded-2xl p-3 text-center text-xs text-emerald-200 font-bold" data-i18n="takas_tip">
-                ✨ Vlees'i Nakit Para'ya çevirirken +%10 bonus kazanın!
+                Dönüşümlerde +%10 bonus kazanın!
             </div>
         </div>
 
         <!-- 2. BAKİYE ÇEK -->
         <div id="modal-bakiye" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-cyan-600/50 pb-3">
-                <h2 class="text-cyan-400 font-black text-lg" data-i18n="withdraw_title">📤 Bakiye Çek (Cüzdan)</h2>
+                <h2 class="text-cyan-400 font-black text-lg" data-i18n="withdraw_title">Cüzdan</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="honey-box flex flex-col gap-3">
-                <div class="text-xs text-cyan-300 font-bold" data-i18n="wallet_addr">Cüzdanın:</div>
-                <input type="text" id="withdrawAddrInput" placeholder="Cüzdan adresi giriniz..." class="w-full bg-black/80 text-white text-xs border-2 border-cyan-600 p-3 rounded-xl">
+                <div class="text-xs text-cyan-300 font-bold" data-i18n="wallet_addr">Cüzdan Adresi:</div>
+                <input type="text" id="withdrawAddrInput" placeholder="Adres giriniz..." class="w-full bg-black/80 text-white text-xs border-2 border-cyan-600 p-3 rounded-xl">
 
-                <div class="text-xs text-cyan-300 font-bold" data-i18n="memo">Memo (İsteğe bağlı):</div>
+                <div class="text-xs text-cyan-300 font-bold" data-i18n="memo">Memo:</div>
                 <input type="text" id="withdrawMemoInput" placeholder="12345678" class="w-full bg-black/80 text-white text-xs border-2 border-cyan-600 p-3 rounded-xl">
 
                 <div class="flex justify-between items-center text-xs text-cyan-300 font-bold">
-                    <span data-i18n="amount_gir">Miktar gir (Vlees / Nakit):</span>
+                    <span data-i18n="amount_gir">Miktar:</span>
                     <button onclick="setWithdrawMax()" class="bg-cyan-600 text-black text-[10px] font-black px-2 py-0.5 rounded cursor-pointer">MAX</button>
                 </div>
                 <input type="number" id="withdrawAmountInput" placeholder="" class="w-full bg-black/80 text-white text-sm font-bold border-2 border-cyan-600 p-3 rounded-xl" oninput="calculateGram()">
 
-                <div class="text-xs text-cyan-300 font-bold" data-i18n="gram_tutar">Gram (TON) cinsinden tutar:</div>
+                <div class="text-xs text-cyan-300 font-bold" data-i18n="gram_tutar">Gram (TON):</div>
                 <div class="w-full bg-black/80 text-cyan-400 text-lg font-black border-2 border-cyan-600 p-3 rounded-xl text-center" id="gramOutput">0.00 GRAM</div>
 
-                <button onclick="requestWithdrawal()" class="honey-btn w-full py-3 text-sm uppercase tracking-widest mt-2" style="background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%); border-color: #38bdf8;" data-i18n="withdraw_btn">ÇEKİM TALEBİ OLUŞTUR</button>
+                <button onclick="requestWithdrawal()" class="honey-btn w-full py-3 text-sm uppercase tracking-widest mt-2" style="background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%); border-color: #38bdf8;" data-i18n="withdraw_btn">TALEP OLUŞTUR</button>
             </div>
         </div>
 
         <!-- 3. MAĞAZA -->
         <div id="modal-shop" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
-                <h2 class="text-amber-400 font-black text-lg" data-i18n="shop_title">🏕️ Mağaza & Hayvan Pazarı</h2>
+                <h2 class="text-amber-400 font-black text-lg" data-i18n="shop_title">Mağaza</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             
             <div class="honey-box mb-4 text-center">
-                <div class="text-xs font-bold text-amber-300 mb-1"><span data-i18n="usd_paid">Ödediğin USD</span>: $<span id="usdValDisplay">10</span></div>
+                <div class="text-xs font-bold text-amber-300 mb-1"><span data-i18n="usd_paid">USD</span>: $<span id="usdValDisplay">10</span></div>
                 <input type="range" id="usdSlider" min="3" max="500" step="1" value="10" class="w-full accent-amber-400 cursor-pointer my-2" oninput="updateUsdSlider(this.value)">
-                <div class="text-xs font-bold text-gray-300" data-i18n="get_cash">Alacağın Nakit / Vlees:</div>
-                <div class="text-sm font-black text-emerald-400 mb-3" id="usdRewardText">25.000 💵</div>
-                <button onclick="openPaymentModal()" class="honey-btn w-full py-2.5 text-xs uppercase tracking-widest" data-i18n="pay_crypto">KRİPTO İLE SATIN AL (ÖDE)</button>
+                <div class="text-xs font-bold text-gray-300" data-i18n="get_cash">Alınacak Tutar:</div>
+                <div class="text-sm font-black text-emerald-400 mb-3" id="usdRewardText">25.000</div>
+                <button onclick="openPaymentModal()" class="honey-btn w-full py-2.5 text-xs uppercase tracking-widest" data-i18n="pay_crypto">SATIN AL</button>
             </div>
 
-            <div class="text-sm font-black text-amber-300 uppercase tracking-wider mb-3" data-i18n="buy_animal">🦁 Hayvan Satın Al (Nakit Para 💵)</div>
+            <div class="text-sm font-black text-amber-300 uppercase tracking-wider mb-3" data-i18n="buy_animal">Hayvan Pazarı</div>
             <div class="grid grid-cols-2 gap-3 pb-6" id="animalShopGrid"></div>
         </div>
 
         <!-- 4. HAYVANLAR & HABITATLAR -->
         <div id="modal-animals" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
-                <h2 class="text-amber-400 font-black text-lg" data-i18n="my_animals">🦁 Hayvanlarım & Seviyeler</h2>
+                <h2 class="text-amber-400 font-black text-lg" data-i18n="my_animals">Hayvanlarım</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="honey-box mb-4 text-center">
-                <div class="text-sm font-bold text-amber-300 mb-2">Kral Aslan - Seviye <span id="lionLevelDisplay">11</span></div>
-                <button onclick="upgradeLionLevel()" class="honey-btn w-full py-2.5 text-xs uppercase" data-i18n="upgrade_lvl">SEVİYE YÜKSELT (500 🥩)</button>
+                <div class="text-sm font-bold text-amber-300 mb-2">Seviye <span id="lionLevelDisplay">11</span></div>
+                <button onclick="upgradeLionLevel()" class="honey-btn w-full py-2.5 text-xs uppercase" data-i18n="upgrade_lvl">SEVİYE YÜKSELT</button>
             </div>
-            <div class="text-xs font-black text-emerald-400 uppercase tracking-wider mb-2" data-i18n="owned_animals">🐾 Sahip Olunan Hayvanlar</div>
+            <div class="text-xs font-black text-emerald-400 uppercase tracking-wider mb-2" data-i18n="owned_animals">Sahip Olunanlar</div>
             <div id="ownedAnimalsContainer" class="grid grid-cols-2 gap-3 pb-6"></div>
         </div>
 
-        <!-- 5. AYARLAR & DİLLER (8 Talen) -->
+        <!-- 5. AYARLAR & DİLLER -->
         <div id="modal-settings" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
-                <h2 class="text-amber-400 font-black text-lg" data-i18n="settings_title">⚙️ Ayarlar & Diller</h2>
+                <h2 class="text-amber-400 font-black text-lg" data-i18n="settings_title">Ayarlar</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="honey-box flex flex-col gap-2.5 text-center">
-                <div class="text-sm text-amber-200 font-bold mb-1" data-i18n="select_lang">Dil Seçin / Select Language:</div>
+                <div class="text-sm text-amber-200 font-bold mb-1" data-i18n="select_lang">Dil Seçin:</div>
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="setLanguage('tr')" class="honey-btn py-2.5 text-xs">🇹🇷 Türkçe</button>
                     <button onclick="setLanguage('nl')" class="honey-btn py-2.5 text-xs">🇳🇱 Nederlands</button>
@@ -268,21 +293,21 @@
         <!-- 6. GÖREVLER -->
         <div id="modal-quests" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
-                <h2 class="text-amber-400 font-black text-lg" data-i18n="quests_title">🎯 Günlük Görevler</h2>
+                <h2 class="text-amber-400 font-black text-lg" data-i18n="quests_title">Görevler</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             <div class="honey-box flex flex-col gap-3">
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
-                        <div class="text-xs font-bold text-amber-200" data-i18n="quest_1">📢 Kanalı Takip Et</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+1.000 🥩 Vlees</div>
+                        <div class="text-xs font-bold text-amber-200" data-i18n="quest_1">Kanalı Takip Et</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+1.000</div>
                     </div>
                     <button onclick="claimQuest(1000, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
-                        <div class="text-xs font-bold text-amber-200" data-i18n="quest_2">👥 5 Arkadaş Davet Et</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+5.000 🥩 Vlees</div>
+                        <div class="text-xs font-bold text-amber-200" data-i18n="quest_2">5 Arkadaş Davet Et</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+5.000</div>
                     </div>
                     <button onclick="claimQuest(5000, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
@@ -293,11 +318,14 @@
         <!-- NAVIGATIE & ZIJ-KNOPPEN -->
         
         <div class="absolute left-3 bottom-24 flex flex-col gap-2.5 z-40 pointer-events-auto">
+            <button onclick="openModal('mining')" class="side-btn" style="background: linear-gradient(135deg, #b45309, #78350f);">
+                <span class="text-base">🥩</span> <span data-i18n="btn_mining">Maden</span>
+            </button>
             <button onclick="openModal('quests')" class="side-btn">
                 <span class="text-base">📋</span> <span data-i18n="btn_quest">Görev</span>
             </button>
             <button onclick="openModal('takasci')" class="side-btn" style="background: linear-gradient(135deg, #059669, #047857);">
-                <span class="text-base">🔄</span> <span data-i18n="btn_takas">Takasçı</span>
+                <span class="text-base">🔄</span> <span data-i18n="btn_takas">Takas</span>
             </button>
         </div>
 
@@ -306,32 +334,18 @@
                 <span class="text-base">🏗️</span> <span data-i18n="btn_market">Market</span>
             </button>
             <button onclick="openModal('bakiye')" class="side-btn" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
-                <span class="text-base">💳</span> <span data-i18n="btn_bakiye">Bakiye</span>
+                <span class="text-base">💳</span> <span data-i18n="btn_bakiye">Cüzdan</span>
             </button>
             <button onclick="openModal('settings')" class="side-btn" style="background: linear-gradient(135deg, #475569, #1e293b);">
-                <span class="text-base">⚙️</span> <span data-i18n="btn_settings">Ayarlar</span>
+                <span class="text-base">⚙️</span> <span data-i18n="btn_settings">Ayar</span>
             </button>
         </div>
 
-        <!-- Onderste Midden: Passief Claim -->
+        <!-- Onderste Midden: Direct Market Knop -->
         <div class="p-2 pb-3 flex flex-col items-center justify-end z-40 relative pointer-events-auto bg-gradient-to-t from-black/95 via-black/80 to-transparent">
-            <div class="w-full px-8 mb-1.5">
-                <div class="bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 border-2 border-white rounded-2xl py-2 px-3 text-center shadow-2xl cursor-pointer active:scale-95 flex flex-col justify-between relative overflow-hidden" onclick="claimPassiveSteak()">
-                    <div class="flex items-center justify-between z-10">
-                        <span class="text-lg">🥩</span>
-                        <div class="text-center">
-                            <div class="text-[9px] font-black text-black uppercase tracking-wider" data-i18n="passive_title">PASİF TOPLA (6 SAAT)</div>
-                            <div class="text-xs font-black text-white" id="lblCollectVal">+157 STEAK KLAAR</div>
-                        </div>
-                        <span class="text-lg">📥</span>
-                    </div>
-                    <div class="absolute bottom-0 left-0 h-1.5 bg-emerald-600 transition-all duration-500 z-0" id="passiveProgressBar" style="width: 0%;"></div>
-                </div>
-            </div>
-
             <div class="flex items-center gap-2">
                 <button onclick="openModal('shop')" class="honey-btn px-14 py-2.5 text-sm uppercase tracking-widest" data-i18n="btn_buy_animal">
-                    HAYVAN AL / MARKET
+                    MARKET
                 </button>
             </div>
         </div>
@@ -342,305 +356,337 @@
         const translations = {
             tr: {
                 level: "SEVİYE",
-                takas_title: "🔄 Takasçı",
-                takas_given: "🥩 Verdiğin Vlees Miktarı:",
-                takas_get: "💵 Alacağın Nakit Para (+%10 Bonus Dahil):",
+                mining_title: "Maden",
+                mining_subtitle: "Anlık Üretim Hızı",
+                progress_bar: "Doluluk",
+                collect_btn: "TOPLA",
+                takas_title: "Takas",
+                takas_given: "Verilen Miktar:",
+                takas_get: "Alınacak Tutar (+%10 Bonus):",
                 takas_btn: "TAKAS ET",
-                takas_tip: "✨ Vlees'i Nakit Para'ya çevirirken +%10 bonus kazanın!",
-                withdraw_title: "📤 Bakiye Çek (Cüzdan)",
-                wallet_addr: "Cüzdanın:",
-                memo: "Memo (İsteğe bağlı):",
-                amount_gir: "Miktar gir (Vlees / Nakit):",
-                gram_tutar: "Gram (TON) cinsinden tutar:",
-                withdraw_btn: "ÇEKİM TALEBİ OLUŞTUR",
-                shop_title: "🏕️ Mağaza & Hayvan Pazarı",
-                usd_paid: "Ödediğin USD",
-                get_cash: "Alacağın Nakit / Vlees:",
-                pay_crypto: "KRİPTO İLE SATIN AL (ÖDE)",
-                buy_animal: "🦁 Hayvan Satın Al (Nakit Para 💵)",
-                my_animals: "🦁 Hayvanlarım & Seviyeler",
-                upgrade_lvl: "SEVİYE YÜKSELT (500 🥩)",
-                owned_animals: "🐾 Sahip Olunan Hayvanlar",
-                settings_title: "⚙️ Ayarlar & Diller",
-                select_lang: "Dil Seçin / Select Language:",
-                quests_title: "🎯 Günlük Görevler",
-                quest_1: "📢 Kanalı Takip Et",
-                quest_2: "👥 5 Arkadaş Davet Et",
+                takas_tip: "Dönüşümlerde +%10 bonus kazanın!",
+                withdraw_title: "Cüzdan",
+                wallet_addr: "Cüzdan Adresi:",
+                memo: "Memo:",
+                amount_gir: "Miktar:",
+                gram_tutar: "Gram (TON):",
+                withdraw_btn: "TALEP OLUŞTUR",
+                shop_title: "Mağaza",
+                usd_paid: "USD",
+                get_cash: "Alınacak Tutar:",
+                pay_crypto: "SATIN AL",
+                buy_animal: "Hayvan Pazarı",
+                my_animals: "Hayvanlarım",
+                upgrade_lvl: "SEVİYE YÜKSELT",
+                owned_animals: "Sahip Olunanlar",
+                settings_title: "Ayarlar",
+                select_lang: "Dil Seçin:",
+                quests_title: "Görevler",
+                quest_1: "Kanalı Takip Et",
+                quest_2: "5 Arkadaş Davet Et",
                 claim_btn: "AL",
+                btn_mining: "Maden",
                 btn_quest: "Görev",
-                btn_takas: "Takasçı",
+                btn_takas: "Takas",
                 btn_market: "Market",
-                btn_bakiye: "Bakiye",
-                btn_settings: "Ayarlar",
-                passive_title: "PASİF TOPLA (6 SAAT)",
-                btn_buy_animal: "HAYVAN AL / MARKET",
-                pay_title: "🔒 Güvenli Ödeme Onayı",
+                btn_bakiye: "Cüzdan",
+                btn_settings: "Ayar",
+                btn_buy_animal: "MARKET",
+                pay_title: "Güvenli Ödeme",
                 cancel: "İptal",
-                confirm: "Onayla & Öde"
+                confirm: "Onayla"
             },
             nl: {
                 level: "NIVEAU",
-                takas_title: "🔄 Wisselkantoor",
-                takas_given: "🥩 In te leveren Vlees:",
-                takas_get: "💵 Ontvang Nakit Geld (Inclusief +10% Bonus):",
+                mining_title: "Maden",
+                mining_subtitle: "Live Productiesnelheid",
+                progress_bar: "Voortgang",
+                collect_btn: "OPHALEN",
+                takas_title: "Wisselkantoor",
+                takas_given: "In te leveren:",
+                takas_get: "Ontvangen (Inclusief +10% Bonus):",
                 takas_btn: "WISSELEN",
-                takas_tip: "✨ Ontvang +10% extra bonus bij het omwisselen van Vlees naar Geld!",
-                withdraw_title: "📤 Saldo Opnemen (Cüzdan)",
-                wallet_addr: "Je Cüzdan (Wallet) adres:",
-                memo: "Memo (Optioneel):",
-                amount_gir: "In te voeren bedrag (Vlees / Geld):",
-                gram_tutar: "Bedrag in Gram (TON):",
-                withdraw_btn: "UITBETALING AANVRAGEN",
-                shop_title: "🏕️ Winkel & Dierenmarkt",
-                usd_paid: "Betaalde USD",
-                get_cash: "Te ontvangen Geld / Vlees:",
-                pay_crypto: "BETAAL MET CRYPTO",
-                buy_animal: "🦁 Dieren Kopen (Nakit Geld 💵)",
-                my_animals: "🦁 Mijn Dieren & Niveaus",
-                upgrade_lvl: "NIVEAU VERHOGEN (500 🥩)",
-                owned_animals: "🐾 Aangeschafte Dieren",
-                settings_title: "⚙️ Instellingen & Taal",
-                select_lang: "Kies je taal / Select Language:",
-                quests_title: "🎯 Dagelijkse Missies",
-                quest_1: "📢 Volg ons Telegram kanaal",
-                quest_2: "👥 Nodig 5 vrienden uit",
+                takas_tip: "Ontvang +10% extra bonus bij omwisseling!",
+                withdraw_title: "Saldo",
+                wallet_addr: "Wallet Adres:",
+                memo: "Memo:",
+                amount_gir: "Bedrag:",
+                gram_tutar: "Gram (TON):",
+                withdraw_btn: "AANVRAGEN",
+                shop_title: "Winkel",
+                usd_paid: "USD",
+                get_cash: "Te ontvangen:",
+                pay_crypto: "BETAAL",
+                buy_animal: "Dierenmarkt",
+                my_animals: "Mijn Dieren",
+                upgrade_lvl: "NIVEAU VERHOGEN",
+                owned_animals: "Aangeschafte Dieren",
+                settings_title: "Instellingen",
+                select_lang: "Kies Taal:",
+                quests_title: "Missies",
+                quest_1: "Volg ons kanaal",
+                quest_2: "Nodig 5 vrienden uit",
                 claim_btn: "CLAIM",
-                btn_quest: "Missies",
+                btn_mining: "Maden",
+                btn_quest: "Missie",
                 btn_takas: "Wissel",
                 btn_market: "Winkel",
                 btn_bakiye: "Saldo",
-                btn_settings: "Instell.",
-                passive_title: "PASSIEF CLAIMEN (6 UUR)",
-                btn_buy_animal: "DIER KOPEN / WINKEL",
-                pay_title: "🔒 Veilige Betaling Bevestigen",
+                btn_settings: "Ayar",
+                btn_buy_animal: "WINKEL",
+                pay_title: "Veilige Betaling",
                 cancel: "Annuleren",
-                confirm: "Bevestig & Betaal"
+                confirm: "Bevestig"
             },
             en: {
                 level: "LEVEL",
-                takas_title: "🔄 Exchange",
-                takas_given: "🥩 Meat Amount to Give:",
-                takas_get: "💵 Cash to Receive (Includes +10% Bonus):",
+                mining_title: "Mining",
+                mining_subtitle: "Live Production Rate",
+                progress_bar: "Progress",
+                collect_btn: "COLLECT",
+                takas_title: "Exchange",
+                takas_given: "Amount to Give:",
+                takas_get: "Amount to Receive (+10% Bonus):",
                 takas_btn: "EXCHANGE",
-                takas_tip: "✨ Get +10% bonus when exchanging Meat for Cash!",
-                withdraw_title: "📤 Withdraw Balance (Wallet)",
-                wallet_addr: "Your Wallet Address:",
-                memo: "Memo (Optional):",
-                amount_gir: "Enter Amount (Meat / Cash):",
+                takas_tip: "Get +10% bonus on exchange!",
+                withdraw_title: "Wallet",
+                wallet_addr: "Wallet Address:",
+                memo: "Memo:",
+                amount_gir: "Amount:",
                 gram_tutar: "Amount in Gram (TON):",
-                withdraw_btn: "CREATE WITHDRAWAL",
-                shop_title: "🏕️ Shop & Animal Market",
-                usd_paid: "Paid USD",
-                get_cash: "Cash / Meat to Receive:",
-                pay_crypto: "PAY WITH CRYPTO",
-                buy_animal: "🦁 Buy Animals (Cash 💵)",
-                my_animals: "🦁 My Animals & Levels",
-                upgrade_lvl: "UPGRADE LEVEL (500 🥩)",
-                owned_animals: "🐾 Owned Animals",
-                settings_title: "⚙️ Settings & Languages",
+                withdraw_btn: "WITHDRAW",
+                shop_title: "Shop",
+                usd_paid: "USD",
+                get_cash: "To Receive:",
+                pay_crypto: "PAY",
+                buy_animal: "Animal Market",
+                my_animals: "My Animals",
+                upgrade_lvl: "UPGRADE LEVEL",
+                owned_animals: "Owned Animals",
+                settings_title: "Settings",
                 select_lang: "Select Language:",
-                quests_title: "🎯 Daily Quests",
-                quest_1: "📢 Follow our Channel",
-                quest_2: "👥 Invite 5 Friends",
+                quests_title: "Quests",
+                quest_1: "Follow Channel",
+                quest_2: "Invite 5 Friends",
                 claim_btn: "CLAIM",
-                btn_quest: "Quests",
+                btn_mining: "Mining",
+                btn_quest: "Quest",
                 btn_takas: "Exchange",
-                btn_market: "Market",
+                btn_market: "Shop",
                 btn_bakiye: "Wallet",
                 btn_settings: "Settings",
-                passive_title: "PASSIVE CLAIM (6 HOURS)",
-                btn_buy_animal: "BUY ANIMAL / SHOP",
-                pay_title: "🔒 Secure Payment Confirmation",
+                btn_buy_animal: "SHOP",
+                pay_title: "Secure Payment",
                 cancel: "Cancel",
-                confirm: "Confirm & Pay"
+                confirm: "Confirm"
             },
             ru: {
                 level: "УРОВЕНЬ",
-                takas_title: "🔄 Обменник",
-                takas_given: "🥩 Количество мяса для обмена:",
-                takas_get: "💵 Получить наличные (+10% бонус):",
+                mining_title: "Добыча",
+                mining_subtitle: "Скорость производства",
+                progress_bar: "Прогресс",
+                collect_btn: "СОБРАТЬ",
+                takas_title: "Обмен",
+                takas_given: "Отдать:",
+                takas_get: "Получить (+10% бонус):",
                 takas_btn: "ОБМЕНЯТЬ",
-                takas_tip: "✨ Получите бонус +10% при обмене мяса на наличные!",
-                withdraw_title: "📤 Вывод средств (Кошелек)",
-                wallet_addr: "Адрес кошелька:",
-                memo: "Мемо (Необязательно):",
-                amount_gir: "Введите сумму:",
+                takas_tip: "Бонус +10% при обмене!",
+                withdraw_title: "Кошелек",
+                wallet_addr: "Адрес:",
+                memo: "Мемо:",
+                amount_gir: "Сумма:",
                 gram_tutar: "Сумма в Gram (TON):",
-                withdraw_btn: "СОЗДАТЬ ЗАЯВКУ",
-                shop_title: "🏕️ Магазин и рынок",
-                usd_paid: "Оплачено USD",
+                withdraw_btn: "ЗАПРОСИТЬ",
+                shop_title: "Магазин",
+                usd_paid: "USD",
                 get_cash: "К получению:",
-                pay_crypto: "ОПЛАТИТЬ КРИПТОЙ",
-                buy_animal: "🦁 Купить животных (💵)",
-                my_animals: "🦁 Мои животные",
-                upgrade_lvl: "УЛУЧШИТЬ УРОВЕНЬ (500 🥩)",
-                owned_animals: "🐾 Купленные животные",
-                settings_title: "⚙️ Настройки и язык",
-                select_lang: "Выберите язык:",
-                quests_title: "🎯 Задания",
-                quest_1: "📢 Подписаться на канал",
-                quest_2: "👥 Пригласить 5 друзей",
+                pay_crypto: "ОПЛАТИТЬ",
+                buy_animal: "Рынок",
+                my_animals: "Мои животные",
+                upgrade_lvl: "УЛУЧШИТЬ",
+                owned_animals: "Купленные",
+                settings_title: "Настройки",
+                select_lang: "Язык:",
+                quests_title: "Задания",
+                quest_1: "Подписаться",
+                quest_2: "Пригласить 5 друзей",
                 claim_btn: "ЗАБРАТЬ",
-                btn_quest: "Задания",
+                btn_mining: "Шахта",
+                btn_quest: "Задачи",
                 btn_takas: "Обмен",
                 btn_market: "Рынок",
-                btn_bakiye: "Баланс",
-                btn_settings: "Настр.",
-                passive_title: "ПАССИВ (6 ЧАСОВ)",
-                btn_buy_animal: "КУПИТЬ ЖИВОТНОЕ",
-                pay_title: "🔒 Подтверждение платежа",
+                btn_bakiye: "Кошелек",
+                btn_settings: "Настр",
+                btn_buy_animal: "МАРКЕТ",
+                pay_title: "Безопасная оплата",
                 cancel: "Отмена",
-                confirm: "Подтвердить"
+                confirm: "ОК"
             },
             es: {
                 level: "NIVEL",
-                takas_title: "🔄 Intercambio",
-                takas_given: "🥩 Carne a entregar:",
-                takas_get: "💵 Efectivo a recibir (+10% Bono):",
-                takas_btn: "INTERCAMBIAR",
-                takas_tip: "✨ ¡Gana un 10% extra al cambiar carne por efectivo!",
-                withdraw_title: "📤 Retirar Saldo (Billetera)",
-                wallet_addr: "Tu Dirección de Billetera:",
-                memo: "Memo (Opcional):",
-                amount_gir: "Ingresar Cantidad:",
-                gram_tutar: "Cantidad en Gram (TON):",
-                withdraw_btn: "CREAR SOLICITUD",
-                shop_title: "🏕️ Tienda y Mercado",
-                usd_paid: "USD Pagados",
+                mining_title: "Minería",
+                mining_subtitle: "Velocidad en vivo",
+                progress_bar: "Progreso",
+                collect_btn: "RECOGER",
+                takas_title: "Cambio",
+                takas_given: "A entregar:",
+                takas_get: "A recibir (+10% Bono):",
+                takas_btn: "CAMBIAR",
+                takas_tip: "¡Gana 10% extra!",
+                withdraw_title: "Billetera",
+                wallet_addr: "Dirección:",
+                memo: "Memo:",
+                amount_gir: "Cantidad:",
+                gram_tutar: "Gram (TON):",
+                withdraw_btn: "RETIRAR",
+                shop_title: "Tienda",
+                usd_paid: "USD",
                 get_cash: "A Recibir:",
-                pay_crypto: "PAGAR CON CRIPTO",
-                buy_animal: "🦁 Comprar Animales (💵)",
-                my_animals: "🦁 Mis Animales",
-                upgrade_lvl: "SUBIR NIVEL (500 🥩)",
-                owned_animals: "🐾 Animales Adquiridos",
-                settings_title: "⚙️ Ajustes e Idioma",
-                select_lang: "Seleccionar Idioma:",
-                quests_title: "🎯 Misiones Diarias",
-                quest_1: "📢 Sigue nuestro canal",
-                quest_2: "👥 Invita 5 amigos",
+                pay_crypto: "PAGAR",
+                buy_animal: "Mercado",
+                my_animals: "Mis Animales",
+                upgrade_lvl: "SUBIR NIVEL",
+                owned_animals: "Adquiridos",
+                settings_title: "Ajustes",
+                select_lang: "Idioma:",
+                quests_title: "Misiones",
+                quest_1: "Seguir canal",
+                quest_2: "Invitar 5 amigos",
                 claim_btn: "RECLAMAR",
-                btn_quest: "Misiones",
+                btn_mining: "Minas",
+                btn_quest: "Misión",
                 btn_takas: "Cambio",
                 btn_market: "Tienda",
-                btn_bakiye: "Saldo",
+                btn_bakiye: "Billetera",
                 btn_settings: "Ajustes",
-                passive_title: "RECOLECCIÓN (6 HORAS)",
-                btn_buy_animal: "COMPRAR ANIMAL",
-                pay_title: "🔒 Confirmación de Pago",
+                btn_buy_animal: "TIENDA",
+                pay_title: "Pago seguro",
                 cancel: "Cancelar",
                 confirm: "Confirmar"
             },
             fr: {
                 level: "NIVEAU",
-                takas_title: "🔄 Échange",
-                takas_given: "🥩 Viande à donner :",
-                takas_get: "💵 Argent à recevoir (+10% Bonus) :",
+                mining_title: "Mine",
+                mining_subtitle: "Vitesse en direct",
+                progress_bar: "Progrès",
+                collect_btn: "RÉCUPÉRER",
+                takas_title: "Échange",
+                takas_given: "À donner :",
+                takas_get: "À recevoir (+10% Bonus) :",
                 takas_btn: "ÉCHANGER",
-                takas_tip: "✨ Obtenez 10% de bonus en échangeant de la viande contre de l'argent !",
-                withdraw_title: "📤 Retirer (Portefeuille)",
-                wallet_addr: "Adresse du portefeuille :",
-                memo: "Mémo (Facultatif) :",
-                amount_gir: "Entrer le montant :",
-                gram_tutar: "Montant en Gram (TON) :",
-                withdraw_btn: "FAIRE UNE DEMANDE",
-                shop_title: "🏕️ Boutique & Marché",
-                usd_paid: "USD Payés",
+                takas_tip: "Obtenez 10% de bonus !",
+                withdraw_title: "Portefeuille",
+                wallet_addr: "Adresse :",
+                memo: "Mémo :",
+                amount_gir: "Montant :",
+                gram_tutar: "Gram (TON) :",
+                withdraw_btn: "RETIRER",
+                shop_title: "Boutique",
+                usd_paid: "USD",
                 get_cash: "À recevoir :",
-                pay_crypto: "PAYER EN CRYPTO",
-                buy_animal: "🦁 Acheter des animaux (💵)",
-                my_animals: "🦁 Mes animaux",
-                upgrade_lvl: "AMÉLIORER (500 🥩)",
-                owned_animals: "🐾 Animaux possédés",
-                settings_title: "⚙️ Paramètres & Langue",
-                select_lang: "Choisir la langue :",
-                quests_title: "🎯 Quêtes Quotidiennes",
-                quest_1: "📢 Suivre notre canal",
-                quest_2: "👥 Inviter 5 amis",
+                pay_crypto: "PAYER",
+                buy_animal: "Marché",
+                my_animals: "Mes animaux",
+                upgrade_lvl: "AMÉLIORER",
+                owned_animals: "Possédés",
+                settings_title: "Paramètres",
+                select_lang: "Langue :",
+                quests_title: "Quêtes",
+                quest_1: "Suivre",
+                quest_2: "Inviter 5 amis",
                 claim_btn: "RÉCUPÉRER",
-                btn_quest: "Quêtes",
+                btn_mining: "Mine",
+                btn_quest: "Quête",
                 btn_takas: "Échange",
                 btn_market: "Boutique",
-                btn_bakiye: "Solde",
-                btn_settings: "Param.",
-                passive_title: "PASSIF (6 HEURES)",
-                btn_buy_animal: "ACHETER ANIMAL",
-                pay_title: "🔒 Confirmation de Paiement",
+                btn_bakiye: "Portef.",
+                btn_settings: "Régl.",
+                btn_buy_animal: "BOUTIQUE",
+                pay_title: "Paiement sécurisé",
                 cancel: "Annuler",
                 confirm: "Confirmer"
             },
             de: {
                 level: "LEVEL",
-                takas_title: "🔄 Tausch",
-                takas_given: "🥩 Fleisch zum Tauschen:",
-                takas_get: "💵 Bargeld erhalten (inkl. +10% Bonus):",
+                mining_title: "Farm",
+                mining_subtitle: "Live-Geschwindigkeit",
+                progress_bar: "Fortschritt",
+                collect_btn: "ABHOLEN",
+                takas_title: "Tausch",
+                takas_given: "Zu geben:",
+                takas_get: "Erhalten (+10% Bonus):",
                 takas_btn: "TAUSCHEN",
-                takas_tip: "✨ Erhalte +10% Bonus beim Tausch von Fleisch in Bargeld!",
-                withdraw_title: "📤 Auszahlung (Wallet)",
-                wallet_addr: "Deine Wallet-Adresse:",
-                memo: "Memo (Optional):",
-                amount_gir: "Betrag eingeben:",
-                gram_tutar: "Betrag in Gram (TON):",
-                withdraw_btn: "AUSZAHLUNG ANFORDERN",
-                shop_title: "🏕️ Shop & Tier-Markt",
-                usd_paid: "Gezahlte USD",
+                takas_tip: "+10% Bonus erhalten!",
+                withdraw_title: "Wallet",
+                wallet_addr: "Adresse:",
+                memo: "Memo:",
+                amount_gir: "Betrag:",
+                gram_tutar: "Gram (TON):",
+                withdraw_btn: "ANFORDERN",
+                shop_title: "Shop",
+                usd_paid: "USD",
                 get_cash: "Zu erhalten:",
-                pay_crypto: "MIT KRIPTO BEZAHLEN",
-                buy_animal: "🦁 Tiere kaufen (💵)",
-                my_animals: "🦁 Meine Tiere",
-                upgrade_lvl: "LEVEL ERHÖHEN (500 🥩)",
-                owned_animals: "🐾 Gekaufte Tiere",
-                settings_title: "⚙️ Einstellungen & Sprache",
-                select_lang: "Sprache wählen:",
-                quests_title: "🎯 Tägliche Quests",
-                quest_1: "📢 Kanal abonnieren",
-                quest_2: "👥 5 Freunde einladen",
+                pay_crypto: "BEZAHLEN",
+                buy_animal: "Tier-Markt",
+                my_animals: "Meine Tiere",
+                upgrade_lvl: "LEVEL +",
+                owned_animals: "Gekauft",
+                settings_title: "Einstellungen",
+                select_lang: "Sprache:",
+                quests_title: "Quests",
+                quest_1: "Abonnieren",
+                quest_2: "5 Freunde",
                 claim_btn: "HOLEN",
-                btn_quest: "Quests",
+                btn_mining: "Farm",
+                btn_quest: "Quest",
                 btn_takas: "Tausch",
                 btn_market: "Shop",
-                btn_bakiye: "Guthaben",
-                btn_settings: "Einst.",
-                passive_title: "PASSIV (6 STUNDEN)",
-                btn_buy_animal: "TIER KAUFEN",
-                pay_title: "🔒 Zahlungsbestätigung",
+                btn_bakiye: "Wallet",
+                btn_settings: "Einst",
+                btn_buy_animal: "SHOP",
+                pay_title: "Sichere Zahlung",
                 cancel: "Abbrechen",
                 confirm: "Bestätigen"
             },
             pt: {
                 level: "NÍVEL",
-                takas_title: "🔄 Câmbio",
-                takas_given: "🥩 Carne para dar:",
-                takas_get: "💵 Dinheiro a receber (+10% Bônus):",
+                mining_title: "Minas",
+                mining_subtitle: "Velocidade ao vivo",
+                progress_bar: "Progresso",
+                collect_btn: "COLETAR",
+                takas_title: "Câmbio",
+                takas_given: "Dar:",
+                takas_get: "Receber (+10% Bônus):",
                 takas_btn: "TROCAR",
-                takas_tip: "✨ Ganhe 10% de bônus ao trocar carne por dinheiro!",
-                withdraw_title: "📤 Sacar Saldo (Carteira)",
-                wallet_addr: "Endereço da Carteira:",
-                memo: "Memo (Opcional):",
-                amount_gir: "Digitar Quantidade:",
-                gram_tutar: "Valor em Gram (TON):",
-                withdraw_btn: "CRIAR SAQUE",
-                shop_title: "🏕️ Loja & Mercado",
-                usd_paid: "USD Pagos",
+                takas_tip: "Ganhe 10% de bônus!",
+                withdraw_title: "Carteira",
+                wallet_addr: "Endereço:",
+                memo: "Memo:",
+                amount_gir: "Quantidade:",
+                gram_tutar: "Gram (TON):",
+                withdraw_btn: "SACAR",
+                shop_title: "Loja",
+                usd_paid: "USD",
                 get_cash: "A Receber:",
-                pay_crypto: "PAGAR COM CRIPTO",
-                buy_animal: "🦁 Comprar Animais (💵)",
-                my_animals: "🦁 Meus Animais",
-                upgrade_lvl: "EVOLUIR NÍVEL (500 🥩)",
-                owned_animals: "🐾 Animais Adquiridos",
-                settings_title: "⚙️ Configurações & Idioma",
-                select_lang: "Selecionar Idioma:",
-                quests_title: "🎯 Missões Diárias",
-                quest_1: "📢 Siga nosso canal",
-                quest_2: "👥 Convide 5 amigos",
+                pay_crypto: "PAGAR",
+                buy_animal: "Mercado",
+                my_animals: "Meus Animais",
+                upgrade_lvl: "EVOLUIR",
+                owned_animals: "Adquiridos",
+                settings_title: "Ajustes",
+                select_lang: "Idioma:",
+                quests_title: "Missões",
+                quest_1: "Seguir",
+                quest_2: "Convidar 5 amigos",
                 claim_btn: "RESGATAR",
-                btn_quest: "Missões",
+                btn_mining: "Minas",
+                btn_quest: "Missão",
                 btn_takas: "Câmbio",
                 btn_market: "Loja",
-                btn_bakiye: "Saldo",
+                btn_bakiye: "Carteira",
                 btn_settings: "Ajustes",
-                passive_title: "PASSIVO (6 HORAS)",
-                btn_buy_animal: "COMPRAR ANIMAL",
-                pay_title: "🔒 Confirmação de Pagamento",
+                btn_buy_animal: "LOJA",
+                pay_title: "Pagamento seguro",
                 cancel: "Cancelar",
                 confirm: "Confirmar"
             }
@@ -679,7 +725,7 @@
             });
             renderShop();
             renderOwnedAnimals();
-            showToast(lang === 'nl' ? "🌍 Taal gewijzigd!" : (lang === 'en' ? "🌍 Language updated!" : "🌍 Dil güncellendi!"));
+            showToast(lang === 'nl' ? "Taal gewijzigd!" : (lang === 'en' ? "Language updated!" : "Dil güncellendi!"));
         }
 
         const tg = window.Telegram?.WebApp;
@@ -689,31 +735,27 @@
 
         let balance = parseInt(localStorage.getItem('dg_balance')) || 12699;
         let cashBalance = parseInt(localStorage.getItem('dg_cash')) || 5540;
-        let unclaimedSteak = parseInt(localStorage.getItem('dg_unclaimed')) || 157;
+        let accumulatedMinedSteak = parseFloat(localStorage.getItem('dg_mined')) || 0;
         let lionLevel = parseInt(localStorage.getItem('dg_lion')) || 11;
         
-        let lastClaimTime = parseInt(localStorage.getItem('dg_lastclaim')) || Date.now();
-        const CLAIM_INTERVAL = 6 * 60 * 60 * 1000;
-
-        // 17 Correcte dieren met veilige fallbacks en bestandsnamen
         let defaultAnimals = [
-            { id: 'kral_aslan', file: 'kral_aslan.PNG', icon: '🦁', baseProd: 8500, costCash: 250, level: 15, count: 1 },
-            { id: 'iki_erkek_aslan', file: 'iki_erkek_aslan.PNG', icon: '🦁🦁', baseProd: 6500, costCash: 400, level: 14, count: 0 },
-            { id: 'fil', file: 'fil.PNG', icon: '🐘', baseProd: 5000, costCash: 500, level: 12, count: 0 },
-            { id: 'siyah_gergedan', file: 'siyah_gergedan.PNG', icon: '🦏', baseProd: 3800, costCash: 450, level: 11, count: 0 },
-            { id: 'beyaz_gergedan', file: 'beyaz_gergedan.PNG', icon: '🦏', baseProd: 3200, costCash: 400, level: 10, count: 0 },
-            { id: 'timsah', file: 'timsah.PNG', icon: '🐊', baseProd: 2800, costCash: 350, level: 9, count: 0 },
-            { id: 'jaguar', file: 'jaguar.PNG', icon: '🐆', baseProd: 2500, costCash: 320, level: 9, count: 0 },
-            { id: 'kara_panter', file: 'kara_panter.PNG', icon: '🐈‍⬛', baseProd: 2400, costCash: 300, level: 8, count: 0 },
-            { id: 'panter', file: 'panter.PNG', icon: '🐆', baseProd: 2100, costCash: 280, level: 8, count: 0 },
-            { id: 'cita', file: 'cita.PNG', icon: '🐆', baseProd: 1900, costCash: 200, level: 7, count: 0 },
-            { id: 'sirtlan_surusu', file: 'sirtlan_surusu.PNG', icon: '🐺', baseProd: 1500, costCash: 180, level: 6, count: 0 },
-            { id: 'kurt', file: 'kurt.PNG', icon: '🐕', baseProd: 980, costCash: 120, level: 5, count: 0 },
-            { id: 'python', file: 'python.PNG', icon: '🐍', baseProd: 850, costCash: 100, level: 4, count: 0 },
-            { id: 'aslan_yavrusu', file: 'aslan_yavrusu.PNG', icon: '🐱', baseProd: 720, costCash: 90, level: 4, count: 1 },
-            { id: 'afrika_akbabasi', file: 'afrika_akbabasi.PNG', icon: '🦅', baseProd: 650, costCash: 75, level: 3, count: 0 },
-            { id: 'antilop', file: 'antilop.PNG', icon: '🦌', baseProd: 500, costCash: 60, level: 3, count: 0 },
-            { id: 'cakal', file: 'cakal.PNG', icon: '🦊', baseProd: 400, costCash: 50, level: 2, count: 0 }
+            { id: 'kral_aslan', file: 'kral_aslan.PNG', icon: '🦁', baseProd: 25000, costCash: 1500, level: 15, count: 1 },
+            { id: 'iki_erkek_aslan', file: 'iki_erkek_aslan.PNG', icon: '🦁🦁', baseProd: 18000, costCash: 1200, level: 14, count: 0 },
+            { id: 'fil', file: 'fil.PNG', icon: '🐘', baseProd: 14000, costCash: 1000, level: 12, count: 0 },
+            { id: 'siyah_gergedan', file: 'siyah_gergedan.PNG', icon: '🦏', baseProd: 10000, costCash: 800, level: 11, count: 0 },
+            { id: 'beyaz_gergedan', file: 'beyaz_gergedan.PNG', icon: '🦏', baseProd: 8000, costCash: 650, level: 10, count: 0 },
+            { id: 'timsah', file: 'timsah.PNG', icon: '🐊', baseProd: 6200, costCash: 520, level: 9, count: 0 },
+            { id: 'jaguar', file: 'jaguar.PNG', icon: '🐆', baseProd: 4800, costCash: 420, level: 9, count: 0 },
+            { id: 'kara_panter', file: 'kara_panter.PNG', icon: '🐈‍⬛', baseProd: 3800, costCash: 340, level: 8, count: 0 },
+            { id: 'panter', file: 'panter.PNG', icon: '🐆', baseProd: 3000, costCash: 280, level: 8, count: 0 },
+            { id: 'cita', file: 'cita.PNG', icon: '🐆', baseProd: 2200, costCash: 220, level: 7, count: 0 },
+            { id: 'sirtlan_surusu', file: 'sirtlan_surusu.PNG', icon: '🐺', baseProd: 1600, costCash: 170, level: 6, count: 0 },
+            { id: 'kurt', file: 'kurt.PNG', icon: '🐕', baseProd: 1100, costCash: 130, level: 5, count: 0 },
+            { id: 'python', file: 'python.PNG', icon: '🐍', baseProd: 750, costCash: 95, level: 4, count: 0 },
+            { id: 'aslan_yavrusu', file: 'aslan_yavrusu.PNG', icon: '🐱', baseProd: 500, costCash: 70, level: 4, count: 1 },
+            { id: 'afrika_akbabasi', file: 'afrika_akbabasi.PNG', icon: '🦅', baseProd: 320, costCash: 50, level: 3, count: 0 },
+            { id: 'antilop', file: 'antilop.PNG', icon: '🦌', baseProd: 180, costCash: 35, level: 3, count: 0 },
+            { id: 'cakal', file: 'cakal.PNG', icon: '🦊', baseProd: 90, costCash: 20, level: 2, count: 0 }
         ];
 
         let animalsData = JSON.parse(JSON.stringify(defaultAnimals));
@@ -733,34 +775,52 @@
         function saveGame() {
             localStorage.setItem('dg_balance', balance);
             localStorage.setItem('dg_cash', cashBalance);
-            localStorage.setItem('dg_unclaimed', unclaimedSteak);
+            localStorage.setItem('dg_mined', accumulatedMinedSteak);
             localStorage.setItem('dg_lion', lionLevel);
-            localStorage.setItem('dg_lastclaim', lastClaimTime);
             localStorage.setItem('dg_animals', JSON.stringify(animalsData));
             updateUI();
         }
 
         function updateUI() {
-            document.getElementById('balance').innerText = balance.toLocaleString();
+            document.getElementById('balance').innerText = Math.floor(balance).toLocaleString();
             document.getElementById('cashBalance').innerText = cashBalance.toLocaleString();
             document.getElementById('lionLevelDisplay').innerText = lionLevel;
             document.getElementById('headerLionLevel').innerText = lionLevel;
         }
 
-        function checkPassiveTimer() {
-            let now = Date.now();
-            let elapsed = now - lastClaimTime;
-            let progress = Math.min(100, (elapsed / CLAIM_INTERVAL) * 100);
-            document.getElementById('passiveProgressBar').style.width = progress + '%';
-
-            if (elapsed >= CLAIM_INTERVAL) {
-                unclaimedSteak += 250;
-                lastClaimTime = now;
-                saveGame();
-            }
-            document.getElementById('lblCollectVal').innerText = `+${unclaimedSteak} STEAK KLAAR`;
+        function getTotalProductionPerSecond() {
+            let total = 0;
+            animalsData.forEach(anim => {
+                total += (anim.baseProd * anim.count);
+            });
+            return total;
         }
-        setInterval(checkPassiveTimer, 1000);
+
+        function gameLoop() {
+            let prodPerSec = getTotalProductionPerSecond();
+            if(prodPerSec > 0) {
+                let added = prodPerSec / 10;
+                accumulatedMinedSteak += added;
+            }
+            
+            let totalSpeedEl = document.getElementById('totalProdSpeedDisplay');
+            if(totalSpeedEl) {
+                totalSpeedEl.innerText = `+${prodPerSec.toLocaleString()} / sn`;
+            }
+            let accumEl = document.getElementById('accumulatedSteakDisplay');
+            if(accumEl) {
+                accumEl.innerText = `+${Math.floor(accumulatedMinedSteak).toLocaleString()}`;
+            }
+            let barEl = document.getElementById('miningProgressBar');
+            let percentEl = document.getElementById('miningPercent');
+            if(barEl && percentEl) {
+                let pct = Math.min(100, (accumulatedMinedSteak / 100000) * 100);
+                barEl.style.width = pct + '%';
+                percentEl.innerText = Math.floor(pct) + '%';
+            }
+            saveGame();
+        }
+        setInterval(gameLoop, 100);
 
         function openModal(modalName) {
             document.querySelectorAll('.feature-modal').forEach(m => m.classList.remove('active'));
@@ -773,42 +833,42 @@
             document.querySelectorAll('.feature-modal').forEach(m => m.classList.remove('active'));
         }
 
-        function claimPassiveSteak() {
-            if (unclaimedSteak <= 0) { showToast("Nog geen vlees klaar!"); return; }
-            balance += unclaimedSteak;
-            unclaimedSteak = 0;
-            lastClaimTime = Date.now();
+        function collectMinedSteak() {
+            let collected = Math.floor(accumulatedMinedSteak);
+            if (collected <= 0) { showToast("Henüz birikmedi!"); return; }
+            balance += collected;
+            accumulatedMinedSteak = 0;
             updateUI();
             saveGame();
-            showToast("🥩 Vlees geclaimd!");
+            showToast(`+${collected.toLocaleString()} eklendi!`);
         }
 
         function setTakasMax() {
-            document.getElementById('takasInput').value = balance;
+            document.getElementById('takasInput').value = Math.floor(balance);
             calculateTakas();
         }
 
         function calculateTakas() {
             let val = parseInt(document.getElementById('takasInput').value) || 0;
             let output = (val / 1000) * 1.10;
-            document.getElementById('takasOutput').innerText = output.toFixed(2) + " 💵";
+            document.getElementById('takasOutput').innerText = output.toFixed(2);
         }
 
         function executeTakas() {
             let val = parseInt(document.getElementById('takasInput').value) || 0;
-            if (val <= 0 || balance < val) { showToast("Yetersiz Vlees!"); return; }
+            if (val <= 0 || balance < val) { showToast("Yetersiz bakiye!"); return; }
             balance -= val;
             let earnedCash = Math.floor((val / 1000) * 1.10);
             cashBalance += earnedCash;
             updateUI();
             saveGame();
-            showToast(`🔄 Takas başarılı! +${earnedCash} 💵 eklendi.`);
+            showToast(`Takas başarılı! +${earnedCash}`);
             document.getElementById('takasInput').value = '';
-            document.getElementById('takasOutput').innerText = "0.00 💵";
+            document.getElementById('takasOutput').innerText = "0.00";
         }
 
         function setWithdrawMax() {
-            document.getElementById('withdrawAmountInput').value = balance;
+            document.getElementById('withdrawAmountInput').value = Math.floor(balance);
             calculateGram();
         }
 
@@ -821,12 +881,12 @@
         function requestWithdrawal() {
             let addr = document.getElementById('withdrawAddrInput').value;
             let val = parseInt(document.getElementById('withdrawAmountInput').value) || 0;
-            if(!addr || val <= 0) { showToast("Cüzdan adresi ve miktar girin!"); return; }
+            if(!addr || val <= 0) { showToast("Eksik bilgi!"); return; }
             if(balance < val) { showToast("Yetersiz bakiye!"); return; }
             balance -= val;
             updateUI();
             saveGame();
-            showToast("📤 Çekim talebi oluşturuldu!");
+            showToast("Talep oluşturuldu!");
         }
 
         function getAnimalLocalizedName(id) {
@@ -850,8 +910,8 @@
                             <span class="relative z-10">${anim.icon}</span>
                         </div>
                         <div class="text-xs font-black text-amber-200 truncate w-full">${name}</div>
-                        <div class="text-[10px] text-gray-400">Lv ${anim.level} (+${anim.baseProd} 🥩/sn)</div>
-                        <button onclick="buyAnimalWithCash(${idx})" class="honey-btn w-full py-2 text-xs mt-2">${btnText} (${anim.costCash} 💵)</button>
+                        <div class="text-[10px] text-gray-400">Lv ${anim.level} (+${anim.baseProd.toLocaleString()}/sn)</div>
+                        <button onclick="buyAnimalWithCash(${idx})" class="honey-btn w-full py-2 text-xs mt-2">${btnText} (${anim.costCash})</button>
                     </div>
                 `;
             });
@@ -859,13 +919,13 @@
 
         function buyAnimalWithCash(idx) {
             let anim = animalsData[idx];
-            if (cashBalance < anim.costCash) { showToast("Yetersiz Nakit Para (💵)!"); return; }
+            if (cashBalance < anim.costCash) { showToast("Yetersiz bakiye!"); return; }
             cashBalance -= anim.costCash;
             anim.count++;
             updateUI();
             saveGame();
             renderShop();
-            showToast(`🎉 ${getAnimalLocalizedName(anim.id)} satın alındı!`);
+            showToast(`${getAnimalLocalizedName(anim.id)} alındı!`);
         }
 
         function renderOwnedAnimals() {
@@ -882,7 +942,7 @@
                             <span class="relative z-10">${anim.icon}</span>
                         </div>
                         <div class="text-xs font-black text-emerald-300 truncate w-full">${name} (x${anim.count})</div>
-                        <div class="text-[10px] text-gray-300">+${(anim.baseProd * anim.count)} 🥩/sn</div>
+                        <div class="text-[10px] text-gray-300">+${(anim.baseProd * anim.count).toLocaleString()}/sn</div>
                     </div>
                 `;
             });
@@ -892,12 +952,12 @@
         function updateUsdSlider(val) {
             currentUsd = parseInt(val);
             document.getElementById('usdValDisplay').innerText = currentUsd;
-            document.getElementById('usdRewardText').innerText = (currentUsd * 2500).toLocaleString() + " 💵";
+            document.getElementById('usdRewardText').innerText = (currentUsd * 2500).toLocaleString();
         }
 
         function openPaymentModal() {
             document.getElementById('payAmountLabel').innerText = `Tutar: $${currentUsd}`;
-            document.getElementById('payRewardLabel').innerText = `Alınacak: ${(currentUsd * 250).toLocaleString()} 💵`;
+            document.getElementById('payRewardLabel').innerText = `Alınacak: ${(currentUsd * 250).toLocaleString()}`;
             document.getElementById('payment-overlay').style.display = 'flex';
         }
 
@@ -910,21 +970,21 @@
             cashBalance += currentUsd * 250;
             updateUI();
             saveGame();
-            showToast(`🎉 $${currentUsd} ödeme onaylandı! +${(currentUsd * 250)} 💵 eklendi.`);
+            showToast(`$${currentUsd} ödeme onaylandı!`);
         }
 
         function claimQuest(amount, btn) {
             balance += amount;
             updateUI();
             saveGame();
-            btn.innerText = "ALINDI ✅";
+            btn.innerText = "OK";
             btn.disabled = true;
-            showToast(`🎉 +${amount} Vlees eklendi!`);
+            showToast(`+${amount} eklendi!`);
         }
 
         function upgradeLionLevel() {
             let cost = lionLevel * 500;
-            if (balance < cost) { showToast("Yetersiz Vlees!"); return; }
+            if (balance < cost) { showToast("Yetersiz bakiye!"); return; }
             balance -= cost;
             lionLevel++;
             updateUI();
@@ -939,7 +999,6 @@
             setTimeout(() => { t.style.display = 'none'; }, 2500);
         }
 
-        // Init
         updateUI();
         setLanguage(currentLang);
         renderShop();

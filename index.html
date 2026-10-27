@@ -126,7 +126,7 @@
             <div class="text-xs text-gray-300">İşlem onaylanıyor...</div>
             <div class="bg-black/80 p-3 rounded-xl border border-amber-600/50">
                 <div class="text-xs text-amber-300 font-bold" id="payAmountLabel">Tutar: $5</div>
-                <div class="text-sm font-black text-emerald-400" id="payRewardLabel">Alınacak: 50 Nakit</div>
+                <div class="text-sm font-black text-emerald-400 flex items-center justify-center gap-1" id="payRewardLabel">Alınacak: 50 💵</div>
             </div>
             <div class="flex gap-2 mt-2">
                 <button onclick="closePaymentModal()" class="w-1/2 py-2 bg-red-700 rounded-xl text-xs font-bold text-white cursor-pointer" data-i18n="cancel">İptal</button>
@@ -137,24 +137,25 @@
 
     <div class="phone-frame">
         
-        <!-- HEADER BAR -->
-        <div class="pt-3 px-3 flex justify-between items-center z-40 relative pointer-events-auto">
-            <div class="flex items-center gap-2 bg-[#2d1a0b] p-1.5 rounded-full pr-4 border-2 border-[#b87d31] shadow-lg cursor-pointer" onclick="openModal('animals')">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center font-black border-2 border-white text-black text-sm shadow">
+        <!-- HEADER BAR (ALLES STRAK LINKSBOVEN GECOMBINEERD) -->
+        <div class="pt-3 px-3 flex justify-start items-center z-40 relative pointer-events-auto">
+            <div class="flex items-center gap-2.5 bg-gradient-to-r from-[#3d2612] via-[#2d1a0b] to-[#1a0f05] p-2 rounded-2xl pr-4 border-2 border-[#d4af37] shadow-2xl cursor-pointer" onclick="openModal('animals')">
+                <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center font-black border-2 border-white text-black text-base shadow">
                     A
                 </div>
                 <div class="flex flex-col">
-                    <div class="text-[10px] font-black text-amber-300 leading-tight"><span data-i18n="level">SEVİYE</span> <span id="headerLionLevel">1</span></div>
-                    <div class="text-[11px] font-bold text-white leading-tight truncate max-w-[70px]" id="playerNameDisplay">Ahmet</div>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-1 items-end">
-                <div class="bg-[#201308] px-3 py-1 rounded-full text-white text-xs font-black flex items-center gap-2 border-2 border-amber-500 shadow-xl">
-                    <span>🥩</span> <span id="balance" class="text-amber-300 text-sm font-black">0</span>
-                </div>
-                <div class="bg-[#201308] px-3 py-1 rounded-full text-white text-xs font-black flex items-center gap-2 border-2 border-emerald-500 shadow-xl">
-                    <span>💵</span> <span id="cashBalance" class="text-emerald-400 text-sm font-black">0</span>
+                    <div class="text-[11px] font-black text-amber-300 tracking-wider"><span data-i18n="level">SEVİYE</span> <span id="headerLionLevel">1</span></div>
+                    <div class="text-xs font-bold text-white truncate max-w-[90px]" id="playerNameDisplay">Ahmet</div>
+                    
+                    <!-- Vlees & Geld direct onder naam in de linkerbox -->
+                    <div class="flex items-center gap-3 mt-1 pt-1 border-t border-amber-600/40">
+                        <div class="flex items-center gap-1 text-[11px] font-black text-amber-300">
+                            <span>🥩</span> <span id="balance">0</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-[11px] font-black text-emerald-400">
+                            <span>💵</span> <span id="cashBalance">0</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -186,12 +187,12 @@
 
                 <div class="flex flex-col gap-2">
                     <div class="bg-black/80 p-2 rounded-xl border border-emerald-600/50 flex items-center justify-between px-3">
-                        <span class="text-xs text-emerald-300 font-bold" data-i18n="box_cash">💵 Nakit</span>
-                        <span class="text-xs font-black text-emerald-400" id="calcCashResult">0</span>
+                        <span class="text-xs text-emerald-300 font-bold flex items-center gap-1.5" data-i18n="box_cash">💵 Nakit</span>
+                        <span class="text-xs font-black text-emerald-400" id="calcCashResult">0 💵</span>
                     </div>
                     <div class="bg-black/80 p-2 rounded-xl border border-amber-600/50 flex items-center justify-between px-3">
-                        <span class="text-xs text-amber-300 font-bold" data-i18n="box_meat">🥩 Et (Vlees)</span>
-                        <span class="text-xs font-black text-amber-400" id="calcMeatResult">0</span>
+                        <span class="text-xs text-amber-300 font-bold flex items-center gap-1.5" data-i18n="box_meat">🥩 Et</span>
+                        <span class="text-xs font-black text-amber-400" id="calcMeatResult">0 🥩</span>
                     </div>
                 </div>
 
@@ -208,14 +209,14 @@
                     <div class="w-full bg-gray-800 h-3 rounded-full overflow-hidden border border-amber-600">
                         <div id="miningProgressBar" class="bg-gradient-to-r from-amber-500 to-emerald-500 h-full transition-all duration-300" style="width: 0%;"></div>
                     </div>
-                    <div class="text-[11px] text-emerald-400 font-bold mt-1" id="accumulatedSteakDisplay">+0</div>
+                    <div class="text-[11px] text-emerald-400 font-bold mt-1" id="accumulatedSteakDisplay">+0 🥩</div>
                 </div>
 
                 <button onclick="collectMinedSteak()" class="honey-btn w-full py-2.5 text-xs uppercase tracking-widest" data-i18n="collect_btn">TOPLA</button>
             </div>
         </div>
 
-        <!-- 1. TAKASÇI -->
+        <!-- 1. TAKASÇI (%10 BONUS) -->
         <div id="modal-takasci" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
                 <h2 class="text-amber-400 font-black text-lg" data-i18n="takas_title">Takas</h2>
@@ -223,22 +224,24 @@
             </div>
             <div class="honey-box flex flex-col gap-4">
                 <div class="flex justify-between items-center text-xs text-amber-200 font-bold">
-                    <span data-i18n="takas_given">Verilen Miktar:</span>
+                    <span data-i18n="takas_given">Verilen Miktar (🥩):</span>
                     <button onclick="setTakasMax()" class="bg-amber-600 text-black text-[10px] font-black px-2 py-0.5 rounded cursor-pointer">MAX</button>
                 </div>
                 <input type="number" id="takasInput" placeholder="0" class="w-full bg-black/80 text-amber-300 text-lg font-black border-2 border-amber-600 p-3 rounded-xl text-center" oninput="calculateTakas()">
                 
-                <div class="text-xs text-emerald-300 font-bold" data-i18n="takas_get">Alınacak Tutar (+%5 Bonus):</div>
-                <div class="w-full bg-black/80 text-emerald-400 text-xl font-black border-2 border-emerald-600 p-3 rounded-xl text-center" id="takasOutput">0.00</div>
+                <div class="text-xs text-emerald-300 font-bold" data-i18n="takas_get">Alınacak Tutar (+%10 Bonus):</div>
+                <div class="w-full bg-black/80 text-emerald-400 text-xl font-black border-2 border-emerald-600 p-3 rounded-xl text-center flex items-center justify-center gap-2" id="takasOutput">
+                    <span>0.00</span> 💵
+                </div>
 
                 <button onclick="executeTakas()" class="honey-btn w-full py-3 text-sm uppercase tracking-widest mt-2" data-i18n="takas_btn">TAKAS ET</button>
             </div>
             <div class="mt-4 bg-emerald-950/80 border-2 border-emerald-600 rounded-2xl p-3 text-center text-xs text-emerald-200 font-bold" data-i18n="takas_tip">
-                Dönüşümlerde +%5 bonus kazanın!
+                Dönüşümlerde +%10 bonus kazanın!
             </div>
         </div>
 
-        <!-- 2. BAKİYE ÇEK -->
+        <!-- 2. BAKİYE ÇEK (CÜZDAN) -->
         <div id="modal-bakiye" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-cyan-600/50 pb-3">
                 <h2 class="text-cyan-400 font-black text-lg" data-i18n="withdraw_title">Cüzdan</h2>
@@ -252,7 +255,7 @@
                 <input type="text" id="withdrawMemoInput" placeholder="12345678" class="w-full bg-black/80 text-white text-xs border-2 border-cyan-600 p-3 rounded-xl">
 
                 <div class="flex justify-between items-center text-xs text-cyan-300 font-bold">
-                    <span data-i18n="amount_gir">Miktar:</span>
+                    <span data-i18n="amount_gir">Miktar (🥩):</span>
                     <button onclick="setWithdrawMax()" class="bg-cyan-600 text-black text-[10px] font-black px-2 py-0.5 rounded cursor-pointer">MAX</button>
                 </div>
                 <input type="number" id="withdrawAmountInput" placeholder="" class="w-full bg-black/80 text-white text-sm font-bold border-2 border-cyan-600 p-3 rounded-xl" oninput="calculateGram()">
@@ -275,7 +278,7 @@
                 <div class="text-xs font-bold text-amber-300 mb-1"><span data-i18n="usd_paid">USD</span>: $<span id="usdValDisplay">5</span></div>
                 <input type="range" id="usdSlider" min="1" max="50" step="1" value="5" class="w-full accent-amber-400 cursor-pointer my-2" oninput="updateUsdSlider(this.value)">
                 <div class="text-xs font-bold text-gray-300" data-i18n="get_cash">Alınacak Tutar:</div>
-                <div class="text-sm font-black text-emerald-400 mb-3" id="usdRewardText">50</div>
+                <div class="text-sm font-black text-emerald-400 mb-3 flex items-center justify-center gap-1" id="usdRewardText">50 💵</div>
                 <button onclick="openPaymentModal()" class="honey-btn w-full py-2.5 text-xs uppercase tracking-widest" data-i18n="pay_crypto">SATIN AL</button>
             </div>
 
@@ -318,85 +321,82 @@
             </div>
         </div>
 
-        <!-- 6. GÖREVLER (TABLI SİSTEM) -->
+        <!-- 6. GÖREVLER -->
         <div id="modal-quests" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-600/50 pb-2">
                 <h2 class="text-amber-400 font-black text-base" data-i18n="quests_title">Görevler</h2>
                 <button onclick="closeModals()" class="w-7 h-7 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-xs shadow cursor-pointer">✕</button>
             </div>
             
-            <!-- Sekmeler -->
             <div class="flex bg-black/60 p-1 rounded-xl border border-amber-600/40 mb-3">
                 <button onclick="switchQuestTab('friends', this)" id="tab-friends" class="w-1/2 py-2 bg-amber-600 text-black text-xs font-black rounded-lg cursor-pointer" data-i18n="tab_friends">Arkadaşlar</button>
-                <button onclick="switchQuestTab('subscriptions', this)" id="tab-subscriptions" class="w-1/2 py-2 bg-transparent text-gray-300 text-xs font-bold rounded-lg cursor-pointer" data-i18n="tab_subs">Abonelik / Diğer</button>
+                <button onclick="switchQuestTab('subscriptions', this)" id="tab-subscriptions" class="w-1/2 py-2 bg-transparent text-gray-300 text-xs font-bold rounded-lg cursor-pointer" data-i18n="tab_subs">Abonelik</button>
             </div>
 
-            <!-- Arkadaşlar Sekmesi İçeriği -->
             <div id="quest-content-friends" class="flex flex-col gap-2.5 pb-4">
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
                         <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 1</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+20 Nakit</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+20 💵 Nakit</div>
                     </div>
                     <button onclick="claimQuest(20, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
                         <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 3</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+50 Nakit</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+50 💵 Nakit</div>
                     </div>
                     <button onclick="claimQuest(50, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
                         <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 7</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+120 Nakit</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+120 💵 Nakit</div>
                     </div>
                     <button onclick="claimQuest(120, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
                         <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 15</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+300 Nakit</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+300 💵 Nakit</div>
                     </div>
                     <button onclick="claimQuest(300, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
                         <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 50</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+1000 Nakit</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+1000 💵 Nakit</div>
                     </div>
                     <button onclick="claimQuest(1000, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
             </div>
 
-            <!-- Abonelik / Diğer Sekmesi İçeriği -->
             <div id="quest-content-subscriptions" class="flex flex-col gap-2.5 pb-4" style="display: none;">
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
                         <div class="text-xs font-bold text-amber-200" data-i18n="q_sell_meat">Et sat</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+50 Nakit</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+50 💵 Nakit</div>
                     </div>
                     <button onclick="claimQuest(50, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
                         <div class="text-xs font-bold text-amber-200" data-i18n="q_upgrade_lvl">Aslanı 3 seviyeye yükselt</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+100 Nakit</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+100 💵 Nakit</div>
                     </div>
                     <button onclick="claimQuest(100, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
                         <div class="text-xs font-bold text-amber-200" data-i18n="q_withdraw">Ödeme talep et</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+150 Nakit</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+150 💵 Nakit</div>
                     </div>
                     <button onclick="claimQuest(150, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
                         <div class="text-xs font-bold text-amber-200" data-i18n="q_invest">Bakiyenize en az $5 yatırın</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+200 Nakit</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+200 💵 Nakit</div>
                     </div>
                     <button onclick="claimQuest(200, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
@@ -449,19 +449,19 @@
                 mining_subtitle: "Anlık Üretim Hızı",
                 calc_period: "Gelir Hesaplama Dönemi",
                 box_cash: "💵 Nakit",
-                box_meat: "🥩 Et (Vlees)",
+                box_meat: "🥩 Et",
                 gram_est: "Gram (TON) Cinsinden Tahmini Gelir",
                 progress_bar: "Doluluk",
                 collect_btn: "TOPLA",
                 takas_title: "Takas",
-                takas_given: "Verilen Miktar:",
-                takas_get: "Alınacak Tutar (+%5 Bonus):",
+                takas_given: "Verilen Miktar (🥩):",
+                takas_get: "Alınacak Tutar (+%10 Bonus):",
                 takas_btn: "TAKAS ET",
-                takas_tip: "Dönüşümlerde +%5 bonus kazanın!",
+                takas_tip: "Dönüşümlerde +%10 bonus kazanın!",
                 withdraw_title: "Cüzdan",
                 wallet_addr: "Cüzdan Adresi:",
                 memo: "Memo:",
-                amount_gir: "Miktar:",
+                amount_gir: "Miktar (🥩):",
                 gram_tutar: "Gram (TON):",
                 withdraw_btn: "TALEP OLUŞTUR",
                 shop_title: "Mağaza",
@@ -504,14 +504,14 @@
                 progress_bar: "Voortgang",
                 collect_btn: "OPHALEN",
                 takas_title: "Wisselkantoor",
-                takas_given: "In te leveren:",
-                takas_get: "Ontvangen (Inclusief +5% Bonus):",
+                takas_given: "In te leveren (🥩):",
+                takas_get: "Ontvangen (Inclusief +10% Bonus):",
                 takas_btn: "WISSELEN",
-                takas_tip: "Ontvang +5% extra bonus bij omwisseling!",
+                takas_tip: "Ontvang +10% extra bonus bij omwisseling!",
                 withdraw_title: "Saldo",
                 wallet_addr: "Wallet Adres:",
                 memo: "Memo:",
-                amount_gir: "Bedrag:",
+                amount_gir: "Bedrag (🥩):",
                 gram_tutar: "Gram (TON):",
                 withdraw_btn: "AANVRAGEN",
                 shop_title: "Winkel",
@@ -554,14 +554,14 @@
                 progress_bar: "Progress",
                 collect_btn: "COLLECT",
                 takas_title: "Exchange",
-                takas_given: "Amount to Give:",
-                takas_get: "Amount to Receive (+5% Bonus):",
+                takas_given: "Amount to Give (🥩):",
+                takas_get: "Amount to Receive (+10% Bonus):",
                 takas_btn: "EXCHANGE",
-                takas_tip: "Get +5% bonus on exchange!",
+                takas_tip: "Get +10% bonus on exchange!",
                 withdraw_title: "Wallet",
                 wallet_addr: "Wallet Address:",
                 memo: "Memo:",
-                amount_gir: "Amount:",
+                amount_gir: "Amount (🥩):",
                 gram_tutar: "Amount in Gram (TON):",
                 withdraw_btn: "WITHDRAW",
                 shop_title: "Shop",
@@ -604,14 +604,14 @@
                 progress_bar: "Прогресс",
                 collect_btn: "СОБРАТЬ",
                 takas_title: "Обмен",
-                takas_given: "Отдать:",
-                takas_get: "Получить (+5% бонус):",
+                takas_given: "Отдать (🥩):",
+                takas_get: "Получить (+10% бонус):",
                 takas_btn: "ОБМЕНЯТЬ",
-                takas_tip: "Бонус +5% при обмене!",
+                takas_tip: "Бонус +10% при обмене!",
                 withdraw_title: "Кошелек",
                 wallet_addr: "Адрес:",
                 memo: "Мемо:",
-                amount_gir: "Сумма:",
+                amount_gir: "Сумма (🥩):",
                 gram_tutar: "Сумма в Gram (TON):",
                 withdraw_btn: "ЗАПРОСИТЬ",
                 shop_title: "Магазин",
@@ -654,14 +654,14 @@
                 progress_bar: "Progreso",
                 collect_btn: "RECOGER",
                 takas_title: "Cambio",
-                takas_given: "A entregar:",
-                takas_get: "A recibir (+5% Bono):",
+                takas_given: "A entregar (🥩):",
+                takas_get: "A recibir (+10% Bono):",
                 takas_btn: "CAMBIAR",
-                takas_tip: "¡Gana 5% extra!",
+                takas_tip: "¡Gana 10% extra!",
                 withdraw_title: "Billetera",
                 wallet_addr: "Dirección:",
                 memo: "Memo:",
-                amount_gir: "Cantidad:",
+                amount_gir: "Cantidad (🥩):",
                 gram_tutar: "Gram (TON):",
                 withdraw_btn: "RETIRAR",
                 shop_title: "Tienda",
@@ -704,14 +704,14 @@
                 progress_bar: "Progrès",
                 collect_btn: "RÉCUPÉRER",
                 takas_title: "Échange",
-                takas_given: "À donner :",
-                takas_get: "À recevoir (+5% Bonus) :",
+                takas_given: "À donner (🥩) :",
+                takas_get: "À recevoir (+10% Bonus) :",
                 takas_btn: "ÉCHANGER",
-                takas_tip: "Obtenez 5% de bonus !",
+                takas_tip: "Obtenez 10% de bonus !",
                 withdraw_title: "Portefeuille",
                 wallet_addr: "Adresse :",
                 memo: "Mémo :",
-                amount_gir: "Montant :",
+                amount_gir: "Montant (🥩) :",
                 gram_tutar: "Gram (TON) :",
                 withdraw_btn: "RETIRER",
                 shop_title: "Boutique",
@@ -754,14 +754,14 @@
                 progress_bar: "Fortschritt",
                 collect_btn: "ABHOLEN",
                 takas_title: "Tausch",
-                takas_given: "Zu geben:",
-                takas_get: "Erhalten (+5% Bonus):",
+                takas_given: "Zu geben (🥩):",
+                takas_get: "Erhalten (+10% Bonus):",
                 takas_btn: "TAUSCHEN",
-                takas_tip: "+5% Bonus erhalten!",
+                takas_tip: "+10% Bonus erhalten!",
                 withdraw_title: "Wallet",
                 wallet_addr: "Adresse:",
                 memo: "Memo:",
-                amount_gir: "Betrag:",
+                amount_gir: "Betrag (🥩):",
                 gram_tutar: "Gram (TON):",
                 withdraw_btn: "ANFORDERN",
                 shop_title: "Shop",
@@ -804,14 +804,14 @@
                 progress_bar: "Progresso",
                 collect_btn: "COLETAR",
                 takas_title: "Câmbio",
-                takas_given: "Dar:",
-                takas_get: "Receber (+5% Bônus):",
+                takas_given: "Dar (🥩):",
+                takas_get: "Receber (+10% Bônus):",
                 takas_btn: "TROCAR",
-                takas_tip: "Ganhe 5% de bônus!",
+                takas_tip: "Ganhe 10% de bônus!",
                 withdraw_title: "Carteira",
                 wallet_addr: "Endereço:",
                 memo: "Memo:",
-                amount_gir: "Quantidade:",
+                amount_gir: "Quantidade (🥩):",
                 gram_tutar: "Gram (TON):",
                 withdraw_btn: "SACAR",
                 shop_title: "Loja",
@@ -889,7 +889,6 @@
         const playerName = telegramUser?.first_name || 'Ahmet';
         document.getElementById('playerNameDisplay').innerText = playerName;
 
-        // Başlangıç değerleri sıfır (0)
         let balance = 0;
         let cashBalance = 0;
         let accumulatedMinedSteak = 0;
@@ -976,7 +975,7 @@
             
             let accumEl = document.getElementById('accumulatedSteakDisplay');
             if(accumEl) {
-                accumEl.innerText = `+${Math.floor(accumulatedMinedSteak).toLocaleString()}`;
+                accumEl.innerText = `+${Math.floor(accumulatedMinedSteak).toLocaleString()} 🥩`;
             }
             let barEl = document.getElementById('miningProgressBar');
             let percentEl = document.getElementById('miningPercent');
@@ -1030,7 +1029,7 @@
             accumulatedMinedSteak = 0;
             updateUI();
             saveGame();
-            showToast(`+${collected.toLocaleString()} eklendi!`);
+            showToast(`+${collected.toLocaleString()} 🥩 eklendi!`);
         }
 
         function setTakasMax() {
@@ -1040,22 +1039,22 @@
 
         function calculateTakas() {
             let val = parseInt(document.getElementById('takasInput').value) || 0;
-            let output = (val / 5000) * 1.05;
-            document.getElementById('takasOutput').innerText = output.toFixed(2);
+            let output = (val / 5000) * 1.10;
+            document.getElementById('takasOutput').innerHTML = `<span>${output.toFixed(2)}</span> 💵`;
         }
 
         function executeTakas() {
             let val = parseInt(document.getElementById('takasInput').value) || 0;
-            if (val <= 0 || balance < val) { showToast("Yetersiz bakiye!"); return; }
+            if (val <= 0 || balance < val) { showToast("Yetersiz 🥩 bakiye!"); return; }
             balance -= val;
-            let earnedCash = Math.floor((val / 5000) * 1.05);
+            let earnedCash = Math.floor((val / 5000) * 1.10);
             if(earnedCash < 1) earnedCash = 1;
             cashBalance += earnedCash;
             updateUI();
             saveGame();
-            showToast(`Takas başarılı! +${earnedCash}`);
+            showToast(`Takas başarılı! +${earnedCash} 💵`);
             document.getElementById('takasInput').value = '';
-            document.getElementById('takasOutput').innerText = "0.00";
+            document.getElementById('takasOutput').innerHTML = `<span>0.00</span> 💵`;
         }
 
         function setWithdrawMax() {
@@ -1073,7 +1072,7 @@
             let addr = document.getElementById('withdrawAddrInput').value;
             let val = parseInt(document.getElementById('withdrawAmountInput').value) || 0;
             if(!addr || val <= 0) { showToast("Eksik bilgi!"); return; }
-            if(balance < val) { showToast("Yetersiz bakiye!"); return; }
+            if(balance < val) { showToast("Yetersiz 🥩 bakiye!"); return; }
             balance -= val;
             updateUI();
             saveGame();
@@ -1102,7 +1101,7 @@
                         </div>
                         <div class="text-xs font-black text-amber-200 truncate w-full">${name}</div>
                         <div class="text-[10px] text-emerald-400 font-bold">Sahip: x${anim.count}</div>
-                        <div class="text-[9px] text-gray-400">+${anim.dailyProd.toLocaleString()}/gün</div>
+                        <div class="text-[9px] text-gray-400">+${anim.dailyProd.toLocaleString()} 🥩/gün</div>
                         <button onclick="buyAnimalWithCash(${idx})" class="honey-btn w-full py-2 text-xs mt-1.5">${btnText} (${anim.costCash} 💵)</button>
                     </div>
                 `;
@@ -1111,7 +1110,7 @@
 
         function buyAnimalWithCash(idx) {
             let anim = animalsData[idx];
-            if (cashBalance < anim.costCash) { showToast("Yetersiz nakit bakiye!"); return; }
+            if (cashBalance < anim.costCash) { showToast("Yetersiz 💵 nakit bakiye!"); return; }
             cashBalance -= anim.costCash;
             anim.count++;
             updateUI();
@@ -1138,7 +1137,7 @@
                             <span class="relative z-10">${anim.icon}</span>
                         </div>
                         <div class="text-xs font-black text-emerald-300 truncate w-full">${name} (x${anim.count})</div>
-                        <div class="text-[10px] text-gray-300">+${(anim.dailyProd * anim.count).toLocaleString()}/gün</div>
+                        <div class="text-[10px] text-gray-300">+${(anim.dailyProd * anim.count).toLocaleString()} 🥩/gün</div>
                     </div>
                 `;
             });
@@ -1148,12 +1147,12 @@
         function updateUsdSlider(val) {
             currentUsd = parseInt(val);
             document.getElementById('usdValDisplay').innerText = currentUsd;
-            document.getElementById('usdRewardText').innerText = (currentUsd * 10).toLocaleString();
+            document.getElementById('usdRewardText').innerText = `${(currentUsd * 10).toLocaleString()} 💵`;
         }
 
         function openPaymentModal() {
             document.getElementById('payAmountLabel').innerText = `Tutar: $${currentUsd}`;
-            document.getElementById('payRewardLabel').innerText = `Alınacak: ${(currentUsd * 10).toLocaleString()} Nakit`;
+            document.getElementById('payRewardLabel').innerHTML = `Alınacak: ${(currentUsd * 10).toLocaleString()} 💵 Nakit`;
             document.getElementById('payment-overlay').style.display = 'flex';
         }
 
@@ -1166,7 +1165,7 @@
             cashBalance += currentUsd * 10;
             updateUI();
             saveGame();
-            showToast(`$${currentUsd} ödeme onaylandı!`);
+            showToast(`$${currentUsd} ödeme onaylandı! +${currentUsd * 10} 💵`);
         }
 
         function claimQuest(amount, btn) {
@@ -1175,12 +1174,12 @@
             saveGame();
             btn.innerText = "OK";
             btn.disabled = true;
-            showToast(`+${amount} Nakit eklendi!`);
+            showToast(`+${amount} 💵 Nakit eklendi!`);
         }
 
         function upgradeLionLevel() {
             let cost = lionLevel * 50;
-            if (cashBalance < cost) { showToast("Yetersiz nakit bakiye!"); return; }
+            if (cashBalance < cost) { showToast("Yetersiz 💵 nakit bakiye!"); return; }
             cashBalance -= cost;
             lionLevel++;
             updateUI();

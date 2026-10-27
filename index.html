@@ -125,8 +125,8 @@
             <div class="text-amber-400 font-black text-sm" data-i18n="pay_title">Güvenli Ödeme</div>
             <div class="text-xs text-gray-300">İşlem onaylanıyor...</div>
             <div class="bg-black/80 p-3 rounded-xl border border-amber-600/50">
-                <div class="text-xs text-amber-300 font-bold" id="payAmountLabel">Tutar: $10</div>
-                <div class="text-sm font-black text-emerald-400" id="payRewardLabel">Alınacak: 100</div>
+                <div class="text-xs text-amber-300 font-bold" id="payAmountLabel">Tutar: $5</div>
+                <div class="text-sm font-black text-emerald-400" id="payRewardLabel">Alınacak: 50 Nakit</div>
             </div>
             <div class="flex gap-2 mt-2">
                 <button onclick="closePaymentModal()" class="w-1/2 py-2 bg-red-700 rounded-xl text-xs font-bold text-white cursor-pointer" data-i18n="cancel">İptal</button>
@@ -162,7 +162,7 @@
 
         <!-- MODALS -->
 
-        <!-- 0. SAVANNAH SIMULATOR / MADEN (HONY FARM TARZI) -->
+        <!-- 0. HABITAT / MADEN -->
         <div id="modal-mining" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-600/50 pb-2">
                 <h2 class="text-amber-400 font-black text-base" data-i18n="mining_title">Savannah Simulator</h2>
@@ -170,7 +170,6 @@
             </div>
 
             <div class="honey-box flex flex-col gap-3 text-center">
-                <!-- Dönem Seçim Butonları (1 gün, 30 gün, 180 gün, 1 yıl) -->
                 <div class="text-[11px] text-amber-200 font-bold" data-i18n="calc_period">Gelir Hesaplama Dönemi</div>
                 <div class="grid grid-cols-4 gap-1 bg-black/60 p-1 rounded-xl border border-amber-600/40">
                     <button onclick="setCalcPeriod(1, this)" id="period-1" class="py-1.5 bg-amber-600 text-black text-[11px] font-black rounded-lg cursor-pointer">1 Gün</button>
@@ -179,14 +178,12 @@
                     <button onclick="setCalcPeriod(365, this)" id="period-365" class="py-1.5 bg-transparent text-gray-300 text-[11px] font-bold rounded-lg cursor-pointer">1 Yıl</button>
                 </div>
 
-                <!-- Habitat Görseli -->
                 <div class="flex justify-center my-1">
                     <div class="w-20 h-20 rounded-2xl bg-amber-700/40 border-2 border-amber-500 flex items-center justify-center text-3xl shadow-lg relative overflow-hidden">
                         🏡
                     </div>
                 </div>
 
-                <!-- Nakit & Et Kazanç Kutuları -->
                 <div class="flex flex-col gap-2">
                     <div class="bg-black/80 p-2 rounded-xl border border-emerald-600/50 flex items-center justify-between px-3">
                         <span class="text-xs text-emerald-300 font-bold" data-i18n="box_cash">💵 Nakit</span>
@@ -198,13 +195,11 @@
                     </div>
                 </div>
 
-                <!-- Gram (TON) Tahmini Gelir -->
                 <div class="text-[11px] text-cyan-300 font-bold mt-1" data-i18n="gram_est">Gram (TON) Cinsinden Tahmini Gelir</div>
                 <div class="w-full bg-black/80 text-cyan-400 text-sm font-black border-2 border-cyan-600 py-2 rounded-xl text-center" id="calcGramResult">
                     0.000000 GRAM
                 </div>
 
-                <!-- Canlı Biriken Maden & Topla Butonu -->
                 <div class="bg-black/70 p-3 rounded-xl border border-amber-600/40 flex flex-col gap-1 mt-1">
                     <div class="flex justify-between text-[11px] font-bold text-gray-300">
                         <span data-i18n="progress_bar">Doluluk</span>
@@ -277,10 +272,10 @@
             </div>
             
             <div class="honey-box mb-4 text-center">
-                <div class="text-xs font-bold text-amber-300 mb-1"><span data-i18n="usd_paid">USD</span>: $<span id="usdValDisplay">10</span></div>
-                <input type="range" id="usdSlider" min="3" max="500" step="1" value="10" class="w-full accent-amber-400 cursor-pointer my-2" oninput="updateUsdSlider(this.value)">
+                <div class="text-xs font-bold text-amber-300 mb-1"><span data-i18n="usd_paid">USD</span>: $<span id="usdValDisplay">5</span></div>
+                <input type="range" id="usdSlider" min="1" max="50" step="1" value="5" class="w-full accent-amber-400 cursor-pointer my-2" oninput="updateUsdSlider(this.value)">
                 <div class="text-xs font-bold text-gray-300" data-i18n="get_cash">Alınacak Tutar:</div>
-                <div class="text-sm font-black text-emerald-400 mb-3" id="usdRewardText">100</div>
+                <div class="text-sm font-black text-emerald-400 mb-3" id="usdRewardText">50</div>
                 <button onclick="openPaymentModal()" class="honey-btn w-full py-2.5 text-xs uppercase tracking-widest" data-i18n="pay_crypto">SATIN AL</button>
             </div>
 
@@ -323,24 +318,85 @@
             </div>
         </div>
 
-        <!-- 6. GÖREVLER -->
+        <!-- 6. GÖREVLER (TABLI SİSTEM) -->
         <div id="modal-quests" class="feature-modal">
-            <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
-                <h2 class="text-amber-400 font-black text-lg" data-i18n="quests_title">Görevler</h2>
-                <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
+            <div class="flex justify-between items-center mb-3 border-b border-amber-600/50 pb-2">
+                <h2 class="text-amber-400 font-black text-base" data-i18n="quests_title">Görevler</h2>
+                <button onclick="closeModals()" class="w-7 h-7 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-xs shadow cursor-pointer">✕</button>
             </div>
-            <div class="honey-box flex flex-col gap-3">
+            
+            <!-- Sekmeler -->
+            <div class="flex bg-black/60 p-1 rounded-xl border border-amber-600/40 mb-3">
+                <button onclick="switchQuestTab('friends', this)" id="tab-friends" class="w-1/2 py-2 bg-amber-600 text-black text-xs font-black rounded-lg cursor-pointer" data-i18n="tab_friends">Arkadaşlar</button>
+                <button onclick="switchQuestTab('subscriptions', this)" id="tab-subscriptions" class="w-1/2 py-2 bg-transparent text-gray-300 text-xs font-bold rounded-lg cursor-pointer" data-i18n="tab_subs">Abonelik / Diğer</button>
+            </div>
+
+            <!-- Arkadaşlar Sekmesi İçeriği -->
+            <div id="quest-content-friends" class="flex flex-col gap-2.5 pb-4">
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
-                        <div class="text-xs font-bold text-amber-200" data-i18n="quest_1">Kanalı Takip Et</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+50</div>
+                        <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 1</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+20 Nakit</div>
+                    </div>
+                    <button onclick="claimQuest(20, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
+                </div>
+                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
+                    <div>
+                        <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 3</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+50 Nakit</div>
                     </div>
                     <button onclick="claimQuest(50, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
-                        <div class="text-xs font-bold text-amber-200" data-i18n="quest_2">5 Arkadaş Davet Et</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+200</div>
+                        <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 7</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+120 Nakit</div>
+                    </div>
+                    <button onclick="claimQuest(120, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
+                </div>
+                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
+                    <div>
+                        <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 15</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+300 Nakit</div>
+                    </div>
+                    <button onclick="claimQuest(300, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
+                </div>
+                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
+                    <div>
+                        <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 50</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+1000 Nakit</div>
+                    </div>
+                    <button onclick="claimQuest(1000, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
+                </div>
+            </div>
+
+            <!-- Abonelik / Diğer Sekmesi İçeriği -->
+            <div id="quest-content-subscriptions" class="flex flex-col gap-2.5 pb-4" style="display: none;">
+                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
+                    <div>
+                        <div class="text-xs font-bold text-amber-200" data-i18n="q_sell_meat">Et sat</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+50 Nakit</div>
+                    </div>
+                    <button onclick="claimQuest(50, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
+                </div>
+                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
+                    <div>
+                        <div class="text-xs font-bold text-amber-200" data-i18n="q_upgrade_lvl">Aslanı 3 seviyeye yükselt</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+100 Nakit</div>
+                    </div>
+                    <button onclick="claimQuest(100, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
+                </div>
+                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
+                    <div>
+                        <div class="text-xs font-bold text-amber-200" data-i18n="q_withdraw">Ödeme talep et</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+150 Nakit</div>
+                    </div>
+                    <button onclick="claimQuest(150, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
+                </div>
+                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
+                    <div>
+                        <div class="text-xs font-bold text-amber-200" data-i18n="q_invest">Bakiyenize en az $5 yatırın</div>
+                        <div class="text-[10px] text-emerald-400 font-bold">+200 Nakit</div>
                     </div>
                     <button onclick="claimQuest(200, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
@@ -419,9 +475,13 @@
                 settings_title: "Ayarlar",
                 select_lang: "Dil Seçin:",
                 quests_title: "Görevler",
-                quest_1: "Kanalı Takip Et",
-                quest_2: "5 Arkadaş Davet Et",
+                tab_friends: "Arkadaşlar",
+                tab_subs: "Abonelik",
                 claim_btn: "AL",
+                q_sell_meat: "Et sat",
+                q_upgrade_lvl: "Aslanı 3 seviyeye yükselt",
+                q_withdraw: "Ödeme talep et",
+                q_invest: "Bakiyenize en az $5 yatırın",
                 btn_mining: "Maden",
                 btn_quest: "Görev",
                 btn_takas: "Takas",
@@ -465,9 +525,13 @@
                 settings_title: "Instellingen",
                 select_lang: "Kies Taal:",
                 quests_title: "Missies",
-                quest_1: "Volg ons kanaal",
-                quest_2: "Nodig 5 vrienden uit",
+                tab_friends: "Vrienden",
+                tab_subs: "Abonnement",
                 claim_btn: "CLAIM",
+                q_sell_meat: "Verkoop vlees",
+                q_upgrade_lvl: "Upgrade leeuw naar niveau 3",
+                q_withdraw: "Vraag uitbetaling aan",
+                q_invest: "Stort minimaal $5 op saldo",
                 btn_mining: "Maden",
                 btn_quest: "Missie",
                 btn_takas: "Wissel",
@@ -511,9 +575,13 @@
                 settings_title: "Settings",
                 select_lang: "Select Language:",
                 quests_title: "Quests",
-                quest_1: "Follow Channel",
-                quest_2: "Invite 5 Friends",
+                tab_friends: "Friends",
+                tab_subs: "Subscriptions",
                 claim_btn: "CLAIM",
+                q_sell_meat: "Sell meat",
+                q_upgrade_lvl: "Upgrade lion to level 3",
+                q_withdraw: "Request payout",
+                q_invest: "Deposit at least $5",
                 btn_mining: "Mining",
                 btn_quest: "Quest",
                 btn_takas: "Exchange",
@@ -557,9 +625,13 @@
                 settings_title: "Настройки",
                 select_lang: "Язык:",
                 quests_title: "Задания",
-                quest_1: "Подписаться",
-                quest_2: "Пригласить 5 друзей",
+                tab_friends: "Друзья",
+                tab_subs: "Подписки",
                 claim_btn: "ЗАБРАТЬ",
+                q_sell_meat: "Продать мясо",
+                q_upgrade_lvl: "Улучшить льва до 3 ур.",
+                q_withdraw: "Запросить выплату",
+                q_invest: "Депозит от $5",
                 btn_mining: "Шахта",
                 btn_quest: "Задачи",
                 btn_takas: "Обмен",
@@ -603,9 +675,13 @@
                 settings_title: "Ajustes",
                 select_lang: "Idioma:",
                 quests_title: "Misiones",
-                quest_1: "Seguir canal",
-                quest_2: "Invitar 5 amigos",
+                tab_friends: "Amigos",
+                tab_subs: "Suscripción",
                 claim_btn: "RECLAMAR",
+                q_sell_meat: "Vender carne",
+                q_upgrade_lvl: "Mejorar león al nivel 3",
+                q_withdraw: "Solicitar pago",
+                q_invest: "Depositar al menos $5",
                 btn_mining: "Minas",
                 btn_quest: "Misión",
                 btn_takas: "Cambio",
@@ -649,9 +725,13 @@
                 settings_title: "Paramètres",
                 select_lang: "Langue :",
                 quests_title: "Quêtes",
-                quest_1: "Suivre",
-                quest_2: "Inviter 5 amis",
+                tab_friends: "Amis",
+                tab_subs: "Abonnement",
                 claim_btn: "RÉCUPÉRER",
+                q_sell_meat: "Vendre de la viande",
+                q_upgrade_lvl: "Améliorer le lion niv. 3",
+                q_withdraw: "Demander un paiement",
+                q_invest: "Déposer au moins 5$",
                 btn_mining: "Mine",
                 btn_quest: "Quête",
                 btn_takas: "Échange",
@@ -695,9 +775,13 @@
                 settings_title: "Einstellungen",
                 select_lang: "Sprache:",
                 quests_title: "Quests",
-                quest_1: "Abonnieren",
-                quest_2: "5 Freunde",
+                tab_friends: "Freunde",
+                tab_subs: "Abo",
                 claim_btn: "HOLEN",
+                q_sell_meat: "Fleisch verkaufen",
+                q_upgrade_lvl: "Löwe auf Stufe 3 bringen",
+                q_withdraw: "Auszahlung anfordern",
+                q_invest: "Mindestens $5 einzahlen",
                 btn_mining: "Farm",
                 btn_quest: "Quest",
                 btn_takas: "Tausch",
@@ -741,9 +825,13 @@
                 settings_title: "Ajustes",
                 select_lang: "Idioma:",
                 quests_title: "Missões",
-                quest_1: "Seguir",
-                quest_2: "Convidar 5 amigos",
+                tab_friends: "Amigos",
+                tab_subs: "Inscrição",
                 claim_btn: "RESGATAR",
+                q_sell_meat: "Vender carne",
+                q_upgrade_lvl: "Evoluir leão p/ nível 3",
+                q_withdraw: "Solicitar saque",
+                q_invest: "Depositar pelo menos $5",
                 btn_mining: "Minas",
                 btn_quest: "Missão",
                 btn_takas: "Câmbio",
@@ -801,44 +889,33 @@
         const playerName = telegramUser?.first_name || 'Ahmet';
         document.getElementById('playerNameDisplay').innerText = playerName;
 
-        let balance = parseInt(localStorage.getItem('dg_balance')) || 0;
-        let cashBalance = parseInt(localStorage.getItem('dg_cash')) || 0;
-        let accumulatedMinedSteak = parseFloat(localStorage.getItem('dg_mined')) || 0;
-        let lionLevel = parseInt(localStorage.getItem('dg_lion')) || 1;
+        // Başlangıç değerleri sıfır (0)
+        let balance = 0;
+        let cashBalance = 0;
+        let accumulatedMinedSteak = 0;
+        let lionLevel = 1;
         
         let defaultAnimals = [
-            { id: 'kral_aslan', file: 'kral_aslan.PNG', icon: '🦁', baseProd: 50, costCash: 5000, level: 15, count: 0 },
-            { id: 'iki_erkek_aslan', file: 'iki_erkek_aslan.PNG', icon: '🦁🦁', baseProd: 35, costCash: 3800, level: 14, count: 0 },
-            { id: 'fil', file: 'fil.PNG', icon: '🐘', baseProd: 25, costCash: 2800, level: 12, count: 0 },
-            { id: 'siyah_gergedan', file: 'siyah_gergedan.PNG', icon: '🦏', baseProd: 18, costCash: 2000, level: 11, count: 0 },
-            { id: 'beyaz_gergedan', file: 'beyaz_gergedan.PNG', icon: '🦏', baseProd: 12, costCash: 1500, level: 10, count: 0 },
-            { id: 'timsah', file: 'timsah.PNG', icon: '🐊', baseProd: 8, costCash: 1100, level: 9, count: 0 },
-            { id: 'jaguar', file: 'jaguar.PNG', icon: '🐆', baseProd: 5, costCash: 800, level: 9, count: 0 },
-            { id: 'kara_panter', file: 'kara_panter.PNG', icon: '🐈‍⬛', baseProd: 3, costCash: 600, level: 8, count: 0 },
-            { id: 'panter', file: 'panter.PNG', icon: '🐆', baseProd: 2, costCash: 450, level: 8, count: 0 },
-            { id: 'cita', file: 'cita.PNG', icon: '🐆', baseProd: 1, costCash: 300, level: 7, count: 0 },
-            { id: 'sirtlan_surusu', file: 'sirtlan_surusu.PNG', icon: '🐺', baseProd: 0.8, costCash: 200, level: 6, count: 0 },
-            { id: 'kurt', file: 'kurt.PNG', icon: '🐕', baseProd: 0.5, costCash: 140, level: 5, count: 0 },
-            { id: 'python', file: 'python.PNG', icon: '🐍', baseProd: 0.3, costCash: 90, level: 4, count: 0 },
-            { id: 'aslan_yavrusu', file: 'aslan_yavrusu.PNG', icon: '🐱', baseProd: 0.2, costCash: 60, level: 4, count: 0 },
-            { id: 'afrika_akbabasi', file: 'afrika_akbabasi.PNG', icon: '🦅', baseProd: 0.1, costCash: 40, level: 3, count: 0 },
-            { id: 'antilop', file: 'antilop.PNG', icon: '🦌', baseProd: 0.05, costCash: 25, level: 3, count: 0 },
-            { id: 'cakal', file: 'cakal.PNG', icon: '🦊', baseProd: 0.02, costCash: 15, level: 2, count: 0 }
+            { id: 'cakal', file: 'cakal.PNG', icon: '🦊', dailyProd: 50, costCash: 15, level: 2, count: 0 },
+            { id: 'antilop', file: 'antilop.PNG', icon: '🦌', dailyProd: 120, costCash: 25, level: 3, count: 0 },
+            { id: 'afrika_akbabasi', file: 'afrika_akbabasi.PNG', icon: '🦅', dailyProd: 250, costCash: 40, level: 3, count: 0 },
+            { id: 'aslan_yavrusu', file: 'aslan_yavrusu.PNG', icon: '🐱', dailyProd: 500, costCash: 60, level: 4, count: 0 },
+            { id: 'python', file: 'python.PNG', icon: '🐍', dailyProd: 900, costCash: 90, level: 4, count: 0 },
+            { id: 'kurt', file: 'kurt.PNG', icon: '🐕', dailyProd: 1500, costCash: 140, level: 5, count: 0 },
+            { id: 'sirtlan_surusu', file: 'sirtlan_surusu.PNG', icon: '🐺', dailyProd: 2500, costCash: 200, level: 6, count: 0 },
+            { id: 'cita', file: 'cita.PNG', icon: '🐆', dailyProd: 4000, costCash: 300, level: 7, count: 0 },
+            { id: 'panter', file: 'panter.PNG', icon: '🐆', dailyProd: 6500, costCash: 450, level: 8, count: 0 },
+            { id: 'kara_panter', file: 'kara_panter.PNG', icon: '🐈‍⬛', dailyProd: 10000, costCash: 600, level: 8, count: 0 },
+            { id: 'jaguar', file: 'jaguar.PNG', icon: '🐆', dailyProd: 15000, costCash: 800, level: 9, count: 0 },
+            { id: 'timsah', file: 'timsah.PNG', icon: '🐊', dailyProd: 23000, costCash: 1100, level: 9, count: 0 },
+            { id: 'beyaz_gergedan', file: 'beyaz_gergedan.PNG', icon: '🦏', dailyProd: 35000, costCash: 1500, level: 10, count: 0 },
+            { id: 'siyah_gergedan', file: 'siyah_gergedan.PNG', icon: '🦏', dailyProd: 52000, costCash: 2000, level: 11, count: 0 },
+            { id: 'fil', file: 'fil.PNG', icon: '🐘', dailyProd: 78000, costCash: 2800, level: 12, count: 0 },
+            { id: 'iki_erkek_aslan', file: 'iki_erkek_aslan.PNG', icon: '🦁🦁', dailyProd: 115000, costCash: 3800, level: 14, count: 0 },
+            { id: 'kral_aslan', file: 'kral_aslan.PNG', icon: '🦁', dailyProd: 170000, costCash: 5000, level: 15, count: 0 }
         ];
 
         let animalsData = JSON.parse(JSON.stringify(defaultAnimals));
-        let savedAnim = localStorage.getItem('dg_animals');
-        if(savedAnim) {
-            try {
-                let parsed = JSON.parse(savedAnim);
-                animalsData.forEach(def => {
-                    let found = parsed.find(p => p.id === def.id);
-                    if(found && typeof found.count === 'number') {
-                        def.count = found.count;
-                    }
-                });
-            } catch(e){}
-        }
 
         function saveGame() {
             localStorage.setItem('dg_balance', balance);
@@ -857,11 +934,11 @@
         }
 
         function getTotalProductionPerSecond() {
-            let total = 0;
+            let totalDaily = 0;
             animalsData.forEach(anim => {
-                total += (anim.baseProd * anim.count);
+                totalDaily += (anim.dailyProd * anim.count);
             });
-            return total;
+            return totalDaily / 86400;
         }
 
         function setCalcPeriod(days, btn) {
@@ -876,17 +953,18 @@
         }
 
         function updateCalculatorDisplay() {
-            let prodPerSec = getTotalProductionPerSecond();
-            let totalSeconds = prodPerSec * 86400 * selectedPeriodDays;
+            let totalDailyProd = 0;
+            animalsData.forEach(anim => {
+                totalDailyProd += (anim.dailyProd * anim.count);
+            });
             
-            // Tahmini nakit ve et hesaplama
-            let estimatedMeat = Math.floor(totalSeconds);
-            let estimatedCash = Math.floor(estimatedMeat / 5000);
-            let estimatedGram = (estimatedMeat / 1000000).toFixed(6);
+            let periodMeat = Math.floor(totalDailyProd * selectedPeriodDays);
+            let periodCash = Math.floor(periodMeat / 5000);
+            let periodGram = (periodMeat / 1000000).toFixed(6);
 
-            document.getElementById('calcMeatResult').innerText = estimatedMeat.toLocaleString() + " 🥩";
-            document.getElementById('calcCashResult').innerText = estimatedCash.toLocaleString() + " 💵";
-            document.getElementById('calcGramResult').innerText = `${estimatedGram} GRAM`;
+            document.getElementById('calcMeatResult').innerText = periodMeat.toLocaleString() + " 🥩";
+            document.getElementById('calcCashResult').innerText = periodCash.toLocaleString() + " 💵";
+            document.getElementById('calcGramResult').innerText = `${periodGram} GRAM`;
         }
 
         function gameLoop() {
@@ -925,6 +1003,24 @@
 
         function closeModals() {
             document.querySelectorAll('.feature-modal').forEach(m => m.classList.remove('active'));
+        }
+
+        function switchQuestTab(tab, btn) {
+            document.getElementById('tab-friends').classList.remove('bg-amber-600', 'text-black', 'font-black');
+            document.getElementById('tab-friends').classList.add('bg-transparent', 'text-gray-300', 'font-bold');
+            document.getElementById('tab-subscriptions').classList.remove('bg-amber-600', 'text-black', 'font-black');
+            document.getElementById('tab-subscriptions').classList.add('bg-transparent', 'text-gray-300', 'font-bold');
+
+            btn.classList.remove('bg-transparent', 'text-gray-300', 'font-bold');
+            btn.classList.add('bg-amber-600', 'text-black', 'font-black');
+
+            if(tab === 'friends') {
+                document.getElementById('quest-content-friends').style.display = 'flex';
+                document.getElementById('quest-content-subscriptions').style.display = 'none';
+            } else {
+                document.getElementById('quest-content-friends').style.display = 'none';
+                document.getElementById('quest-content-subscriptions').style.display = 'flex';
+            }
         }
 
         function collectMinedSteak() {
@@ -1006,7 +1102,7 @@
                         </div>
                         <div class="text-xs font-black text-amber-200 truncate w-full">${name}</div>
                         <div class="text-[10px] text-emerald-400 font-bold">Sahip: x${anim.count}</div>
-                        <div class="text-[9px] text-gray-400">+${anim.baseProd}/sn</div>
+                        <div class="text-[9px] text-gray-400">+${anim.dailyProd.toLocaleString()}/gün</div>
                         <button onclick="buyAnimalWithCash(${idx})" class="honey-btn w-full py-2 text-xs mt-1.5">${btnText} (${anim.costCash} 💵)</button>
                     </div>
                 `;
@@ -1042,13 +1138,13 @@
                             <span class="relative z-10">${anim.icon}</span>
                         </div>
                         <div class="text-xs font-black text-emerald-300 truncate w-full">${name} (x${anim.count})</div>
-                        <div class="text-[10px] text-gray-300">+${(anim.baseProd * anim.count).toFixed(2)}/sn</div>
+                        <div class="text-[10px] text-gray-300">+${(anim.dailyProd * anim.count).toLocaleString()}/gün</div>
                     </div>
                 `;
             });
         }
 
-        let currentUsd = 10;
+        let currentUsd = 5;
         function updateUsdSlider(val) {
             currentUsd = parseInt(val);
             document.getElementById('usdValDisplay').innerText = currentUsd;
@@ -1057,7 +1153,7 @@
 
         function openPaymentModal() {
             document.getElementById('payAmountLabel').innerText = `Tutar: $${currentUsd}`;
-            document.getElementById('payRewardLabel').innerText = `Alınacak: ${(currentUsd * 10).toLocaleString()}`;
+            document.getElementById('payRewardLabel').innerText = `Alınacak: ${(currentUsd * 10).toLocaleString()} Nakit`;
             document.getElementById('payment-overlay').style.display = 'flex';
         }
 
@@ -1074,18 +1170,18 @@
         }
 
         function claimQuest(amount, btn) {
-            balance += amount;
+            cashBalance += amount;
             updateUI();
             saveGame();
             btn.innerText = "OK";
             btn.disabled = true;
-            showToast(`+${amount} eklendi!`);
+            showToast(`+${amount} Nakit eklendi!`);
         }
 
         function upgradeLionLevel() {
-            let cost = lionLevel * 1000;
-            if (balance < cost) { showToast("Yetersiz bakiye!"); return; }
-            balance -= cost;
+            let cost = lionLevel * 50;
+            if (cashBalance < cost) { showToast("Yetersiz nakit bakiye!"); return; }
+            cashBalance -= cost;
             lionLevel++;
             updateUI();
             saveGame();

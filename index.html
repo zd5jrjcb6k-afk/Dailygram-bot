@@ -90,8 +90,8 @@
         .side-btn:active { transform: scale(0.92); }
 
         .toast-notification {
-            position: absolute; top: 110px; left: 50%; transform: translateX(-50%);
-            background: rgba(18, 10, 5, 0.95); border: 2px solid #ffd700; color: #ffd700; padding: 8px 16px;
+            position: absolute; top: 130px; left: 50%; transform: translateX(-50%);
+            background: rgba(18, 10, 5, 0.95); border: 2px solid #ffd700; color: #ffd700; padding: 10px 18px;
             border-radius: 16px; font-size: 0.85rem; font-weight: bold; z-index: 600; display: none; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
             pointer-events: none;
         }
@@ -137,22 +137,22 @@
 
     <div class="phone-frame">
         
-        <!-- HEADER BAR (ALLES STRAK LINKSBOVEN GECOMBINEERD) -->
+        <!-- HEADER BAR (GROOT EN DUIDELIJK LINKSBOVEN ZOALS HONEY FARM) -->
         <div class="pt-3 px-3 flex justify-start items-center z-40 relative pointer-events-auto">
-            <div class="flex items-center gap-2.5 bg-gradient-to-r from-[#3d2612] via-[#2d1a0b] to-[#1a0f05] p-2 rounded-2xl pr-4 border-2 border-[#d4af37] shadow-2xl cursor-pointer" onclick="openModal('animals')">
-                <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center font-black border-2 border-white text-black text-base shadow">
+            <div class="flex items-center gap-3 bg-gradient-to-r from-[#3d2612] via-[#2d1a0b] to-[#1a0f05] p-2.5 rounded-2xl pr-5 border-2 border-[#ffd700] shadow-2xl cursor-pointer" onclick="openModal('animals')">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-200 flex items-center justify-center font-black border-2 border-white text-black text-lg shadow-md">
                     A
                 </div>
                 <div class="flex flex-col">
-                    <div class="text-[11px] font-black text-amber-300 tracking-wider"><span data-i18n="level">SEVİYE</span> <span id="headerLionLevel">1</span></div>
-                    <div class="text-xs font-bold text-white truncate max-w-[90px]" id="playerNameDisplay">Ahmet</div>
+                    <div class="text-xs font-black text-amber-300 tracking-wider"><span data-i18n="level">SEVİYE</span> <span id="headerLionLevel">1</span></div>
+                    <div class="text-sm font-bold text-white truncate max-w-[110px]" id="playerNameDisplay">Ahmet</div>
                     
                     <!-- Vlees & Geld direct onder naam in de linkerbox -->
-                    <div class="flex items-center gap-3 mt-1 pt-1 border-t border-amber-600/40">
-                        <div class="flex items-center gap-1 text-[11px] font-black text-amber-300">
+                    <div class="flex items-center gap-3 mt-1.5 pt-1.5 border-t border-amber-600/50">
+                        <div class="flex items-center gap-1 text-xs font-black text-amber-300">
                             <span>🥩</span> <span id="balance">0</span>
                         </div>
-                        <div class="flex items-center gap-1 text-[11px] font-black text-emerald-400">
+                        <div class="flex items-center gap-1 text-xs font-black text-emerald-400">
                             <span>💵</span> <span id="cashBalance">0</span>
                         </div>
                     </div>
@@ -286,7 +286,7 @@
             <div class="grid grid-cols-2 gap-3 pb-6" id="animalShopGrid"></div>
         </div>
 
-        <!-- 4. HAYVANLAR & SAHİP OLUNANLAR -->
+        <!-- 4. HAYVANLAR & SEVİYE YÜKSELTME (BELONINGEN) -->
         <div id="modal-animals" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
                 <h2 class="text-amber-400 font-black text-lg" data-i18n="my_animals">Hayvanlarım</h2>
@@ -294,7 +294,8 @@
             </div>
             <div class="honey-box mb-4 text-center">
                 <div class="text-sm font-bold text-amber-300 mb-2">Seviye <span id="lionLevelDisplay">1</span></div>
-                <button onclick="upgradeLionLevel()" class="honey-btn w-full py-2.5 text-xs uppercase" data-i18n="upgrade_lvl">SEVİYE YÜKSELT</button>
+                <div class="text-[11px] text-emerald-300 font-bold mb-3" data-i18n="lvl_reward_info">Seviye atla: +50 💵 & 1x Çakal kazan!</div>
+                <button onclick="upgradeLionLevel()" class="honey-btn w-full py-2.5 text-xs uppercase" data-i18n="upgrade_lvl">SEVİYE YÜKSELT (50 💵)</button>
             </div>
             <div class="text-xs font-black text-emerald-400 uppercase tracking-wider mb-2" data-i18n="owned_animals">Sahip Olunanlar</div>
             <div id="ownedAnimalsContainer" class="grid grid-cols-2 gap-3 pb-6"></div>
@@ -472,6 +473,7 @@
                 my_animals: "Hayvanlarım",
                 upgrade_lvl: "SEVİYE YÜKSELT",
                 owned_animals: "Sahip Olunanlar",
+                lvl_reward_info: "Seviye atla: +50 💵 & 1x Çakal kazan!",
                 settings_title: "Ayarlar",
                 select_lang: "Dil Seçin:",
                 quests_title: "Görevler",
@@ -522,6 +524,7 @@
                 my_animals: "Mijn Dieren",
                 upgrade_lvl: "NIVEAU VERHOGEN",
                 owned_animals: "Aangeschafte Dieren",
+                lvl_reward_info: "Level up: +50 💵 & 1x Jakhals!",
                 settings_title: "Instellingen",
                 select_lang: "Kies Taal:",
                 quests_title: "Missies",
@@ -572,6 +575,7 @@
                 my_animals: "My Animals",
                 upgrade_lvl: "UPGRADE LEVEL",
                 owned_animals: "Owned Animals",
+                lvl_reward_info: "Level up: +50 💵 & 1x Jackal!",
                 settings_title: "Settings",
                 select_lang: "Select Language:",
                 quests_title: "Quests",
@@ -622,6 +626,7 @@
                 my_animals: "Мои животные",
                 upgrade_lvl: "УЛУЧШИТЬ",
                 owned_animals: "Купленные",
+                lvl_reward_info: "Новый уровень: +50 💵 и 1x Шакал!",
                 settings_title: "Настройки",
                 select_lang: "Язык:",
                 quests_title: "Задания",
@@ -672,6 +677,7 @@
                 my_animals: "Mis Animales",
                 upgrade_lvl: "SUBIR NIVEL",
                 owned_animals: "Adquiridos",
+                lvl_reward_info: "Sube nivel: +50 💵 y 1x Chacal!",
                 settings_title: "Ajustes",
                 select_lang: "Idioma:",
                 quests_title: "Misiones",
@@ -722,6 +728,7 @@
                 my_animals: "Mes animaux",
                 upgrade_lvl: "AMÉLIORER",
                 owned_animals: "Possédés",
+                lvl_reward_info: "Niveau sup: +50 💵 & 1x Chacal !",
                 settings_title: "Paramètres",
                 select_lang: "Langue :",
                 quests_title: "Quêtes",
@@ -772,6 +779,7 @@
                 my_animals: "Meine Tiere",
                 upgrade_lvl: "LEVEL +",
                 owned_animals: "Gekauft",
+                lvl_reward_info: "Level Up: +50 💵 & 1x Schakal!",
                 settings_title: "Einstellungen",
                 select_lang: "Sprache:",
                 quests_title: "Quests",
@@ -822,6 +830,7 @@
                 my_animals: "Meus Animais",
                 upgrade_lvl: "EVOLUIR",
                 owned_animals: "Adquiridos",
+                lvl_reward_info: "Subir nível: +50 💵 & 1x Chacal!",
                 settings_title: "Ajustes",
                 select_lang: "Idioma:",
                 quests_title: "Missões",
@@ -889,6 +898,7 @@
         const playerName = telegramUser?.first_name || 'Ahmet';
         document.getElementById('playerNameDisplay').innerText = playerName;
 
+        // GEHEEL RESEFT NAAR LEVEL 1 (0 balansen)
         let balance = 0;
         let cashBalance = 0;
         let accumulatedMinedSteak = 0;
@@ -1177,14 +1187,20 @@
             showToast(`+${amount} 💵 Nakit eklendi!`);
         }
 
+        // SEVİYE YÜKSELTME & BONUS VERME (Honey Farm Stili)
         function upgradeLionLevel() {
-            let cost = lionLevel * 50;
+            let cost = 50; // Seviye atlama maliyeti nakit
             if (cashBalance < cost) { showToast("Yetersiz 💵 nakit bakiye!"); return; }
             cashBalance -= cost;
             lionLevel++;
+            
+            // Bonus olarak başlangıç hayvanı (Çakal) hediye verelim
+            animalsData[0].count++;
+
             updateUI();
             saveGame();
-            showToast("Seviye yükseltildi!");
+            renderOwnedAnimals();
+            showToast(`Seviye ${lionLevel} oldu! +50 💵 ve 1x Çakal kazandın!`);
         }
 
         function showToast(text) {

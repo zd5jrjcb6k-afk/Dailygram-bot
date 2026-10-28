@@ -108,10 +108,6 @@
             position: relative;
             box-shadow: 0 6px 18px rgba(0,0,0,0.8);
         }
-
-        #payment-overlay {
-            position: absolute; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px;
-        }
     </style>
 </head>
 <body>
@@ -119,36 +115,21 @@
     <div class="game-background"></div>
     <div id="toast" class="toast-notification"></div>
 
-    <!-- BEVEILIGDE BETALINGSPOPUP -->
-    <div id="payment-overlay">
-        <div class="honey-box w-full max-w-xs flex flex-col gap-3 text-center">
-            <div class="text-amber-400 font-black text-sm" data-i18n="pay_title">Güvenli Ödeme</div>
-            <div class="text-xs text-gray-300">İşlem onaylanıyor...</div>
-            <div class="bg-black/80 p-3 rounded-xl border border-amber-600/50">
-                <div class="text-xs text-amber-300 font-bold" id="payAmountLabel">Tutar: $5</div>
-                <div class="text-sm font-black text-emerald-400 flex items-center justify-center gap-1" id="payRewardLabel">Alınacak: 50 💵</div>
-            </div>
-            <div class="flex gap-2 mt-2">
-                <button onclick="closePaymentModal()" class="w-1/2 py-2 bg-red-700 rounded-xl text-xs font-bold text-white cursor-pointer" data-i18n="cancel">İptal</button>
-                <button onclick="confirmPayment()" class="w-1/2 py-2 bg-emerald-600 rounded-xl text-xs font-bold text-white cursor-pointer" data-i18n="confirm">Onayla</button>
-            </div>
-        </div>
-    </div>
-
     <div class="phone-frame">
         
-        <!-- HEADER BAR (GROOT EN DUIDELIJK LINKSBOVEN ZOALS HONEY FARM) -->
+        <!-- HONEY FARM STİLİ GENTE EN BREDE HEADER (LINKSBOVEN) -->
         <div class="pt-3 px-3 flex justify-start items-center z-40 relative pointer-events-auto">
-            <div class="flex items-center gap-3 bg-gradient-to-r from-[#3d2612] via-[#2d1a0b] to-[#1a0f05] p-2.5 rounded-2xl pr-5 border-2 border-[#ffd700] shadow-2xl cursor-pointer" onclick="openModal('animals')">
-                <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-200 flex items-center justify-center font-black border-2 border-white text-black text-lg shadow-md">
+            <div class="flex items-center gap-3 bg-gradient-to-r from-[#5c3a21] via-[#3d2612] to-[#201308] p-3 rounded-2xl pr-6 border-3 border-[#eab308] shadow-2xl cursor-pointer" style="min-width: 220px;" onclick="openModal('animals')">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-200 flex items-center justify-center font-black border-2 border-white text-black text-lg shadow-md shrink-0">
                     A
                 </div>
-                <div class="flex flex-col">
-                    <div class="text-xs font-black text-amber-300 tracking-wider"><span data-i18n="level">SEVİYE</span> <span id="headerLionLevel">1</span></div>
-                    <div class="text-sm font-bold text-white truncate max-w-[110px]" id="playerNameDisplay">Ahmet</div>
+                <div class="flex flex-col w-full">
+                    <div class="text-xs font-black text-amber-300 tracking-wider flex justify-between items-center">
+                        <span><span data-i18n="level">SEVİYE</span> <span id="headerLionLevel">1</span></span>
+                    </div>
+                    <div class="text-sm font-bold text-white truncate max-w-[130px]" id="playerNameDisplay">Ahmet</div>
                     
-                    <!-- Vlees & Geld direct onder naam in de linkerbox -->
-                    <div class="flex items-center gap-3 mt-1.5 pt-1.5 border-t border-amber-600/50">
+                    <div class="flex items-center gap-4 mt-1 pt-1 border-t border-amber-600/50">
                         <div class="flex items-center gap-1 text-xs font-black text-amber-300">
                             <span>🥩</span> <span id="balance">0</span>
                         </div>
@@ -241,13 +222,14 @@
             </div>
         </div>
 
-        <!-- 2. BAKİYE ÇEK (CÜZDAN) -->
+        <!-- 2. CÜZDAN & GEÇMİŞ -->
         <div id="modal-bakiye" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-cyan-600/50 pb-3">
                 <h2 class="text-cyan-400 font-black text-lg" data-i18n="withdraw_title">Cüzdan</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
-            <div class="honey-box flex flex-col gap-3">
+            
+            <div class="honey-box flex flex-col gap-3 mb-4">
                 <div class="text-xs text-cyan-300 font-bold" data-i18n="wallet_addr">Cüzdan Adresi:</div>
                 <input type="text" id="withdrawAddrInput" placeholder="Adres giriniz..." class="w-full bg-black/80 text-white text-xs border-2 border-cyan-600 p-3 rounded-xl">
 
@@ -265,28 +247,90 @@
 
                 <button onclick="requestWithdrawal()" class="honey-btn w-full py-3 text-sm uppercase tracking-widest mt-2" style="background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%); border-color: #38bdf8;" data-i18n="withdraw_btn">TALEP OLUŞTUR</button>
             </div>
+
+            <!-- İşlem Geçmişi -->
+            <div class="text-xs font-black text-cyan-300 uppercase tracking-wider mb-2" data-i18n="tx_history">İşlem Geçmişi</div>
+            <div id="transactionHistoryContainer" class="flex flex-col gap-2 pb-6">
+                <div class="bg-black/60 p-3 rounded-xl border border-cyan-600/40 text-center text-xs text-gray-400" data-i18n="no_tx">
+                    Henüz işlem geçmişi yok.
+                </div>
+            </div>
         </div>
 
-        <!-- 3. MAĞAZA (HAYVAN PAZARI) -->
+        <!-- 3. MAĞAZA (HONEY FARM STİLİ: SLIDER -> KRİPTO SEÇ -> ADRES & KOPYALA) -->
         <div id="modal-shop" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
-                <h2 class="text-amber-400 font-black text-lg" data-i18n="shop_title">Mağaza</h2>
+                <h2 class="text-amber-400 font-black text-lg" id="shopModalTitle" data-i18n="shop_title">Mağaza</h2>
                 <button onclick="closeModals()" class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow cursor-pointer">✕</button>
             </div>
             
-            <div class="honey-box mb-4 text-center">
-                <div class="text-xs font-bold text-amber-300 mb-1"><span data-i18n="usd_paid">USD</span>: $<span id="usdValDisplay">5</span></div>
-                <input type="range" id="usdSlider" min="1" max="50" step="1" value="5" class="w-full accent-amber-400 cursor-pointer my-2" oninput="updateUsdSlider(this.value)">
-                <div class="text-xs font-bold text-gray-300" data-i18n="get_cash">Alınacak Tutar:</div>
-                <div class="text-sm font-black text-emerald-400 mb-3 flex items-center justify-center gap-1" id="usdRewardText">50 💵</div>
-                <button onclick="openPaymentModal()" class="honey-btn w-full py-2.5 text-xs uppercase tracking-widest" data-i18n="pay_crypto">SATIN AL</button>
+            <!-- STAP 1: USD Slider -->
+            <div id="shop-step-1">
+                <div class="honey-box mb-4 text-center">
+                    <div class="text-xs font-bold text-amber-300 mb-1"><span data-i18n="usd_paid">USD</span>: $<span id="usdValDisplay">5</span></div>
+                    <input type="range" id="usdSlider" min="1" max="50" step="1" value="5" class="w-full accent-amber-400 cursor-pointer my-2" oninput="updateUsdSlider(this.value)">
+                    <div class="text-xs font-bold text-gray-300" data-i18n="get_cash">Alınacak Tutar:</div>
+                    <div class="text-sm font-black text-emerald-400 mb-3 flex items-center justify-center gap-1" id="usdRewardText">50 💵</div>
+                    <button onclick="goToCryptoSelect()" class="honey-btn w-full py-2.5 text-xs uppercase tracking-widest" data-i18n="pay_crypto">SATIN AL</button>
+                </div>
+
+                <div class="text-sm font-black text-amber-300 uppercase tracking-wider mb-3" data-i18n="buy_animal">Hayvan Pazarı</div>
+                <div class="grid grid-cols-2 gap-3 pb-6" id="animalShopGrid"></div>
             </div>
 
-            <div class="text-sm font-black text-amber-300 uppercase tracking-wider mb-3" data-i18n="buy_animal">Hayvan Pazarı</div>
-            <div class="grid grid-cols-2 gap-3 pb-6" id="animalShopGrid"></div>
+            <!-- STAP 2: Kripto Para Seçim Ekranı (Honey Farm stilinde) -->
+            <div id="shop-step-2" style="display: none;" class="flex flex-col gap-3">
+                <div class="text-xs text-amber-200 font-bold mb-1" data-i18n="select_crypto">Kripto para seç:</div>
+                
+                <div onclick="selectCrypto('TRX (TRC20)', 'TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE')" class="bg-[#2a1b0c] border-2 border-amber-600 p-3 rounded-xl flex items-center justify-between cursor-pointer">
+                    <span class="font-bold text-amber-300 text-xs">🔻 TRX (TRC20)</span>
+                    <span class="text-[10px] text-gray-400">Seç</span>
+                </div>
+                <div onclick="selectCrypto('BNB (BEP20)', '0x48324...8492')" class="bg-[#2a1b0c] border-2 border-amber-600 p-3 rounded-xl flex items-center justify-between cursor-pointer">
+                    <span class="font-bold text-amber-300 text-xs">🟡 BNB (BEP20)</span>
+                    <span class="text-[10px] text-gray-400">Seç</span>
+                </div>
+                <div onclick="selectCrypto('GRAM (TON)', 'UQDJZFM-PgXFa69EknWpUnN9tKU9Fv...')" class="bg-[#2a1b0c] border-2 border-amber-600 p-3 rounded-xl flex items-center justify-between cursor-pointer">
+                    <span class="font-bold text-amber-300 text-xs">💎 GRAM (TON)</span>
+                    <span class="text-[10px] text-gray-400">Seç</span>
+                </div>
+                <div onclick="selectCrypto('LTC (Litecoin)', 'LTC...3948')" class="bg-[#2a1b0c] border-2 border-amber-600 p-3 rounded-xl flex items-center justify-between cursor-pointer">
+                    <span class="font-bold text-amber-300 text-xs">⚪ LTC (Litecoin)</span>
+                    <span class="text-[10px] text-gray-400">Seç</span>
+                </div>
+                <div onclick="selectCrypto('BTC (Bitcoin)', 'bc1q...9384')" class="bg-[#2a1b0c] border-2 border-amber-600 p-3 rounded-xl flex items-center justify-between cursor-pointer">
+                    <span class="font-bold text-amber-300 text-xs">🟠 BTC (Bitcoin)</span>
+                    <span class="text-[10px] text-gray-400">Seç</span>
+                </div>
+
+                <button onclick="goToShopStep1()" class="honey-btn w-full py-2.5 text-xs font-bold text-white cursor-pointer mt-3" style="background: #b91c1c; border-color: #f87171;" data-i18n="back">Geri</button>
+            </div>
+
+            <!-- STAP 3: İşlemi Tamamla (Miktar, Wallet Adres ve Kopyala Butonları) -->
+            <div id="shop-step-3" style="display: none;" class="flex flex-col gap-3">
+                <div class="honey-box flex flex-col gap-3 text-center">
+                    <div class="text-xs text-amber-300 font-bold" data-i18n="complete_tx">İşlemi tamamla</div>
+                    
+                    <div class="text-[11px] text-gray-300" data-i18n="send_amount">Gönderilecek miktar:</div>
+                    <div class="bg-black/80 p-2 rounded-xl text-cyan-400 font-black text-sm border border-cyan-600" id="cryptoAmountDisplay">2.478179 GRAM</div>
+                    <button onclick="copyText('cryptoAmountDisplay')" class="honey-btn py-1.5 text-xs" data-i18n="copy_btn">Kopyala</button>
+
+                    <div class="text-[11px] text-gray-300 mt-2" data-i18n="send_wallet">Gönderilecek cüzdan:</div>
+                    <div class="bg-black/80 p-2.5 rounded-xl text-white font-mono text-[10px] border border-amber-600 break-all" id="cryptoWalletDisplay">UQDJZFM-PgXFa69EknWpUnN9tKU9Fv</div>
+                    <button onclick="copyText('cryptoWalletDisplay')" class="honey-btn py-1.5 text-xs" data-i18n="copy_btn">Kopyala</button>
+
+                    <div class="text-[10px] text-amber-200 mt-2" data-i18n="tx_warning">
+                        İşlem tamamlanmazsa otomatik olarak bakiyenize aktarılmaz!
+                    </div>
+
+                    <button onclick="finishCryptoPayment()" class="honey-btn w-full py-2.5 text-xs uppercase tracking-widest mt-2" data-i18n="confirm_paid">Ödemeyi Yaptım</button>
+                </div>
+
+                <button onclick="goToCryptoSelect()" class="honey-btn w-full py-2 text-xs font-bold text-white cursor-pointer" style="background: #b91c1c; border-color: #f87171;" data-i18n="back">Geri</button>
+            </div>
         </div>
 
-        <!-- 4. HAYVANLAR & SEVİYE YÜKSELTME (BELONINGEN) -->
+        <!-- 4. HAYVANLAR & SEVİYE YÜKSELTME -->
         <div id="modal-animals" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
                 <h2 class="text-amber-400 font-black text-lg" data-i18n="my_animals">Hayvanlarım</h2>
@@ -342,34 +386,6 @@
                     </div>
                     <button onclick="claimQuest(20, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
-                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
-                    <div>
-                        <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 3</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+50 💵 Nakit</div>
-                    </div>
-                    <button onclick="claimQuest(50, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
-                </div>
-                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
-                    <div>
-                        <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 7</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+120 💵 Nakit</div>
-                    </div>
-                    <button onclick="claimQuest(120, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
-                </div>
-                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
-                    <div>
-                        <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 15</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+300 💵 Nakit</div>
-                    </div>
-                    <button onclick="claimQuest(300, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
-                </div>
-                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
-                    <div>
-                        <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 50</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+1000 💵 Nakit</div>
-                    </div>
-                    <button onclick="claimQuest(1000, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
-                </div>
             </div>
 
             <div id="quest-content-subscriptions" class="flex flex-col gap-2.5 pb-4" style="display: none;">
@@ -379,27 +395,6 @@
                         <div class="text-[10px] text-emerald-400 font-bold">+50 💵 Nakit</div>
                     </div>
                     <button onclick="claimQuest(50, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
-                </div>
-                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
-                    <div>
-                        <div class="text-xs font-bold text-amber-200" data-i18n="q_upgrade_lvl">Aslanı 3 seviyeye yükselt</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+100 💵 Nakit</div>
-                    </div>
-                    <button onclick="claimQuest(100, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
-                </div>
-                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
-                    <div>
-                        <div class="text-xs font-bold text-amber-200" data-i18n="q_withdraw">Ödeme talep et</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+150 💵 Nakit</div>
-                    </div>
-                    <button onclick="claimQuest(150, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
-                </div>
-                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
-                    <div>
-                        <div class="text-xs font-bold text-amber-200" data-i18n="q_invest">Bakiyenize en az $5 yatırın</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+200 💵 Nakit</div>
-                    </div>
-                    <button onclick="claimQuest(200, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
                 </div>
             </div>
         </div>
@@ -431,7 +426,6 @@
             </button>
         </div>
 
-        <!-- Onderste Midden: Direct Market Knop -->
         <div class="p-2 pb-3 flex flex-col items-center justify-end z-40 relative pointer-events-auto bg-gradient-to-t from-black/95 via-black/80 to-transparent">
             <div class="flex items-center gap-2">
                 <button onclick="openModal('shop')" class="honey-btn px-14 py-2.5 text-sm uppercase tracking-widest" data-i18n="btn_buy_animal">
@@ -481,9 +475,6 @@
                 tab_subs: "Abonelik",
                 claim_btn: "AL",
                 q_sell_meat: "Et sat",
-                q_upgrade_lvl: "Aslanı 3 seviyeye yükselt",
-                q_withdraw: "Ödeme talep et",
-                q_invest: "Bakiyenize en az $5 yatırın",
                 btn_mining: "Maden",
                 btn_quest: "Görev",
                 btn_takas: "Takas",
@@ -491,9 +482,16 @@
                 btn_bakiye: "Cüzdan",
                 btn_settings: "Ayar",
                 btn_buy_animal: "MARKET",
-                pay_title: "Güvenli Ödeme",
-                cancel: "İptal",
-                confirm: "Onayla"
+                select_crypto: "Kripto para seç:",
+                back: "Geri",
+                complete_tx: "İşlemi tamamla",
+                send_amount: "Gönderilecek miktar:",
+                send_wallet: "Gönderilecek cüzdan:",
+                copy_btn: "Kopyala",
+                tx_warning: "İşlem tamamlanmazsa otomatik olarak bakiyenize aktarılmaz!",
+                confirm_paid: "Ödemeyi Yaptım",
+                tx_history: "İşlem Geçmişi",
+                no_tx: "Henüz işlem geçmişi yok."
             },
             nl: {
                 level: "NIVEAU",
@@ -532,9 +530,6 @@
                 tab_subs: "Abonnement",
                 claim_btn: "CLAIM",
                 q_sell_meat: "Verkoop vlees",
-                q_upgrade_lvl: "Upgrade leeuw naar niveau 3",
-                q_withdraw: "Vraag uitbetaling aan",
-                q_invest: "Stort minimaal $5 op saldo",
                 btn_mining: "Maden",
                 btn_quest: "Missie",
                 btn_takas: "Wissel",
@@ -542,336 +537,37 @@
                 btn_bakiye: "Saldo",
                 btn_settings: "Ayar",
                 btn_buy_animal: "WINKEL",
-                pay_title: "Veilige Betaling",
-                cancel: "Annuleren",
-                confirm: "Bevestig"
-            },
-            en: {
-                level: "LEVEL",
-                mining_title: "Savannah Simulator",
-                mining_subtitle: "Live Production Rate",
-                calc_period: "Income Calculation Period",
-                box_cash: "💵 Cash",
-                box_meat: "🥩 Meat",
-                gram_est: "Estimated Earnings in Gram (TON)",
-                progress_bar: "Progress",
-                collect_btn: "COLLECT",
-                takas_title: "Exchange",
-                takas_given: "Amount to Give (🥩):",
-                takas_get: "Amount to Receive (+10% Bonus):",
-                takas_btn: "EXCHANGE",
-                takas_tip: "Get +10% bonus on exchange!",
-                withdraw_title: "Wallet",
-                wallet_addr: "Wallet Address:",
-                memo: "Memo:",
-                amount_gir: "Amount (🥩):",
-                gram_tutar: "Amount in Gram (TON):",
-                withdraw_btn: "WITHDRAW",
-                shop_title: "Shop",
-                usd_paid: "USD",
-                get_cash: "To Receive:",
-                pay_crypto: "PAY",
-                buy_animal: "Animal Market",
-                my_animals: "My Animals",
-                upgrade_lvl: "UPGRADE LEVEL",
-                owned_animals: "Owned Animals",
-                lvl_reward_info: "Level up: +50 💵 & 1x Jackal!",
-                settings_title: "Settings",
-                select_lang: "Select Language:",
-                quests_title: "Quests",
-                tab_friends: "Friends",
-                tab_subs: "Subscriptions",
-                claim_btn: "CLAIM",
-                q_sell_meat: "Sell meat",
-                q_upgrade_lvl: "Upgrade lion to level 3",
-                q_withdraw: "Request payout",
-                q_invest: "Deposit at least $5",
-                btn_mining: "Mining",
-                btn_quest: "Quest",
-                btn_takas: "Exchange",
-                btn_market: "Shop",
-                btn_bakiye: "Wallet",
-                btn_settings: "Settings",
-                btn_buy_animal: "SHOP",
-                pay_title: "Secure Payment",
-                cancel: "Cancel",
-                confirm: "Confirm"
-            },
-            ru: {
-                level: "УРОВЕНЬ",
-                mining_title: "Savannah Simulator",
-                mining_subtitle: "Скорость производства",
-                calc_period: "Период расчета дохода",
-                box_cash: "💵 Наличные",
-                box_meat: "🥩 Мясо",
-                gram_est: "Доход в Gram (TON)",
-                progress_bar: "Прогресс",
-                collect_btn: "СОБРАТЬ",
-                takas_title: "Обмен",
-                takas_given: "Отдать (🥩):",
-                takas_get: "Получить (+10% бонус):",
-                takas_btn: "ОБМЕНЯТЬ",
-                takas_tip: "Бонус +10% при обмене!",
-                withdraw_title: "Кошелек",
-                wallet_addr: "Адрес:",
-                memo: "Мемо:",
-                amount_gir: "Сумма (🥩):",
-                gram_tutar: "Сумма в Gram (TON):",
-                withdraw_btn: "ЗАПРОСИТЬ",
-                shop_title: "Магазин",
-                usd_paid: "USD",
-                get_cash: "К получению:",
-                pay_crypto: "ОПЛАТИТЬ",
-                buy_animal: "Рынок",
-                my_animals: "Мои животные",
-                upgrade_lvl: "УЛУЧШИТЬ",
-                owned_animals: "Купленные",
-                lvl_reward_info: "Новый уровень: +50 💵 и 1x Шакал!",
-                settings_title: "Настройки",
-                select_lang: "Язык:",
-                quests_title: "Задания",
-                tab_friends: "Друзья",
-                tab_subs: "Подписки",
-                claim_btn: "ЗАБРАТЬ",
-                q_sell_meat: "Продать мясо",
-                q_upgrade_lvl: "Улучшить льва до 3 ур.",
-                q_withdraw: "Запросить выплату",
-                q_invest: "Депозит от $5",
-                btn_mining: "Шахта",
-                btn_quest: "Задачи",
-                btn_takas: "Обмен",
-                btn_market: "Рынок",
-                btn_bakiye: "Кошелек",
-                btn_settings: "Настр",
-                btn_buy_animal: "МАРКЕТ",
-                pay_title: "Безопасная оплата",
-                cancel: "Отмена",
-                confirm: "ОК"
-            },
-            es: {
-                level: "NIVEL",
-                mining_title: "Savannah Simulator",
-                mining_subtitle: "Velocidad en vivo",
-                calc_period: "Periodo de cálculo",
-                box_cash: "💵 Efectivo",
-                box_meat: "🥩 Carne",
-                gram_est: "Ingresos en Gram (TON)",
-                progress_bar: "Progreso",
-                collect_btn: "RECOGER",
-                takas_title: "Cambio",
-                takas_given: "A entregar (🥩):",
-                takas_get: "A recibir (+10% Bono):",
-                takas_btn: "CAMBIAR",
-                takas_tip: "¡Gana 10% extra!",
-                withdraw_title: "Billetera",
-                wallet_addr: "Dirección:",
-                memo: "Memo:",
-                amount_gir: "Cantidad (🥩):",
-                gram_tutar: "Gram (TON):",
-                withdraw_btn: "RETIRAR",
-                shop_title: "Tienda",
-                usd_paid: "USD",
-                get_cash: "A Recibir:",
-                pay_crypto: "PAGAR",
-                buy_animal: "Mercado",
-                my_animals: "Mis Animales",
-                upgrade_lvl: "SUBIR NIVEL",
-                owned_animals: "Adquiridos",
-                lvl_reward_info: "Sube nivel: +50 💵 y 1x Chacal!",
-                settings_title: "Ajustes",
-                select_lang: "Idioma:",
-                quests_title: "Misiones",
-                tab_friends: "Amigos",
-                tab_subs: "Suscripción",
-                claim_btn: "RECLAMAR",
-                q_sell_meat: "Vender carne",
-                q_upgrade_lvl: "Mejorar león al nivel 3",
-                q_withdraw: "Solicitar pago",
-                q_invest: "Depositar al menos $5",
-                btn_mining: "Minas",
-                btn_quest: "Misión",
-                btn_takas: "Cambio",
-                btn_market: "Tienda",
-                btn_bakiye: "Billetera",
-                btn_settings: "Ajustes",
-                btn_buy_animal: "TIENDA",
-                pay_title: "Pago seguro",
-                cancel: "Cancelar",
-                confirm: "Confirmar"
-            },
-            fr: {
-                level: "NIVEAU",
-                mining_title: "Savannah Simulator",
-                mining_subtitle: "Vitesse en direct",
-                calc_period: "Période de calcul",
-                box_cash: "💵 Argent",
-                box_meat: "🥩 Viande",
-                gram_est: "Revenus en Gram (TON)",
-                progress_bar: "Progrès",
-                collect_btn: "RÉCUPÉRER",
-                takas_title: "Échange",
-                takas_given: "À donner (🥩) :",
-                takas_get: "À recevoir (+10% Bonus) :",
-                takas_btn: "ÉCHANGER",
-                takas_tip: "Obtenez 10% de bonus !",
-                withdraw_title: "Portefeuille",
-                wallet_addr: "Adresse :",
-                memo: "Mémo :",
-                amount_gir: "Montant (🥩) :",
-                gram_tutar: "Gram (TON) :",
-                withdraw_btn: "RETIRER",
-                shop_title: "Boutique",
-                usd_paid: "USD",
-                get_cash: "À recevoir :",
-                pay_crypto: "PAYER",
-                buy_animal: "Marché",
-                my_animals: "Mes animaux",
-                upgrade_lvl: "AMÉLIORER",
-                owned_animals: "Possédés",
-                lvl_reward_info: "Niveau sup: +50 💵 & 1x Chacal !",
-                settings_title: "Paramètres",
-                select_lang: "Langue :",
-                quests_title: "Quêtes",
-                tab_friends: "Amis",
-                tab_subs: "Abonnement",
-                claim_btn: "RÉCUPÉRER",
-                q_sell_meat: "Vendre de la viande",
-                q_upgrade_lvl: "Améliorer le lion niv. 3",
-                q_withdraw: "Demander un paiement",
-                q_invest: "Déposer au moins 5$",
-                btn_mining: "Mine",
-                btn_quest: "Quête",
-                btn_takas: "Échange",
-                btn_market: "Boutique",
-                btn_bakiye: "Portef.",
-                btn_settings: "Régl.",
-                btn_buy_animal: "BOUTIQUE",
-                pay_title: "Paiement sécurisé",
-                cancel: "Annuler",
-                confirm: "Confirmer"
-            },
-            de: {
-                level: "LEVEL",
-                mining_title: "Savannah Simulator",
-                mining_subtitle: "Live-Geschwindigkeit",
-                calc_period: "Berechnungszeitraum",
-                box_cash: "💵 Bargeld",
-                box_meat: "🥩 Fleisch",
-                gram_est: "Einnahmen in Gram (TON)",
-                progress_bar: "Fortschritt",
-                collect_btn: "ABHOLEN",
-                takas_title: "Tausch",
-                takas_given: "Zu geben (🥩):",
-                takas_get: "Erhalten (+10% Bonus):",
-                takas_btn: "TAUSCHEN",
-                takas_tip: "+10% Bonus erhalten!",
-                withdraw_title: "Wallet",
-                wallet_addr: "Adresse:",
-                memo: "Memo:",
-                amount_gir: "Betrag (🥩):",
-                gram_tutar: "Gram (TON):",
-                withdraw_btn: "ANFORDERN",
-                shop_title: "Shop",
-                usd_paid: "USD",
-                get_cash: "Zu erhalten:",
-                pay_crypto: "BEZAHLEN",
-                buy_animal: "Tier-Markt",
-                my_animals: "Meine Tiere",
-                upgrade_lvl: "LEVEL +",
-                owned_animals: "Gekauft",
-                lvl_reward_info: "Level Up: +50 💵 & 1x Schakal!",
-                settings_title: "Einstellungen",
-                select_lang: "Sprache:",
-                quests_title: "Quests",
-                tab_friends: "Freunde",
-                tab_subs: "Abo",
-                claim_btn: "HOLEN",
-                q_sell_meat: "Fleisch verkaufen",
-                q_upgrade_lvl: "Löwe auf Stufe 3 bringen",
-                q_withdraw: "Auszahlung anfordern",
-                q_invest: "Mindestens $5 einzahlen",
-                btn_mining: "Farm",
-                btn_quest: "Quest",
-                btn_takas: "Tausch",
-                btn_market: "Shop",
-                btn_bakiye: "Wallet",
-                btn_settings: "Einst",
-                btn_buy_animal: "SHOP",
-                pay_title: "Sichere Zahlung",
-                cancel: "Abbrechen",
-                confirm: "Bestätigen"
-            },
-            pt: {
-                level: "NÍVEL",
-                mining_title: "Savannah Simulator",
-                mining_subtitle: "Velocidade ao vivo",
-                calc_period: "Período de cálculo",
-                box_cash: "💵 Dinheiro",
-                box_meat: "🥩 Carne",
-                gram_est: "Ganhos em Gram (TON)",
-                progress_bar: "Progresso",
-                collect_btn: "COLETAR",
-                takas_title: "Câmbio",
-                takas_given: "Dar (🥩):",
-                takas_get: "Receber (+10% Bônus):",
-                takas_btn: "TROCAR",
-                takas_tip: "Ganhe 10% de bônus!",
-                withdraw_title: "Carteira",
-                wallet_addr: "Endereço:",
-                memo: "Memo:",
-                amount_gir: "Quantidade (🥩):",
-                gram_tutar: "Gram (TON):",
-                withdraw_btn: "SACAR",
-                shop_title: "Loja",
-                usd_paid: "USD",
-                get_cash: "A Receber:",
-                pay_crypto: "PAGAR",
-                buy_animal: "Mercado",
-                my_animals: "Meus Animais",
-                upgrade_lvl: "EVOLUIR",
-                owned_animals: "Adquiridos",
-                lvl_reward_info: "Subir nível: +50 💵 & 1x Chacal!",
-                settings_title: "Ajustes",
-                select_lang: "Idioma:",
-                quests_title: "Missões",
-                tab_friends: "Amigos",
-                tab_subs: "Inscrição",
-                claim_btn: "RESGATAR",
-                q_sell_meat: "Vender carne",
-                q_upgrade_lvl: "Evoluir leão p/ nível 3",
-                q_withdraw: "Solicitar saque",
-                q_invest: "Depositar pelo menos $5",
-                btn_mining: "Minas",
-                btn_quest: "Missão",
-                btn_takas: "Câmbio",
-                btn_market: "Loja",
-                btn_bakiye: "Carteira",
-                btn_settings: "Ajustes",
-                btn_buy_animal: "LOJA",
-                pay_title: "Pagamento seguro",
-                cancel: "Cancelar",
-                confirm: "Confirmar"
+                select_crypto: "Kies cryptocurrency:",
+                back: "Terug",
+                complete_tx: "Voltooi transactie",
+                send_amount: "Te verzenden bedrag:",
+                send_wallet: "Te verzenden wallet:",
+                copy_btn: "Kopiëren",
+                tx_warning: "Als de transactie niet is voltooid, wordt het niet automatisch bijgeschreven!",
+                confirm_paid: "Ik heb betaald",
+                tx_history: "Transactiegeschiedenis",
+                no_tx: "Nog geen transactiegeschiedenis."
             }
         };
 
         const animalNames = {
-            kral_aslan: { tr: "Kral Aslan", nl: "Koning Leeuw", en: "King Lion", ru: "Королевский лев", es: "León Rey", fr: "Roi Lion", de: "Königlicher Löwe", pt: "Leão Rei" },
-            iki_erkek_aslan: { tr: "İki Erkek Aslan", nl: "Twee Mannetjes Leeuwen", en: "Two Male Lions", ru: "Два самца льва", es: "Dos Leones Machos", fr: "Deux Lions Mâles", de: "Zwei Männliche Löwen", pt: "Dois Leões Machos" },
-            fil: { tr: "Fil", nl: "Olifant", en: "Elephant", ru: "Слон", es: "Elefante", fr: "Éléphant", de: "Elefant", pt: "Elefante" },
-            siyah_gergedan: { tr: "Siyah Gergedan", nl: "Zwarte Neushoorn", en: "Black Rhino", ru: "Черный носорог", es: "Rinoceronte Negro", fr: "Rhinocéros Noir", de: "Schwarzes Nashorn", pt: "Rinoceronte Negro" },
-            beyaz_gergedan: { tr: "Beyaz Gergedan", nl: "Witte Neushoorn", en: "White Rhino", ru: "Белый носорог", es: "Rinoceronte Blanco", fr: "Rhinocéros Blanc", de: "Weißes Nashorn", pt: "Rinoceronte Blanco" },
-            timsah: { tr: "Timsah", nl: "Krokodil", en: "Crocodile", ru: "Крокодил", es: "Cocodrilo", fr: "Crocodile", de: "Krokodil", pt: "Crocodilo" },
-            jaguar: { tr: "Jaguar", nl: "Jaguar", en: "Jaguar", ru: "Ягуар", es: "Jaguar", fr: "Jaguar", de: "Jaguar", pt: "Jaguar" },
-            kara_panter: { tr: "Kara Panter", nl: "Zwarte Panter", en: "Black Panther", ru: "Черная пантера", es: "Pantera Negra", fr: "Panthère Noire", de: "Schwarzer Panther", pt: "Pantera Negra" },
-            panter: { tr: "Panter", nl: "Panter", en: "Panther", ru: "Пантера", es: "Pantera", fr: "Panthère", de: "Panther", pt: "Pantera" },
-            cita: { tr: "Çita", nl: "Jachtluipaard", en: "Cheetah", ru: "Гепард", es: "Chita", fr: "Guépard", de: "Gepard", pt: "Guepardo" },
-            sirtlan_surusu: { tr: "Sırtlan Sürüsü", nl: "Hyletroep", en: "Hyena Pack", ru: "Стая гиен", es: "Manada de Hienas", fr: "Meute de Hyènes", de: "Hyänen-Rudel", pt: "Matilha de Hienas" },
-            kurt: { tr: "Kurt", nl: "Wolf", en: "Wolf", ru: "Волк", es: "Lobo", fr: "Loup", de: "Wolf", pt: "Lobo" },
-            python: { tr: "Python", nl: "Python", en: "Python", ru: "Питон", es: "Pitón", fr: "Python", de: "Python", pt: "Python" },
-            aslan_yavrusu: { tr: "Aslan Yavrusu", nl: "Leeuwenwelp", en: "Lion Cub", ru: "Львенок", es: "Cachorro de León", fr: "Lionceau", de: "Löwenbaby", pt: "Filhote de Leão" },
-            afrika_akbabasi: { tr: "Afrika Akbabası", nl: "Afrikaanse Gier", en: "African Vulture", ru: "Африканский стервятник", es: "Buitre Africano", fr: "Vautour Africain", de: "Afrikanischer Geier", pt: "Abutre Africano" },
-            antilop: { tr: "Antilop", nl: "Antilope", en: "Antelope", ru: "Антилопа", es: "Antílope", fr: "Antilope", de: "Antilope", pt: "Antílope" },
-            cakal: { tr: "Çakal", nl: "Jakhals", en: "Jackal", ru: "Шакал", es: "Chacal", fr: "Chacal", de: "Schakal", pt: "Chacal" }
+            kral_aslan: { tr: "Kral Aslan", nl: "Koning Leeuw" },
+            iki_erkek_aslan: { tr: "İki Erkek Aslan", nl: "Twee Mannetjes Leeuwen" },
+            fil: { tr: "Fil", nl: "Olifant" },
+            siyah_gergedan: { tr: "Siyah Gergedan", nl: "Zwarte Neushoorn" },
+            beyaz_gergedan: { tr: "Beyaz Gergedan", nl: "Witte Neushoorn" },
+            timsah: { tr: "Timsah", nl: "Krokodil" },
+            jaguar: { tr: "Jaguar", nl: "Jaguar" },
+            kara_panter: { tr: "Kara Panter", nl: "Zwarte Panter" },
+            panter: { tr: "Panter", nl: "Panter" },
+            cita: { tr: "Çita", nl: "Jachtluipaard" },
+            sirtlan_surusu: { tr: "Sırtlan Sürüsü", nl: "Hyletroep" },
+            kurt: { tr: "Kurt", nl: "Wolf" },
+            python: { tr: "Python", nl: "Python" },
+            aslan_yavrusu: { tr: "Aslan Yavrusu", nl: "Leeuwenwelp" },
+            afrika_akbabasi: { tr: "Afrika Akbabası", nl: "Afrikaanse Gier" },
+            antilop: { tr: "Antilop", nl: "Antilope" },
+            cakal: { tr: "Çakal", nl: "Jakhals" }
         };
 
         let currentLang = localStorage.getItem('dg_lang') || 'tr';
@@ -889,7 +585,7 @@
             renderShop();
             renderOwnedAnimals();
             if(notify) {
-                showToast(lang === 'nl' ? "Taal gewijzigd!" : (lang === 'en' ? "Language updated!" : "Dil güncellendi!"));
+                showToast(lang === 'nl' ? "Taal gewijzigd!" : "Dil güncellendi!");
             }
         }
 
@@ -898,30 +594,30 @@
         const playerName = telegramUser?.first_name || 'Ahmet';
         document.getElementById('playerNameDisplay').innerText = playerName;
 
-        // GEHEEL RESEFT NAAR LEVEL 1 (0 balansen)
         let balance = 0;
         let cashBalance = 0;
         let accumulatedMinedSteak = 0;
         let lionLevel = 1;
-        
+        let transactionHistory = [];
+
         let defaultAnimals = [
-            { id: 'cakal', file: 'cakal.PNG', icon: '🦊', dailyProd: 50, costCash: 15, level: 2, count: 0 },
-            { id: 'antilop', file: 'antilop.PNG', icon: '🦌', dailyProd: 120, costCash: 25, level: 3, count: 0 },
-            { id: 'afrika_akbabasi', file: 'afrika_akbabasi.PNG', icon: '🦅', dailyProd: 250, costCash: 40, level: 3, count: 0 },
-            { id: 'aslan_yavrusu', file: 'aslan_yavrusu.PNG', icon: '🐱', dailyProd: 500, costCash: 60, level: 4, count: 0 },
-            { id: 'python', file: 'python.PNG', icon: '🐍', dailyProd: 900, costCash: 90, level: 4, count: 0 },
-            { id: 'kurt', file: 'kurt.PNG', icon: '🐕', dailyProd: 1500, costCash: 140, level: 5, count: 0 },
-            { id: 'sirtlan_surusu', file: 'sirtlan_surusu.PNG', icon: '🐺', dailyProd: 2500, costCash: 200, level: 6, count: 0 },
-            { id: 'cita', file: 'cita.PNG', icon: '🐆', dailyProd: 4000, costCash: 300, level: 7, count: 0 },
-            { id: 'panter', file: 'panter.PNG', icon: '🐆', dailyProd: 6500, costCash: 450, level: 8, count: 0 },
-            { id: 'kara_panter', file: 'kara_panter.PNG', icon: '🐈‍⬛', dailyProd: 10000, costCash: 600, level: 8, count: 0 },
-            { id: 'jaguar', file: 'jaguar.PNG', icon: '🐆', dailyProd: 15000, costCash: 800, level: 9, count: 0 },
-            { id: 'timsah', file: 'timsah.PNG', icon: '🐊', dailyProd: 23000, costCash: 1100, level: 9, count: 0 },
-            { id: 'beyaz_gergedan', file: 'beyaz_gergedan.PNG', icon: '🦏', dailyProd: 35000, costCash: 1500, level: 10, count: 0 },
-            { id: 'siyah_gergedan', file: 'siyah_gergedan.PNG', icon: '🦏', dailyProd: 52000, costCash: 2000, level: 11, count: 0 },
-            { id: 'fil', file: 'fil.PNG', icon: '🐘', dailyProd: 78000, costCash: 2800, level: 12, count: 0 },
-            { id: 'iki_erkek_aslan', file: 'iki_erkek_aslan.PNG', icon: '🦁🦁', dailyProd: 115000, costCash: 3800, level: 14, count: 0 },
-            { id: 'kral_aslan', file: 'kral_aslan.PNG', icon: '🦁', dailyProd: 170000, costCash: 5000, level: 15, count: 0 }
+            { id: 'cakal', file: 'cakal.PNG', dailyProd: 50, costCash: 15, level: 2, count: 0 },
+            { id: 'antilop', file: 'antilop.PNG', dailyProd: 120, costCash: 25, level: 3, count: 0 },
+            { id: 'afrika_akbabasi', file: 'afrika_akbabasi.PNG', dailyProd: 250, costCash: 40, level: 3, count: 0 },
+            { id: 'aslan_yavrusu', file: 'aslan_yavrusu.PNG', dailyProd: 500, costCash: 60, level: 4, count: 0 },
+            { id: 'python', file: 'python.PNG', dailyProd: 900, costCash: 90, level: 4, count: 0 },
+            { id: 'kurt', file: 'kurt.PNG', dailyProd: 1500, costCash: 140, level: 5, count: 0 },
+            { id: 'sirtlan_surusu', file: 'sirtlan_surusu.PNG', dailyProd: 2500, costCash: 200, level: 6, count: 0 },
+            { id: 'cita', file: 'cita.PNG', dailyProd: 4000, costCash: 300, level: 7, count: 0 },
+            { id: 'panter', file: 'panter.PNG', dailyProd: 6500, costCash: 450, level: 8, count: 0 },
+            { id: 'kara_panter', file: 'kara_panter.PNG', dailyProd: 10000, costCash: 600, level: 8, count: 0 },
+            { id: 'jaguar', file: 'jaguar.PNG', dailyProd: 15000, costCash: 800, level: 9, count: 0 },
+            { id: 'timsah', file: 'timsah.PNG', dailyProd: 23000, costCash: 1100, level: 9, count: 0 },
+            { id: 'beyaz_gergedan', file: 'beyaz_gergedan.PNG', dailyProd: 35000, costCash: 1500, level: 10, count: 0 },
+            { id: 'siyah_gergedan', file: 'siyah_gergedan.PNG', dailyProd: 52000, costCash: 2000, level: 11, count: 0 },
+            { id: 'fil', file: 'fil.PNG', dailyProd: 78000, costCash: 2800, level: 12, count: 0 },
+            { id: 'iki_erkek_aslan', file: 'iki_erkek_aslan.PNG', dailyProd: 115000, costCash: 3800, level: 14, count: 0 },
+            { id: 'kral_aslan', file: 'kral_aslan.PNG', dailyProd: 170000, costCash: 5000, level: 15, count: 0 }
         ];
 
         let animalsData = JSON.parse(JSON.stringify(defaultAnimals));
@@ -940,6 +636,7 @@
             document.getElementById('cashBalance').innerText = cashBalance.toLocaleString();
             document.getElementById('lionLevelDisplay').innerText = lionLevel;
             document.getElementById('headerLionLevel').innerText = lionLevel;
+            renderTransactionHistory();
         }
 
         function getTotalProductionPerSecond() {
@@ -1005,7 +702,10 @@
         function openModal(modalName) {
             document.querySelectorAll('.feature-modal').forEach(m => m.classList.remove('active'));
             document.getElementById('modal-' + modalName).classList.add('active');
-            if(modalName === 'shop') renderShop();
+            if(modalName === 'shop') {
+                goToShopStep1();
+                renderShop();
+            }
             if(modalName === 'animals') renderOwnedAnimals();
             if(modalName === 'mining') updateCalculatorDisplay();
         }
@@ -1084,9 +784,31 @@
             if(!addr || val <= 0) { showToast("Eksik bilgi!"); return; }
             if(balance < val) { showToast("Yetersiz 🥩 bakiye!"); return; }
             balance -= val;
+            transactionHistory.unshift({ type: 'withdrawal', amount: val, date: new Date().toLocaleDateString(), status: 'Başarılı' });
             updateUI();
             saveGame();
-            showToast("Talep oluşturuldu!");
+            showToast("Çekim talebi oluşturuldu!");
+        }
+
+        function renderTransactionHistory() {
+            let container = document.getElementById('transactionHistoryContainer');
+            if(!container) return;
+            if(transactionHistory.length === 0) {
+                container.innerHTML = `<div class="bg-black/60 p-3 rounded-xl border border-cyan-600/40 text-center text-xs text-gray-400" data-i18n="no_tx">Henüz işlem geçmişi yok.</div>`;
+                return;
+            }
+            container.innerHTML = '';
+            transactionHistory.forEach(tx => {
+                container.innerHTML += `
+                    <div class="bg-black/80 p-2.5 rounded-xl border border-cyan-600/50 flex justify-between items-center text-xs">
+                        <div>
+                            <div class="text-cyan-300 font-bold">${tx.type === 'deposit' ? 'Yatırma' : 'Çekim'}: ${tx.amount} 🥩</div>
+                            <div class="text-[10px] text-gray-400">${tx.date}</div>
+                        </div>
+                        <span class="text-emerald-400 font-black">${tx.status}</span>
+                    </div>
+                `;
+            });
         }
 
         function getAnimalLocalizedName(id) {
@@ -1105,9 +827,8 @@
                 let btnText = (translations[currentLang] && translations[currentLang]['claim_btn']) || 'AL';
                 grid.innerHTML += `
                     <div class="animal-card">
-                        <div class="w-14 h-14 rounded-full bg-amber-600/50 flex items-center justify-center text-2xl border-2 border-amber-400 mb-1 shadow overflow-hidden relative">
+                        <div class="w-14 h-14 rounded-full bg-amber-600/50 flex items-center justify-center border-2 border-amber-400 mb-1 shadow overflow-hidden relative">
                             <img src="${anim.file}" class="w-full h-full object-cover absolute inset-0" onerror="this.style.display='none'">
-                            <span class="relative z-10">${anim.icon}</span>
                         </div>
                         <div class="text-xs font-black text-amber-200 truncate w-full">${name}</div>
                         <div class="text-[10px] text-emerald-400 font-bold">Sahip: x${anim.count}</div>
@@ -1142,9 +863,8 @@
                 let name = getAnimalLocalizedName(anim.id);
                 container.innerHTML += `
                     <div class="animal-card">
-                        <div class="w-12 h-12 rounded-full bg-emerald-600/50 flex items-center justify-center text-xl border-2 border-emerald-400 mb-1 overflow-hidden relative">
+                        <div class="w-12 h-12 rounded-full bg-emerald-600/50 flex items-center justify-center border-2 border-emerald-400 mb-1 overflow-hidden relative">
                             <img src="${anim.file}" class="w-full h-full object-cover absolute inset-0" onerror="this.style.display='none'">
-                            <span class="relative z-10">${anim.icon}</span>
                         </div>
                         <div class="text-xs font-black text-emerald-300 truncate w-full">${name} (x${anim.count})</div>
                         <div class="text-[10px] text-gray-300">+${(anim.dailyProd * anim.count).toLocaleString()} 🥩/gün</div>
@@ -1154,28 +874,51 @@
         }
 
         let currentUsd = 5;
+        let selectedCryptoName = '';
+        let selectedCryptoWallet = '';
+
         function updateUsdSlider(val) {
             currentUsd = parseInt(val);
             document.getElementById('usdValDisplay').innerText = currentUsd;
             document.getElementById('usdRewardText').innerText = `${(currentUsd * 10).toLocaleString()} 💵`;
         }
 
-        function openPaymentModal() {
-            document.getElementById('payAmountLabel').innerText = `Tutar: $${currentUsd}`;
-            document.getElementById('payRewardLabel').innerHTML = `Alınacak: ${(currentUsd * 10).toLocaleString()} 💵 Nakit`;
-            document.getElementById('payment-overlay').style.display = 'flex';
+        function goToShopStep1() {
+            document.getElementById('shop-step-1').style.display = 'block';
+            document.getElementById('shop-step-2').style.display = 'none';
+            document.getElementById('shop-step-3').style.display = 'none';
         }
 
-        function closePaymentModal() {
-            document.getElementById('payment-overlay').style.display = 'none';
+        function goToCryptoSelect() {
+            document.getElementById('shop-step-1').style.display = 'none';
+            document.getElementById('shop-step-2').style.display = 'block';
+            document.getElementById('shop-step-3').style.display = 'none';
         }
 
-        function confirmPayment() {
-            closePaymentModal();
+        function selectCrypto(name, wallet) {
+            selectedCryptoName = name;
+            selectedCryptoWallet = wallet;
+            let calcCryptoAmount = (currentUsd / 2.5).toFixed(6) + " " + name.split(' ')[0];
+            document.getElementById('cryptoAmountDisplay').innerText = calcCryptoAmount;
+            document.getElementById('cryptoWalletDisplay').innerText = wallet;
+
+            document.getElementById('shop-step-2').style.display = 'none';
+            document.getElementById('shop-step-3').style.display = 'block';
+        }
+
+        function copyText(elementId) {
+            let text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text);
+            showToast("Kopyalandı!");
+        }
+
+        function finishCryptoPayment() {
             cashBalance += currentUsd * 10;
+            transactionHistory.unshift({ type: 'deposit', amount: currentUsd * 10, date: new Date().toLocaleDateString(), status: 'Başarılı' });
             updateUI();
             saveGame();
-            showToast(`$${currentUsd} ödeme onaylandı! +${currentUsd * 10} 💵`);
+            showToast(`Ödeme onaylandı! +${currentUsd * 10} 💵 eklendi.`);
+            closeModals();
         }
 
         function claimQuest(amount, btn) {
@@ -1187,14 +930,11 @@
             showToast(`+${amount} 💵 Nakit eklendi!`);
         }
 
-        // SEVİYE YÜKSELTME & BONUS VERME (Honey Farm Stili)
         function upgradeLionLevel() {
-            let cost = 50; // Seviye atlama maliyeti nakit
+            let cost = 50;
             if (cashBalance < cost) { showToast("Yetersiz 💵 nakit bakiye!"); return; }
             cashBalance -= cost;
             lionLevel++;
-            
-            // Bonus olarak başlangıç hayvanı (Çakal) hediye verelim
             animalsData[0].count++;
 
             updateUI();

@@ -119,7 +119,7 @@
         
         <!-- HONEY FARM STİLİ GENTE EN BREDE HEADER (LINKSBOVEN) -->
         <div class="pt-3 px-3 flex justify-start items-center z-40 relative pointer-events-auto">
-            <div class="flex items-center gap-3 bg-gradient-to-r from-[#5c3a21] via-[#3d2612] to-[#201308] p-3 rounded-2xl pr-6 border-3 border-[#eab308] shadow-2xl cursor-pointer" style="min-width: 220px;" onclick="openModal('animals')">
+            <div class="flex items-center gap-3 bg-gradient-to-r from-[#5c3a21] via-[#3d2612] to-[#201308] p-3 rounded-2xl pr-6 border-3 border-[#eab308] shadow-2xl cursor-pointer" style="min-width: 230px;" onclick="openModal('animals')">
                 <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-200 flex items-center justify-center font-black border-2 border-white text-black text-lg shadow-md shrink-0">
                     A
                 </div>
@@ -127,7 +127,7 @@
                     <div class="text-xs font-black text-amber-300 tracking-wider flex justify-between items-center">
                         <span><span data-i18n="level">SEVİYE</span> <span id="headerLionLevel">1</span></span>
                     </div>
-                    <div class="text-sm font-bold text-white truncate max-w-[130px]" id="playerNameDisplay">Ahmet</div>
+                    <div class="text-sm font-bold text-white truncate max-w-[140px]" id="playerNameDisplay">Ahmet</div>
                     
                     <div class="flex items-center gap-4 mt-1 pt-1 border-t border-amber-600/50">
                         <div class="flex items-center gap-1 text-xs font-black text-amber-300">
@@ -257,7 +257,7 @@
             </div>
         </div>
 
-        <!-- 3. MAĞAZA (HONEY FARM STİLİ: SLIDER -> KRİPTO SEÇ -> ADRES & KOPYALA) -->
+        <!-- 3. MAĞAZA (GEEN AUTOMATISCHE "ÖDEMEYI YAPTIM" KNOP MEER) -->
         <div id="modal-shop" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
                 <h2 class="text-amber-400 font-black text-lg" id="shopModalTitle" data-i18n="shop_title">Mağaza</h2>
@@ -278,7 +278,7 @@
                 <div class="grid grid-cols-2 gap-3 pb-6" id="animalShopGrid"></div>
             </div>
 
-            <!-- STAP 2: Kripto Para Seçim Ekranı (Honey Farm stilinde) -->
+            <!-- STAP 2: Kripto Para Seçim Ekranı -->
             <div id="shop-step-2" style="display: none;" class="flex flex-col gap-3">
                 <div class="text-xs text-amber-200 font-bold mb-1" data-i18n="select_crypto">Kripto para seç:</div>
                 
@@ -306,7 +306,7 @@
                 <button onclick="goToShopStep1()" class="honey-btn w-full py-2.5 text-xs font-bold text-white cursor-pointer mt-3" style="background: #b91c1c; border-color: #f87171;" data-i18n="back">Geri</button>
             </div>
 
-            <!-- STAP 3: İşlemi Tamamla (Miktar, Wallet Adres ve Kopyala Butonları) -->
+            <!-- STAP 3: Adres ve Miktar Kopyalama Ekranı (ZONDER directe bijschrijving) -->
             <div id="shop-step-3" style="display: none;" class="flex flex-col gap-3">
                 <div class="honey-box flex flex-col gap-3 text-center">
                     <div class="text-xs text-amber-300 font-bold" data-i18n="complete_tx">İşlemi tamamla</div>
@@ -320,10 +320,8 @@
                     <button onclick="copyText('cryptoWalletDisplay')" class="honey-btn py-1.5 text-xs" data-i18n="copy_btn">Kopyala</button>
 
                     <div class="text-[10px] text-amber-200 mt-2" data-i18n="tx_warning">
-                        İşlem tamamlanmazsa otomatik olarak bakiyenize aktarılmaz!
+                        Ödemeniz tarafımızca kontrol edildikten sonra bakiyeniz otomatik yüklenecektir.
                     </div>
-
-                    <button onclick="finishCryptoPayment()" class="honey-btn w-full py-2.5 text-xs uppercase tracking-widest mt-2" data-i18n="confirm_paid">Ödemeyi Yaptım</button>
                 </div>
 
                 <button onclick="goToCryptoSelect()" class="honey-btn w-full py-2 text-xs font-bold text-white cursor-pointer" style="background: #b91c1c; border-color: #f87171;" data-i18n="back">Geri</button>
@@ -366,35 +364,51 @@
             </div>
         </div>
 
-        <!-- 6. GÖREVLER -->
+        <!-- 6. GÖREVLER (MET "DİĞER" TABBLAD VOOR STORTINGEN & AANKOPEN) -->
         <div id="modal-quests" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-600/50 pb-2">
                 <h2 class="text-amber-400 font-black text-base" data-i18n="quests_title">Görevler</h2>
                 <button onclick="closeModals()" class="w-7 h-7 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-xs shadow cursor-pointer">✕</button>
             </div>
             
-            <div class="flex bg-black/60 p-1 rounded-xl border border-amber-600/40 mb-3">
-                <button onclick="switchQuestTab('friends', this)" id="tab-friends" class="w-1/2 py-2 bg-amber-600 text-black text-xs font-black rounded-lg cursor-pointer" data-i18n="tab_friends">Arkadaşlar</button>
-                <button onclick="switchQuestTab('subscriptions', this)" id="tab-subscriptions" class="w-1/2 py-2 bg-transparent text-gray-300 text-xs font-bold rounded-lg cursor-pointer" data-i18n="tab_subs">Abonelik</button>
+            <div class="flex bg-black/60 p-1 rounded-xl border border-amber-600/40 mb-3 text-xs">
+                <button onclick="switchQuestTab('friends', this)" id="tab-friends" class="w-1/2 py-2 bg-amber-600 text-black font-black rounded-lg cursor-pointer" data-i18n="tab_friends">Arkadaşlar</button>
+                <button onclick="switchQuestTab('other', this)" id="tab-other" class="w-1/2 py-2 bg-transparent text-gray-300 font-bold rounded-lg cursor-pointer" data-i18n="tab_other">Diğer</button>
             </div>
 
+            <!-- Arkadaş Görevleri -->
             <div id="quest-content-friends" class="flex flex-col gap-2.5 pb-4">
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
-                        <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 1</div>
-                        <div class="text-[10px] text-emerald-400 font-bold">+20 💵 Nakit</div>
-                    </div>
-                    <button onclick="claimQuest(20, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
-                </div>
-            </div>
-
-            <div id="quest-content-subscriptions" class="flex flex-col gap-2.5 pb-4" style="display: none;">
-                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
-                    <div>
-                        <div class="text-xs font-bold text-amber-200" data-i18n="q_sell_meat">Et sat</div>
+                        <div class="text-xs font-bold text-amber-200">Arkadaş davet et: 3</div>
                         <div class="text-[10px] text-emerald-400 font-bold">+50 💵 Nakit</div>
                     </div>
                     <button onclick="claimQuest(50, this)" class="honey-btn px-4 py-2 text-xs" data-i18n="claim_btn">AL</button>
+                </div>
+            </div>
+
+            <!-- Diğer Görevler (Stortingen, AANKOOP, Welpje, Leeuw) -->
+            <div id="quest-content-other" class="flex flex-col gap-2.5 pb-4" style="display: none;">
+                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
+                    <div>
+                        <div class="text-xs font-bold text-amber-200" data-i18n="q_deposit">Bakiyenize en az $5 veya $10 yatırın</div>
+                        <div class="text-[10px] text-amber-400 font-bold">+200 🥩 Et (Admin Kontrolü)</div>
+                    </div>
+                    <button onclick="requestManualCheck('Storting $5-$10', this)" class="honey-btn px-4 py-2 text-xs" style="background:#b45309; border-color:#f59e0b;">KONTROL</button>
+                </div>
+                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
+                    <div>
+                        <div class="text-xs font-bold text-amber-200" data-i18n="q_buy_item">İlk aankoop / Hayvan satın al</div>
+                        <div class="text-[10px] text-amber-400 font-bold">+100 🥩 Et (Admin Kontrolü)</div>
+                    </div>
+                    <button onclick="requestManualCheck('Hayvan Satın Alındı', this)" class="honey-btn px-4 py-2 text-xs" style="background:#b45309; border-color:#f59e0b;">KONTROL</button>
+                </div>
+                <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
+                    <div>
+                        <div class="text-xs font-bold text-amber-200" data-i18n="q_upgrade_lion">Aslan seviyesini yükselt veya welpje kopen</div>
+                        <div class="text-[10px] text-amber-400 font-bold">+150 🥩 Et (Admin Kontrolü)</div>
+                    </div>
+                    <button onclick="requestManualCheck('Aslan / Welpje Yükseltildi', this)" class="honey-btn px-4 py-2 text-xs" style="background:#b45309; border-color:#f59e0b;">KONTROL</button>
                 </div>
             </div>
         </div>
@@ -472,9 +486,11 @@
                 select_lang: "Dil Seçin:",
                 quests_title: "Görevler",
                 tab_friends: "Arkadaşlar",
-                tab_subs: "Abonelik",
+                tab_other: "Diğer",
                 claim_btn: "AL",
-                q_sell_meat: "Et sat",
+                q_deposit: "Bakiyenize en az $5 veya $10 yatırın",
+                q_buy_item: "İlk aankoop / Hayvan satın al",
+                q_upgrade_lion: "Aslan seviyesini yükselt veya welpje",
                 btn_mining: "Maden",
                 btn_quest: "Görev",
                 btn_takas: "Takas",
@@ -488,8 +504,7 @@
                 send_amount: "Gönderilecek miktar:",
                 send_wallet: "Gönderilecek cüzdan:",
                 copy_btn: "Kopyala",
-                tx_warning: "İşlem tamamlanmazsa otomatik olarak bakiyenize aktarılmaz!",
-                confirm_paid: "Ödemeyi Yaptım",
+                tx_warning: "Ödemeniz kontrol edildikten sonra bakiyeniz yüklenecektir.",
                 tx_history: "İşlem Geçmişi",
                 no_tx: "Henüz işlem geçmişi yok."
             },
@@ -527,9 +542,11 @@
                 select_lang: "Kies Taal:",
                 quests_title: "Missies",
                 tab_friends: "Vrienden",
-                tab_subs: "Abonnement",
+                tab_other: "Overig",
                 claim_btn: "CLAIM",
-                q_sell_meat: "Verkoop vlees",
+                q_deposit: "Stort minimaal $5 of $10 op saldo",
+                q_buy_item: "Eerste aankoop / dier kopen",
+                q_upgrade_lion: "Upgrade leeuw of welpje kopen",
                 btn_mining: "Maden",
                 btn_quest: "Missie",
                 btn_takas: "Wissel",
@@ -543,8 +560,7 @@
                 send_amount: "Te verzenden bedrag:",
                 send_wallet: "Te verzenden wallet:",
                 copy_btn: "Kopiëren",
-                tx_warning: "Als de transactie niet is voltooid, wordt het niet automatisch bijgeschreven!",
-                confirm_paid: "Ik heb betaald",
+                tx_warning: "Na controle van uw betaling wordt uw saldo bijgeschreven.",
                 tx_history: "Transactiegeschiedenis",
                 no_tx: "Nog geen transactiegeschiedenis."
             }
@@ -717,18 +733,18 @@
         function switchQuestTab(tab, btn) {
             document.getElementById('tab-friends').classList.remove('bg-amber-600', 'text-black', 'font-black');
             document.getElementById('tab-friends').classList.add('bg-transparent', 'text-gray-300', 'font-bold');
-            document.getElementById('tab-subscriptions').classList.remove('bg-amber-600', 'text-black', 'font-black');
-            document.getElementById('tab-subscriptions').classList.add('bg-transparent', 'text-gray-300', 'font-bold');
+            document.getElementById('tab-other').classList.remove('bg-amber-600', 'text-black', 'font-black');
+            document.getElementById('tab-other').classList.add('bg-transparent', 'text-gray-300', 'font-bold');
 
             btn.classList.remove('bg-transparent', 'text-gray-300', 'font-bold');
             btn.classList.add('bg-amber-600', 'text-black', 'font-black');
 
             if(tab === 'friends') {
                 document.getElementById('quest-content-friends').style.display = 'flex';
-                document.getElementById('quest-content-subscriptions').style.display = 'none';
+                document.getElementById('quest-content-other').style.display = 'none';
             } else {
                 document.getElementById('quest-content-friends').style.display = 'none';
-                document.getElementById('quest-content-subscriptions').style.display = 'flex';
+                document.getElementById('quest-content-other').style.display = 'flex';
             }
         }
 
@@ -794,7 +810,7 @@
             let container = document.getElementById('transactionHistoryContainer');
             if(!container) return;
             if(transactionHistory.length === 0) {
-                container.innerHTML = `<div class="bg-black/60 p-3 rounded-xl border border-cyan-600/40 text-center text-xs text-gray-400" data-i18n="no_tx">Henüz işlem geçmişi yok.</div>`;
+                container.innerHTML = `<div class="bg-black/60 p-3 rounded-xl border border-cyan-600/40 text-center text-xs text-gray-400">Henüz işlem geçmişi yok.</div>`;
                 return;
             }
             container.innerHTML = '';
@@ -912,13 +928,10 @@
             showToast("Kopyalandı!");
         }
 
-        function finishCryptoPayment() {
-            cashBalance += currentUsd * 10;
-            transactionHistory.unshift({ type: 'deposit', amount: currentUsd * 10, date: new Date().toLocaleDateString(), status: 'Başarılı' });
-            updateUI();
-            saveGame();
-            showToast(`Ödeme onaylandı! +${currentUsd * 10} 💵 eklendi.`);
-            closeModals();
+        function requestManualCheck(questName, btn) {
+            btn.innerText = "BEKLİYOR";
+            btn.disabled = true;
+            showToast(`${questName} kontrol için gönderildi!`);
         }
 
         function claimQuest(amount, btn) {

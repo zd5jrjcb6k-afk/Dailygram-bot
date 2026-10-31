@@ -139,7 +139,7 @@
 
         <!-- MODALS -->
 
-        <!-- 0. HABITAT / MADEN -->
+        <!-- 0. HABITAT / MADEN (Met Professioneel Safari Station Icoon) -->
         <div id="modal-mining" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-600/50 pb-2">
                 <h2 class="text-amber-400 font-black text-base" data-i18n="mining_title">Savannah Simulator</h2>
@@ -155,9 +155,11 @@
                     <button onclick="setCalcPeriod(365, this)" id="period-365" class="py-1.5 bg-transparent text-gray-300 text-[11px] font-bold rounded-lg cursor-pointer">1 Yıl</button>
                 </div>
 
+                <!-- Professioneel Safari Kamp / Ranger Station Icoon -->
                 <div class="flex justify-center my-1">
-                    <div class="w-20 h-20 rounded-2xl bg-amber-700/40 border-2 border-amber-500 flex items-center justify-center text-3xl shadow-lg relative overflow-hidden">
-                        🏡
+                    <div class="w-24 h-24 rounded-2xl bg-gradient-to-b from-[#45260a] to-[#1c1004] border-2 border-amber-500 flex items-center justify-center text-4xl shadow-xl relative overflow-hidden">
+                        <div class="absolute inset-0 bg-amber-500/10 backdrop-blur-[1px]"></div>
+                        <span class="relative z-10 filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">🏕️</span>
                     </div>
                 </div>
 
@@ -319,7 +321,7 @@
             </div>
         </div>
 
-        <!-- 4. HAYVANLAR & XP VOORTGANGSBALK -->
+        <!-- 4. HAYVANLAR & XP BALK (Gepast en langzamer) -->
         <div id="modal-animals" class="feature-modal">
             <div class="flex justify-between items-center mb-4 border-b border-amber-600/50 pb-3">
                 <h2 class="text-amber-400 font-black text-lg" data-i18n="my_animals">Hayvanlarım</h2>
@@ -330,12 +332,12 @@
                 <div class="text-sm font-bold text-amber-300 mb-1">Seviye <span id="lionLevelDisplay">1</span></div>
                 <div class="flex justify-between text-[11px] font-bold text-gray-300 px-1 mb-1">
                     <span>XP İlerlemesi</span>
-                    <span id="xpText">0 / 100 XP</span>
+                    <span id="xpText">0 / 500 XP</span>
                 </div>
                 <div class="w-full bg-gray-800 h-3 rounded-full overflow-hidden border border-amber-600 mb-2">
                     <div id="xpProgressBar" class="bg-gradient-to-r from-amber-500 to-yellow-300 h-full transition-all duration-300" style="width: 0%;"></div>
                 </div>
-                <div class="text-[10px] text-emerald-300 font-bold">Madencilik yaptıkça ve görev tamamladıkça XP kazanırsın!</div>
+                <div class="text-[10px] text-emerald-300 font-bold">Madencilik yaptıkça ve hayvan aldıkça XP kazan!</div>
             </div>
 
             <div class="text-xs font-black text-emerald-400 uppercase tracking-wider mb-2" data-i18n="owned_animals">Sahip Olunanlar</div>
@@ -363,7 +365,7 @@
             </div>
         </div>
 
-        <!-- 6. GÖREVLER (MET 1 VRIEND OPTIE, DEELLINK & BEKLIYOR) -->
+        <!-- 6. GÖREVLER -->
         <div id="modal-quests" class="feature-modal">
             <div class="flex justify-between items-center mb-3 border-b border-amber-600/50 pb-2">
                 <h2 class="text-amber-400 font-black text-base" data-i18n="quests_title">Görevler</h2>
@@ -375,7 +377,6 @@
                 <button onclick="switchQuestTab('other', this)" id="tab-other" class="w-1/2 py-2 bg-transparent text-gray-300 font-bold rounded-lg cursor-pointer" data-i18n="tab_other">Diğer</button>
             </div>
 
-            <!-- Arkadaş Davet Sekmesi (Met Deellink & 1 Vriend Optie + BEKLIYOR) -->
             <div id="quest-content-friends" class="flex flex-col gap-2.5 pb-4">
                 <div class="bg-black/80 p-3 rounded-xl border border-amber-600/50 mb-2">
                     <div class="text-[11px] text-amber-300 font-bold mb-1" data-i18n="invite_link_title">Arkadaş Davet Bağlantınız:</div>
@@ -408,7 +409,6 @@
                 </div>
             </div>
 
-            <!-- Diğer Görevler (ZONDER Admin Tekstjes, Alleen BEKLIYOR) -->
             <div id="quest-content-other" class="flex flex-col gap-2.5 pb-4" style="display: none;">
                 <div class="flex justify-between items-center bg-black/60 p-3 rounded-xl border border-amber-600/40">
                     <div>
@@ -635,7 +635,7 @@
         let accumulatedMinedSteak = parseFloat(localStorage.getItem('dg_mined')) || 0;
         let lionLevel = parseInt(localStorage.getItem('dg_lion')) || 1;
         let playerXp = parseInt(localStorage.getItem('dg_xp')) || 0;
-        let maxXp = lionLevel * 100;
+        let maxXp = lionLevel * 500; // XP drempel verhoogd zodat het langzamer gaat
         let transactionHistory = JSON.parse(localStorage.getItem('dg_txs')) || [];
 
         if(!localStorage.getItem('dg_welcomed')) {
@@ -683,7 +683,7 @@
             document.getElementById('cashBalance').innerText = cashBalance.toLocaleString();
             document.getElementById('headerLionLevel').innerText = lionLevel;
             
-            maxXp = lionLevel * 100;
+            maxXp = lionLevel * 500;
             if(playerXp >= maxXp) {
                 playerXp -= maxXp;
                 lionLevel++;
@@ -743,7 +743,7 @@
             if(prodPerSec > 0) {
                 let added = prodPerSec / 10;
                 accumulatedMinedSteak += added;
-                addXp(1); // Verdien XP door te minen
+                addXp(0.1); // XP stroom flink vertraagd
             }
             
             let accumEl = document.getElementById('accumulatedSteakDisplay');
@@ -803,7 +803,7 @@
             if (collected <= 0) { showToast("Henüz birikmedi!"); return; }
             balance += collected;
             accumulatedMinedSteak = 0;
-            addXp(15);
+            addXp(5); // Subtiele XP beloning bij ophalen
             updateUI();
             saveGame();
             showToast(`+${collected.toLocaleString()} 🥩 eklendi!`);
@@ -827,7 +827,7 @@
             let earnedCash = Math.floor((val / 5000) * 1.10);
             if(earnedCash < 1) earnedCash = 1;
             cashBalance += earnedCash;
-            addXp(20);
+            addXp(10);
             updateUI();
             saveGame();
             showToast(`Takas başarılı! +${earnedCash} 💵`);
@@ -912,7 +912,7 @@
             if (cashBalance < anim.costCash) { showToast("Yetersiz 💵 nakit bakiye!"); return; }
             cashBalance -= anim.costCash;
             anim.count++;
-            addXp(50);
+            addXp(25);
             updateUI();
             saveGame();
             renderShop();
